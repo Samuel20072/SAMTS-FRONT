@@ -1,0 +1,46 @@
+<div class="min-h-screen bg-surface-50 dark:bg-surface-950 text-surface-900 dark:text-surface-50 flex flex-col items-center justify-center p-6 transition-colors duration-300">
+  <p-card class="w-full max-w-md block shadow-xl rounded-xl overflow-hidden border border-surface-200 dark:border-surface-800">
+    <ng-template pTemplate="header">
+      <div class="flex items-center justify-between p-5 border-b border-surface-200 dark:border-surface-800 bg-surface-0 dark:bg-surface-900">
+        <h2 class="text-xl font-bold flex items-center gap-2">
+          <i class="pi pi-prime text-primary text-2xl animate-pulse"></i>
+          SAMTS-FRONT
+        </h2>
+        <p-button 
+          (click)="toggleDarkMode()" 
+          [icon]="isDark() ? 'pi pi-sun' : 'pi pi-moon'" 
+          [rounded]="true" 
+          [text]="true" 
+          severity="secondary">
+        </p-button>
+      </div>
+    </ng-template>
+
+    <div class="space-y-4 py-4 px-5">
+      <p class="text-surface-600 dark:text-surface-400">
+        This project has been initialized with the following stack:
+      </p>
+      <ul class="list-disc pl-5 space-y-2 text-sm text-surface-700 dark:text-surface-300">
+        <li><strong>Angular 21</strong> (Zoneless Change Detection & SSR Server enabled)</li>
+        <li><strong>PrimeNG 21</strong> (using the `@primeuix/themes` Aura preset)</li>
+        <li><strong>Tailwind CSS v4</strong> (with `@tailwindcss/postcss` builder)</li>
+      </ul>
+
+      <div class="flex flex-col gap-2 mt-6">
+        <label for="username" class="text-sm font-semibold text-surface-700 dark:text-surface-300">Test Username Input</label>
+        <input pInputText id="username" [(ngModel)]="name" placeholder="Enter your name" class="w-full p-2 border rounded-md dark:bg-surface-800 dark:border-surface-700 focus:outline-none focus:ring-2 focus:ring-primary" />
+      </div>
+
+      <div class="mt-4 p-4 bg-primary-50 dark:bg-primary-950/20 text-primary border border-primary-100 dark:border-primary-900/50 rounded-lg text-sm text-center font-medium transition-all duration-300" *ngIf="name()">
+        ¡Hola, <span class="font-bold">{{ name() }}</span>! Bienvenido a SAMTS-FRONT.
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <div class="flex justify-end gap-2 border-t border-surface-200 dark:border-surface-800 p-5 bg-surface-0 dark:bg-surface-900">
+        <p-button label="Cancel" icon="pi pi-times" [outlined]="true" severity="secondary"></p-button>
+        <p-button label="Save" icon="pi pi-check"></p-button>
+      </div>
+    </ng-template>
+  </p-card>
+</div>
