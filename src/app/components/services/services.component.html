@@ -1,0 +1,53 @@
+<section id="services" class="py-20 bg-slate-950 relative">
+  <!-- Decorative Glow -->
+  <div class="absolute bottom-10 left-10 -z-10 h-72 w-72 rounded-full bg-blue-500/5 blur-[120px]"></div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    
+    <!-- Section Header -->
+    <div class="text-center max-w-3xl mx-auto space-y-3 mb-16">
+      <h2 class="text-xs font-bold tracking-widest text-blue-500 uppercase">
+        Nuestros Servicios
+      </h2>
+      <p class="font-display text-3xl font-bold text-white sm:text-4xl tracking-tight leading-tight">
+        Soluciones digitales que impulsan tu negocio
+      </p>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <p-card 
+        *ngFor="let service of services" 
+        (click)="openConsultation()"
+        styleClass="h-full border border-slate-900 bg-slate-950/40 hover:bg-slate-950/80 hover:border-slate-800/80 hover:shadow-[0_12px_24px_rgba(59,130,246,0.05)] transition-all duration-300 rounded-2xl overflow-hidden cursor-pointer"
+        class="block h-full group">
+        
+        <div class="flex flex-col h-full space-y-5 p-2">
+          <!-- Icon Badge -->
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center border group-hover:scale-[1.05] transition-transform duration-300"
+               [ngClass]="service.iconBg + ' ' + service.colorClass">
+            <i class="pi text-lg" [ngClass]="service.icon"></i>
+          </div>
+
+          <!-- Title & Description -->
+          <div class="space-y-2">
+            <h4 class="font-display text-lg font-bold text-white group-hover:text-blue-400 transition-colors duration-200">
+              {{ service.title }}
+            </h4>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed font-light">
+              {{ service.description }}
+            </p>
+          </div>
+
+          <!-- Learn More Link (Push to bottom) -->
+          <div class="pt-2 mt-auto flex items-center gap-1.5 text-xs font-semibold text-blue-500 group-hover:text-blue-400 transition-colors">
+            <span>Más información</span>
+            <i class="pi pi-arrow-right text-[10px] transform group-hover:translate-x-1 transition-transform"></i>
+          </div>
+        </div>
+
+      </p-card>
+    </div>
+
+  </div>
+</section>

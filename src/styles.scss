@@ -1,1 +1,125 @@
-/* You can add global styles to this file, and also import other style files */
+/* ==============================
+   SAMTS – Global Styles
+   ============================== */
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ==============================
+   Custom Animations
+   ============================== */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out both;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out both;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* ==============================
+   PrimeNG Dialog Overrides (Dark)
+   ============================== */
+
+.p-dialog {
+  border: 1px solid rgba(51, 65, 85, 0.5) !important;
+  background: rgba(2, 6, 23, 0.96) !important;
+  border-radius: 1rem !important;
+  overflow: hidden !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6) !important;
+}
+
+.p-dialog .p-dialog-content {
+  background: transparent !important;
+  padding: 0 !important;
+  color: #e2e8f0 !important;
+}
+
+.p-dialog-mask {
+  backdrop-filter: blur(6px) !important;
+  background: rgba(0, 0, 0, 0.65) !important;
+}
+
+/* ==============================
+   PrimeNG Card Overrides (Dark)
+   ============================== */
+
+.p-card {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.p-card .p-card-body {
+  padding: 1rem !important;
+}
+
+.p-card .p-card-content {
+  padding: 0 !important;
+}
+
+/* ==============================
+   Scrollbar Styling
+   ============================== */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* ==============================
+   Selection Color
+   ============================== */
+
+::selection {
+  background-color: rgba(59, 130, 246, 0.4);
+  color: #ffffff;
+}

@@ -1,0 +1,17 @@
+<section id="partners" class="py-12 border-y border-slate-900/40 bg-slate-950/30">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+    <h3 class="text-[10px] font-bold tracking-widest text-slate-500 uppercase">
+      Partners Tecnológicos & Clientes
+    </h3>
+    
+    <!-- Partner Grid -->
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 md:gap-x-20">
+      <div 
+        *ngFor="let partner of partners" 
+        class="flex items-center gap-2 text-slate-500 hover:text-slate-300 transition-colors duration-300 select-none">
+        <i class="pi" [ngClass]="partner.icon + ' text-sm opacity-60'"></i>
+        <span class="font-display font-semibold tracking-wider text-sm md:text-base">{{ partner.name }}</span>
+      </div>
+    </div>
+  </div>
+</section>
