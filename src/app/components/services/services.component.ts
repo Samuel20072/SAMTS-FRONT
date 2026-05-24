@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -20,6 +20,12 @@ interface ServiceItem {
 })
 export class ServicesComponent {
   modalService = inject(ConsultationService);
+  scrollY = signal(0);
+
+  @HostListener('window:scroll')
+  onScroll() {
+    this.scrollY.set(window.scrollY);
+  }
 
   services: ServiceItem[] = [
     {
@@ -27,28 +33,28 @@ export class ServicesComponent {
       title: 'Páginas Web Premium',
       description: 'Diseños modernos, rápidos y optimizados para convertir visitantes en clientes de forma efectiva.',
       colorClass: 'text-blue-500',
-      iconBg: 'bg-blue-500/10 border-blue-500/20'
+      iconBg: 'bg-blue-500/10 border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.3)]'
     },
     {
-      icon: 'pi pi-sitemap', // representing node network / IA
+      icon: 'pi pi-sitemap', 
       title: 'IA Automática',
       description: 'Contenido, promociones y publicaciones generadas por IA todos los días sin que muevas un dedo.',
       colorClass: 'text-indigo-400',
-      iconBg: 'bg-indigo-500/10 border-indigo-500/20'
+      iconBg: 'bg-indigo-500/10 border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.3)]'
     },
     {
       icon: 'pi pi-shopping-cart',
       title: 'Tiendas Online',
       description: 'Vende tus productos con pasarelas de pago integradas, gestión de inventario y envíos automatizados.',
       colorClass: 'text-cyan-400',
-      iconBg: 'bg-cyan-500/10 border-cyan-500/20'
+      iconBg: 'bg-cyan-500/10 border-cyan-500/20 shadow-[0_0_15px_rgba(34,211,238,0.3)]'
     },
     {
       icon: 'pi pi-rocket',
       title: 'Landing Pages',
       description: 'Páginas enfocadas en campañas de marketing, captación de leads y máxima generación de resultados.',
       colorClass: 'text-purple-400',
-      iconBg: 'bg-purple-500/10 border-purple-500/20'
+      iconBg: 'bg-purple-500/10 border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.3)]'
     }
   ];
 

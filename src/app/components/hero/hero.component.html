@@ -1,110 +1,110 @@
-<section id="hero" class="relative overflow-hidden pt-24 pb-20 md:pt-32 md:pb-28">
-  <!-- Glowing Background Effects -->
-  <div class="absolute top-1/4 left-1/4 -z-10 h-[300px] w-[300px] rounded-full bg-blue-600/10 blur-[130px] animate-pulse"></div>
-  <div class="absolute top-1/3 right-1/4 -z-10 h-[350px] w-[350px] rounded-full bg-indigo-500/10 blur-[140px] animate-pulse" style="animation-delay: 2s;"></div>
+<section id="hero" class="relative overflow-hidden min-h-[100svh] flex items-center justify-center pt-20">
+  
+  <!-- Full Screen Background Image with Scroll Animation -->
+  <div class="absolute inset-0 z-0 overflow-hidden bg-slate-50 dark:bg-slate-950">
+    <!-- Dark/Gradient Overlays -->
+    <div class="absolute inset-0 bg-slate-50 dark:bg-slate-950/60 z-10 mix-blend-multiply"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/40 to-slate-950 z-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-transparent to-slate-950/90 z-10"></div>
+    
+    <!-- Cinematic Parallax Image -->
+    <img 
+      src="/images/hero_ai_dashboard.png" 
+      alt="Neural Network Analytics Interface" 
+      class="absolute inset-0 w-full h-full object-cover transform-gpu transition-transform duration-75 ease-out opacity-60"
+      [style.transform]="'translateY(' + (scrollY() * 0.3) + 'px) scale(' + (1.1 + scrollY() * 0.0005) + ')'"
+    />
 
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
-      
-      <!-- Text Content (Left Column) -->
-      <div class="space-y-6 lg:col-span-6 flex flex-col items-start text-left">
-        <!-- Badge -->
-        <div class="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1.5 text-xs font-semibold text-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.15)] uppercase tracking-wider">
-          <span class="h-2 w-2 rounded-full bg-blue-400 animate-ping"></span>
-          <span>● AI Agent Active</span>
-        </div>
+    <!-- Glowing Orbs (Dynamic) -->
+    <div class="absolute top-1/4 left-1/4 z-10 h-[40vw] w-[40vw] rounded-full bg-blue-600/20 blur-[130px] animate-pulse mix-blend-screen"
+         [style.transform]="'translateY(' + (scrollY() * -0.1) + 'px)'"></div>
+    <div class="absolute bottom-1/4 right-1/4 z-10 h-[40vw] w-[40vw] rounded-full bg-indigo-500/20 blur-[140px] animate-pulse mix-blend-screen" style="animation-delay: 2s;"
+         [style.transform]="'translateY(' + (scrollY() * -0.2) + 'px)'"></div>
+  </div>
 
-        <!-- Heading -->
-        <h1 class="font-display text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl leading-[1.15]">
-          Creamos páginas que 
-          <span class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 drop-shadow-sm">
-            trabajan por ti
-          </span>
-        </h1>
+  <!-- Content Layer -->
+  <div class="relative z-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+    
+    <!-- Badge -->
+    <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-xs md:text-sm font-semibold text-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.2)] uppercase tracking-widest backdrop-blur-md mb-8 animate-fade-in"
+         [style.transform]="'translateY(' + (scrollY() * 0.1) + 'px)'">
+      <span class="relative flex h-2.5 w-2.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
+      </span>
+      <span>Neural Core Agent Active</span>
+    </div>
 
-        <!-- Paragraph -->
-        <p class="max-w-xl text-base sm:text-lg text-slate-400 leading-relaxed font-light">
-          Diseñamos ecosistemas digitales premium potenciados por Inteligencia Artificial que evolucionan, venden y se autogestionan 24/7.
-        </p>
+    <!-- Heading -->
+    <h1 class="font-display text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1] mb-6 drop-shadow-2xl max-w-4xl animate-slide-up"
+        [style.transform]="'translateY(' + (scrollY() * 0.15) + 'px)'"
+        [style.opacity]="1 - (scrollY() * 0.002)">
+      Creamos páginas que 
+      <span class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 drop-shadow-lg">
+        trabajan por ti
+      </span>
+    </h1>
 
-        <!-- Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pt-2">
-          <p-button 
-            (onClick)="openConsultation()" 
-            label="Quiero mi página con IA" 
-            icon="pi pi-bolt" 
-            [rounded]="true" 
-            styleClass="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 border-none font-semibold text-white px-7 py-3.5 shadow-[0_4px_20px_rgba(59,130,246,0.4)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
-          </p-button>
+    <!-- Paragraph -->
+    <p class="max-w-2xl text-lg sm:text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed font-light mb-10 drop-shadow-md animate-slide-up" style="animation-delay: 0.1s;"
+       [style.transform]="'translateY(' + (scrollY() * 0.2) + 'px)'"
+       [style.opacity]="1 - (scrollY() * 0.0025)">
+      Diseñamos ecosistemas digitales premium potenciados por Inteligencia Artificial que evolucionan, venden y se autogestionan 24/7.
+    </p>
 
-          <button 
-            (click)="playDemo()"
-            class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-800 bg-slate-950/40 hover:bg-slate-900/60 px-7 py-3.5 text-sm font-semibold text-slate-300 hover:text-white transition-all duration-300 hover:border-slate-700 active:scale-[0.98] cursor-pointer">
-            <i class="pi pi-play text-xs text-blue-400"></i>
-            <span>Ver Tech Demo</span>
-          </button>
-        </div>
+    <!-- Buttons -->
+    <div class="flex flex-col sm:flex-row gap-5 w-full sm:w-auto animate-slide-up" style="animation-delay: 0.2s;"
+         [style.transform]="'translateY(' + (scrollY() * 0.25) + 'px)'"
+         [style.opacity]="1 - (scrollY() * 0.003)">
+      <p-button 
+        (onClick)="openConsultation()" 
+        label="Quiero mi página con IA" 
+        icon="pi pi-bolt" 
+        [rounded]="true" 
+        styleClass="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 border-none font-semibold text-slate-900 dark:text-white px-8 py-4 text-lg shadow-[0_0_30px_rgba(59,130,246,0.4)] transition-all duration-300 hover:scale-[1.05] active:scale-[0.95]">
+      </p-button>
 
-        <!-- Mini indicators -->
-        <div class="flex flex-wrap items-center gap-x-6 gap-y-2 pt-6 border-t border-slate-900/50 w-full">
-          <span class="flex items-center gap-2 text-xs text-slate-400">
-            <i class="pi pi-check text-[10px] text-blue-500 bg-blue-500/10 p-1 rounded-full border border-blue-500/20"></i>
-            <span>Creación rápida</span>
-          </span>
-          <span class="flex items-center gap-2 text-xs text-slate-400">
-            <i class="pi pi-check text-[10px] text-blue-500 bg-blue-500/10 p-1 rounded-full border border-blue-500/20"></i>
-            <span>Soporte 24/7</span>
-          </span>
-          <span class="flex items-center gap-2 text-xs text-slate-400">
-            <i class="pi pi-check text-[10px] text-blue-500 bg-blue-500/10 p-1 rounded-full border border-blue-500/20"></i>
-            <span>SEO Optimizado</span>
-          </span>
-        </div>
-      </div>
+      <button 
+        (click)="playDemo()"
+        class="inline-flex items-center justify-center gap-3 rounded-full border border-slate-300 dark:border-white/10 bg-slate-900/5 dark:bg-white/5 hover:bg-slate-900/10 dark:bg-white/10 backdrop-blur-md px-8 py-4 text-lg font-semibold text-slate-900 dark:text-white transition-all duration-300 hover:scale-[1.05] active:scale-[0.95] cursor-pointer shadow-lg hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+        <i class="pi pi-play-circle text-xl text-cyan-400"></i>
+        <span>Ver Tech Demo</span>
+      </button>
+    </div>
 
-      <!-- Graphic/Image (Right Column) -->
-      <div class="relative lg:col-span-6 flex justify-center">
-        <!-- Main Card Wrapper -->
-        <div class="relative group max-w-lg lg:max-w-none">
-          <!-- Backglow for the mockup -->
-          <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 opacity-20 blur-xl group-hover:opacity-35 transition duration-1000"></div>
-          
-          <!-- Mockup Frame -->
-          <div class="relative rounded-2xl border border-slate-800/80 bg-slate-950 overflow-hidden shadow-2xl transition-all duration-500 hover:scale-[1.01] hover:border-slate-700/80">
-            <!-- Top mockup bar -->
-            <div class="h-8 border-b border-slate-900 bg-slate-950/80 flex items-center px-4 gap-1.5">
-              <span class="h-2.5 w-2.5 rounded-full bg-red-500/60"></span>
-              <span class="h-2.5 w-2.5 rounded-full bg-yellow-500/60"></span>
-              <span class="h-2.5 w-2.5 rounded-full bg-green-500/60"></span>
-              <div class="mx-auto text-[10px] text-slate-600 font-mono tracking-wider">neural-core-agent.samts</div>
-            </div>
-
-            <!-- Image Asset -->
-            <img 
-              src="/images/hero_ai_dashboard.png" 
-              alt="Neural Network Analytics Interface" 
-              class="w-full object-cover object-center max-h-[380px] lg:max-h-[420px]" />
-
-            <!-- Floater 1: Neural Link Online -->
-            <div class="absolute top-12 right-6 rounded-lg border border-cyan-500/20 bg-slate-950/90 backdrop-blur-md px-3 py-1.5 flex items-center gap-2 shadow-lg animate-pulse">
-              <span class="h-2 w-2 rounded-full bg-cyan-400"></span>
-              <span class="text-[10px] font-mono font-medium text-cyan-400">NEURAL LINK: ONLINE</span>
-            </div>
-
-            <!-- Floater 2: Conversion Metrics -->
-            <div class="absolute bottom-6 left-6 rounded-xl border border-blue-500/20 bg-slate-950/90 backdrop-blur-md p-3.5 flex flex-col gap-1 shadow-lg max-w-[170px] hover:translate-y-[-2px] transition-transform duration-300">
-              <span class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Conversión web</span>
-              <div class="flex items-baseline gap-1.5">
-                <span class="text-xl font-bold text-white font-display">+32.4%</span>
-                <span class="text-[10px] text-blue-400 font-bold flex items-center"><i class="pi pi-arrow-up text-[8px] mr-0.5"></i> IA Activa</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60 animate-bounce"
+         [style.opacity]="(1 - (scrollY() * 0.005)) * 0.6">
+      <span class="text-[10px] text-slate-600 dark:text-slate-400 uppercase tracking-widest font-semibold">Descubre más</span>
+      <i class="pi pi-angle-down text-xl text-slate-600 dark:text-slate-400"></i>
     </div>
   </div>
+  
+  <!-- Floating Stats (Parallax Layer Front) -->
+  <div class="hidden lg:flex absolute top-[20%] right-[10%] z-30 rounded-2xl border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-slate-950/40 backdrop-blur-xl p-4 shadow-2xl transition-transform duration-700 ease-out"
+       [style.transform]="'translateY(' + (scrollY() * -0.4) + 'px)'">
+    <div class="flex flex-col gap-1">
+      <span class="text-xs text-slate-600 dark:text-slate-400 uppercase tracking-wider font-semibold">Conversión Web</span>
+      <div class="flex items-baseline gap-2">
+        <span class="text-3xl font-bold text-slate-900 dark:text-white font-display">+32.4%</span>
+        <span class="text-xs text-green-400 font-bold flex items-center bg-green-400/10 px-1.5 py-0.5 rounded"><i class="pi pi-arrow-up text-[10px] mr-1"></i> IA Activa</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hidden lg:flex absolute bottom-[25%] left-[10%] z-30 rounded-2xl border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-slate-950/40 backdrop-blur-xl p-4 shadow-2xl transition-transform duration-700 ease-out"
+       [style.transform]="'translateY(' + (scrollY() * -0.2) + 'px)'">
+    <div class="flex items-center gap-3">
+      <div class="h-10 w-10 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
+        <i class="pi pi-users text-blue-400"></i>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-xs text-slate-600 dark:text-slate-400 uppercase tracking-wider font-semibold">Tráfico Optimizado</span>
+        <span class="text-xl font-bold text-slate-900 dark:text-white font-display">24/7 Automático</span>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <!-- Demo Video Dialog -->
@@ -115,38 +115,57 @@
   [draggable]="false"
   [resizable]="false"
   [dismissableMask]="true"
-  [style]="{ width: '90%', maxWidth: '800px' }"
-  styleClass="border border-slate-800 bg-slate-950/98 text-slate-100 rounded-2xl overflow-hidden shadow-2xl"
+  [style]="{ width: '90%', maxWidth: '900px' }"
+  styleClass="border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/98 text-slate-100 rounded-3xl overflow-hidden shadow-2xl"
   [showHeader]="false">
   
   <div class="relative p-1">
     <!-- Close Button -->
     <button 
       (click)="closeDemo()"
-      class="absolute top-4 right-4 z-10 text-slate-400 hover:text-slate-100 transition-colors p-2 rounded-lg bg-slate-900/60 backdrop-blur-sm"
+      class="absolute top-4 right-4 z-20 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors p-2.5 rounded-full bg-slate-100 dark:bg-slate-900/80 backdrop-blur-md border border-slate-300 dark:border-white/10 hover:bg-slate-200 dark:bg-slate-800"
       aria-label="Cerrar demo">
-      <i class="pi pi-times text-sm"></i>
+      <i class="pi pi-times text-base"></i>
     </button>
     
-    <!-- Video Player Simulation or Glowing Presentation -->
-    <div class="aspect-video bg-slate-900 flex flex-col items-center justify-center p-8 text-center relative overflow-hidden rounded-xl">
-      <!-- Glow inside modal -->
-      <div class="absolute -top-12 -left-12 h-48 w-48 rounded-full bg-blue-500/20 blur-3xl"></div>
-      <div class="absolute -bottom-12 -right-12 h-48 w-48 rounded-full bg-indigo-500/20 blur-3xl"></div>
+    <!-- Video Player Simulation -->
+    <div class="aspect-video bg-black flex flex-col items-center justify-center text-center relative overflow-hidden rounded-2xl group cursor-pointer">
       
-      <div class="space-y-4 max-w-md z-10">
-        <div class="w-14 h-14 bg-gradient-to-tr from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white mx-auto shadow-lg shadow-blue-500/20">
-          <i class="pi pi-play text-xl ml-1"></i>
+      <!-- Video Poster / Background in Demo -->
+      <img src="/images/hero_ai_dashboard.png" class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-30 transition-opacity duration-500 mix-blend-screen" alt="Demo Video Poster">
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent"></div>
+      
+      <!-- Glow inside modal -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[50%] w-[50%] rounded-full bg-blue-500/20 blur-[100px] z-0"></div>
+      
+      <div class="space-y-6 max-w-lg z-10 p-8">
+        <div class="w-20 h-20 bg-slate-900/10 dark:bg-white/10 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-center text-slate-900 dark:text-white mx-auto shadow-[0_0_40px_rgba(59,130,246,0.3)] group-hover:scale-110 group-hover:bg-blue-600 transition-all duration-300">
+          <i class="pi pi-play text-3xl ml-1.5"></i>
         </div>
-        <h4 class="text-xl font-bold font-display text-white">SAMTS AI Web Engine Demo</h4>
-        <p class="text-xs text-slate-400">
-          Descubre cómo nuestra plataforma crea, optimiza y automatiza embudos de venta utilizando modelos generativos y agentes inteligentes integrados en tiempo real.
-        </p>
-        <!-- Mock Video Interface Controls -->
-        <div class="pt-4 flex items-center justify-between border-t border-slate-800/80 text-[10px] text-slate-500">
-          <span>Resolución: 4K UHD</span>
-          <span class="flex items-center gap-1.5"><i class="pi pi-wifi text-blue-500"></i> Stream de IA Conectado</span>
+        <div>
+          <h4 class="text-2xl font-bold font-display text-slate-900 dark:text-white mb-2">SAMTS AI Web Engine</h4>
+          <p class="text-sm text-slate-700 dark:text-slate-300 font-light">
+            Descubre cómo nuestra plataforma crea, optimiza y automatiza embudos de venta utilizando modelos generativos y agentes inteligentes integrados en tiempo real.
+          </p>
         </div>
+      </div>
+
+      <!-- Controls UI Simulation -->
+      <div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent flex items-center justify-between z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div class="flex items-center gap-4">
+          <button class="text-slate-900 dark:text-white hover:text-blue-400"><i class="pi pi-play"></i></button>
+          <button class="text-slate-900 dark:text-white hover:text-blue-400"><i class="pi pi-volume-up"></i></button>
+          <span class="text-xs text-slate-900 dark:text-white font-mono">00:00 / 02:45</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="text-[10px] font-mono text-cyan-400 bg-cyan-400/10 px-2 py-1 rounded border border-cyan-400/20">4K UHD</span>
+          <button class="text-slate-900 dark:text-white hover:text-blue-400"><i class="pi pi-window-maximize"></i></button>
+        </div>
+      </div>
+      
+      <!-- Progress Bar Simulation -->
+      <div class="absolute bottom-0 left-0 w-full h-1 bg-white/20">
+        <div class="h-full bg-blue-500 w-0"></div>
       </div>
     </div>
   </div>

@@ -1,0 +1,165 @@
+<div class="min-h-screen bg-slate-50 dark:bg-slate-950 flex text-slate-800 dark:text-slate-200 font-sans overflow-hidden">
+  
+  <!-- Sidebar -->
+  <aside 
+    class="bg-slate-100 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-200 dark:border-white/5 w-64 flex-shrink-0 flex flex-col transition-all duration-300 z-40"
+    [class.-ml-64]="!sidebarOpen()">
+    
+    <!-- Logo area -->
+    <div class="h-20 flex items-center px-6 border-b border-slate-200 dark:border-white/5">
+      <div class="w-8 h-8 rounded bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/20">
+        <i class="pi pi-bolt text-slate-900 dark:text-white text-sm"></i>
+      </div>
+      <span class="ml-3 font-display font-bold text-lg text-slate-900 dark:text-white truncate">Neural Admin</span>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+      <a routerLink="/admin/dashboard" routerLinkActive="bg-blue-500/10 text-blue-400" class="flex items-center px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-900/5 dark:bg-white/5 hover:text-slate-900 dark:text-white transition-colors group">
+        <i class="pi pi-home text-lg"></i>
+        <span class="ml-3 font-medium">Dashboard</span>
+      </a>
+      <a routerLink="/admin/leads" routerLinkActive="bg-blue-500/10 text-blue-400" class="flex items-center px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-900/5 dark:bg-white/5 hover:text-slate-900 dark:text-white transition-colors group">
+        <i class="pi pi-users text-lg"></i>
+        <span class="ml-3 font-medium">Leads & CRM</span>
+      </a>
+      <a routerLink="/admin/pages" routerLinkActive="bg-blue-500/10 text-blue-400" class="flex items-center px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-900/5 dark:bg-white/5 hover:text-slate-900 dark:text-white transition-colors group">
+        <i class="pi pi-desktop text-lg"></i>
+        <span class="ml-3 font-medium">Páginas Web</span>
+      </a>
+      <a routerLink="/admin/agents" routerLinkActive="bg-blue-500/10 text-blue-400" class="flex items-center px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-900/5 dark:bg-white/5 hover:text-slate-900 dark:text-white transition-colors group">
+        <i class="pi pi-microchip text-lg"></i>
+        <span class="ml-3 font-medium">Agentes IA</span>
+      </a>
+      <a routerLink="/admin/analytics" routerLinkActive="bg-blue-500/10 text-blue-400" class="flex items-center px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-900/5 dark:bg-white/5 hover:text-slate-900 dark:text-white transition-colors group">
+        <i class="pi pi-chart-bar text-lg"></i>
+        <span class="ml-3 font-medium">Analíticas</span>
+      </a>
+      <a routerLink="/admin/settings" routerLinkActive="bg-blue-500/10 text-blue-400" class="flex items-center px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-900/5 dark:bg-white/5 hover:text-slate-900 dark:text-white transition-colors group">
+        <i class="pi pi-cog text-lg"></i>
+        <span class="ml-3 font-medium">Configuración</span>
+      </a>
+    </nav>
+
+    <!-- Bottom actions -->
+    <div class="p-4 border-t border-slate-200 dark:border-white/5">
+      <a routerLink="/" class="flex items-center px-3 py-3 rounded-xl text-red-400 hover:bg-red-400/10 transition-colors">
+        <i class="pi pi-sign-out text-lg"></i>
+        <span class="ml-3 font-medium">Cerrar Sesión</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 flex flex-col min-w-0 relative">
+    
+    <!-- Header -->
+    <header class="h-20 bg-slate-100 dark:bg-slate-900/50 backdrop-blur-md border-b border-slate-200 dark:border-white/5 flex items-center justify-between px-8 z-30">
+      <div class="flex items-center gap-4">
+        <button (click)="toggleSidebar()" class="w-10 h-10 rounded-full hover:bg-slate-900/5 dark:bg-white/5 flex items-center justify-center text-slate-600 dark:text-slate-400 transition-colors">
+          <i class="pi pi-bars text-xl"></i>
+        </button>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <!-- Copilot Toggle Button -->
+        <button 
+          (click)="toggleCopilot()" 
+          class="relative flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 hover:bg-blue-500/20 transition-colors text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.15)] group"
+          [class.bg-blue-600]="copilotOpen()"
+          [class.text-slate-900 dark:text-white]="copilotOpen()">
+          <i class="pi pi-sparkles text-sm" [class.animate-spin]="copilotOpen()"></i>
+          <span class="text-sm font-semibold tracking-wide">AI Copilot</span>
+        </button>
+        
+        <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-white/10 overflow-hidden ml-2">
+          <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" alt="Admin" class="w-full h-full object-cover">
+        </div>
+      </div>
+    </header>
+
+    <!-- Inner Content & Copilot Wrapper -->
+    <div class="flex-1 flex overflow-hidden relative">
+      <!-- Router Outlet -->
+      <div class="flex-1 overflow-y-auto relative z-10 transition-all duration-300" [class.mr-80]="copilotOpen() || false" [class.lg:mr-96]="copilotOpen() || false">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-96 bg-blue-600/5 blur-[120px] pointer-events-none -z-10"></div>
+        <router-outlet></router-outlet>
+      </div>
+
+      <!-- AI Copilot Sidebar Slide-over -->
+      <div 
+        class="absolute top-0 right-0 h-full w-80 lg:w-96 bg-slate-100 dark:bg-slate-900/95 backdrop-blur-2xl border-l border-slate-300 dark:border-white/10 z-20 flex flex-col shadow-2xl transition-transform duration-300"
+        [class.translate-x-full]="!copilotOpen()">
+        
+        <!-- Copilot Header -->
+        <div class="p-4 border-b border-slate-200 dark:border-white/5 flex items-center justify-between bg-slate-50 dark:bg-slate-950/50">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400">
+              <i class="pi pi-code"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-900 dark:text-white text-sm">Copiloto Neural</h3>
+              <p class="text-[10px] text-slate-600 dark:text-slate-400">Desarrollo y Gestión UI</p>
+            </div>
+          </div>
+          <button (click)="toggleCopilot()" class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white w-8 h-8 rounded-full hover:bg-slate-900/5 dark:bg-white/5 flex items-center justify-center">
+            <i class="pi pi-times"></i>
+          </button>
+        </div>
+
+        <!-- Copilot Chat Area -->
+        <div #copilotScroll class="flex-1 overflow-y-auto p-4 space-y-4">
+          <div *ngFor="let msg of copilotMessages()" class="flex flex-col" [class.items-end]="msg.sender === 'admin'">
+            <span class="text-[10px] text-slate-500 dark:text-slate-500 mb-1 mx-1">{{ msg.sender === 'ai' ? 'Copiloto' : 'Admin' }} • {{ msg.time }}</span>
+            
+            <div 
+              class="max-w-[90%] rounded-xl px-4 py-3 text-sm"
+              [ngClass]="msg.sender === 'admin' ? 'bg-indigo-600 text-slate-900 dark:text-white rounded-br-none shadow-md' : 'bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-white/10 text-slate-800 dark:text-slate-200 rounded-bl-none shadow-md'">
+              
+              <p>{{ msg.text }}</p>
+              
+              <!-- Action Button Simulation -->
+              <div *ngIf="msg.type === 'action'" class="mt-3 pt-3 border-t border-slate-300 dark:border-white/10">
+                <button class="w-full py-1.5 bg-green-500/20 text-green-400 border border-green-500/30 rounded-lg text-xs font-semibold hover:bg-green-500/30 transition-colors">
+                  <i class="pi pi-check-circle mr-1"></i> Aplicar Cambios
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Typing -->
+          <div *ngIf="isCopilotTyping()" class="flex flex-col items-start">
+            <span class="text-[10px] text-slate-500 dark:text-slate-500 mb-1 mx-1">Analizando arquitectura...</span>
+            <div class="bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-white/10 rounded-xl rounded-bl-none px-4 py-3 flex gap-1 items-center">
+              <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 0ms"></span>
+              <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 150ms"></span>
+              <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 300ms"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Copilot Input -->
+        <div class="p-4 bg-slate-50 dark:bg-slate-950/80 border-t border-slate-200 dark:border-white/5">
+          <form (ngSubmit)="sendCopilotMessage()" class="relative flex items-center">
+            <input 
+              type="text" 
+              [(ngModel)]="copilotInput" 
+              name="copilotInput"
+              placeholder="Ej: Cambia el color del botón principal a rojo..." 
+              class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-white/10 rounded-lg py-3 pl-3 pr-10 text-sm text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500/50 focus:bg-slate-200 dark:bg-slate-800 transition-all shadow-inner"
+              autocomplete="off"
+              [disabled]="isCopilotTyping()">
+            
+            <button 
+              type="submit" 
+              [disabled]="!copilotInput.trim() || isCopilotTyping()"
+              class="absolute right-2 w-7 h-7 rounded hover:bg-indigo-500/20 flex items-center justify-center text-indigo-400 disabled:opacity-50 transition-colors">
+              <i class="pi pi-send text-sm"></i>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>

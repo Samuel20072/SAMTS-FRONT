@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -13,6 +13,12 @@ import { ConsultationService } from '../../services/consultation.service';
 export class HeroComponent {
   modalService = inject(ConsultationService);
   showDemoVideo = signal(false);
+  scrollY = signal(0);
+
+  @HostListener('window:scroll')
+  onScroll() {
+    this.scrollY.set(window.scrollY);
+  }
 
   openConsultation() {
     this.modalService.open();

@@ -6,3 +6,5 @@
   --font-sans: "Inter", sans-serif;
   --font-display: "Outfit", sans-serif;
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
