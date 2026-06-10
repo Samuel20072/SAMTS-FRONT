@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
 import { HeroComponent } from '../../components/hero/hero.component';
-import { PartnersComponent } from '../../components/partners/partners.component';
 import { ServicesComponent } from '../../components/services/services.component';
 import { FeaturesComponent } from '../../components/features/features.component';
 import { CtaComponent } from '../../components/cta/cta.component';
@@ -15,7 +14,6 @@ import { AiAssistantComponent } from '../../components/ai-assistant/ai-assistant
   imports: [
     HeaderComponent,
     HeroComponent,
-    PartnersComponent,
     ServicesComponent,
     FeaturesComponent,
     CtaComponent,

@@ -1,40 +1,37 @@
-<footer id="footer" class="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-900/60 pt-16 pb-8 transition-colors duration-300">
+<footer id="footer" class="bg-slate-950 border-t border-white/5 pt-16 pb-8 transition-colors duration-300">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     
     <!-- Top Grid -->
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-12 mb-16">
       
       <!-- Brand Description (Col span 5) -->
-      <div class="lg:col-span-5 space-y-4 flex flex-col items-start text-left">
-        <span class="font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-white cursor-pointer" (click)="scrollToSection('hero')">
+      <div class="lg:col-span-5 space-y-5 flex flex-col items-start text-left">
+        <span class="font-display text-xl font-bold tracking-tight text-white cursor-pointer" (click)="scrollToSection('hero')">
           <span class="text-blue-500 font-extrabold">[</span>SAMTS<span class="text-blue-500 font-extrabold">]</span>
         </span>
-        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light max-w-sm leading-relaxed">
-          Creamos páginas que trabajan por ti y hacen crecer tu negocio mediante IA de última generación.
+        <p class="text-xs sm:text-sm text-slate-400 font-light max-w-sm leading-relaxed">
+          Sistemas Web Inteligentes para negocios que quieren crecer sin perder tiempo.
         </p>
         
-        <!-- Social Icons -->
+        <!-- Social Icons (3 outline square icons as per mockup) -->
         <div class="flex items-center gap-3 pt-2">
           <a 
-            href="https://samts.ai" 
-            target="_blank"
-            class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-blue-400 hover:border-slate-300 dark:border-slate-800 transition-all duration-300"
-            aria-label="Sitio Web">
-            <i class="pi pi-globe text-sm"></i>
+            href="#" 
+            class="w-9 h-9 rounded-lg border border-white/5 bg-slate-950 hover:bg-slate-900 flex items-center justify-center text-slate-500 hover:text-white transition-all duration-300"
+            aria-label="Social Link 1">
+            <i class="pi pi-twitter text-xs"></i>
           </a>
           <a 
-            href="https://instagram.com" 
-            target="_blank"
-            class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-pink-400 hover:border-slate-300 dark:border-slate-800 transition-all duration-300"
-            aria-label="Instagram">
-            <i class="pi pi-instagram text-sm"></i>
+            href="#" 
+            class="w-9 h-9 rounded-lg border border-white/5 bg-slate-950 hover:bg-slate-900 flex items-center justify-center text-slate-500 hover:text-white transition-all duration-300"
+            aria-label="Social Link 2">
+            <i class="pi pi-instagram text-xs"></i>
           </a>
           <a 
-            href="https://linkedin.com" 
-            target="_blank"
-            class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-blue-500 hover:border-slate-300 dark:border-slate-800 transition-all duration-300"
-            aria-label="LinkedIn">
-            <i class="pi pi-linkedin text-sm"></i>
+            href="#" 
+            class="w-9 h-9 rounded-lg border border-white/5 bg-slate-950 hover:bg-slate-900 flex items-center justify-center text-slate-500 hover:text-white transition-all duration-300"
+            aria-label="Social Link 3">
+            <i class="pi pi-linkedin text-xs"></i>
           </a>
         </div>
       </div>
@@ -44,12 +41,12 @@
 
       <!-- Servicios Links (Col span 2) -->
       <div class="lg:col-span-2 space-y-4 flex flex-col items-start text-left">
-        <h4 class="text-xs font-bold tracking-wider text-slate-900 dark:text-white uppercase">Servicios</h4>
-        <ul class="space-y-2 text-xs sm:text-sm font-light">
+        <h4 class="text-xs font-bold tracking-wider text-white uppercase font-mono">Servicios</h4>
+        <ul class="space-y-3 text-xs sm:text-sm font-light">
           <li *ngFor="let item of services">
             <button 
               (click)="scrollToSection(item.link)" 
-              class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors duration-200 cursor-pointer">
+              class="text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer">
               {{ item.name }}
             </button>
           </li>
@@ -58,12 +55,12 @@
 
       <!-- Empresa Links (Col span 2) -->
       <div class="lg:col-span-2 space-y-4 flex flex-col items-start text-left">
-        <h4 class="text-xs font-bold tracking-wider text-slate-900 dark:text-white uppercase">Empresa</h4>
-        <ul class="space-y-2 text-xs sm:text-sm font-light">
+        <h4 class="text-xs font-bold tracking-wider text-white uppercase font-mono">Empresa</h4>
+        <ul class="space-y-3 text-xs sm:text-sm font-light">
           <li *ngFor="let item of company">
             <button 
               (click)="scrollToSection(item.link)" 
-              class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors duration-200 cursor-pointer">
+              class="text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer">
               {{ item.name }}
             </button>
           </li>
@@ -72,14 +69,14 @@
 
       <!-- Legal Links (Col span 2) -->
       <div class="lg:col-span-2 space-y-4 flex flex-col items-start text-left">
-        <h4 class="text-xs font-bold tracking-wider text-slate-900 dark:text-white uppercase">Legal</h4>
-        <ul class="space-y-2 text-xs sm:text-sm font-light">
+        <h4 class="text-xs font-bold tracking-wider text-white uppercase font-mono">Legal</h4>
+        <ul class="space-y-3 text-xs sm:text-sm font-light">
           <li *ngFor="let item of legal">
-            <button 
-              (click)="scrollToSection(item.link)" 
-              class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors duration-200 cursor-pointer">
+            <a 
+              [href]="item.link" 
+              class="text-slate-400 hover:text-white transition-colors duration-200 block">
               {{ item.name }}
-            </button>
+            </a>
           </li>
         </ul>
       </div>
@@ -87,14 +84,21 @@
     </div>
 
     <!-- Bottom Copyright Bar -->
-    <div class="border-t border-slate-200 dark:border-slate-900/60 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-500 font-light">
+    <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-500 font-light">
       <div>
-        <span>© {{ currentYear }} SAMTS. Todos los derechos reservados.</span>
+        <span>© 2026 SAMTS. Todos los derechos reservados.</span>
       </div>
       
-      <div class="flex items-center gap-1">
+      <!-- Central Operating Systems Badge -->
+      <div class="inline-flex items-center gap-2 rounded-full border border-emerald-500/10 bg-emerald-500/5 px-3 py-1 text-[10px] font-semibold text-emerald-400">
+        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>Todos los sistemas operativos</span>
+      </div>
+      
+      <!-- Right Badge/Country -->
+      <div class="flex items-center gap-1.5">
         <span>Hecho con</span>
-        <i class="pi pi-heart-fill text-red-500 animate-pulse"></i>
+        <i class="pi pi-heart-fill text-red-500 animate-pulse text-[10px]"></i>
         <span>en Colombia</span>
       </div>
     </div>

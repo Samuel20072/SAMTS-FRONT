@@ -18,22 +18,22 @@ export class FeaturesComponent {
     {
       number: 1,
       title: 'Analiza tu negocio',
-      description: 'La IA entiende tu industria, tus productos y tus objetivos comerciales para trazar la mejor estrategia.'
+      description: 'La IA entiende tu industria, productos y objetivos comerciales para trazar la estrategia correcta.'
     },
     {
       number: 2,
-      title: 'Crea y optimiza',
-      description: 'Genera contenido relevante, diseña promociones y actualiza tu sitio constantemente basado en tendencias.'
+      title: 'Genera contenido',
+      description: 'Artículos, promociones, banners y textos SEO creados y publicados automáticamente en tu sitio.'
     },
     {
       number: 3,
       title: 'Atrae y convierte',
-      description: 'Tu página trabaja 24/7 para atraer clientes cualificados y cerrar ventas de manera orgánica.'
+      description: 'Tu página trabaja 24/7 posicionándote en Google y captando clientes sin intervención manual.'
     },
     {
       number: 4,
       title: 'Te mantiene informado',
-      description: 'Recibe reportes de ventas y notificaciones inteligentes directamente en WhatsApp sin entrar a la web.'
+      description: 'Reportes de rendimiento y notificaciones inteligentes de lo que hace la IA por tu negocio.'
     }
   ];
 }

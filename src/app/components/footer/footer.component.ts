@@ -20,7 +20,7 @@ export class FooterComponent {
 
   company = [
     { name: 'Nosotros', link: 'footer' },
-    { name: 'Portafolio', link: 'partners' },
+    { name: 'Portafolio', link: 'services' },
     { name: 'Blog', link: 'hero' },
     { name: 'Contacto', link: 'footer' }
   ];
@@ -28,7 +28,9 @@ export class FooterComponent {
   legal = [
     { name: 'Términos', link: '#' },
     { name: 'Privacidad', link: '#' },
-    { name: 'Cookies', link: '#' }
+    { name: 'Cookies', link: '#' },
+    { name: 'Soporte', link: '#' },
+    { name: 'hello@samts.co', link: 'mailto:hello@samts.co' }
   ];
 
   currentYear = new Date().getFullYear();

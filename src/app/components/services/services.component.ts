@@ -5,11 +5,10 @@ import { ButtonModule } from 'primeng/button';
 import { ConsultationService } from '../../services/consultation.service';
 
 interface ServiceItem {
-  icon: string;
   title: string;
   description: string;
-  colorClass: string;
-  iconBg: string;
+  badge?: string;
+  tags: string[];
 }
 
 @Component({
@@ -29,32 +28,25 @@ export class ServicesComponent {
 
   services: ServiceItem[] = [
     {
-      icon: 'pi pi-desktop',
-      title: 'Páginas Web Premium',
-      description: 'Diseños modernos, rápidos y optimizados para convertir visitantes en clientes de forma efectiva.',
-      colorClass: 'text-blue-500',
-      iconBg: 'bg-blue-500/10 border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.3)]'
-    },
-    {
-      icon: 'pi pi-sitemap', 
       title: 'IA Automática',
-      description: 'Contenido, promociones y publicaciones generadas por IA todos los días sin que muevas un dedo.',
-      colorClass: 'text-indigo-400',
-      iconBg: 'bg-indigo-500/10 border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.3)]'
+      badge: 'MÁS SOLICITADO',
+      description: 'Tu página genera contenido, publica promociones y optimiza tu SEO de forma automática. Sin que muevas un dedo.',
+      tags: ['Blog 100% Auto', 'Promociones', 'SEO', 'Redes sociales']
     },
     {
-      icon: 'pi pi-shopping-cart',
+      title: 'Páginas Web Premium',
+      description: 'Sitios rápidos, modernos y optimizados para convertir visitantes en clientes, desde el primer segundo.',
+      tags: ['Exclusivo', 'High-performance', 'Responsivo']
+    },
+    {
       title: 'Tiendas Online',
       description: 'Vende tus productos con pasarelas de pago integradas, gestión de inventario y envíos automatizados.',
-      colorClass: 'text-cyan-400',
-      iconBg: 'bg-cyan-500/10 border-cyan-500/20 shadow-[0_0_15px_rgba(34,211,238,0.3)]'
+      tags: ['E-commerce', 'Pagos', 'Inventario']
     },
     {
-      icon: 'pi pi-rocket',
       title: 'Landing Pages',
-      description: 'Páginas enfocadas en campañas de marketing, captación de leads y máxima generación de resultados.',
-      colorClass: 'text-purple-400',
-      iconBg: 'bg-purple-500/10 border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.3)]'
+      description: 'Páginas enfocadas en una sola acción: captar leads, vender o registrar. Máxima conversión por diseño.',
+      tags: ['Conversión', 'Leads', 'Marketing']
     }
   ];
 

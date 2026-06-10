@@ -1,76 +1,51 @@
-<nav class="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-900/40 bg-slate-50 dark:bg-slate-950/80 backdrop-blur-md transition-colors duration-300">
+<nav class="sticky top-0 z-40 w-full border-b border-white/5 bg-slate-950/80 backdrop-blur-md transition-colors duration-300">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-20 items-center justify-between">
       
       <!-- Logo -->
       <div class="flex flex-shrink-0 items-center cursor-pointer" (click)="scrollToSection('hero')">
-        <span class="font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
+        <span class="font-display text-xl font-bold tracking-tight text-white flex items-center gap-1.5">
           <span class="text-blue-500 font-extrabold">[</span>SAMTS<span class="text-blue-500 font-extrabold">]</span>
         </span>
       </div>
 
       <!-- Desktop Nav Links -->
-      <div class="hidden md:flex items-center space-x-1 lg:space-x-4">
-        <button 
-          (click)="scrollToSection('hero')" 
-          class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/30 transition-all duration-200 cursor-pointer">
-          Inicio
-        </button>
+      <div class="hidden md:flex items-center space-x-8">
         <button 
           (click)="scrollToSection('services')" 
-          class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/30 transition-all duration-200 cursor-pointer">
+          class="text-sm font-medium text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer">
           Servicios
         </button>
         <button 
           (click)="scrollToSection('features')" 
-          class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/30 transition-all duration-200 cursor-pointer">
+          class="text-sm font-medium text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer">
           IA Automática
         </button>
         <button 
           (click)="navigateTo('/pricing')" 
-          class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/30 transition-all duration-200 cursor-pointer">
+          class="text-sm font-medium text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer">
           Precios
         </button>
         <button 
           (click)="navigateTo('/portfolio')" 
-          class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/30 transition-all duration-200 cursor-pointer">
+          class="text-sm font-medium text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer">
           Portafolio
-        </button>
-        <button 
-          (click)="navigateTo('/about')" 
-          class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/30 transition-all duration-200 cursor-pointer">
-          Nosotros
-        </button>
-        <button 
-          (click)="scrollToSection('footer')" 
-          class="rounded-md px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/30 transition-all duration-200 cursor-pointer">
-          Contacto
         </button>
       </div>
 
-      <!-- Right Buttons (CTA + Dark Mode + Mobile Toggle) -->
-      <div class="flex items-center gap-3">
-        <!-- Dark Mode Toggle -->
-        <button 
-          (click)="toggleDarkMode()" 
-          class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white p-2 rounded-lg hover:bg-slate-100 dark:bg-slate-900/40 transition-colors"
-          [title]="isDark() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'">
-          <i class="pi" [ngClass]="isDark() ? 'pi-sun' : 'pi-moon'"></i>
-        </button>
-
+      <!-- Right Buttons (CTA + Mobile Toggle) -->
+      <div class="flex items-center gap-4">
         <!-- CTA Button -->
-        <p-button 
-          (onClick)="openConsultation()" 
-          label="Agendar llamada" 
-          [rounded]="true" 
-          severity="info"
-          styleClass="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 border-none font-semibold text-slate-900 dark:text-white px-5 py-2.5 text-sm shadow-[0_4px_14px_rgba(59,130,246,0.3)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] hidden sm:block">
-        </p-button>
+        <button 
+          (click)="openConsultation()" 
+          class="hidden sm:block rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 px-6 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:border-white/20 active:scale-[0.98] cursor-pointer">
+          Agendar llamada
+        </button>
 
         <!-- Mobile Menu Toggle -->
         <button 
           (click)="toggleMenu()" 
-          class="inline-flex md:hidden items-center justify-center p-2 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/50 transition-colors">
+          class="inline-flex md:hidden items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-white/5 transition-colors">
           <i class="pi text-xl" [ngClass]="isMenuOpen() ? 'pi-times' : 'pi-bars'"></i>
         </button>
       </div>
@@ -78,49 +53,33 @@
   </div>
 
   <!-- Mobile Menu -->
-  <div *ngIf="isMenuOpen()" class="md:hidden border-t border-slate-200 dark:border-slate-900/50 bg-slate-50 dark:bg-slate-950 px-4 py-3 space-y-1 shadow-lg animate-fade-in">
-    <button 
-      (click)="scrollToSection('hero')" 
-      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/40 transition-colors cursor-pointer">
-      Inicio
-    </button>
+  <div *ngIf="isMenuOpen()" class="md:hidden border-t border-white/5 bg-slate-950 px-4 py-3 space-y-1 shadow-lg animate-fade-in">
     <button 
       (click)="scrollToSection('services')" 
-      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/40 transition-colors cursor-pointer">
+      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
       Servicios
     </button>
     <button 
       (click)="scrollToSection('features')" 
-      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/40 transition-colors cursor-pointer">
+      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
       IA Automática
     </button>
     <button 
       (click)="navigateTo('/pricing')" 
-      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/40 transition-colors cursor-pointer">
+      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
       Precios
     </button>
     <button 
       (click)="navigateTo('/portfolio')" 
-      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/40 transition-colors cursor-pointer">
+      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
       Portafolio
     </button>
-    <button 
-      (click)="navigateTo('/about')" 
-      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/40 transition-colors cursor-pointer">
-      Nosotros
-    </button>
-    <button 
-      (click)="scrollToSection('footer')" 
-      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:text-white hover:bg-slate-100 dark:bg-slate-900/40 transition-colors cursor-pointer">
-      Contacto
-    </button>
     <div class="pt-4 pb-2">
-      <p-button 
-        (onClick)="openConsultation(); toggleMenu()" 
-        label="Agendar llamada" 
-        [rounded]="true" 
-        styleClass="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-slate-900 dark:text-white font-semibold py-3 border-none shadow-[0_4px_14px_rgba(59,130,246,0.3)]">
-      </p-button>
+      <button 
+        (click)="openConsultation(); toggleMenu()" 
+        class="w-full text-center rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 py-3 text-sm font-medium text-white transition-all duration-300">
+        Agendar llamada
+      </button>
     </div>
   </div>
 </nav>

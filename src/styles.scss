@@ -7,6 +7,15 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Subtle grid pattern background */
+.bg-grid-pattern {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(59, 130, 246, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(59, 130, 246, 0.02) 1px, transparent 1px);
+}
+
+
 /* ==============================
    Custom Animations
    ============================== */
