@@ -9,7 +9,43 @@ import { ConsultationService } from '../../services/consultation.service';
   selector: 'app-pricing',
   standalone: true,
   imports: [CommonModule, HeaderComponent, FooterComponent, ConsultationModalComponent],
-  templateUrl: './pricing.page.html'
+  templateUrl: './pricing.page.html',
+  styles: [`
+    .pricing-card-highlighted {
+      background-color: rgba(10, 13, 26, 0.6) !important;
+      border-color: rgba(37, 99, 235, 0.9) !important;
+      box-shadow: 0 0 60px rgba(37, 99, 235, 0.2) !important;
+      padding-top: 3.5rem !important;
+      padding-bottom: 2.5rem !important;
+      padding-left: 2rem !important;
+      padding-right: 2rem !important;
+    }
+    .pricing-card-standard {
+      background-color: rgba(8, 8, 12, 0.6) !important;
+      border-color: #0f172a !important;
+      padding-top: 3rem !important;
+      padding-bottom: 2.5rem !important;
+      padding-left: 2rem !important;
+      padding-right: 2rem !important;
+    }
+    .pricing-btn-highlighted {
+      background-color: #2563eb !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 25px rgba(37, 99, 235, 0.4) !important;
+    }
+    .pricing-btn-highlighted:hover {
+      background-color: #3b82f6 !important;
+    }
+    .pricing-btn-standard {
+      background-color: #0d0f14 !important;
+      color: #cbd5e1 !important;
+      border: 1px solid #0f172a !important;
+    }
+    .pricing-btn-standard:hover {
+      background-color: #141822 !important;
+      border-color: #1e293b !important;
+    }
+  `]
 })
 export class PricingPage {
   modalService = inject(ConsultationService);
@@ -22,43 +58,43 @@ export class PricingPage {
     {
       name: 'Startup',
       price: '$990',
-      period: 'pago único',
-      description: 'Ideal para negocios emergentes que necesitan presencia online profesional.',
+      period: 'pago único - entrega en 2 semanas',
+      description: 'Para negocios que necesitan presencia web profesional y empezar a crecer.',
       features: [
-        'Diseño Web Premium (5 vistas)',
-        'Optimización Móvil y SEO Básico',
-        'Formularios de Contacto Avanzados',
-        'Soporte Técnico 1 mes',
-        'Hosting Gratis x 1 Año'
+        'Diseño web premium (5 vistas)',
+        'Optimización móvil y SEO básico',
+        'Formularios de contacto avanzados',
+        'Soporte técnico 1 mes',
+        'Hosting gratis x 1 año'
       ],
       highlight: false
     },
     {
       name: 'Neural AI Pro',
       price: '$2,490',
-      period: 'pago único',
-      description: 'Automatización total. Vende en piloto automático con agentes de IA integrados.',
+      period: 'pago único - entrega en 3 semanas',
+      description: 'Automatización total. Tu página vende, califica y crece sola con IA integrada.',
       features: [
         'Todo lo del plan Startup',
         'Chatbot IA entrenado con tus datos',
-        'E-commerce integrado (Pasarelas de Pago)',
-        'Generación Automática de Leads',
-        'Dashboard Administrativo',
-        'Soporte Técnico VIP 3 meses'
+        'E-commerce + pasarelas de pago',
+        'Generación automática de leads',
+        'Dashboard administrativo',
+        'Soporte VIP 3 meses'
       ],
       highlight: true
     },
     {
       name: 'Enterprise',
-      price: 'A Medida',
-      period: 'suscripción/proyecto',
-      description: 'Sistemas a gran escala, redes neuronales y automatización corporativa profunda.',
+      price: 'A medida',
+      period: 'suscripción o proyecto, conversemos',
+      description: 'Para empresas que necesitan sistemas a medida, integraciones y escalabilidad total.',
       features: [
-        'Arquitectura en la Nube Escalable',
-        'Agentes Multicanal (WhatsApp, Web, RRSS)',
-        'Integración con ERPs y CRMs externos',
-        'Desarrollo de Modelos RAG Propios',
-        'Acuerdo SLA 99.9% Uptime'
+        'Arquitectura en la nube escalable',
+        'Agentes multicanal (WhatsApp, Web)',
+        'Integración con ERPs y CRMs',
+        'Modelos RAG propios',
+        'Acuerdo SLA 99.9% uptime'
       ],
       highlight: false
     }

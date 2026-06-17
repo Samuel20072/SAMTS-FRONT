@@ -1,80 +1,268 @@
 <app-header></app-header>
 
-<main class="min-h-screen bg-slate-50 dark:bg-slate-950 pt-20 overflow-hidden relative">
+<main class="min-h-screen bg-[#050508] text-slate-100 pt-24 pb-20 overflow-hidden relative font-sans">
   <!-- Glowing Background Effects -->
-  <div class="absolute top-0 left-1/4 h-[500px] w-[500px] rounded-full bg-blue-600/10 blur-[150px] pointer-events-none mix-blend-screen"></div>
-  <div class="absolute bottom-1/4 right-0 h-[600px] w-[600px] rounded-full bg-indigo-500/10 blur-[150px] pointer-events-none mix-blend-screen"></div>
+  <div class="absolute top-0 left-1/4 h-[500px] w-[500px] rounded-full bg-blue-600/5 blur-[180px] pointer-events-none mix-blend-screen"></div>
+  <div class="absolute bottom-1/4 right-0 h-[600px] w-[600px] rounded-full bg-indigo-500/5 blur-[180px] pointer-events-none mix-blend-screen"></div>
 
   <!-- Hero Section -->
-  <section class="relative py-20 lg:py-28 text-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
-    <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-xs md:text-sm font-semibold text-blue-400 mb-8 animate-fade-in">
-      <i class="pi pi-briefcase text-xs"></i>
-      <span class="uppercase tracking-widest">Casos de Éxito</span>
+  <section class="relative py-16 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto z-10">
+    <div class="inline-flex items-center gap-2 mb-6">
+      <span class="text-blue-500 text-xs font-bold uppercase tracking-[0.2em]">— PORTAFOLIO</span>
     </div>
-    <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight drop-shadow-2xl mb-6">
-      Nuestro Trabajo. <br/>
-      <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400">
-        Tu Inspiración.
-      </span>
+    <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight mb-4">
+      Proyectos reales.<br class="hidden sm:inline" /> Resultados medibles.
     </h1>
-    <p class="text-lg sm:text-xl text-slate-600 dark:text-slate-400 font-light max-w-3xl mx-auto leading-relaxed">
-      Explora en detalle cómo hemos transformado negocios mediante ecosistemas digitales premium y automatización con Inteligencia Artificial.
+    <p class="text-sm sm:text-base text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
+      Cada proyecto es un sistema construido para funcionar, no solo para verse bien.
     </p>
   </section>
 
-  <!-- Projects Grid -->
-  <section class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
-    <div class="space-y-24">
+  <!-- Projects Grid Section -->
+  <section class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+    <div class="space-y-32">
       
       <!-- Single Project Row -->
       <div *ngFor="let project of projects; let i = index" 
            class="flex flex-col lg:flex-row gap-12 lg:items-center group"
            [ngClass]="{'lg:flex-row-reverse': i % 2 !== 0}">
         
-        <!-- Image Box -->
+        <!-- Interactive CSS Mockup (Left/Right side) -->
         <div class="lg:w-1/2 relative">
-          <div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-blue-600 to-indigo-600 opacity-20 blur-xl group-hover:opacity-40 transition duration-1000"></div>
-          <div class="relative rounded-3xl border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-slate-900 overflow-hidden shadow-2xl aspect-[4/3] group-hover:scale-[1.02] transition-transform duration-700">
-            <!-- Simulated Browser UI -->
-            <div class="h-8 border-b border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-slate-950/80 flex items-center px-4 gap-1.5 backdrop-blur-md absolute top-0 w-full z-20">
-              <span class="h-2.5 w-2.5 rounded-full bg-red-500/80"></span>
-              <span class="h-2.5 w-2.5 rounded-full bg-yellow-500/80"></span>
-              <span class="h-2.5 w-2.5 rounded-full bg-green-500/80"></span>
+          <!-- Outer shadow/glow -->
+          <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-r from-blue-600 to-indigo-600 opacity-5 blur-2xl group-hover:opacity-15 transition duration-1000"></div>
+          
+          <!-- Browser Wrapper -->
+          <div class="relative rounded-[1.5rem] border border-slate-900 bg-[#08080c] overflow-hidden shadow-2xl aspect-[4/3] flex flex-col group-hover:border-slate-800 transition-colors duration-500">
+            <!-- Simulated Browser UI Header -->
+            <div class="h-10 border-b border-slate-900/80 bg-[#08080c] flex items-center px-4 gap-2 shrink-0">
+              <div class="flex gap-1.5">
+                <span class="h-2.5 w-2.5 rounded-full bg-red-500/80"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-yellow-500/80"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-green-500/80"></span>
+              </div>
+              <div class="flex-1 max-w-[200px] mx-auto bg-[#0c0d14] border border-slate-900 rounded-md h-5 px-3 flex items-center justify-between text-[10px] text-slate-600 font-mono select-none">
+                <span class="truncate">{{ project.isPlaceholder ? 'proximamente.co' : project.client.toLowerCase().replace(' ', '') + '.co' }}</span>
+                <i class="pi pi-lock text-[8px] text-slate-700"></i>
+              </div>
+              <div class="w-10"></div> <!-- Spacing alignment -->
             </div>
-            <img [src]="project.image" [alt]="project.title" class="w-full h-full object-cover mt-8 opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+
+            <!-- Browser Content Area -->
+            <div class="flex-1 bg-[#060608] p-5 relative overflow-hidden flex flex-col justify-between select-none">
+              
+              <!-- Case 1: E-commerce Deportivo (FitGear Pro) -->
+              <ng-container *ngIf="i === 0">
+                <!-- Grid of Mock Products -->
+                <div class="grid grid-cols-3 gap-3">
+                  <!-- Product 1 -->
+                  <div class="bg-[#0b0c14] border border-slate-900 rounded-xl p-2.5 flex flex-col justify-between h-24">
+                    <div class="h-10 bg-[#121422] rounded-lg w-full mb-2 flex items-center justify-center">
+                      <i class="pi pi-image text-slate-800 text-sm"></i>
+                    </div>
+                    <div class="h-2 bg-slate-900 rounded w-2/3 mb-1.5"></div>
+                    <div class="text-[9px] font-bold text-slate-400">$49</div>
+                  </div>
+                  <!-- Product 2 -->
+                  <div class="bg-[#0b0c14] border border-slate-900 rounded-xl p-2.5 flex flex-col justify-between h-24">
+                    <div class="h-10 bg-[#121422] rounded-lg w-full mb-2 flex items-center justify-center">
+                      <i class="pi pi-image text-slate-800 text-sm"></i>
+                    </div>
+                    <div class="h-2 bg-slate-900 rounded w-3/4 mb-1.5"></div>
+                    <div class="text-[9px] font-bold text-slate-400">$80</div>
+                  </div>
+                  <!-- Product 3 (Monitoreo) -->
+                  <div class="bg-[#0b0c14] border border-slate-900 rounded-xl p-2.5 flex flex-col justify-between h-24 relative overflow-hidden">
+                    <div class="absolute top-1.5 right-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[6px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1">
+                      <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span> Monitoreo
+                    </div>
+                    <div class="h-10 bg-[#121422] rounded-lg w-full mb-2 flex items-center justify-center">
+                      <i class="pi pi-image text-slate-800 text-sm"></i>
+                    </div>
+                    <div class="h-2 bg-slate-900 rounded w-1/2 mb-1.5"></div>
+                    <div class="text-[9px] font-bold text-slate-400">$34</div>
+                  </div>
+                </div>
+
+                <!-- Charts / Analytics Section -->
+                <div class="bg-[#0b0c14] border border-slate-900 rounded-xl p-3 flex-1 mt-3 flex flex-col justify-between">
+                  <div class="flex justify-between items-center mb-1">
+                    <div class="h-2 bg-slate-900 rounded w-1/4"></div>
+                    <div class="h-2 bg-slate-900 rounded w-12"></div>
+                  </div>
+                  <div class="flex items-end justify-between gap-2.5 h-16 pt-3 px-2">
+                    <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[35%] relative group">
+                      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">35%</div>
+                    </div>
+                    <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[55%] relative group">
+                      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">55%</div>
+                    </div>
+                    <div class="w-full bg-blue-600/30 hover:bg-blue-600/40 rounded-t-sm transition-all h-[85%] relative group shadow-[0_0_10px_rgba(37,99,235,0.2)]">
+                      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">85%</div>
+                    </div>
+                    <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[45%] relative group">
+                      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">45%</div>
+                    </div>
+                    <div class="w-full bg-blue-600/25 hover:bg-blue-600/35 rounded-t-sm transition-all h-[70%] relative group">
+                      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">70%</div>
+                    </div>
+                    <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[60%] relative group">
+                      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">60%</div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- Case 2: Plataforma Educativa (EduTech Latam) -->
+              <ng-container *ngIf="i === 1">
+                <div class="flex gap-3 h-full">
+                  <!-- Simulated Chat Sidebar -->
+                  <div class="w-1/4 bg-[#0b0c14] border border-slate-900 rounded-xl p-2.5 flex flex-col gap-2.5">
+                    <div class="h-3 bg-[#121422] rounded-md w-full"></div>
+                    <div class="flex-1 flex flex-col gap-2">
+                      <div class="h-2 bg-slate-900 rounded w-full"></div>
+                      <div class="h-2 bg-slate-900 rounded w-4/5"></div>
+                      <div class="h-2 bg-slate-900 rounded w-5/6"></div>
+                    </div>
+                  </div>
+                  <!-- Simulated Chat Window -->
+                  <div class="flex-1 bg-[#0b0c14] border border-slate-900 rounded-xl p-3 flex flex-col justify-between relative">
+                    <!-- Chat Header -->
+                    <div class="flex items-center justify-between border-b border-slate-900 pb-2 mb-2">
+                      <div class="flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+                        <div class="h-2 bg-slate-900 rounded w-16"></div>
+                      </div>
+                      <div class="h-2 bg-slate-900 rounded w-6"></div>
+                    </div>
+                    <!-- Chat Bubbles -->
+                    <div class="flex-1 flex flex-col gap-2.5 overflow-hidden">
+                      <div class="bg-[#121422] border border-slate-900 rounded-xl rounded-tl-none p-2 max-w-[80%] self-start">
+                        <div class="h-1 bg-slate-900 rounded w-20 mb-1"></div>
+                        <div class="h-2 bg-slate-800 rounded w-36"></div>
+                      </div>
+                      <div class="bg-blue-600/10 border border-blue-500/20 rounded-xl rounded-tr-none p-2 max-w-[80%] self-end">
+                        <div class="h-2 bg-blue-500/30 rounded w-24"></div>
+                      </div>
+                      <div class="bg-[#121422] border border-slate-900 rounded-xl rounded-tl-none p-2 max-w-[90%] self-start">
+                        <div class="h-1.5 bg-slate-900 rounded w-24 mb-1"></div>
+                        <div class="h-2 bg-slate-800 rounded w-44"></div>
+                      </div>
+                    </div>
+                    <!-- Input Area -->
+                    <div class="mt-2 pt-2 border-t border-slate-900 flex items-center justify-between">
+                      <div class="h-4 bg-[#121422] border border-slate-900 rounded-md flex-1 mr-2 px-2 flex items-center">
+                        <div class="h-1.5 bg-slate-800 rounded w-12"></div>
+                      </div>
+                      <div class="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
+                        <i class="pi pi-send text-[7px] text-white"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- Case 3: Landing Page (Inmobiliaria Skyline) -->
+              <ng-container *ngIf="i === 2">
+                <div class="h-full flex flex-col gap-3 justify-between">
+                  <!-- Navbar Mock -->
+                  <div class="flex justify-between items-center bg-[#0b0c14] border border-slate-900 rounded-xl px-3 py-2">
+                    <div class="h-2.5 bg-slate-900 rounded w-12"></div>
+                    <div class="flex gap-2">
+                      <div class="h-1.5 bg-slate-900 rounded w-6"></div>
+                      <div class="h-1.5 bg-slate-900 rounded w-6"></div>
+                    </div>
+                  </div>
+                  <!-- Hero + Property Cards -->
+                  <div class="flex-1 flex gap-3">
+                    <div class="flex-1 bg-[#0b0c14] border border-slate-900 rounded-xl p-3 flex flex-col justify-between">
+                      <div class="h-20 bg-[#121422] rounded-lg w-full flex items-center justify-center">
+                        <i class="pi pi-home text-slate-800 text-lg"></i>
+                      </div>
+                      <div class="mt-2">
+                        <div class="h-2.5 bg-slate-900 rounded w-3/4 mb-1.5"></div>
+                        <div class="h-2 bg-slate-900 rounded w-1/2"></div>
+                      </div>
+                    </div>
+                    <div class="w-1/3 bg-[#0b0c14] border border-slate-900 rounded-xl p-3 flex flex-col justify-between">
+                      <div class="h-2 bg-slate-900 rounded w-full"></div>
+                      <div class="h-10 bg-[#121422] rounded-lg w-full my-2 flex items-center justify-center">
+                        <i class="pi pi-map-marker text-slate-800 text-sm"></i>
+                      </div>
+                      <div class="h-2.5 bg-blue-600/30 rounded w-2/3"></div>
+                    </div>
+                  </div>
+                  <!-- Floating WhatsApp Bot Widget -->
+                  <div class="absolute bottom-4 right-4 bg-emerald-600 text-white rounded-full p-2 shadow-lg shadow-emerald-600/20 flex items-center gap-1.5 scale-90">
+                    <i class="pi pi-whatsapp text-xs"></i>
+                    <span class="text-[7px] font-bold tracking-wider uppercase pr-1">Precalificar con IA</span>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- Case 4: Próximamente Placeholder (Empty state) -->
+              <ng-container *ngIf="project.isPlaceholder">
+                <div class="h-full border border-dashed border-slate-900 rounded-2xl flex flex-col items-center justify-center gap-2 text-center p-6 bg-[#08080c]/30">
+                  <div class="w-8 h-8 rounded-full bg-slate-900/60 border border-slate-800 flex items-center justify-center mb-1">
+                    <i class="pi pi-spin pi-cog text-slate-600 text-xs"></i>
+                  </div>
+                  <div class="text-[11px] font-bold text-slate-400 tracking-wider">Proyecto en producción</div>
+                  <div class="text-[9px] text-slate-600 uppercase tracking-widest mt-0.5">Caso de estudio próximamente</div>
+                </div>
+              </ng-container>
+
+            </div>
           </div>
         </div>
 
-        <!-- Content -->
+        <!-- Project Details / Text (Left/Right side) -->
         <div class="lg:w-1/2 space-y-6">
-          <p class="text-blue-400 font-semibold tracking-wider text-sm uppercase">Cliente: {{ project.client }}</p>
-          <h2 class="text-3xl sm:text-4xl font-display font-bold text-slate-900 dark:text-white">{{ project.title }}</h2>
-          <p class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">{{ project.description }}</p>
+          <p class="text-blue-500 font-semibold tracking-[0.15em] text-xs uppercase">
+            {{ project.isPlaceholder ? 'PRÓXIMAMENTE' : 'CLIENTE — ' + project.client }}
+          </p>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-white leading-tight">
+            {{ project.title }}
+          </h2>
+          <p class="text-slate-400 text-sm sm:text-base font-light leading-relaxed">
+            {{ project.description }}
+          </p>
           
           <!-- Tags -->
-          <div class="flex flex-wrap gap-2 pt-2">
-            <span *ngFor="let tag of project.tags" class="px-3 py-1 rounded-md text-xs font-medium border border-slate-300 dark:border-white/10 bg-slate-900/5 dark:bg-white/5 text-slate-700 dark:text-slate-300">
+          <div class="flex flex-wrap gap-2 pt-1">
+            <span *ngFor="let tag of project.tags" 
+                  class="px-3 py-1 rounded-md text-[10px] sm:text-xs font-semibold bg-[#0d0f14] text-slate-400 border border-slate-900">
               {{ tag }}
             </span>
           </div>
 
-          <!-- Metrics Grid -->
-          <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-300 dark:border-white/10 mt-6">
-            <div *ngFor="let metric of project.metrics">
-              <p class="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white mb-1">{{ metric.value }}</p>
-              <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-500 uppercase tracking-wider font-semibold">{{ metric.label }}</p>
+          <!-- Divider & Metrics / Action Button -->
+          <div class="pt-6 border-t border-slate-900 mt-6 space-y-8">
+            <!-- Metrics Grid (if not placeholder) -->
+            <div *ngIf="!project.isPlaceholder && project.metrics && project.metrics.length > 0" 
+                 class="grid grid-cols-3 gap-6">
+              <div *ngFor="let metric of project.metrics" class="space-y-1">
+                <p class="text-2xl sm:text-3xl font-display font-extrabold text-white tracking-tight">
+                  {{ metric.value }}
+                </p>
+                <p class="text-[9px] sm:text-[10px] text-slate-500 uppercase tracking-wider font-bold">
+                  {{ metric.label }}
+                </p>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <div>
+              <button 
+                (click)="modalService.open()"
+                class="px-6 py-3 rounded-xl border border-slate-900 hover:border-slate-800 bg-[#0d0f14] hover:bg-[#141822] text-slate-300 font-semibold text-xs uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer">
+                <span>{{ project.isPlaceholder ? 'Empezar mi proyecto' : 'Ver estudio de caso' }}</span>
+                <i class="pi pi-arrow-right text-[10px]"></i>
+              </button>
             </div>
           </div>
-          
-          <button class="mt-8 px-6 py-3 rounded-full border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 font-medium transition-colors flex items-center gap-2">
-            <span>Ver Estudio de Caso Completo</span>
-            <i class="pi pi-arrow-right text-xs"></i>
-          </button>
         </div>
 
       </div>
-
     </div>
   </section>
 </main>

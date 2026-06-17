@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ConsultationModalComponent } from '../../components/consultation-modal/consultation-modal.component';
+import { ConsultationService } from '../../services/consultation.service';
 
 @Component({
   selector: 'app-portfolio',
@@ -12,42 +13,51 @@ import { ConsultationModalComponent } from '../../components/consultation-modal/
   templateUrl: './portfolio.page.html'
 })
 export class PortfolioPage {
+  modalService = inject(ConsultationService);
   projects = [
     {
       title: 'E-commerce Deportivo Automatizado',
       client: 'FitGear Pro',
-      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800',
-      description: 'Una tienda online completa con gestión de inventario automatizada por IA, descripciones generadas semánticamente y chatbot de ventas integrado.',
+      description: 'Tienda online con gestión de inventario automatizada por IA, descripciones generadas semánticamente y chatbot de ventas integrado. Sin intervención manual en el día a día.',
       metrics: [
-        { label: 'Conversión', value: '+45%' },
-        { label: 'Ventas Bot', value: '32%' },
-        { label: 'Visitas', value: '120K/mes' }
+        { label: 'CONVERSIÓN', value: '+45%' },
+        { label: 'VENTAS VÍA BOT', value: '32%' },
+        { label: 'VISITAS/MES', value: '120K' }
       ],
-      tags: ['Angular', 'Node.js', 'GPT-4 Vision', 'Stripe']
+      tags: ['Angular', 'NestJS', 'GPT-4', 'Stripe'],
+      isPlaceholder: false
     },
     {
       title: 'Plataforma Educativa con Tutores IA',
       client: 'EduTech Latam',
-      image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&q=80&w=800',
-      description: 'Desarrollo de un campus virtual donde cada estudiante tiene un tutor privado de IA entrenado con la currícula específica de sus cursos.',
+      description: 'Campus virtual con tutores cognitivos de IA entrenados con la currícula oficial. Respuestas en milisegundos y seguimiento automatizado del progreso de cada estudiante.',
       metrics: [
-        { label: 'Retención', value: '94%' },
-        { label: 'Soporte', value: '24/7' },
-        { label: 'Usuarios', value: '15K Activos' }
+        { label: 'RETENCIÓN', value: '94%' },
+        { label: 'SOPORTE IA', value: '24/7' },
+        { label: 'USUARIOS ACTIVOS', value: '15K' }
       ],
-      tags: ['Next.js', 'NestJS', 'RAG AI', 'WebSockets']
+      tags: ['Next.js', 'NestJS', 'RAG AI', 'WebSockets'],
+      isPlaceholder: false
     },
     {
       title: 'Landing Page Generadora de Leads',
       client: 'Inmobiliaria Skyline',
-      image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=800',
-      description: 'Landing page premium con recorridos virtuales en 3D. Un agente conversacional en WhatsApp califica los leads automáticamente antes de pasarlos a un asesor.',
+      description: 'Landing page premium con recorridos virtuales en 3D y agente de WhatsApp que califica, responde objeciones y agenda citas para el equipo comercial.',
       metrics: [
-        { label: 'Leads Calificados', value: '+300%' },
-        { label: 'Costo x Lead', value: '-60%' },
-        { label: 'Cierre', value: '18%' }
+        { label: 'LEADS CALIFICADOS', value: '+300%' },
+        { label: 'COSTO POR LEAD', value: '-60%' },
+        { label: 'TASA DE CIERRE', value: '18%' }
       ],
-      tags: ['Tailwind', 'Three.js', 'WhatsApp API', 'Claude 3']
+      tags: ['Tailwind', 'Three.js', 'WhatsApp API', 'Claude 3'],
+      isPlaceholder: false
+    },
+    {
+      title: 'Tu proyecto podría estar aquí.',
+      client: 'PRÓXIMAMENTE',
+      description: 'Cada proyecto que completamos se convierte en un caso de estudio real con métricas verificables. Sin fotos de stock. Sin números inventados.',
+      metrics: [],
+      tags: ['Angular', 'NextJS', 'SAMTS - AI'],
+      isPlaceholder: true
     }
   ];
 }
