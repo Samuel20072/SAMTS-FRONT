@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const dir = '/home/profe/SAMTS/SAMTS-FRONT/src/app';
+const dir = path.join(__dirname, 'src', 'app');
 
 // Simple regex based class replacement. We use boundary matches to avoid partial replacements.
 const replacements = [
@@ -29,7 +29,17 @@ const replacements = [
   { from: /\bbg-slate-900\/50\b/g, to: 'bg-slate-50/50 dark:bg-slate-900/50' },
   { from: /\bbg-slate-900\/60\b/g, to: 'bg-slate-50/60 dark:bg-slate-900/60' },
   { from: /\bbg-slate-900\/80\b/g, to: 'bg-slate-50/80 dark:bg-slate-900/80' },
-  { from: /\bbg-slate-900\/95\b/g, to: 'bg-slate-50/95 dark:bg-slate-900/95' }
+  { from: /\bbg-slate-900\/95\b/g, to: 'bg-slate-50/95 dark:bg-slate-900/95' },
+  { from: /bg-\[#050508\]/g, to: 'bg-slate-50 dark:bg-[#050508]' },
+  { from: /\btext-slate-100\b/g, to: 'text-slate-800 dark:text-slate-100' },
+  { from: /bg-\[#08080c\]/g, to: 'bg-white dark:bg-[#08080c]' },
+  { from: /bg-\[#0c0d14\]/g, to: 'bg-slate-100 dark:bg-[#0c0d14]' },
+  { from: /bg-\[#060608\]/g, to: 'bg-white dark:bg-[#060608]' },
+  { from: /bg-\[#0b0c14\]/g, to: 'bg-slate-50 dark:bg-[#0b0c14]' },
+  { from: /bg-\[#121422\]/g, to: 'bg-slate-100 dark:bg-[#121422]' },
+  { from: /bg-\[#0d0f14\]/g, to: 'bg-slate-100 dark:bg-[#0d0f14]' },
+  { from: /hover:bg-\[#141822\]/g, to: 'hover:bg-slate-200 dark:hover:bg-[#141822]' },
+  { from: /bg-\[#08080c\]\/30/g, to: 'bg-slate-100/30 dark:bg-[#08080c]/30' }
 ];
 
 function processDir(directory) {

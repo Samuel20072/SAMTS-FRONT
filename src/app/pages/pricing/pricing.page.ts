@@ -12,21 +12,30 @@ import { ConsultationService } from '../../services/consultation.service';
   templateUrl: './pricing.page.html',
   styles: [`
     .pricing-card-highlighted {
-      background-color: rgba(10, 13, 26, 0.6) !important;
-      border-color: rgba(37, 99, 235, 0.9) !important;
-      box-shadow: 0 0 60px rgba(37, 99, 235, 0.2) !important;
+      background-color: rgba(248, 250, 252, 0.65) !important;
+      border-color: rgba(37, 99, 235, 0.8) !important;
+      box-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.15) !important;
       padding-top: 3.5rem !important;
       padding-bottom: 2.5rem !important;
       padding-left: 2rem !important;
       padding-right: 2rem !important;
     }
+    :host-context(.dark) .pricing-card-highlighted {
+      background-color: rgba(10, 13, 26, 0.6) !important;
+      border-color: rgba(37, 99, 235, 0.9) !important;
+      box-shadow: 0 0 60px rgba(37, 99, 235, 0.2) !important;
+    }
     .pricing-card-standard {
-      background-color: rgba(8, 8, 12, 0.6) !important;
-      border-color: #0f172a !important;
+      background-color: rgba(241, 245, 249, 0.6) !important;
+      border-color: #cbd5e1 !important;
       padding-top: 3rem !important;
       padding-bottom: 2.5rem !important;
       padding-left: 2rem !important;
       padding-right: 2rem !important;
+    }
+    :host-context(.dark) .pricing-card-standard {
+      background-color: rgba(8, 8, 12, 0.6) !important;
+      border-color: #0f172a !important;
     }
     .pricing-btn-highlighted {
       background-color: #2563eb !important;
@@ -37,11 +46,20 @@ import { ConsultationService } from '../../services/consultation.service';
       background-color: #3b82f6 !important;
     }
     .pricing-btn-standard {
+      background-color: #f1f5f9 !important;
+      color: #334155 !important;
+      border: 1px solid #cbd5e1 !important;
+    }
+    .pricing-btn-standard:hover {
+      background-color: #e2e8f0 !important;
+      border-color: #cbd5e1 !important;
+    }
+    :host-context(.dark) .pricing-btn-standard {
       background-color: #0d0f14 !important;
       color: #cbd5e1 !important;
       border: 1px solid #0f172a !important;
     }
-    .pricing-btn-standard:hover {
+    :host-context(.dark) .pricing-btn-standard:hover {
       background-color: #141822 !important;
       border-color: #1e293b !important;
     }

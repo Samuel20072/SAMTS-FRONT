@@ -1,4 +1,4 @@
-<section id="services" class="relative py-28 bg-slate-950 overflow-hidden bg-grid-pattern">
+<section id="services" class="relative py-28 bg-slate-50 dark:bg-slate-950 overflow-hidden bg-grid-pattern">
   
   <!-- Glowing Background Orbs -->
   <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -15,11 +15,11 @@
         <span>Nuestros Servicios</span>
       </div>
       
-      <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+      <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
         Todo lo que tu negocio necesita en un solo lugar.
       </h2>
       
-      <p class="text-base sm:text-lg text-slate-400 font-light leading-relaxed">
+      <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 font-light leading-relaxed">
         Desde la página que te hace ver profesional hasta la IA que trabaja mientras duermes.
       </p>
     </div>
@@ -29,7 +29,7 @@
       <div 
         *ngFor="let service of services" 
         (click)="openConsultation()"
-        class="relative flex flex-col justify-between p-8 rounded-3xl border border-white/5 bg-slate-950/40 hover:bg-slate-900/20 hover:border-white/10 transition-all duration-300 min-h-[280px] cursor-pointer group">
+        class="relative flex flex-col justify-between p-8 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-slate-950/40 hover:bg-slate-100 dark:bg-slate-900/20 hover:border-slate-300 dark:border-white/10 transition-all duration-300 min-h-[280px] cursor-pointer group">
         
         <!-- Hover Glow effect -->
         <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl -z-10"></div>
@@ -43,7 +43,7 @@
           </div>
 
           <!-- Icon Placeholder (Simple elegant square icon placeholder block matching the mockup image style) -->
-          <div class="w-10 h-10 rounded-xl bg-slate-900/60 border border-white/5 flex items-center justify-center text-slate-400 mb-6 group-hover:text-white group-hover:border-white/10 transition-all">
+          <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 flex items-center justify-center text-slate-600 dark:text-slate-400 mb-6 group-hover:text-slate-900 dark:text-white group-hover:border-slate-300 dark:border-white/10 transition-all">
             <i class="pi text-sm" [ngClass]="{
               'pi-sparkles': service.title === 'IA Automática',
               'pi-desktop': service.title === 'Páginas Web Premium',
@@ -53,10 +53,10 @@
           </div>
 
           <!-- Title & Description -->
-          <h3 class="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-400 transition-colors">
             {{ service.title }}
           </h3>
-          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed font-light mb-8 max-w-md">
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-light mb-8 max-w-md">
             {{ service.description }}
           </p>
         </div>
@@ -65,7 +65,7 @@
         <div class="flex flex-wrap gap-2 mt-auto">
           <span 
             *ngFor="let tag of service.tags" 
-            class="text-[10px] text-slate-400 bg-slate-900/60 border border-white/5 px-2.5 py-1 rounded-full font-light">
+            class="text-[10px] text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 px-2.5 py-1 rounded-full font-light">
             {{ tag }}
           </span>
         </div>

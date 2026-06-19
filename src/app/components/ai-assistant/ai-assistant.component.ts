@@ -53,10 +53,10 @@ interface ChatMessage {
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <button class="w-8 h-8 rounded-full hover:bg-slate-900/5 dark:bg-white/5 text-slate-600 dark:text-slate-400 flex items-center justify-center transition-colors">
+            <button class="w-8 h-8 rounded-full hover:bg-slate-100 dark:bg-slate-900/5 dark:bg-white/5 text-slate-600 dark:text-slate-400 flex items-center justify-center transition-colors">
               <i class="pi pi-volume-up text-xs"></i>
             </button>
-            <button (click)="toggleChat()" class="w-8 h-8 rounded-full hover:bg-slate-900/5 dark:bg-white/5 text-slate-600 dark:text-slate-400 flex items-center justify-center transition-colors">
+            <button (click)="toggleChat()" class="w-8 h-8 rounded-full hover:bg-slate-100 dark:bg-slate-900/5 dark:bg-white/5 text-slate-600 dark:text-slate-400 flex items-center justify-center transition-colors">
               <i class="pi pi-times"></i>
             </button>
           </div>
@@ -66,19 +66,19 @@ interface ChatMessage {
         <div #chatScroll class="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
           <div *ngFor="let msg of messages()" class="flex flex-col" [class.items-end]="msg.sender === 'user'">
             
-            <span class="text-[10px] text-slate-500 dark:text-slate-500 mb-1 mx-1">{{ msg.sender === 'ai' ? 'Neural Agent' : 'Tú' }} • {{ msg.time }}</span>
+            <span class="text-[10px] text-slate-500 dark:text-slate-500 dark:text-slate-500 dark:text-slate-500 mb-1 mx-1">{{ msg.sender === 'ai' ? 'Neural Agent' : 'Tú' }} • {{ msg.time }}</span>
             
             <div 
               class="max-w-[85%] rounded-2xl px-4 py-2.5 text-sm shadow-md"
-              [ngClass]="msg.sender === 'user' ? 'bg-blue-600 text-slate-900 dark:text-white rounded-br-none' : 'bg-slate-900/5 dark:bg-white/5 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/5 rounded-bl-none'">
+              [ngClass]="msg.sender === 'user' ? 'bg-blue-600 text-slate-900 dark:text-white rounded-br-none' : 'bg-slate-100 dark:bg-slate-900/5 dark:bg-white/5 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-white/5 rounded-bl-none'">
               {{ msg.text }}
             </div>
           </div>
           
           <!-- Typing indicator -->
           <div *ngIf="isTyping()" class="flex flex-col items-start">
-            <span class="text-[10px] text-slate-500 dark:text-slate-500 mb-1 mx-1">Neural Agent está escribiendo...</span>
-            <div class="bg-slate-900/5 dark:bg-white/5 border border-slate-200 dark:border-white/5 rounded-2xl rounded-bl-none px-4 py-3 flex gap-1 items-center">
+            <span class="text-[10px] text-slate-500 dark:text-slate-500 dark:text-slate-500 dark:text-slate-500 mb-1 mx-1">Neural Agent está escribiendo...</span>
+            <div class="bg-slate-100 dark:bg-slate-900/5 dark:bg-white/5 border border-slate-200 dark:border-white/5 rounded-2xl rounded-bl-none px-4 py-3 flex gap-1 items-center">
               <span class="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0ms"></span>
               <span class="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 150ms"></span>
               <span class="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 300ms"></span>
@@ -94,7 +94,7 @@ interface ChatMessage {
               [(ngModel)]="userInput" 
               name="userInput"
               placeholder="Pregúntame cómo automatizar tu negocio..." 
-              class="w-full bg-slate-900/5 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-full py-3 pl-4 pr-12 text-sm text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:bg-slate-900/10 dark:bg-white/10 transition-all shadow-inner"
+              class="w-full bg-slate-100 dark:bg-slate-900/5 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-full py-3 pl-4 pr-12 text-sm text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:bg-slate-100 dark:bg-slate-900/10 dark:bg-white/10 transition-all shadow-inner"
               autocomplete="off"
               [disabled]="isTyping()">
             

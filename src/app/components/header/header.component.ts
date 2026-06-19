@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ConsultationService } from '../../services/consultation.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -12,20 +13,14 @@ import { ConsultationService } from '../../services/consultation.service';
 })
 export class HeaderComponent {
   modalService = inject(ConsultationService);
+  themeService = inject(ThemeService);
   router = inject(Router);
   isMenuOpen = signal(false);
 
-  // Simple state for dark mode
-  isDark = signal(true); // default dark as per design
+  isDark = this.themeService.isDark;
 
   toggleDarkMode() {
-    this.isDark.set(!this.isDark());
-    const html = document.documentElement;
-    if (this.isDark()) {
-      html.classList.add('dark');
-    } else {
-      html.classList.remove('dark');
-    }
+    this.themeService.toggleDarkMode();
   }
 
   toggleMenu() {

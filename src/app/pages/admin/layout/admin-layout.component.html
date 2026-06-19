@@ -23,6 +23,14 @@
         <i class="pi pi-users text-lg"></i>
         <span class="ml-3 font-medium">Leads & CRM</span>
       </a>
+      <a routerLink="/admin/products" routerLinkActive="bg-blue-500/10 text-blue-400" class="flex items-center px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-900/5 dark:bg-white/5 hover:text-slate-900 dark:text-white transition-colors group">
+        <i class="pi pi-box text-lg"></i>
+        <span class="ml-3 font-medium">Productos</span>
+      </a>
+      <a routerLink="/admin/promotions" routerLinkActive="bg-blue-500/10 text-blue-400" class="flex items-center px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-900/5 dark:bg-white/5 hover:text-slate-900 dark:text-white transition-colors group">
+        <i class="pi pi-tag text-lg"></i>
+        <span class="ml-3 font-medium">Promociones</span>
+      </a>
       <a routerLink="/admin/pages" routerLinkActive="bg-blue-500/10 text-blue-400" class="flex items-center px-3 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-900/5 dark:bg-white/5 hover:text-slate-900 dark:text-white transition-colors group">
         <i class="pi pi-desktop text-lg"></i>
         <span class="ml-3 font-medium">Páginas Web</span>
@@ -56,18 +64,25 @@
     <!-- Header -->
     <header class="h-20 bg-slate-100 dark:bg-slate-900/50 backdrop-blur-md border-b border-slate-200 dark:border-white/5 flex items-center justify-between px-8 z-30">
       <div class="flex items-center gap-4">
-        <button (click)="toggleSidebar()" class="w-10 h-10 rounded-full hover:bg-slate-900/5 dark:bg-white/5 flex items-center justify-center text-slate-600 dark:text-slate-400 transition-colors">
+        <button (click)="toggleSidebar()" class="w-10 h-10 rounded-full hover:bg-slate-900/5 dark:hover:bg-white/5 flex items-center justify-center text-slate-600 dark:text-slate-400 transition-colors">
           <i class="pi pi-bars text-xl"></i>
         </button>
       </div>
       
       <div class="flex items-center gap-4">
+        <!-- Theme Toggle Button -->
+        <button 
+          (click)="toggleDarkMode()" 
+          class="rounded-xl border border-slate-200 dark:border-white/10 bg-slate-900/5 dark:bg-white/5 hover:bg-slate-900/10 dark:hover:bg-white/10 w-10 h-10 flex items-center justify-center text-slate-600 dark:text-white transition-all duration-300 active:scale-[0.95] cursor-pointer"
+          [title]="isDark() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'">
+          <i class="pi" [ngClass]="isDark() ? 'pi-sun' : 'pi-moon'"></i>
+        </button>
+
         <!-- Copilot Toggle Button -->
         <button 
           (click)="toggleCopilot()" 
           class="relative flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 hover:bg-blue-500/20 transition-colors text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.15)] group"
-          [class.bg-blue-600]="copilotOpen()"
-          [class.text-slate-900 dark:text-white]="copilotOpen()">
+          [ngClass]="copilotOpen() ? 'bg-blue-600 text-white' : ''">
           <i class="pi pi-sparkles text-sm" [class.animate-spin]="copilotOpen()"></i>
           <span class="text-sm font-semibold tracking-wide">AI Copilot</span>
         </button>

@@ -1,10 +1,10 @@
-<nav class="sticky top-0 z-40 w-full border-b border-white/5 bg-slate-950/80 backdrop-blur-md transition-colors duration-300">
+<nav class="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-white/5 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md transition-colors duration-300">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-20 items-center justify-between">
       
       <!-- Logo -->
       <div class="flex flex-shrink-0 items-center cursor-pointer" (click)="scrollToSection('hero')">
-        <span class="font-display text-xl font-bold tracking-tight text-white flex items-center gap-1.5">
+        <span class="font-display text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
           <span class="text-blue-500 font-extrabold">[</span>SAMTS<span class="text-blue-500 font-extrabold">]</span>
         </span>
       </div>
@@ -13,39 +13,47 @@
       <div class="hidden md:flex items-center space-x-8">
         <button 
           (click)="scrollToSection('services')" 
-          class="text-sm font-medium text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer">
+          class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-200 cursor-pointer">
           Servicios
         </button>
         <button 
           (click)="scrollToSection('features')" 
-          class="text-sm font-medium text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer">
+          class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-200 cursor-pointer">
           IA Automática
         </button>
         <button 
           (click)="navigateTo('/pricing')" 
-          class="text-sm font-medium text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer">
+          class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-200 cursor-pointer">
           Precios
         </button>
         <button 
           (click)="navigateTo('/portfolio')" 
-          class="text-sm font-medium text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer">
+          class="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors duration-200 cursor-pointer">
           Portafolio
         </button>
       </div>
 
-      <!-- Right Buttons (CTA + Mobile Toggle) -->
+      <!-- Right Buttons (Theme Toggle + CTA + Mobile Toggle) -->
       <div class="flex items-center gap-4">
+        <!-- Theme Toggle Button -->
+        <button 
+          (click)="toggleDarkMode()" 
+          class="rounded-xl border border-slate-200 dark:border-white/10 bg-slate-900/5 dark:bg-white/5 hover:bg-slate-900/10 dark:hover:bg-white/10 w-10 h-10 flex items-center justify-center text-slate-600 dark:text-white transition-all duration-300 active:scale-[0.95] cursor-pointer"
+          [title]="isDark() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'">
+          <i class="pi" [ngClass]="isDark() ? 'pi-sun' : 'pi-moon'"></i>
+        </button>
+
         <!-- CTA Button -->
         <button 
           (click)="openConsultation()" 
-          class="hidden sm:block rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 px-6 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:border-white/20 active:scale-[0.98] cursor-pointer">
+          class="hidden sm:block rounded-xl border border-slate-200 dark:border-white/10 bg-slate-900/5 dark:bg-white/5 hover:bg-slate-900/10 dark:hover:bg-white/10 px-6 py-2.5 text-sm font-medium text-slate-800 dark:text-white transition-all duration-300 hover:border-slate-300 dark:hover:border-white/20 active:scale-[0.98] cursor-pointer">
           Agendar llamada
         </button>
 
         <!-- Mobile Menu Toggle -->
         <button 
           (click)="toggleMenu()" 
-          class="inline-flex md:hidden items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-white/5 transition-colors">
+          class="inline-flex md:hidden items-center justify-center p-2 rounded-md text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-900/5 dark:hover:bg-white/5 transition-colors">
           <i class="pi text-xl" [ngClass]="isMenuOpen() ? 'pi-times' : 'pi-bars'"></i>
         </button>
       </div>
@@ -53,31 +61,31 @@
   </div>
 
   <!-- Mobile Menu -->
-  <div *ngIf="isMenuOpen()" class="md:hidden border-t border-white/5 bg-slate-950 px-4 py-3 space-y-1 shadow-lg animate-fade-in">
+  <div *ngIf="isMenuOpen()" class="md:hidden border-t border-slate-200 dark:border-white/5 bg-white dark:bg-slate-950 px-4 py-3 space-y-1 shadow-lg animate-fade-in">
     <button 
       (click)="scrollToSection('services')" 
-      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
+      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-900/5 dark:hover:bg-white/5 transition-colors cursor-pointer">
       Servicios
     </button>
     <button 
       (click)="scrollToSection('features')" 
-      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
+      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-900/5 dark:hover:bg-white/5 transition-colors cursor-pointer">
       IA Automática
     </button>
     <button 
       (click)="navigateTo('/pricing')" 
-      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
+      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-900/5 dark:hover:bg-white/5 transition-colors cursor-pointer">
       Precios
     </button>
     <button 
       (click)="navigateTo('/portfolio')" 
-      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
+      class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-900/5 dark:hover:bg-white/5 transition-colors cursor-pointer">
       Portafolio
     </button>
     <div class="pt-4 pb-2">
       <button 
         (click)="openConsultation(); toggleMenu()" 
-        class="w-full text-center rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 py-3 text-sm font-medium text-white transition-all duration-300">
+        class="w-full text-center rounded-xl border border-slate-200 dark:border-white/10 bg-slate-900/5 dark:bg-white/5 hover:bg-slate-900/10 dark:hover:bg-white/10 py-3 text-sm font-medium text-slate-800 dark:text-white transition-all duration-300">
         Agendar llamada
       </button>
     </div>

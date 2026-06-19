@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { authGuard } from './core/guards/auth.guard';
+
 export const routes: Routes = [
   {
     path: '',
@@ -24,6 +26,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     loadComponent: () => import('./pages/admin/layout/admin-layout.component').then(m => m.AdminLayoutComponent),
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', loadComponent: () => import('./pages/admin/dashboard.page').then(m => m.DashboardPage) },
@@ -31,7 +34,9 @@ export const routes: Routes = [
       { path: 'pages', loadComponent: () => import('./pages/admin/pages/web-pages.component').then(m => m.WebPagesComponent) },
       { path: 'agents', loadComponent: () => import('./pages/admin/agents/agents.component').then(m => m.AgentsComponent) },
       { path: 'analytics', loadComponent: () => import('./pages/admin/analytics/analytics.component').then(m => m.AnalyticsComponent) },
-      { path: 'settings', loadComponent: () => import('./pages/admin/settings/settings.component').then(m => m.SettingsComponent) }
+      { path: 'settings', loadComponent: () => import('./pages/admin/settings/settings.component').then(m => m.SettingsComponent) },
+      { path: 'products', loadComponent: () => import('./pages/admin/products/products.component').then(m => m.ProductsComponent) },
+      { path: 'promotions', loadComponent: () => import('./pages/admin/promotions/promotions.component').then(m => m.PromotionsComponent) }
     ]
   },
   {

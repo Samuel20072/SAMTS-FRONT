@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es" class="dark scroll-smooth">
+<html lang="es" class="scroll-smooth">
 <head>
   <meta charset="utf-8">
   <title>SAMTS | Soluciones Web & Agentes de IA para tu Negocio</title>
@@ -10,6 +10,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Prevent flash of wrong theme: read localStorage before Angular loads -->
+  <script>
+    (function() {
+      var theme = localStorage.getItem('samts-theme');
+      // Default to dark if no preference is saved
+      if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-blue-600 selection:text-white overflow-x-hidden transition-colors duration-300">
   <app-root></app-root>

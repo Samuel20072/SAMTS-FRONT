@@ -8,7 +8,7 @@
 
   <!-- Back to Home -->
   <a routerLink="/" class="absolute top-6 left-6 md:top-8 md:left-8 z-20 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors group">
-    <div class="w-8 h-8 rounded-full bg-slate-900/5 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center group-hover:bg-slate-900/10 dark:bg-white/10 transition-colors">
+    <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-900/5 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center group-hover:bg-slate-100 dark:bg-slate-900/10 dark:bg-white/10 transition-colors">
       <i class="pi pi-arrow-left text-xs group-hover:-translate-x-0.5 transition-transform"></i>
     </div>
     <span>Volver al inicio</span>
@@ -33,10 +33,15 @@
       <!-- Form -->
       <form (ngSubmit)="login()" class="space-y-6">
         
+        <div *ngIf="errorMessage" class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 flex items-center gap-3 text-red-600 dark:text-red-400 animate-fadein">
+          <i class="pi pi-exclamation-circle text-lg shrink-0"></i>
+          <p class="text-sm font-medium">{{ errorMessage }}</p>
+        </div>
+
         <div class="space-y-2">
           <label class="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider ml-1">Correo Electrónico</label>
           <div class="relative">
-            <i class="pi pi-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-500 z-10"></i>
+            <i class="pi pi-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-500 dark:text-slate-500 dark:text-slate-500 z-10"></i>
             <input 
               type="email" 
               pInputText 
@@ -54,30 +59,38 @@
             <a href="#" class="text-xs text-blue-400 hover:text-blue-300 transition-colors">¿Olvidaste tu contraseña?</a>
           </div>
           <div class="relative">
-            <i class="pi pi-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-500 z-10"></i>
+            <i class="pi pi-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-500 dark:text-slate-500 dark:text-slate-500 z-10"></i>
             <input 
-              type="password" 
+              [type]="showPassword ? 'text' : 'password'" 
               pInputText 
               [(ngModel)]="password" 
               name="password"
-              class="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-300 dark:border-white/10 rounded-xl py-3.5 pl-11 pr-4 text-slate-900 dark:text-white placeholder:text-slate-600 focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all outline-none shadow-inner"
+              class="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-300 dark:border-white/10 rounded-xl py-3.5 pl-11 pr-12 text-slate-900 dark:text-white placeholder:text-slate-600 focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all outline-none shadow-inner"
               placeholder="••••••••"
               required>
+            <button 
+              type="button" 
+              (click)="togglePasswordVisibility()" 
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-500 dark:text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-800 dark:text-slate-200 focus:outline-none z-10 transition-colors">
+              <i class="pi" [ngClass]="showPassword ? 'pi-eye-slash' : 'pi-eye'"></i>
+            </button>
           </div>
         </div>
 
         <button 
           type="submit"
-          class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-slate-900 dark:text-white font-semibold py-4 rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-all duration-300 flex items-center justify-center gap-2 mt-2">
-          <span>Iniciar Sesión</span>
-          <i class="pi pi-sign-in"></i>
+          [disabled]="isLoading"
+          class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-slate-900 dark:text-white font-semibold py-4 rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-all duration-300 flex items-center justify-center gap-2 mt-2 disabled:opacity-70 disabled:cursor-not-allowed">
+          <i *ngIf="isLoading" class="pi pi-spin pi-spinner"></i>
+          <span>{{ isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}</span>
+          <i *ngIf="!isLoading" class="pi pi-sign-in"></i>
         </button>
 
       </form>
     </div>
     
     <!-- Footer text -->
-    <p class="text-center text-xs text-slate-500 dark:text-slate-500 mt-8">
+    <p class="text-center text-xs text-slate-500 dark:text-slate-500 dark:text-slate-500 dark:text-slate-500 mt-8">
       Panel de control exclusivo. Acceso no autorizado prohibido.
     </p>
   </div>
