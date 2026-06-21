@@ -2,6 +2,9 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BlogPostsService } from '../../../services/api/blog-posts.service';
+import { AiGenerationService } from '../../../services/api/ai-generation.service';
+import { ClientsService } from '../../../services/api/clients.service';
+import { AiSettingsService } from '../../../services/api/ai-settings.service';
 
 interface BlogPost {
   id: string;
@@ -128,6 +131,69 @@ interface BlogPost {
 
         <!-- Modal Body -->
         <div class="p-6 space-y-4">
+          <!-- AI Generation Section (only on create) -->
+          <div *ngIf="!editingPost" class="bg-blue-500/5 border border-blue-500/10 rounded-2xl p-4 mb-4">
+            <div class="flex justify-between items-center cursor-pointer" (click)="toggleAiSection()">
+              <div class="flex items-center gap-2">
+                <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400">
+                  <i class="pi pi-sparkles"></i>
+                </span>
+                <div>
+                  <h4 class="text-sm font-bold text-slate-900 dark:text-white">Autogenerar con IA</h4>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">Genera el título y contenido del blog usando el asistente IA.</p>
+                </div>
+              </div>
+              <button class="text-blue-500 hover:text-blue-400 text-xs font-semibold flex items-center gap-1">
+                {{ showAiForm() ? 'Ocultar' : 'Configurar' }}
+                <i class="pi" [ngClass]="showAiForm() ? 'pi-chevron-up' : 'pi-chevron-down'"></i>
+              </button>
+            </div>
+
+            <div *ngIf="showAiForm()" class="mt-4 pt-4 border-t border-blue-500/10 space-y-4">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Tipo de Negocio</label>
+                  <input type="text" [(ngModel)]="aiForm.businessType" placeholder="Ej: Restaurante, Tienda" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500/50">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Nombre del Negocio</label>
+                  <input type="text" [(ngModel)]="aiForm.businessName" placeholder="Ej: Mi Negocio" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500/50">
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Ciudad</label>
+                  <input type="text" [(ngModel)]="aiForm.city" placeholder="Ej: Ciudad" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500/50">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Tono de Voz</label>
+                  <select [(ngModel)]="aiForm.tone" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500/50">
+                    <option value="Profesional">Profesional</option>
+                    <option value="Casual">Casual</option>
+                    <option value="Divertido">Divertido</option>
+                    <option value="Informativo">Informativo</option>
+                    <option value="Persuasivo">Persuasivo</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Objetivo de Marketing</label>
+                <input type="text" [(ngModel)]="aiForm.marketingGoal" placeholder="Ej: Atraer clientes con una oferta especial" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500/50">
+              </div>
+
+              <div class="flex justify-end pt-2">
+                <button
+                  (click)="generateWithAi()"
+                  [disabled]="isGeneratingAi()"
+                  class="bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all duration-200 flex items-center gap-1.5 shadow-md shadow-blue-500/10 active:scale-95">
+                  <i *ngIf="isGeneratingAi()" class="pi pi-spin pi-spinner"></i>
+                  <i *ngIf="!isGeneratingAi()" class="pi pi-sparkles"></i>
+                  {{ isGeneratingAi() ? 'Generando...' : 'Generar Artículo con IA' }}
+                </button>
+              </div>
+            </div>
+          </div>
+
           <!-- Title -->
           <div>
             <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Título *</label>
@@ -261,6 +327,9 @@ interface BlogPost {
 })
 export class WebPagesComponent implements OnInit {
   private blogPostsService = inject(BlogPostsService);
+  private aiGenerationService = inject(AiGenerationService);
+  private clientService = inject(ClientsService);
+  private aiSettingsService = inject(AiSettingsService);
 
   pages = signal<BlogPost[]>([]);
   isLoading = signal(true);
@@ -269,6 +338,10 @@ export class WebPagesComponent implements OnInit {
   isSaving = signal(false);
   isDeleting = signal(false);
   saveError = signal('');
+
+  // AI Signals
+  showAiForm = signal(false);
+  isGeneratingAi = signal(false);
 
   editingPost: BlogPost | null = null;
   postToDelete: BlogPost | null = null;
@@ -282,10 +355,59 @@ export class WebPagesComponent implements OnInit {
     status: 'DRAFT' as 'DRAFT' | 'PUBLISHED'
   };
 
+  aiForm = {
+    businessType: '',
+    businessName: '',
+    city: '',
+    tone: 'Profesional',
+    marketingGoal: '',
+  };
+
   formErrors: { title?: string; content?: string } = {};
 
   ngOnInit() {
     this.loadPages();
+    this.loadClientContext();
+  }
+
+  loadClientContext() {
+    this.clientService.getMe().subscribe({
+      next: (client: any) => {
+        this.aiForm.businessName = client.businessName || '';
+        this.aiForm.businessType = client.businessType || '';
+        this.aiForm.city = 'Tu Ciudad';
+      }
+    });
+    this.aiSettingsService.get().subscribe({
+      next: (settings: any) => {
+        if (settings) {
+          this.aiForm.tone = settings.businessTone || 'Profesional';
+          this.aiForm.marketingGoal = settings.businessObjective || '';
+        }
+      }
+    });
+  }
+
+  toggleAiSection() {
+    this.showAiForm.update((v) => !v);
+  }
+
+  generateWithAi() {
+    this.isGeneratingAi.set(true);
+    this.saveError.set('');
+    this.aiGenerationService.generateBlog(this.aiForm).subscribe({
+      next: (res: any) => {
+        this.isGeneratingAi.set(false);
+        this.form.title = res.title;
+        this.form.content = res.content;
+        this.onTitleChange();
+        this.showAiForm.set(false);
+      },
+      error: (err: any) => {
+        this.isGeneratingAi.set(false);
+        this.saveError.set('Error al generar con IA: ' + (err?.error?.message || 'Error desconocido.'));
+      }
+    });
   }
 
   loadPages() {
@@ -307,6 +429,8 @@ export class WebPagesComponent implements OnInit {
     this.formErrors = {};
     this.saveError.set('');
     this.showModal.set(true);
+    this.showAiForm.set(false);
+    this.loadClientContext(); // Refresh context
   }
 
   openEdit(post: BlogPost) {
@@ -322,6 +446,7 @@ export class WebPagesComponent implements OnInit {
     this.formErrors = {};
     this.saveError.set('');
     this.showModal.set(true);
+    this.showAiForm.set(false);
   }
 
   closeModal() {
@@ -353,7 +478,12 @@ export class WebPagesComponent implements OnInit {
     this.isSaving.set(true);
     this.saveError.set('');
 
-    const payload = { ...this.form };
+    const payload = {
+      title: this.form.title,
+      content: this.form.content,
+      status: this.form.status
+    };
+
     const req = this.editingPost
       ? this.blogPostsService.update(this.editingPost.id, payload)
       : this.blogPostsService.create(payload);
