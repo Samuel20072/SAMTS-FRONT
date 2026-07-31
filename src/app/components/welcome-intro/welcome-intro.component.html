@@ -1,0 +1,195 @@
+<div class="welcome-intro" [class.exiting]="isExiting()" [attr.data-phase]="phase()">
+
+  <!-- ░░ BACKGROUND GRID ░░ -->
+  <div class="wi-grid"></div>
+  <div class="wi-glow wi-glow--blue"></div>
+  <div class="wi-glow wi-glow--indigo"></div>
+
+  <!-- ░░ SKIP BUTTON ░░ -->
+  <button class="wi-skip" (click)="skip()" id="wi-skip-btn" aria-label="Saltar introducción">
+    <span>Saltar intro</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- ░░ SAMTS LOGO (always visible) ░░ -->
+  <div class="wi-logo">
+    <svg viewBox="0 0 520 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="0"   y="138" font-family="Outfit,sans-serif" font-size="140" font-weight="900" fill="#ffffff" letter-spacing="-3">[</text>
+      <text x="56"  y="138" font-family="Outfit,sans-serif" font-size="140" font-weight="900" fill="#ffffff">S</text>
+      <text x="147" y="138" font-family="Outfit,sans-serif" font-size="140" font-weight="900" fill="#2563eb">A</text>
+      <text x="238" y="138" font-family="Outfit,sans-serif" font-size="140" font-weight="900" fill="#ffffff">M</text>
+      <text x="337" y="138" font-family="Outfit,sans-serif" font-size="140" font-weight="900" fill="#ffffff">T</text>
+      <text x="408" y="138" font-family="Outfit,sans-serif" font-size="140" font-weight="900" fill="#ffffff">S</text>
+      <text x="472" y="138" font-family="Outfit,sans-serif" font-size="140" font-weight="900" fill="#ffffff">]</text>
+    </svg>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       PHASE 1 — TYPEWRITER WELCOME
+       ════════════════════════════════════════ -->
+  <div class="wi-phase wi-phase--1" [class.active]="phase() === 1">
+    <div class="wi-typewriter">
+      <pre class="wi-typewriter__text">{{ displayedText() }}<span class="wi-cursor">|</span></pre>
+    </div>
+    <div class="wi-phase1-sub">
+      <span class="wi-badge">
+        <span class="wi-badge__dot"></span>
+        Soluciones Tecnológicas a tu Medida
+      </span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       PHASE 2 — DASHBOARD SHOWCASE
+       ════════════════════════════════════════ -->
+  <div class="wi-phase wi-phase--2" [class.active]="phase() === 2">
+    <p class="wi-phase__label">Así se vería tu plataforma</p>
+
+    <div class="wi-dashboard">
+      <!-- Sidebar -->
+      <div class="wi-db__sidebar">
+        <div class="wi-db__brand">
+          <div class="wi-db__brand-dot"></div>
+          <span>Tu Negocio</span>
+        </div>
+        <div class="wi-db__nav">
+          <div class="wi-db__nav-item wi-db__nav-item--active">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Dashboard
+          </div>
+          <div class="wi-db__nav-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Clientes
+          </div>
+          <div class="wi-db__nav-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Analíticas
+          </div>
+          <div class="wi-db__nav-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Ventas
+          </div>
+          <div class="wi-db__nav-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+            Agente IA
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="wi-db__main">
+        <!-- Stats row -->
+        <div class="wi-db__stats">
+          <div class="wi-stat">
+            <span class="wi-stat__label">Visitas Hoy</span>
+            <span class="wi-stat__value wi-count" data-target="1284">0</span>
+            <span class="wi-stat__delta wi-stat__delta--up">↑ 24%</span>
+          </div>
+          <div class="wi-stat">
+            <span class="wi-stat__label">Ventas</span>
+            <span class="wi-stat__value wi-count" data-target="87">0</span>
+            <span class="wi-stat__delta wi-stat__delta--up">↑ 12%</span>
+          </div>
+          <div class="wi-stat">
+            <span class="wi-stat__label">Consultas IA</span>
+            <span class="wi-stat__value wi-count" data-target="342">0</span>
+            <span class="wi-stat__delta wi-stat__delta--up">↑ 38%</span>
+          </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="wi-db__chart-wrap">
+          <span class="wi-db__chart-title">Actividad Semanal</span>
+          <div class="wi-chart">
+            <div class="wi-chart__bar" style="--h:45%"><span class="wi-chart__bar-tip">Lun</span></div>
+            <div class="wi-chart__bar" style="--h:70%"><span class="wi-chart__bar-tip">Mar</span></div>
+            <div class="wi-chart__bar" style="--h:55%"><span class="wi-chart__bar-tip">Mié</span></div>
+            <div class="wi-chart__bar" style="--h:85%"><span class="wi-chart__bar-tip">Jue</span></div>
+            <div class="wi-chart__bar" style="--h:60%"><span class="wi-chart__bar-tip">Vie</span></div>
+            <div class="wi-chart__bar" style="--h:92%"><span class="wi-chart__bar-tip">Sáb</span></div>
+            <div class="wi-chart__bar wi-chart__bar--today" style="--h:78%"><span class="wi-chart__bar-tip">Hoy</span></div>
+          </div>
+        </div>
+
+        <!-- AI Notification -->
+        <div class="wi-db__ai-notif">
+          <div class="wi-db__ai-dot"></div>
+          <span>Agente IA atendiendo 3 clientes ahora mismo...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       PHASE 3 — VALUE PROPOSITION CARDS
+       ════════════════════════════════════════ -->
+  <div class="wi-phase wi-phase--3" [class.active]="phase() === 3">
+    <p class="wi-phase__label">¿Qué podemos construir para ti?</p>
+    <div class="wi-cards">
+
+      <div class="wi-card wi-card--1">
+        <div class="wi-card__icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2a10 10 0 1 0 10 10" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M13 9l3-3m0 0l3-3m-3 3l3 3m-3-3h3" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="3" fill="#22d3ee" opacity="0.3"/>
+            <circle cx="12" cy="12" r="1" fill="#22d3ee"/>
+          </svg>
+        </div>
+        <h3 class="wi-card__title">Agentes de IA</h3>
+        <p class="wi-card__desc">Asistentes inteligentes que atienden, venden y responden por tu marca las 24 horas.</p>
+      </div>
+
+      <div class="wi-card wi-card--2">
+        <div class="wi-card__icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="3" width="20" height="14" rx="2" stroke="#2563eb" stroke-width="1.5"/>
+            <path d="M8 21h8M12 17v4" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M7 7h4M7 11h6M16 7l2 2-2 2" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="wi-card__title">Páginas Web Premium</h3>
+        <p class="wi-card__desc">Sitios que generan confianza, capturan leads y convierten visitantes en clientes.</p>
+      </div>
+
+      <div class="wi-card wi-card--3">
+        <div class="wi-card__icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="#a78bfa" stroke-width="1.5"/>
+            <line x1="3" y1="6" x2="21" y2="6" stroke="#a78bfa" stroke-width="1.5"/>
+            <path d="M16 10a4 4 0 01-8 0" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="wi-card__title">E-commerce Inteligente</h3>
+        <p class="wi-card__desc">Tiendas digitales con IA integrada que personalizan la experiencia de compra.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       PHASE 4 — FINAL CTA
+       ════════════════════════════════════════ -->
+  <div class="wi-phase wi-phase--4" [class.active]="phase() === 4">
+    <div class="wi-cta">
+      <div class="wi-cta__glow"></div>
+      <p class="wi-cta__sub">Tu próxima solución digital</p>
+      <h2 class="wi-cta__headline">empieza aquí.</h2>
+      <p class="wi-cta__body">SAMTS transforma tu negocio en un ecosistema digital que trabaja, crece y vende por ti.</p>
+      <button class="wi-cta__btn" (click)="skip()" id="wi-enter-btn">
+        <span>Explorar SAMTS</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ░░ PROGRESS BAR ░░ -->
+  <div class="wi-progress-wrap">
+    <div class="wi-progress-fill" [style.width.%]="progressPercent()"></div>
+  </div>
+
+</div>
