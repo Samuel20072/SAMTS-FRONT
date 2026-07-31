@@ -59,7 +59,7 @@
         <ul class="space-y-3 text-xs sm:text-sm font-light">
           <li *ngFor="let item of company">
             <button 
-              (click)="scrollToSection(item.link)" 
+              (click)="scrollToSection(item.link, item.isRoute)" 
               class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors duration-200 cursor-pointer">
               {{ item.name }}
             </button>

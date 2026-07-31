@@ -20,6 +20,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/portfolio/portfolio.page').then(m => m.PortfolioPage)
   },
   {
+    path: 'blog',
+    loadComponent: () => import('./pages/blog/blog.page').then(m => m.BlogPage)
+  },
+  {
+    path: 'blog/:slug',
+    loadComponent: () => import('./pages/blog/blog-detail.page').then(m => m.BlogDetailPage)
+  },
+  {
     path: 'login',
     loadComponent: () => import('./pages/auth/login.page').then(m => m.LoginPage)
   },

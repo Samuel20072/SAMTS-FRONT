@@ -48,11 +48,11 @@
     </div>
 
     <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 w-full max-w-4xl border-t border-slate-200 dark:border-white/5 pt-12 pb-16 text-center md:text-left animate-slide-up" style="animation-delay: 0.3s;">
+    <div #statsGrid class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 w-full max-w-4xl border-t border-slate-200 dark:border-white/5 pt-12 pb-16 text-center md:text-left animate-slide-up" style="animation-delay: 0.3s;">
       <!-- Stat 1 -->
       <div class="flex flex-col md:flex-row items-center md:items-start gap-4 md:border-r border-slate-200 dark:border-white/5 md:pr-4">
         <div class="text-4xl font-extrabold text-slate-900 dark:text-white font-display">
-          +<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-400">200</span>%
+          +<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-400">{{ stat1() }}</span>%
         </div>
         <div class="text-xs text-slate-600 dark:text-slate-400 font-light max-w-[150px] text-center md:text-left mt-1">
           Más tiempo libre por cliente
@@ -61,7 +61,7 @@
       <!-- Stat 2 -->
       <div class="flex flex-col md:flex-row items-center md:items-start gap-4 md:border-r border-slate-200 dark:border-white/5 md:px-4">
         <div class="text-4xl font-extrabold text-slate-900 dark:text-white font-display">
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-400">24</span>/7
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-400">{{ stat2() }}</span>/7
         </div>
         <div class="text-xs text-slate-600 dark:text-slate-400 font-light max-w-[150px] text-center md:text-left mt-1">
           Contenido generado en automático
@@ -70,7 +70,7 @@
       <!-- Stat 3 -->
       <div class="flex flex-col md:flex-row items-center md:items-start gap-4 md:pl-4">
         <div class="text-4xl font-extrabold text-slate-900 dark:text-white font-display">
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-400">0</span> min
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-blue-400">{{ stat3() }}</span> min
         </div>
         <div class="text-xs text-slate-600 dark:text-slate-400 font-light max-w-[150px] text-center md:text-left mt-1">
           Tiempo manual por publicación

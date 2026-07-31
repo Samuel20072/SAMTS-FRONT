@@ -16,47 +16,41 @@ export class PortfolioPage {
   modalService = inject(ConsultationService);
   projects = [
     {
-      title: 'E-commerce Deportivo Automatizado',
-      client: 'FitGear Pro',
-      description: 'Tienda online con gestión de inventario automatizada por IA, descripciones generadas semánticamente y chatbot de ventas integrado. Sin intervención manual en el día a día.',
+      title: 'E-commerce Premium & Panel Administrativo',
+      client: 'Luxury Store',
+      description: 'Plataforma de comercio electrónico de alta gama diseñada para calzado y moda exclusiva. Integra pasarela de pagos, catálogo dinámico interactivo y un panel de administración completo que permite gestionar de manera autónoma el stock, productos, pedidos e inventario en tiempo real.',
       metrics: [
-        { label: 'CONVERSIÓN', value: '+45%' },
-        { label: 'VENTAS VÍA BOT', value: '32%' },
-        { label: 'VISITAS/MES', value: '120K' }
+        { label: 'ADMINISTRACIÓN', value: '100% Autónoma' },
+        { label: 'PROCESO DE PAGO', value: '< 1 Minuto' },
+        { label: 'DISEÑO UI/UX', value: 'Premium' }
       ],
-      tags: ['Angular', 'NestJS', 'GPT-4', 'Stripe'],
-      isPlaceholder: false
+      tags: ['Angular', 'Node.js', 'PostgreSQL', 'Express', 'Admin Panel', 'E-commerce'],
+      isPlaceholder: false,
+      videoUrl: '/videos/luxury-store.mp4',
+      siteUrl: 'https://luxury-store.co',
+      videoError: false
     },
     {
-      title: 'Plataforma Educativa con Tutores IA',
-      client: 'EduTech Latam',
-      description: 'Campus virtual con tutores cognitivos de IA entrenados con la currícula oficial. Respuestas en milisegundos y seguimiento automatizado del progreso de cada estudiante.',
+      title: 'Portal Gastronómico & Sistema de Reservas',
+      client: 'Santuario Café & Restaurante',
+      description: 'Sitio web oficial y panel administrativo para uno de los destinos gastronómicos más emblemáticos de Circasia, Quindío. Permite la visualización y edición en tiempo real del menú digital interactivo, la promoción de eventos y celebraciones, y la gestión digital del flujo de clientes.',
       metrics: [
-        { label: 'RETENCIÓN', value: '94%' },
-        { label: 'SOPORTE IA', value: '24/7' },
-        { label: 'USUARIOS ACTIVOS', value: '15K' }
+        { label: 'MENÚ DIGITAL', value: 'En Vivo' },
+        { label: 'ADMINISTRACIÓN', value: 'Panel Web' },
+        { label: 'UBICACIÓN', value: 'Circasia, Q.' }
       ],
-      tags: ['Next.js', 'NestJS', 'RAG AI', 'WebSockets'],
-      isPlaceholder: false
-    },
-    {
-      title: 'Landing Page Generadora de Leads',
-      client: 'Inmobiliaria Skyline',
-      description: 'Landing page premium con recorridos virtuales en 3D y agente de WhatsApp que califica, responde objeciones y agenda citas para el equipo comercial.',
-      metrics: [
-        { label: 'LEADS CALIFICADOS', value: '+300%' },
-        { label: 'COSTO POR LEAD', value: '-60%' },
-        { label: 'TASA DE CIERRE', value: '18%' }
-      ],
-      tags: ['Tailwind', 'Three.js', 'WhatsApp API', 'Claude 3'],
-      isPlaceholder: false
+      tags: ['Angular', 'Node.js', 'Admin Panel', 'Tailwind CSS', 'Gestión de Menú'],
+      isPlaceholder: false,
+      videoUrl: '/videos/santuario-circasia.mp4',
+      siteUrl: 'https://santuario-circasia.com',
+      videoError: false
     },
     {
       title: 'Tu proyecto podría estar aquí.',
       client: 'PRÓXIMAMENTE',
-      description: 'Cada proyecto que completamos se convierte en un caso de estudio real con métricas verificables. Sin fotos de stock. Sin números inventados.',
+      description: 'Trabajamos contigo para diseñar y desarrollar soluciones web a medida con paneles administrativos autogestionables, integraciones API y alto rendimiento.',
       metrics: [],
-      tags: ['Angular', 'NextJS', 'SAMTS - AI'],
+      tags: ['Angular', 'NestJS', 'SAMTS - AI'],
       isPlaceholder: true
     }
   ];

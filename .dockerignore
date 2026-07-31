@@ -1,0 +1,13 @@
+node_modules
+dist
+.git
+.gitignore
+*.log
+npm-debug.log*
+.angular/cache
+.sass-cache
+coverage
+__screenshots__
+.DS_Store
+Thumbs.db
+README.md

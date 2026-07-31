@@ -42,173 +42,141 @@
                 <span class="h-2.5 w-2.5 rounded-full bg-green-500/80"></span>
               </div>
               <div class="flex-1 max-w-[200px] mx-auto bg-slate-100 dark:bg-[#0c0d14] border border-slate-200 dark:border-slate-900 rounded-md h-5 px-3 flex items-center justify-between text-[10px] text-slate-600 font-mono select-none">
-                <span class="truncate">{{ project.isPlaceholder ? 'proximamente.co' : project.client.toLowerCase().replace(' ', '') + '.co' }}</span>
+                <span class="truncate">{{ project.siteUrl ? project.siteUrl.replace('https://', '') : 'proximamente.co' }}</span>
                 <i class="pi pi-lock text-[8px] text-slate-700"></i>
               </div>
               <div class="w-10"></div> <!-- Spacing alignment -->
             </div>
 
             <!-- Browser Content Area -->
-            <div class="flex-1 bg-white dark:bg-[#060608] p-5 relative overflow-hidden flex flex-col justify-between select-none">
+            <div class="flex-1 bg-white dark:bg-[#060608] relative overflow-hidden flex flex-col justify-between select-none"
+                 [ngClass]="{'p-5': !project.videoUrl || project.videoError}">
               
-              <!-- Case 1: E-commerce Deportivo (FitGear Pro) -->
-              <ng-container *ngIf="i === 0">
-                <!-- Grid of Mock Products -->
-                <div class="grid grid-cols-3 gap-3">
-                  <!-- Product 1 -->
-                  <div class="bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-2.5 flex flex-col justify-between h-24">
-                    <div class="h-10 bg-slate-100 dark:bg-[#121422] rounded-lg w-full mb-2 flex items-center justify-center">
-                      <i class="pi pi-image text-slate-400 dark:text-slate-600 text-sm"></i>
+              <!-- Video Preview (plays only if videoUrl is set and has loaded successfully) -->
+              <video *ngIf="project.videoUrl && !project.videoError"
+                     [src]="project.videoUrl"
+                     class="w-full h-full object-cover object-top"
+                     autoplay
+                     loop
+                     muted
+                     playsinline
+                     (error)="project.videoError = true">
+              </video>
+              
+              <!-- CSS Mockups (as fallbacks if video is missing/fails or for placeholder) -->
+              <ng-container *ngIf="!project.videoUrl || project.videoError">
+                
+                <!-- Case 1: Luxury Store E-commerce Mockup (Index 0) -->
+                <ng-container *ngIf="i === 0">
+                  <!-- Grid of Mock Products -->
+                  <div class="grid grid-cols-3 gap-3 w-full">
+                    <!-- Product 1 -->
+                    <div class="bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-2.5 flex flex-col justify-between h-24">
+                      <div class="h-10 bg-slate-100 dark:bg-[#121422] rounded-lg w-full mb-2 flex items-center justify-center">
+                        <i class="pi pi-image text-slate-400 dark:text-slate-600 text-sm"></i>
+                      </div>
+                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-2/3 mb-1.5"></div>
+                      <div class="text-[9px] font-bold text-slate-600 dark:text-slate-400">$120</div>
                     </div>
-                    <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-2/3 mb-1.5"></div>
-                    <div class="text-[9px] font-bold text-slate-600 dark:text-slate-400">$49</div>
+                    <!-- Product 2 -->
+                    <div class="bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-2.5 flex flex-col justify-between h-24">
+                      <div class="h-10 bg-slate-100 dark:bg-[#121422] rounded-lg w-full mb-2 flex items-center justify-center">
+                        <i class="pi pi-image text-slate-800 text-sm"></i>
+                      </div>
+                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-3/4 mb-1.5"></div>
+                      <div class="text-[9px] font-bold text-slate-600 dark:text-slate-400">$180</div>
+                    </div>
+                    <!-- Product 3 (Monitoreo/Stock) -->
+                    <div class="bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-2.5 flex flex-col justify-between h-24 relative overflow-hidden">
+                      <div class="absolute top-1.5 right-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[6px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1">
+                        <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span> Stock Activo
+                      </div>
+                      <div class="h-10 bg-slate-100 dark:bg-[#121422] rounded-lg w-full mb-2 flex items-center justify-center">
+                        <i class="pi pi-image text-slate-400 dark:text-slate-600 text-sm"></i>
+                      </div>
+                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-1/2 mb-1.5"></div>
+                      <div class="text-[9px] font-bold text-slate-600 dark:text-slate-400">$95</div>
+                    </div>
                   </div>
-                  <!-- Product 2 -->
-                  <div class="bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-2.5 flex flex-col justify-between h-24">
-                    <div class="h-10 bg-slate-100 dark:bg-[#121422] rounded-lg w-full mb-2 flex items-center justify-center">
-                      <i class="pi pi-image text-slate-800 text-sm"></i>
-                    </div>
-                    <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-3/4 mb-1.5"></div>
-                    <div class="text-[9px] font-bold text-slate-600 dark:text-slate-400">$80</div>
-                  </div>
-                  <!-- Product 3 (Monitoreo) -->
-                  <div class="bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-2.5 flex flex-col justify-between h-24 relative overflow-hidden">
-                    <div class="absolute top-1.5 right-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[6px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1">
-                      <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span> Monitoreo
-                    </div>
-                    <div class="h-10 bg-slate-100 dark:bg-[#121422] rounded-lg w-full mb-2 flex items-center justify-center">
-                      <i class="pi pi-image text-slate-400 dark:text-slate-600 text-sm"></i>
-                    </div>
-                    <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-1/2 mb-1.5"></div>
-                    <div class="text-[9px] font-bold text-slate-600 dark:text-slate-400">$34</div>
-                  </div>
-                </div>
 
-                <!-- Charts / Analytics Section -->
-                <div class="bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-3 flex-1 mt-3 flex flex-col justify-between">
-                  <div class="flex justify-between items-center mb-1">
-                    <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-1/4"></div>
-                    <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-12"></div>
+                  <!-- Charts / Analytics Section -->
+                  <div class="bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-3 flex-1 mt-3 flex flex-col justify-between w-full">
+                    <div class="flex justify-between items-center mb-1">
+                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-1/4"></div>
+                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-12"></div>
+                    </div>
+                    <div class="flex items-end justify-between gap-2.5 h-16 pt-3 px-2">
+                      <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[35%] relative group">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">35%</div>
+                      </div>
+                      <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[55%] relative group">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">55%</div>
+                      </div>
+                      <div class="w-full bg-blue-600/30 hover:bg-blue-600/40 rounded-t-sm transition-all h-[85%] relative group shadow-[0_0_10px_rgba(37,99,235,0.2)]">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">85%</div>
+                      </div>
+                      <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[45%] relative group">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">45%</div>
+                      </div>
+                      <div class="w-full bg-blue-600/25 hover:bg-blue-600/35 rounded-t-sm transition-all h-[70%] relative group">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">70%</div>
+                      </div>
+                      <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[60%] relative group">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">60%</div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="flex items-end justify-between gap-2.5 h-16 pt-3 px-2">
-                    <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[35%] relative group">
-                      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">35%</div>
-                    </div>
-                    <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[55%] relative group">
-                      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">55%</div>
-                    </div>
-                    <div class="w-full bg-blue-600/30 hover:bg-blue-600/40 rounded-t-sm transition-all h-[85%] relative group shadow-[0_0_10px_rgba(37,99,235,0.2)]">
-                      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">85%</div>
-                    </div>
-                    <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[45%] relative group">
-                      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">45%</div>
-                    </div>
-                    <div class="w-full bg-blue-600/25 hover:bg-blue-600/35 rounded-t-sm transition-all h-[70%] relative group">
-                      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">70%</div>
-                    </div>
-                    <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[60%] relative group">
-                      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">60%</div>
-                    </div>
-                  </div>
-                </div>
-              </ng-container>
+                </ng-container>
 
-              <!-- Case 2: Plataforma Educativa (EduTech Latam) -->
-              <ng-container *ngIf="i === 1">
-                <div class="flex gap-3 h-full">
-                  <!-- Simulated Chat Sidebar -->
-                  <div class="w-1/4 bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-2.5 flex flex-col gap-2.5">
-                    <div class="h-3 bg-slate-100 dark:bg-[#121422] rounded-md w-full"></div>
-                    <div class="flex-1 flex flex-col gap-2">
-                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-full"></div>
-                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-4/5"></div>
-                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-5/6"></div>
+                <!-- Case 2: Santuario Café & Restaurante Mockup (Index 1) -->
+                <ng-container *ngIf="i === 1">
+                  <div class="h-full flex flex-col gap-3 justify-between w-full">
+                    <!-- Navbar Mock -->
+                    <div class="flex justify-between items-center bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl px-3 py-2">
+                      <div class="h-2.5 bg-slate-100 dark:bg-slate-900 rounded w-16"></div>
+                      <div class="flex gap-2">
+                        <div class="h-1.5 bg-slate-100 dark:bg-slate-900 rounded w-8"></div>
+                        <div class="h-1.5 bg-slate-100 dark:bg-slate-900 rounded w-8"></div>
+                      </div>
+                    </div>
+                    <!-- Hero + Menu Cards -->
+                    <div class="flex-1 flex gap-3">
+                      <div class="flex-1 bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-3 flex flex-col justify-between">
+                        <div class="h-20 bg-slate-100 dark:bg-[#121422] rounded-lg w-full flex items-center justify-center">
+                          <i class="pi pi-images text-slate-400 dark:text-slate-600 text-lg"></i>
+                        </div>
+                        <div class="mt-2">
+                          <div class="h-2.5 bg-slate-100 dark:bg-slate-900 rounded w-3/4 mb-1.5"></div>
+                          <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-1/2"></div>
+                        </div>
+                      </div>
+                      <div class="w-1/3 bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-3 flex flex-col justify-between">
+                        <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-full"></div>
+                        <div class="h-10 bg-slate-100 dark:bg-[#121422] rounded-lg w-full my-2 flex items-center justify-center">
+                          <i class="pi pi-calendar text-slate-400 dark:text-slate-600 text-sm"></i>
+                        </div>
+                        <div class="h-2.5 bg-blue-600/30 rounded w-2/3"></div>
+                      </div>
+                    </div>
+                    <!-- Floating WhatsApp Bot Widget -->
+                    <div class="absolute bottom-4 right-4 bg-emerald-600 text-white rounded-full p-2 shadow-lg shadow-emerald-600/20 flex items-center gap-1.5 scale-90">
+                      <i class="pi pi-whatsapp text-xs"></i>
+                      <span class="text-[7px] font-bold tracking-wider uppercase pr-1">Reservas WhatsApp</span>
                     </div>
                   </div>
-                  <!-- Simulated Chat Window -->
-                  <div class="flex-1 bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-3 flex flex-col justify-between relative">
-                    <!-- Chat Header -->
-                    <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-900 pb-2 mb-2">
-                      <div class="flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-                        <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-16"></div>
-                      </div>
-                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-6"></div>
-                    </div>
-                    <!-- Chat Bubbles -->
-                    <div class="flex-1 flex flex-col gap-2.5 overflow-hidden">
-                      <div class="bg-slate-100 dark:bg-[#121422] border border-slate-200 dark:border-slate-900 rounded-xl rounded-tl-none p-2 max-w-[80%] self-start">
-                        <div class="h-1 bg-slate-100 dark:bg-slate-900 rounded w-20 mb-1"></div>
-                        <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded w-36"></div>
-                      </div>
-                      <div class="bg-blue-600/10 border border-blue-500/20 rounded-xl rounded-tr-none p-2 max-w-[80%] self-end">
-                        <div class="h-2 bg-blue-500/30 rounded w-24"></div>
-                      </div>
-                      <div class="bg-slate-100 dark:bg-[#121422] border border-slate-200 dark:border-slate-900 rounded-xl rounded-tl-none p-2 max-w-[90%] self-start">
-                        <div class="h-1.5 bg-slate-100 dark:bg-slate-900 rounded w-24 mb-1"></div>
-                        <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded w-44"></div>
-                      </div>
-                    </div>
-                    <!-- Input Area -->
-                    <div class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-900 flex items-center justify-between">
-                      <div class="h-4 bg-slate-100 dark:bg-[#121422] border border-slate-200 dark:border-slate-900 rounded-md flex-1 mr-2 px-2 flex items-center">
-                        <div class="h-1.5 bg-slate-200 dark:bg-slate-800 rounded w-12"></div>
-                      </div>
-                      <div class="w-4 h-4 bg-blue-600 rounded flex items-center justify-center">
-                        <i class="pi pi-send text-[7px] text-slate-900 dark:text-white"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ng-container>
+                </ng-container>
 
-              <!-- Case 3: Landing Page (Inmobiliaria Skyline) -->
-              <ng-container *ngIf="i === 2">
-                <div class="h-full flex flex-col gap-3 justify-between">
-                  <!-- Navbar Mock -->
-                  <div class="flex justify-between items-center bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl px-3 py-2">
-                    <div class="h-2.5 bg-slate-100 dark:bg-slate-900 rounded w-12"></div>
-                    <div class="flex gap-2">
-                      <div class="h-1.5 bg-slate-100 dark:bg-slate-900 rounded w-6"></div>
-                      <div class="h-1.5 bg-slate-100 dark:bg-slate-900 rounded w-6"></div>
+                <!-- Case 3: Próximamente Placeholder (Empty state) -->
+                <ng-container *ngIf="project.isPlaceholder">
+                  <div class="h-full border border-dashed border-slate-200 dark:border-slate-900 rounded-2xl flex flex-col items-center justify-center gap-2 text-center p-6 bg-white dark:bg-[#08080c]/30 w-full">
+                    <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-900/60 border border-slate-300 dark:border-slate-800 flex items-center justify-center mb-1">
+                      <i class="pi pi-spin pi-cog text-slate-600 text-xs"></i>
                     </div>
+                    <div class="text-[11px] font-bold text-slate-600 dark:text-slate-400 tracking-wider">Proyecto en producción</div>
+                    <div class="text-[9px] text-slate-600 uppercase tracking-widest mt-0.5">Caso de estudio próximamente</div>
                   </div>
-                  <!-- Hero + Property Cards -->
-                  <div class="flex-1 flex gap-3">
-                    <div class="flex-1 bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-3 flex flex-col justify-between">
-                      <div class="h-20 bg-slate-100 dark:bg-[#121422] rounded-lg w-full flex items-center justify-center">
-                        <i class="pi pi-home text-slate-400 dark:text-slate-600 text-lg"></i>
-                      </div>
-                      <div class="mt-2">
-                        <div class="h-2.5 bg-slate-100 dark:bg-slate-900 rounded w-3/4 mb-1.5"></div>
-                        <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-1/2"></div>
-                      </div>
-                    </div>
-                    <div class="w-1/3 bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-3 flex flex-col justify-between">
-                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-full"></div>
-                      <div class="h-10 bg-slate-100 dark:bg-[#121422] rounded-lg w-full my-2 flex items-center justify-center">
-                        <i class="pi pi-map-marker text-slate-400 dark:text-slate-600 text-sm"></i>
-                      </div>
-                      <div class="h-2.5 bg-blue-600/30 rounded w-2/3"></div>
-                    </div>
-                  </div>
-                  <!-- Floating WhatsApp Bot Widget -->
-                  <div class="absolute bottom-4 right-4 bg-emerald-600 text-white rounded-full p-2 shadow-lg shadow-emerald-600/20 flex items-center gap-1.5 scale-90">
-                    <i class="pi pi-whatsapp text-xs"></i>
-                    <span class="text-[7px] font-bold tracking-wider uppercase pr-1">Precalificar con IA</span>
-                  </div>
-                </div>
-              </ng-container>
-
-              <!-- Case 4: Próximamente Placeholder (Empty state) -->
-              <ng-container *ngIf="project.isPlaceholder">
-                <div class="h-full border border-dashed border-slate-200 dark:border-slate-900 rounded-2xl flex flex-col items-center justify-center gap-2 text-center p-6 bg-white dark:bg-[#08080c]/30">
-                  <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-900/60 border border-slate-300 dark:border-slate-800 flex items-center justify-center mb-1">
-                    <i class="pi pi-spin pi-cog text-slate-600 text-xs"></i>
-                  </div>
-                  <div class="text-[11px] font-bold text-slate-600 dark:text-slate-400 tracking-wider">Proyecto en producción</div>
-                  <div class="text-[9px] text-slate-600 uppercase tracking-widest mt-0.5">Caso de estudio próximamente</div>
-                </div>
+                </ng-container>
+                
               </ng-container>
 
             </div>
@@ -250,12 +218,20 @@
               </div>
             </div>
 
-            <!-- Action Button -->
-            <div>
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap gap-3">
+              <a *ngIf="project.siteUrl"
+                 [href]="project.siteUrl"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="px-6 py-3 rounded-xl border border-blue-600/20 hover:border-blue-600/40 bg-blue-600/10 hover:bg-blue-600/20 text-blue-600 dark:text-blue-400 font-semibold text-xs uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer no-underline">
+                <span>Visitar sitio web</span>
+                <i class="pi pi-external-link text-[10px]"></i>
+              </a>
               <button 
                 (click)="modalService.open()"
                 class="px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-900 hover:border-slate-300 dark:border-slate-800 bg-slate-100 dark:bg-[#0d0f14] hover:bg-slate-200 dark:hover:bg-[#141822] text-slate-700 dark:text-slate-300 font-semibold text-xs uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer">
-                <span>{{ project.isPlaceholder ? 'Empezar mi proyecto' : 'Ver estudio de caso' }}</span>
+                <span>{{ project.isPlaceholder ? 'Empezar mi proyecto' : 'Cotizar similar' }}</span>
                 <i class="pi pi-arrow-right text-[10px]"></i>
               </button>
             </div>

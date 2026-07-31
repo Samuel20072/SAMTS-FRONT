@@ -18,6 +18,16 @@ export class BlogPostsService {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
+  getPublicAll(clientId?: string): Observable<any> {
+    const url = clientId ? `${this.apiUrl}/public?clientId=${clientId}` : `${this.apiUrl}/public`;
+    return this.http.get<any>(url);
+  }
+
+  getPublicBySlug(slug: string, clientId?: string): Observable<any> {
+    const url = clientId ? `${this.apiUrl}/public/slug/${slug}?clientId=${clientId}` : `${this.apiUrl}/public/slug/${slug}`;
+    return this.http.get<any>(url);
+  }
+
   create(post: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, post);
   }
