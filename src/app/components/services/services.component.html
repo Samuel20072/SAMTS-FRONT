@@ -1,71 +1,69 @@
-<section id="services" class="relative py-28 bg-slate-50 dark:bg-slate-950 overflow-hidden bg-grid-pattern">
-  
-  <!-- Glowing Background Orbs -->
-  <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-[30%] left-[-10%] h-[500px] w-[500px] rounded-full bg-blue-600/5 blur-[150px]"></div>
-    <div class="absolute bottom-[10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-indigo-500/5 blur-[150px]"></div>
-  </div>
+<section id="services" style="position: relative; padding: 7rem 0; background: #ffffff; overflow: hidden;">
 
-  <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div style="position: relative; z-index: 10; margin: 0 auto; max-width: 1200px; padding: 0 2rem;">
     
-    <!-- Section Header -->
-    <div class="max-w-3xl text-left mb-16">
-      <div class="flex items-center gap-2 text-xs font-bold tracking-widest text-blue-500 uppercase mb-3 font-mono">
-        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+    <!-- Section Header — CENTRADO -->
+    <div style="max-width: 720px; margin: 0 auto 4rem auto; text-align: center;">
+
+      <!-- Badge -->
+      <div style="display: inline-flex; align-items: center; gap: 8px; color: var(--color-violet); font-family: var(--font-body); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem;">
+        <span style="width: 6px; height: 6px; border-radius: 50%; background-color: var(--color-violet); display: inline-block;"></span>
         <span>Nuestros Servicios</span>
       </div>
-      
-      <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
-        Todo lo que tu negocio necesita en un solo lugar.
+
+      <!-- Title -->
+      <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--color-black); letter-spacing: -0.02em; margin-bottom: 1rem; line-height: 1.1; text-align: center;">
+        Todo lo que tu negocio necesita<br>en un solo lugar.
       </h2>
-      
-      <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+
+      <!-- Subtitle -->
+      <p style="font-family: var(--font-body); color: var(--color-gray-600); font-size: 1.05rem; line-height: 1.7; text-align: center; max-width: 560px; margin: 0 auto;">
         Desde la página que te hace ver profesional hasta la IA que trabaja mientras duermes.
       </p>
     </div>
 
-    <!-- Cards Grid (2 columns as per mockup) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Cards Grid — 2 columnas centradas -->
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 960px; margin: 0 auto;">
       <div 
         *ngFor="let service of services" 
         (click)="openConsultation()"
-        class="relative flex flex-col justify-between p-8 rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-slate-950/40 hover:bg-slate-100 dark:bg-slate-900/20 hover:border-slate-300 dark:border-white/10 transition-all duration-300 min-h-[280px] cursor-pointer group">
-        
-        <!-- Hover Glow effect -->
-        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl -z-10"></div>
+        class="samts-service-card"
+        style="position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 2rem; border-radius: 1.5rem; transition: all 0.3s ease; min-height: 280px; cursor: pointer;">
         
         <div>
           <!-- Badge if present -->
-          <div *ngIf="service.badge" class="mb-4">
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20 tracking-wider">
-              {{ service.badge }}
-            </span>
-          </div>
+          @if (service.badge) {
+            <div style="margin-bottom: 1rem;">
+              <span style="display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; background: rgba(79,53,243,0.08); color: var(--color-violet); border: 1px solid rgba(79,53,243,0.2);">
+                {{ service.badge }}
+              </span>
+            </div>
+          }
 
-          <!-- Icon Placeholder (Simple elegant square icon placeholder block matching the mockup image style) -->
-          <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 flex items-center justify-center text-slate-600 dark:text-slate-400 mb-6 group-hover:text-slate-900 dark:text-white group-hover:border-slate-300 dark:border-white/10 transition-all">
-            <i class="pi text-sm" [ngClass]="{
+          <!-- Icon -->
+          <div style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; background: rgba(79,53,243,0.08); color: var(--color-violet); border: 1px solid rgba(79,53,243,0.15);">
+            <i class="pi" [ngClass]="{
               'pi-sparkles': service.title === 'IA Automática',
               'pi-desktop': service.title === 'Páginas Web Premium',
               'pi-shopping-cart': service.title === 'Tiendas Online',
               'pi-rocket': service.title === 'Landing Pages'
-            }"></i>
+            }" style="font-size: 0.875rem;"></i>
           </div>
 
           <!-- Title & Description -->
-          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-400 transition-colors">
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--color-black); margin-bottom: 0.75rem;">
             {{ service.title }}
           </h3>
-          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-light mb-8 max-w-md">
+          <p style="font-family: var(--font-body); color: var(--color-gray-600); font-size: 0.875rem; line-height: 1.65; margin-bottom: 2rem;">
             {{ service.description }}
           </p>
         </div>
 
         <!-- Tags List -->
-        <div class="flex flex-wrap gap-2 mt-auto">
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto;">
           <span 
-            *ngFor="let tag of service.tags" 
-            class="text-[10px] text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 px-2.5 py-1 rounded-full font-light">
+            *ngFor="let tag of service.tags"
+            style="font-family: var(--font-body); color: var(--color-gray-600); background: var(--color-gray-100); border: 1px solid var(--color-gray-200); font-size: 0.625rem; padding: 0.25rem 0.625rem; border-radius: 9999px;">
             {{ tag }}
           </span>
         </div>

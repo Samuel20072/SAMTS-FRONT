@@ -4,7 +4,19 @@
 
 @theme {
   --font-sans: "Inter", sans-serif;
-  --font-display: "Outfit", sans-serif;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+
+  /* Violet palette */
+  --color-violet-50:  #f0edfe;
+  --color-violet-100: #ddd7fc;
+  --color-violet-200: #bbb0f9;
+  --color-violet-300: #9989f6;
+  --color-violet-400: #7762f3;
+  --color-violet-500: #4F35F3;
+  --color-violet-600: #3B25D4;
+  --color-violet-700: #2c1cac;
+  --color-violet-800: #1e1383;
+  --color-violet-900: #110a5b;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));

@@ -1,80 +1,77 @@
-<footer id="footer" class="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-white/5 pt-16 pb-8 transition-colors duration-300">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<footer id="footer" style="background: #ffffff; border-top: 1px solid var(--color-gray-200); padding: 4rem 0 2.5rem 0;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
     
     <!-- Top Grid -->
-    <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-12 mb-16">
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 4rem;" class="samts-footer-grid">
       
-      <!-- Brand Description (Col span 5) -->
-      <div class="lg:col-span-5 space-y-5 flex flex-col items-start text-left">
-        <span class="font-display text-xl font-bold tracking-tight text-slate-900 dark:text-white cursor-pointer" (click)="scrollToSection('hero')">
-          <span class="text-blue-500 font-extrabold">[</span>SAMTS<span class="text-blue-500 font-extrabold">]</span>
+      <!-- Brand Description -->
+      <div style="display: flex; flex-direction: column; gap: 1.25rem; align-items: flex-start; text-align: left;">
+        <span class="samts-nav__logo-text" style="cursor: pointer;" (click)="scrollToSection('hero')">
+          <span class="samts-nav__logo-bracket">[</span>SAMTS<span class="samts-nav__logo-bracket">]</span>
         </span>
-        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light max-w-sm leading-relaxed">
+        <p style="font-size: 0.875rem; color: var(--color-gray-600); line-height: 1.6; max-width: 320px; font-family: var(--font-body); margin: 0;">
           Sistemas Web Inteligentes para negocios que quieren crecer sin perder tiempo.
         </p>
         
-        <!-- Social Icons (3 outline square icons as per mockup) -->
-        <div class="flex items-center gap-3 pt-2">
+        <!-- Social Icons -->
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding-top: 0.25rem;">
           <a 
             href="#" 
-            class="w-9 h-9 rounded-lg border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-500 dark:text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:text-white transition-all duration-300"
-            aria-label="Social Link 1">
-            <i class="pi pi-twitter text-xs"></i>
+            style="width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--color-gray-200); display: flex; align-items: center; justify-content: center; color: var(--color-gray-500); background: #ffffff; text-decoration: none;"
+            aria-label="Twitter">
+            <i class="pi pi-twitter" style="font-size: 0.85rem;"></i>
           </a>
           <a 
             href="#" 
-            class="w-9 h-9 rounded-lg border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-500 dark:text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:text-white transition-all duration-300"
-            aria-label="Social Link 2">
-            <i class="pi pi-instagram text-xs"></i>
+            style="width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--color-gray-200); display: flex; align-items: center; justify-content: center; color: var(--color-gray-500); background: #ffffff; text-decoration: none;"
+            aria-label="Instagram">
+            <i class="pi pi-instagram" style="font-size: 0.85rem;"></i>
           </a>
           <a 
             href="#" 
-            class="w-9 h-9 rounded-lg border border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-500 dark:text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:text-white transition-all duration-300"
-            aria-label="Social Link 3">
-            <i class="pi pi-linkedin text-xs"></i>
+            style="width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--color-gray-200); display: flex; align-items: center; justify-content: center; color: var(--color-gray-500); background: #ffffff; text-decoration: none;"
+            aria-label="LinkedIn">
+            <i class="pi pi-linkedin" style="font-size: 0.85rem;"></i>
           </a>
         </div>
       </div>
 
-      <!-- Spacer for large screens -->
-      <div class="hidden lg:block lg:col-span-1"></div>
-
-      <!-- Servicios Links (Col span 2) -->
-      <div class="lg:col-span-2 space-y-4 flex flex-col items-start text-left">
-        <h4 class="text-xs font-bold tracking-wider text-slate-900 dark:text-white uppercase font-mono">Servicios</h4>
-        <ul class="space-y-3 text-xs sm:text-sm font-light">
+      <!-- Servicios Links -->
+      <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; text-align: left;">
+        <h4 style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-black); font-family: var(--font-display); margin: 0;">Servicios</h4>
+        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
           <li *ngFor="let item of services">
             <button 
               (click)="scrollToSection(item.link)" 
-              class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors duration-200 cursor-pointer">
+              style="color: var(--color-gray-600); font-family: var(--font-body); background: none; border: none; font-size: 0.85rem; padding: 0; cursor: pointer; text-align: left;">
               {{ item.name }}
             </button>
           </li>
         </ul>
       </div>
 
-      <!-- Empresa Links (Col span 2) -->
-      <div class="lg:col-span-2 space-y-4 flex flex-col items-start text-left">
-        <h4 class="text-xs font-bold tracking-wider text-slate-900 dark:text-white uppercase font-mono">Empresa</h4>
-        <ul class="space-y-3 text-xs sm:text-sm font-light">
+      <!-- Empresa Links -->
+      <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; text-align: left;">
+        <h4 style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-black); font-family: var(--font-display); margin: 0;">Empresa</h4>
+        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
           <li *ngFor="let item of company">
             <button 
               (click)="scrollToSection(item.link, item.isRoute)" 
-              class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors duration-200 cursor-pointer">
+              style="color: var(--color-gray-600); font-family: var(--font-body); background: none; border: none; font-size: 0.85rem; padding: 0; cursor: pointer; text-align: left;">
               {{ item.name }}
             </button>
           </li>
         </ul>
       </div>
 
-      <!-- Legal Links (Col span 2) -->
-      <div class="lg:col-span-2 space-y-4 flex flex-col items-start text-left">
-        <h4 class="text-xs font-bold tracking-wider text-slate-900 dark:text-white uppercase font-mono">Legal</h4>
-        <ul class="space-y-3 text-xs sm:text-sm font-light">
+      <!-- Legal Links -->
+      <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; text-align: left;">
+        <h4 style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-black); font-family: var(--font-display); margin: 0;">Legal</h4>
+        <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
           <li *ngFor="let item of legal">
             <a 
               [href]="item.link" 
-              class="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors duration-200 block">
+              style="color: var(--color-gray-600); font-family: var(--font-body); font-size: 0.85rem; text-decoration: none; display: block;">
               {{ item.name }}
             </a>
           </li>
@@ -84,21 +81,21 @@
     </div>
 
     <!-- Bottom Copyright Bar -->
-    <div class="border-t border-slate-200 dark:border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-500 dark:text-slate-500 dark:text-slate-500 font-light">
+    <div style="border-top: 1px solid var(--color-gray-200); padding-top: 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; font-size: 0.75rem; color: var(--color-gray-500); font-family: var(--font-body);" class="samts-footer-bottom">
       <div>
         <span>© 2026 SAMTS. Todos los derechos reservados.</span>
       </div>
       
       <!-- Central Operating Systems Badge -->
-      <div class="inline-flex items-center gap-2 rounded-full border border-emerald-500/10 bg-emerald-500/5 px-3 py-1 text-[10px] font-semibold text-emerald-400">
-        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+      <div style="display: inline-flex; align-items: center; gap: 6px; border-radius: 9999px; border: 1px solid rgba(16,185,129,0.2); background: rgba(16,185,129,0.05); padding: 4px 12px; font-size: 0.7rem; font-weight: 600; color: #059669;">
+        <span style="width: 6px; height: 6px; border-radius: 50%; background-color: #10b981; display: inline-block;"></span>
         <span>Todos los sistemas operativos</span>
       </div>
       
       <!-- Right Badge/Country -->
-      <div class="flex items-center gap-1.5">
+      <div style="display: flex; align-items: center; gap: 6px;">
         <span>Hecho con</span>
-        <i class="pi pi-heart-fill text-red-500 animate-pulse text-[10px]"></i>
+        <i class="pi pi-heart-fill" style="color: #ef4444; font-size: 0.7rem;"></i>
         <span>en Colombia</span>
       </div>
     </div>

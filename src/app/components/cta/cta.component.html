@@ -1,47 +1,47 @@
-<section id="cta" class="py-16 bg-slate-50 dark:bg-slate-950 bg-grid-pattern">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<section id="cta" style="padding: 5rem 0; background: #ffffff;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
     
-    <!-- Dark themed CTA Container with subtle glow -->
-    <div class="relative overflow-hidden rounded-3xl border border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-slate-900/30 px-8 py-12 shadow-2xl sm:px-12 sm:py-16 lg:flex lg:items-center lg:justify-between gap-12">
-      <!-- Glow background -->
-      <div class="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-blue-600/10 blur-[120px] pointer-events-none"></div>
-      <div class="absolute -left-24 -bottom-24 h-80 w-80 rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none"></div>
+    <!-- CTA Container -->
+    <div style="position: relative; overflow: hidden; border-radius: 2rem; padding: 3.5rem 3rem; display: flex; align-items: center; justify-content: space-between; gap: 3rem; background: var(--color-gray-50); border: 1px solid var(--color-gray-200); box-shadow: 0 10px 40px rgba(0,0,0,0.03);" class="samts-cta-box">
+      
+      <!-- Decorative blob -->
+      <div style="position: absolute; right: -4rem; top: -4rem; width: 16rem; height: 16rem; border-radius: 50%; pointer-events: none; opacity: 0.2; background-color: var(--color-violet); filter: blur(80px);"></div>
 
       <!-- Text Side (Left Column) -->
-      <div class="relative z-10 max-w-xl text-left space-y-4">
+      <div style="position: relative; z-index: 10; max-width: 580px; text-align: left; display: flex; flex-direction: column; gap: 0.75rem;">
         <!-- Badge -->
-        <span class="text-xs font-bold tracking-widest text-blue-500 uppercase font-mono block">
+        <span style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-violet); font-family: var(--font-body);">
           EMPIEZA HOY
         </span>
         
         <!-- Header -->
-        <h3 class="font-display text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl leading-tight">
+        <h3 style="font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.35rem); font-weight: 800; color: var(--color-black); letter-spacing: -0.02em; line-height: 1.15; margin: 0;">
           ¿Listo para tener una página que trabaja por ti?
         </h3>
         
         <!-- Description -->
-        <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+        <p style="font-family: var(--font-body); color: var(--color-gray-600); font-size: 0.95rem; line-height: 1.65; margin: 0;">
           Creamos tu sitio, conectamos la IA a tu negocio y en 2 semanas tienes un sistema que genera contenido y clientes solo.
         </p>
       </div>
 
-      <!-- Button & Info Side (Right Column) -->
-      <div class="relative z-10 mt-8 lg:mt-0 flex flex-col items-center lg:items-end gap-4 shrink-0 w-full sm:w-auto">
+      <!-- Button Side (Right Column) -->
+      <div style="position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 0.85rem; flex-shrink: 0;">
         <!-- Spots Left Badge -->
-        <div class="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold text-emerald-400">
-          <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <div style="display: inline-flex; align-items: center; gap: 8px; border-radius: 9999px; padding: 6px 14px; font-size: 0.75rem; font-weight: 600; color: #059669; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2);">
+          <span style="width: 6px; height: 6px; border-radius: 50%; background-color: #10b981; display: inline-block;"></span>
           <span>3 lugares disponibles este mes</span>
         </div>
 
         <!-- Consultation Button -->
         <button 
           (click)="openConsultation()" 
-          class="w-full sm:w-auto rounded-xl border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-slate-900/5 dark:bg-white/5 hover:bg-slate-100 dark:bg-slate-900/10 dark:bg-white/10 px-8 py-4 text-sm font-semibold text-slate-900 dark:text-white transition-all duration-300 hover:border-white/20 active:scale-[0.98] cursor-pointer shadow-lg text-center">
+          class="samts-btn samts-btn--primary samts-btn--lg" style="width: 100%; text-align: center; justify-content: center;">
           Agenda tu consulta gratis
         </button>
 
         <!-- Subtext -->
-        <span class="text-xs text-slate-500 dark:text-slate-500 dark:text-slate-500 font-light tracking-wide text-center lg:text-right">
+        <span style="font-size: 0.75rem; color: var(--color-gray-500); font-family: var(--font-body); text-align: center;">
           Sin compromiso · 15 minutos · por videollamada
         </span>
       </div>
