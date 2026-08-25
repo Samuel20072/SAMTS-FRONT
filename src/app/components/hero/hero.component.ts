@@ -2,7 +2,6 @@ import {
   Component,
   inject,
   signal,
-  HostListener,
   ElementRef,
   ViewChild,
   AfterViewInit,
@@ -15,25 +14,11 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ConsultationService } from '../../services/consultation.service';
-import { Router } from '@angular/router';
-import gsap from 'gsap';
 
-/* ─── Canvas scene definitions ───────────────────────────────────── */
-interface LaptopScene {
-  label: string;
-  color: string;
-  accent: string;
-  bg: string;
-  items: { y: number; w: number; h: number; color: string }[];
-}
-
-interface PhoneScene {
-  label: string;
-  color: string;
-  accent: string;
-  bg: string;
-  hasNav: boolean;
-}
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 @Component({
   selector: 'app-hero',
@@ -43,587 +28,506 @@ interface PhoneScene {
 })
 export class HeroComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
-  private zone = inject(NgZone);
-  private router = inject(Router);
-  modalService = inject(ConsultationService);
+  private zone       = inject(NgZone);
+  modalService       = inject(ConsultationService);
 
   showDemoVideo = signal(false);
 
-  @ViewChild('laptopWrap') laptopWrap!: ElementRef<HTMLDivElement>;
-  @ViewChild('phoneWrap') phoneWrap!: ElementRef<HTMLDivElement>;
-  @ViewChild('laptopCanvas') laptopCanvasRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('phoneCanvas') phoneCanvasRef!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('heroMedia') heroMedia!: ElementRef<HTMLDivElement>;
-  @ViewChild('heroContent') heroContent!: ElementRef<HTMLDivElement>;
-  @ViewChild('heroBadge') heroBadge!: ElementRef<HTMLDivElement>;
-  @ViewChild('heroHeading') heroHeading!: ElementRef<HTMLHeadingElement>;
-  @ViewChild('heroSubheading') heroSubheading!: ElementRef<HTMLParagraphElement>;
-  @ViewChild('heroCtas') heroCtas!: ElementRef<HTMLDivElement>;
-  @ViewChild('heroStats') heroStats!: ElementRef<HTMLDivElement>;
+  @ViewChild('heroSection') heroSection!: ElementRef<HTMLElement>;
+  @ViewChild('heroCanvas')  heroCanvasRef!: ElementRef<HTMLCanvasElement>;
 
-  /* Parallax state */
+  // Three.js
+  private scene!: THREE.Scene;
+  private camera!: THREE.PerspectiveCamera;
+  private renderer!: THREE.WebGLRenderer;
+  private mixer?: THREE.AnimationMixer;
+  private clock = new THREE.Clock();
+
+  // Model dimensions
+  private modelMaxDim = 1.0;
+  private modelHeight = 1.0;
+
+  // Mapped animations
+  private actions: { [key: string]: THREE.AnimationAction } = {};
+
+  // Animation cycle state
+  private anim1LoopCount = 0;
+  private isGreeting = false;
+  private readonly ANIM1_LOOPS_BEFORE_GREET = 3; // Plays Anim 1 three times before greeting
+  private hasScrolledOut = false;
+  private mixerLoopFn?: (e: any) => void;
+  private mixerFinishedFn?: (e: any) => void;
+
+  // Mouse parallax
   private mouseX = 0;
   private mouseY = 0;
+  private targetMouseX = 0;
+  private targetMouseY = 0;
+
+  // Cleanup refs
   private rafId: number | null = null;
-  private canvasRafId: number | null = null;
+  private onResizeFn?: () => void;
+  private onMouseMoveFn?: (e: MouseEvent) => void;
+  private scrollTriggerInstance?: ScrollTrigger;
 
-  /* Canvas animation state */
-  private laptopSceneIndex = 0;
-  private phoneSceneIndex = 0;
-  private laptopProgress = 0; // 0-1 within a scene
-  private phoneProgress = 0;
-  private readonly SCENE_DURATION = 180; // frames per scene
-  private laptopFrame = 0;
-  private phoneFrame = 0;
-
-  /* Floating animation offsets (driven by sine wave) */
-  private floatTick = 0;
-
-  private readonly LAPTOP_SCENES: LaptopScene[] = [
-    {
-      label: 'E-Commerce',
-      color: '#2563eb',
-      accent: '#60a5fa',
-      bg: '#f0f7ff',
-      items: [
-        { y: 52, w: 0.45, h: 0.12, color: '#dbeafe' },
-        { y: 72, w: 0.30, h: 0.08, color: '#bfdbfe' },
-        { y: 86, w: 0.55, h: 0.22, color: '#e0f2fe' },
-      ],
-    },
-    {
-      label: 'Landing Page',
-      color: '#7c3aed',
-      accent: '#a78bfa',
-      bg: '#f5f3ff',
-      items: [
-        { y: 50, w: 0.65, h: 0.10, color: '#ede9fe' },
-        { y: 66, w: 0.40, h: 0.06, color: '#ddd6fe' },
-        { y: 80, w: 0.80, h: 0.25, color: '#f0fdf4' },
-      ],
-    },
-    {
-      label: 'Dashboard',
-      color: '#059669',
-      accent: '#34d399',
-      bg: '#f0fdf4',
-      items: [
-        { y: 48, w: 0.25, h: 0.16, color: '#dcfce7' },
-        { y: 48, w: 0.25, h: 0.16, color: '#bbf7d0' },
-        { y: 48, w: 0.25, h: 0.16, color: '#d1fae5' },
-        { y: 72, w: 0.75, h: 0.22, color: '#ecfdf5' },
-      ],
-    },
-    {
-      label: 'Blog',
-      color: '#d97706',
-      accent: '#fbbf24',
-      bg: '#fffbeb',
-      items: [
-        { y: 50, w: 0.70, h: 0.08, color: '#fef3c7' },
-        { y: 64, w: 0.90, h: 0.05, color: '#fde68a' },
-        { y: 74, w: 0.60, h: 0.05, color: '#fde68a' },
-        { y: 84, w: 0.85, h: 0.20, color: '#fff7ed' },
-      ],
-    },
-  ];
-
-  private readonly PHONE_SCENES: PhoneScene[] = [
-    { label: 'Responsive', color: '#2563eb', accent: '#60a5fa', bg: '#f0f7ff', hasNav: false },
-    { label: 'Menú Móvil',  color: '#1e40af', accent: '#3b82f6', bg: '#eff6ff', hasNav: true  },
-    { label: 'WhatsApp',   color: '#16a34a', accent: '#4ade80', bg: '#f0fdf4', hasNav: false },
-    { label: 'Checkout',   color: '#7c3aed', accent: '#a78bfa', bg: '#f5f3ff', hasNav: false },
-  ];
-
+  /* ════════════════════════════════════
+     Lifecycle
+     ════════════════════════════════════ */
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
 
     this.zone.runOutsideAngular(() => {
-      // Slight delay to let DOM settle
+      gsap.registerPlugin(ScrollTrigger);
+
+      const nav = document.querySelector<HTMLElement>('.samts-nav');
+      if (nav) {
+        nav.style.transition = 'opacity .6s ease, transform .6s ease';
+        nav.style.opacity = '1';
+        nav.style.transform = 'translateY(0)';
+      }
+
+      this.initThree();
+      this.setupMouseMoveListener();
+
       setTimeout(() => {
-        this.runEntryAnimations();
-        this.startCanvasLoop();
-        this.startParallaxLoop();
-      }, 100);
+        this.loadModel();
+        this.setupResizeListener();
+      }, 80);
     });
   }
 
   ngOnDestroy(): void {
-    if (this.rafId) cancelAnimationFrame(this.rafId);
-    if (this.canvasRafId) cancelAnimationFrame(this.canvasRafId);
+    this.cleanup();
   }
 
-  /* ─── Entry Animations (GSAP) ─────────────────────────────── */
-  private runEntryAnimations(): void {
-    const ease = 'power3.out';
+  /* ════════════════════════════════════
+     Three.js Init
+     ════════════════════════════════════ */
+  private initThree(): void {
+    const canvas = this.heroCanvasRef.nativeElement;
+    const section = this.heroSection.nativeElement;
 
-    // Navbar slides from top (target the nav element directly)
-    const nav = document.querySelector('.samts-nav');
-    if (nav) {
-      gsap.fromTo(nav,
-        { y: -30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7, ease }
-      );
-    }
+    // Use window dimensions as safe fallback — section may have 0 size on first paint
+    const W = section.clientWidth  || window.innerWidth;
+    const H = section.clientHeight || window.innerHeight;
 
-    // Text side: badge → heading → subheading → ctas → stats
-    const tl = gsap.timeline({ delay: 0.15 });
+    this.scene = new THREE.Scene();
 
-    if (this.heroBadge?.nativeElement) {
-      tl.fromTo(this.heroBadge.nativeElement,
-        { x: -24, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.6, ease }
-      );
-    }
-    if (this.heroHeading?.nativeElement) {
-      tl.fromTo(this.heroHeading.nativeElement,
-        { x: -32, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.7, ease },
-        '-=0.35'
-      );
-    }
-    if (this.heroSubheading?.nativeElement) {
-      tl.fromTo(this.heroSubheading.nativeElement,
-        { x: -24, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.65, ease },
-        '-=0.40'
-      );
-    }
-    if (this.heroCtas?.nativeElement) {
-      tl.fromTo(this.heroCtas.nativeElement,
-        { y: 16, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease },
-        '-=0.30'
-      );
-    }
-    if (this.heroStats?.nativeElement) {
-      tl.fromTo(this.heroStats.nativeElement,
-        { y: 12, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.55, ease },
-        '-=0.25'
-      );
-    }
+    this.camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 100);
+    this.camera.position.set(0, 1.5, 4);
 
-    // Devices: laptop from below with slight rotation, phone shortly after
-    if (this.laptopWrap?.nativeElement) {
-      gsap.fromTo(this.laptopWrap.nativeElement,
-        { y: 60, opacity: 0, rotateX: 8 },
-        { y: 0, opacity: 1, rotateX: 0, duration: 0.9, ease, delay: 0.3 }
-      );
-    }
-    if (this.phoneWrap?.nativeElement) {
-      gsap.fromTo(this.phoneWrap.nativeElement,
-        { y: 48, opacity: 0, rotateX: 6 },
-        { y: 0, opacity: 1, rotateX: 0, duration: 0.85, ease, delay: 0.5 }
-      );
-    }
+    this.renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: 'high-performance',
+    });
+    this.renderer.setSize(W, H);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setClearColor(0x000000, 0);
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    // Lighting
+    const ambient = new THREE.AmbientLight(0xffffff, 1.5);
+    this.scene.add(ambient);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    dirLight.position.set(4, 8, 5);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.set(1024, 1024);
+    dirLight.shadow.bias = -0.001;
+    this.scene.add(dirLight);
+
+    const rimLight = new THREE.DirectionalLight(0xdbeafe, 1.4);
+    rimLight.position.set(-4, 4, -3);
+    this.scene.add(rimLight);
   }
 
-  /* ─── Mouse Parallax ─────────────────────────────────────── */
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(e: MouseEvent): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    const cx = window.innerWidth / 2;
-    const cy = window.innerHeight / 2;
-    // Normalise to [-1, 1]
-    this.mouseX = (e.clientX - cx) / cx;
-    this.mouseY = (e.clientY - cy) / cy;
-  }
+  /* ════════════════════════════════════
+     Load GLB
+     ════════════════════════════════════ */
+  private loadModel(): void {
+    const loader = new GLTFLoader();
+    const urls = ['3d/SAMTS.glb', '3d/samts-character.glb'];
+    let attempt = 0;
 
-  private startParallaxLoop(): void {
-    const MAX_DEG = 4;
-    const FLOAT_AMPLITUDE = 8; // px
-    const FLOAT_SPEED = 0.015;
+    const tryLoad = (url: string) => {
+      loader.load(
+        url,
+        (gltf) => {
+          const model = gltf.scene;
 
-    const tick = () => {
-      this.floatTick += FLOAT_SPEED;
+          model.traverse((node: any) => {
+            if (node.isMesh) {
+              node.castShadow = true;
+              node.receiveShadow = true;
+              if (node.material) {
+                node.material.roughness = 0.3;
+                node.material.metalness = 0.1;
+              }
+            }
+          });
 
-      const floatLaptop = Math.sin(this.floatTick) * FLOAT_AMPLITUDE;
-      const floatPhone  = Math.sin(this.floatTick + 1.1) * FLOAT_AMPLITUDE;
+          // Center model at origin, normalize scale to target height (2.7 units)
+          const box = new THREE.Box3().setFromObject(model);
+          const size = box.getSize(new THREE.Vector3());
 
-      const rotX = -this.mouseY * MAX_DEG;
-      const rotY =  this.mouseX * MAX_DEG;
+          const targetHeight = 2.7;
+          const scale = targetHeight / (size.y || 1);
+          model.scale.set(scale, scale, scale);
 
-      if (this.laptopWrap?.nativeElement) {
-        gsap.to(this.laptopWrap.nativeElement, {
-          rotateX: rotX,
-          rotateY: rotY,
-          y: floatLaptop,
-          duration: 0.8,
-          ease: 'power1.out',
-          overwrite: 'auto',
-        });
-      }
+          // Re-calculate bounding box after scale
+          const scaledBox = new THREE.Box3().setFromObject(model);
+          const scaledCenter = scaledBox.getCenter(new THREE.Vector3());
 
-      if (this.phoneWrap?.nativeElement) {
-        gsap.to(this.phoneWrap.nativeElement, {
-          rotateX: rotX * 0.7,
-          rotateY: rotY * 0.7,
-          y: floatPhone,
-          duration: 0.9,
-          ease: 'power1.out',
-          overwrite: 'auto',
-        });
-      }
+          model.position.x -= scaledCenter.x;
+          model.position.z -= scaledCenter.z;
+          model.position.y -= scaledBox.min.y;
 
-      this.rafId = requestAnimationFrame(tick);
+          // Physical shift centered perfectly in the free space (-0.08 units)
+          model.position.x = -0.08;
+
+          // Rotate model to 3/4 side profile upright ("de lado y derecho")
+          model.rotation.y = 0.35;
+
+          this.modelMaxDim = 2.7;
+          this.modelHeight = 2.7;
+
+          this.scene.add(model);
+
+          // Mixer + clips
+          this.mixer = new THREE.AnimationMixer(model);
+          this.mapClips(gltf.animations);
+
+          // Camera fit
+          this.fitCamera();
+
+          // Setup repetition cycle (anim 1 loop -> anim 2 greet -> anim 1)
+          this.setupAnimationCycle();
+
+          // ScrollTrigger: detect when user leaves the hero section
+          this.setupScrollOut();
+
+          // Render loop
+          this.startLoop();
+        },
+        undefined,
+        (err) => {
+          console.warn(`Could not load ${url}:`, err);
+          if (++attempt < urls.length) tryLoad(urls[attempt]);
+          else console.error('All model URLs failed.');
+        }
+      );
     };
 
+    tryLoad(urls[0]);
+  }
+
+  /* ════════════════════════════════════
+     Map clips by index & name
+     ════════════════════════════════════ */
+  private mapClips(clips: THREE.AnimationClip[]): void {
+    console.log('[SAMTS] GLB animations found:', clips.map((c, i) => `${i}: "${c.name}"`));
+    if (clips.length === 0) return;
+
+    let anim1Clip = clips[0];
+    let anim2Clip = clips.length > 1 ? clips[1] : clips[0];
+    let outroClip = clips.length > 2 ? clips[clips.length - 1] : anim2Clip;
+
+    clips.forEach((clip) => {
+      const clean = clip.name.replace(/^F\s+/, '').trim().toLowerCase();
+
+      if (clean === 'animacion1' || clean === 'anim1' || clean === 'idle') {
+        anim1Clip = clip;
+      }
+
+      if (
+        clean === 'animacion1.001' ||
+        clean === 'animacion2' ||
+        clean === 'anim2' ||
+        clean.includes('salud') ||
+        clean.includes('greet') ||
+        clean.includes('walk')
+      ) {
+        anim2Clip = clip;
+      }
+
+      if (clean === 'animacion4.002' || clean === 'animacion4' || clean.includes('outro')) {
+        outroClip = clip;
+      }
+    });
+
+    const act1 = this.mixer!.clipAction(anim1Clip);
+    act1.loop = THREE.LoopRepeat;
+    act1.enabled = true;
+
+    const act2 = this.mixer!.clipAction(anim2Clip);
+    act2.loop = THREE.LoopOnce;
+    act2.clampWhenFinished = true;
+    act2.enabled = true;
+
+    const actOutro = this.mixer!.clipAction(outroClip);
+    actOutro.loop = THREE.LoopOnce;
+    actOutro.clampWhenFinished = true;
+    actOutro.enabled = true;
+
+    this.actions['anim1'] = act1;
+    this.actions['anim2'] = act2;
+    this.actions['outro'] = actOutro;
+
+    // Legacy fallback aliases
+    this.actions['idle'] = act1;
+    this.actions['walk'] = act2;
+  }
+
+  /* ════════════════════════════════════
+     Animation Cycle:
+     Loop Animation 1 -> After N repetitions -> Trigger Animation 2 (Greeting) -> Back to Animation 1
+     ════════════════════════════════════ */
+  private setupAnimationCycle(): void {
+    if (!this.mixer) return;
+
+    const anim1 = this.actions['anim1'];
+    const anim2 = this.actions['anim2'];
+    if (!anim1 || !anim2) return;
+
+    // Start with Animation 1 active at weight 1
+    anim1.setEffectiveWeight(1);
+    anim1.play();
+    anim2.setEffectiveWeight(0);
+    anim2.play();
+
+    this.anim1LoopCount = 0;
+    this.isGreeting = false;
+
+    // Listener for loop repetitions of Anim 1
+    this.mixerLoopFn = (e: any) => {
+      if (this.hasScrolledOut || this.isGreeting) return;
+
+      if (e.action === anim1) {
+        this.anim1LoopCount++;
+        console.log(`[SAMTS] Animación 1 repetición ${this.anim1LoopCount}/${this.ANIM1_LOOPS_BEFORE_GREET}`);
+
+        if (this.anim1LoopCount >= this.ANIM1_LOOPS_BEFORE_GREET) {
+          this.anim1LoopCount = 0;
+          this.triggerGreet();
+        }
+      }
+    };
+
+    // Listener for completion of Anim 2 (Greeting)
+    this.mixerFinishedFn = (e: any) => {
+      if (e.action === anim2) {
+        console.log('[SAMTS] Animación 2 (Saludo) completada. Volviendo a Animación 1.');
+        this.returnToAnim1();
+      }
+    };
+
+    this.mixer.addEventListener('loop', this.mixerLoopFn);
+    this.mixer.addEventListener('finished', this.mixerFinishedFn);
+  }
+
+  private triggerGreet(): void {
+    const anim1 = this.actions['anim1'];
+    const anim2 = this.actions['anim2'];
+    if (!anim1 || !anim2 || this.hasScrolledOut) return;
+
+    this.isGreeting = true;
+
+    anim2.reset();
+    anim2.setEffectiveWeight(1);
+    anim1.crossFadeTo(anim2, 0.4, true);
+    anim2.play();
+  }
+
+  private returnToAnim1(): void {
+    const anim1 = this.actions['anim1'];
+    const anim2 = this.actions['anim2'];
+    if (!anim1 || !anim2) return;
+
+    if (this.hasScrolledOut) {
+      this.isGreeting = false;
+      return;
+    }
+
+    anim1.reset();
+    anim1.setEffectiveWeight(1);
+    anim2.crossFadeTo(anim1, 0.4, true);
+    anim1.play();
+    this.isGreeting = false;
+  }
+
+  /* ════════════════════════════════════
+     Outro animation on scroll-out
+     ════════════════════════════════════ */
+  private setupScrollOut(): void {
+    if (!this.heroSection) return;
+
+    this.scrollTriggerInstance = ScrollTrigger.create({
+      trigger: this.heroSection.nativeElement,
+      start: 'bottom 80%',
+      onEnterBack: () => {
+        if (this.hasScrolledOut) {
+          this.hasScrolledOut = false;
+          this.anim1LoopCount = 0;
+          const outro = this.actions['outro'];
+          const anim1 = this.actions['anim1'];
+          if (outro && anim1) {
+            anim1.reset();
+            anim1.setEffectiveWeight(1);
+            outro.crossFadeTo(anim1, 0.5, true);
+            anim1.play();
+          }
+          this.isGreeting = false;
+        }
+      },
+      onLeave: () => {
+        this.triggerOutro();
+      },
+    });
+  }
+
+  private triggerOutro(): void {
+    if (this.hasScrolledOut) return;
+    this.hasScrolledOut = true;
+
+    const outro = this.actions['outro'];
+    const anim1 = this.actions['anim1'];
+    const anim2 = this.actions['anim2'];
+
+    if (!outro || !this.mixer) return;
+
+    const current = this.isGreeting ? anim2 : anim1;
+    if (current) {
+      outro.reset();
+      outro.setEffectiveWeight(1);
+      current.crossFadeTo(outro, 0.5, true);
+      outro.play();
+    }
+  }
+
+  /* ════════════════════════════════════
+     Render loop
+     ════════════════════════════════════ */
+  private startLoop(): void {
+    const tick = () => {
+      const delta = Math.min(this.clock.getDelta(), 0.05); // cap delta
+      if (this.mixer) this.mixer.update(delta);
+      this.animateCamera();
+      this.renderer.render(this.scene, this.camera);
+      this.rafId = requestAnimationFrame(tick);
+    };
     this.rafId = requestAnimationFrame(tick);
   }
 
-  /* ─── Canvas Animation Loop ──────────────────────────────── */
-  private startCanvasLoop(): void {
-    const tick = () => {
-      this.drawLaptopFrame();
-      this.drawPhoneFrame();
-      this.canvasRafId = requestAnimationFrame(tick);
+  /* ════════════════════════════════════
+     Camera — framed at normalized model (balanced scale)
+     ════════════════════════════════════ */
+  private fitCamera(): void {
+    const section  = this.heroSection.nativeElement;
+    const isMobile = window.innerWidth < 768;
+
+    const W = section.clientWidth  || window.innerWidth;
+    const H = section.clientHeight || window.innerHeight;
+
+    this.camera.aspect = W / H;
+    this.camera.updateProjectionMatrix();
+
+    // Camera framed at optimal balanced scale
+    const camZ = isMobile ? 3.5 : 2.8;
+    const camY = isMobile ? 1.2 : 1.35;
+    const camX = 0;
+
+    const targetX = isMobile ? 0 : -0.08;
+    const targetY = 1.1;
+
+    this.camera.position.set(camX, camY, camZ);
+    this.camera.lookAt(targetX, targetY, 0);
+
+    // Always re-sync renderer size
+    this.renderer.setSize(W, H);
+  }
+
+  private animateCamera(): void {
+    if (!this.camera) return;
+
+    const isMobile = window.innerWidth < 768;
+    const camZ = isMobile ? 3.5 : 2.8;
+    const camY = isMobile ? 1.2 : 1.35;
+    const camX = 0;
+
+    const targetX = isMobile ? 0 : -0.08;
+    const targetY = 1.1;
+
+    // Smooth mouse parallax
+    this.mouseX += (this.targetMouseX - this.mouseX) * 0.04;
+    this.mouseY += (this.targetMouseY - this.mouseY) * 0.04;
+
+    const px = this.mouseX * 0.08;
+    const py = this.mouseY * 0.08;
+
+    // Lerp camera toward target
+    this.camera.position.x += (camX + px - this.camera.position.x) * 0.07;
+    this.camera.position.y += (camY + py - this.camera.position.y) * 0.07;
+    this.camera.position.z += (camZ      - this.camera.position.z) * 0.07;
+    this.camera.lookAt(targetX, targetY, 0);
+  }
+
+  /* ════════════════════════════════════
+     Helpers
+     ════════════════════════════════════ */
+  private setupMouseMoveListener(): void {
+    this.onMouseMoveFn = (e: MouseEvent) => {
+      this.targetMouseX =  (e.clientX / window.innerWidth)  * 2 - 1;
+      this.targetMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
     };
-    this.canvasRafId = requestAnimationFrame(tick);
+    window.addEventListener('mousemove', this.onMouseMoveFn, { passive: true });
   }
 
-  private drawLaptopFrame(): void {
-    const canvasEl = this.laptopCanvasRef?.nativeElement;
-    if (!canvasEl) return;
-
-    const parent = canvasEl.parentElement;
-    if (!parent) return;
-
-    const W = parent.clientWidth  || 300;
-    const H = parent.clientHeight || 180;
-
-    if (canvasEl.width !== W || canvasEl.height !== H) {
-      canvasEl.width  = W;
-      canvasEl.height = H;
-    }
-
-    const ctx = canvasEl.getContext('2d')!;
-    const scene = this.LAPTOP_SCENES[this.laptopSceneIndex];
-    const next  = this.LAPTOP_SCENES[(this.laptopSceneIndex + 1) % this.LAPTOP_SCENES.length];
-
-    // Advance frame
-    this.laptopFrame++;
-    if (this.laptopFrame >= this.SCENE_DURATION) {
-      this.laptopFrame = 0;
-      this.laptopSceneIndex = (this.laptopSceneIndex + 1) % this.LAPTOP_SCENES.length;
-      return;
-    }
-
-    // Transition: last 30 frames fade to next
-    const FADE_FRAMES = 30;
-    let alpha = 1;
-    if (this.laptopFrame > this.SCENE_DURATION - FADE_FRAMES) {
-      alpha = 1 - (this.laptopFrame - (this.SCENE_DURATION - FADE_FRAMES)) / FADE_FRAMES;
-    }
-
-    ctx.clearRect(0, 0, W, H);
-
-    // Draw current scene
-    this.drawLaptopScene(ctx, scene, W, H, alpha);
-
-    // Blend next scene if in transition
-    if (alpha < 1) {
-      this.drawLaptopScene(ctx, next, W, H, 1 - alpha);
-    }
+  private setupResizeListener(): void {
+    this.onResizeFn = () => {
+      if (!this.heroSection || !this.renderer || !this.camera) return;
+      const s = this.heroSection.nativeElement;
+      this.renderer.setSize(s.clientWidth, s.clientHeight);
+      this.camera.aspect = s.clientWidth / s.clientHeight;
+      this.camera.updateProjectionMatrix();
+      this.fitCamera();
+    };
+    window.addEventListener('resize', this.onResizeFn, { passive: true });
   }
 
-  private drawLaptopScene(
-    ctx: CanvasRenderingContext2D,
-    scene: LaptopScene,
-    W: number,
-    H: number,
-    alpha: number
-  ): void {
-    ctx.globalAlpha = alpha;
+  /* ════════════════════════════════════
+     Cleanup
+     ════════════════════════════════════ */
+  private cleanup(): void {
+    if (this.rafId) cancelAnimationFrame(this.rafId);
 
-    // Background
-    ctx.fillStyle = scene.bg;
-    ctx.fillRect(0, 0, W, H);
-
-    // Top nav bar
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, W, H * 0.12);
-
-    // Nav logo dot
-    ctx.fillStyle = scene.color;
-    ctx.beginPath();
-    ctx.arc(W * 0.06, H * 0.06, H * 0.022, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Nav links
-    const navLinkWidths = [0.08, 0.07, 0.09, 0.06];
-    let nx = W * 0.16;
-    for (const lw of navLinkWidths) {
-      ctx.fillStyle = '#e2e8f0';
-      this.roundRect(ctx, nx, H * 0.045, W * lw, H * 0.025, 3);
-      ctx.fill();
-      nx += W * (lw + 0.03);
+    if (this.mixer) {
+      if (this.mixerLoopFn) this.mixer.removeEventListener('loop', this.mixerLoopFn);
+      if (this.mixerFinishedFn) this.mixer.removeEventListener('finished', this.mixerFinishedFn);
     }
 
-    // Nav CTA
-    ctx.fillStyle = scene.color;
-    this.roundRect(ctx, W * 0.82, H * 0.035, W * 0.12, H * 0.045, 12);
-    ctx.fill();
+    if (this.scrollTriggerInstance) this.scrollTriggerInstance.kill();
+    if (this.onResizeFn)    window.removeEventListener('resize',    this.onResizeFn);
+    if (this.onMouseMoveFn) window.removeEventListener('mousemove', this.onMouseMoveFn);
 
-    // Hero area
-    ctx.fillStyle = scene.accent + '22';
-    this.roundRect(ctx, W * 0.05, H * 0.16, W * 0.42, H * 0.30, 8);
-    ctx.fill();
-
-    // Heading lines
-    ctx.fillStyle = scene.color;
-    this.roundRect(ctx, W * 0.07, H * 0.20, W * 0.30, H * 0.055, 4);
-    ctx.fill();
-    ctx.fillStyle = '#cbd5e1';
-    this.roundRect(ctx, W * 0.07, H * 0.27, W * 0.22, H * 0.035, 3);
-    ctx.fill();
-    this.roundRect(ctx, W * 0.07, H * 0.32, W * 0.25, H * 0.028, 3);
-    ctx.fill();
-
-    // CTA Button in hero
-    ctx.fillStyle = scene.color;
-    this.roundRect(ctx, W * 0.07, H * 0.375, W * 0.18, H * 0.048, 14);
-    ctx.fill();
-
-    // Right image block
-    ctx.fillStyle = scene.accent + '33';
-    this.roundRect(ctx, W * 0.52, H * 0.14, W * 0.43, H * 0.35, 10);
-    ctx.fill();
-    // Image placeholder icon
-    ctx.fillStyle = scene.accent + '88';
-    ctx.beginPath();
-    ctx.arc(W * 0.735, H * 0.315, H * 0.055, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Scene items (cards/content)
-    for (const item of scene.items) {
-      ctx.fillStyle = item.color;
-      this.roundRect(ctx, W * 0.05, H * (item.y / 100), W * item.w, H * item.h, 6);
-      ctx.fill();
-    }
-
-    // Label badge
-    ctx.fillStyle = scene.color;
-    ctx.globalAlpha = alpha * 0.90;
-    this.roundRect(ctx, W * 0.73, H * 0.88, W * 0.23, H * 0.09, 10);
-    ctx.fill();
-    ctx.globalAlpha = alpha;
-    ctx.fillStyle = '#ffffff';
-    ctx.font = `bold ${Math.max(8, H * 0.055)}px Inter, sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.fillText(scene.label, W * 0.845, H * 0.945);
-    ctx.textAlign = 'left';
-
-    ctx.globalAlpha = 1;
+    this.scene?.traverse((obj: any) => {
+      if (obj.isMesh) {
+        obj.geometry?.dispose();
+        if (Array.isArray(obj.material)) {
+          obj.material.forEach((m: any) => m.dispose());
+        } else {
+          obj.material?.dispose();
+        }
+      }
+    });
+    this.renderer?.dispose();
   }
 
-  private drawPhoneFrame(): void {
-    const canvasEl = this.phoneCanvasRef?.nativeElement;
-    if (!canvasEl) return;
-
-    const parent = canvasEl.parentElement;
-    if (!parent) return;
-
-    const W = parent.clientWidth  || 120;
-    const H = parent.clientHeight || 230;
-
-    if (canvasEl.width !== W || canvasEl.height !== H) {
-      canvasEl.width  = W;
-      canvasEl.height = H;
-    }
-
-    const ctx = canvasEl.getContext('2d')!;
-    const scene = this.PHONE_SCENES[this.phoneSceneIndex];
-    const next  = this.PHONE_SCENES[(this.phoneSceneIndex + 1) % this.PHONE_SCENES.length];
-
-    this.phoneFrame++;
-    if (this.phoneFrame >= this.SCENE_DURATION) {
-      this.phoneFrame = 0;
-      this.phoneSceneIndex = (this.phoneSceneIndex + 1) % this.PHONE_SCENES.length;
-      return;
-    }
-
-    const FADE_FRAMES = 30;
-    let alpha = 1;
-    if (this.phoneFrame > this.SCENE_DURATION - FADE_FRAMES) {
-      alpha = 1 - (this.phoneFrame - (this.SCENE_DURATION - FADE_FRAMES)) / FADE_FRAMES;
-    }
-
-    ctx.clearRect(0, 0, W, H);
-    this.drawPhoneScene(ctx, scene, W, H, alpha);
-    if (alpha < 1) {
-      this.drawPhoneScene(ctx, next, W, H, 1 - alpha);
-    }
-  }
-
-  private drawPhoneScene(
-    ctx: CanvasRenderingContext2D,
-    scene: PhoneScene,
-    W: number,
-    H: number,
-    alpha: number
-  ): void {
-    ctx.globalAlpha = alpha;
-
-    // Bg
-    ctx.fillStyle = scene.bg;
-    ctx.fillRect(0, 0, W, H);
-
-    // Status bar
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, W, H * 0.07);
-
-    // Signal dots
-    ctx.fillStyle = '#94a3b8';
-    for (let i = 0; i < 3; i++) {
-      ctx.beginPath();
-      ctx.arc(W * (0.08 + i * 0.055), H * 0.035, 2, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    // Battery
-    ctx.fillStyle = '#94a3b8';
-    ctx.fillRect(W * 0.80, H * 0.025, W * 0.12, H * 0.022);
-
-    if (scene.hasNav) {
-      // Slide-in nav menu
-      const slideX = Math.min(1, this.phoneFrame / 30);
-      const menuW = W * 0.78;
-      const menuX = -menuW + menuW * slideX;
-
-      ctx.fillStyle = scene.color;
-      this.roundRect(ctx, menuX, H * 0.07, menuW, H, 0);
-      ctx.fill();
-
-      const menuItems = ['Inicio', 'Servicios', 'Portafolio', 'Precios', 'Contacto'];
-      menuItems.forEach((item, i) => {
-        ctx.fillStyle = i === 0 ? '#ffffff' : 'rgba(255,255,255,0.65)';
-        ctx.font = `${Math.max(7, H * 0.05)}px Inter, sans-serif`;
-        ctx.fillText(item, menuX + W * 0.08, H * (0.18 + i * 0.10));
-      });
-
-      // Hamburger / X icon area
-      ctx.fillStyle = 'rgba(255,255,255,0.15)';
-      this.roundRect(ctx, menuX + menuW * 0.75, H * 0.085, W * 0.16, H * 0.055, 6);
-      ctx.fill();
-    } else {
-      // Top nav bar
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, H * 0.07, W, H * 0.08);
-
-      ctx.fillStyle = scene.color;
-      ctx.beginPath();
-      ctx.arc(W * 0.12, H * 0.11, H * 0.016, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = '#e2e8f0';
-      this.roundRect(ctx, W * 0.22, H * 0.096, W * 0.30, H * 0.022, 3);
-      ctx.fill();
-
-      // Hero block
-      ctx.fillStyle = scene.accent + '22';
-      this.roundRect(ctx, W * 0.05, H * 0.17, W * 0.90, H * 0.22, 8);
-      ctx.fill();
-
-      ctx.fillStyle = scene.color;
-      this.roundRect(ctx, W * 0.08, H * 0.20, W * 0.55, H * 0.04, 3);
-      ctx.fill();
-
-      ctx.fillStyle = '#cbd5e1';
-      this.roundRect(ctx, W * 0.08, H * 0.255, W * 0.45, H * 0.028, 2);
-      ctx.fill();
-      this.roundRect(ctx, W * 0.08, H * 0.29, W * 0.38, H * 0.028, 2);
-      ctx.fill();
-
-      // CTA
-      ctx.fillStyle = scene.color;
-      this.roundRect(ctx, W * 0.08, H * 0.33, W * 0.38, H * 0.04, 12);
-      ctx.fill();
-
-      // Content cards
-      const cardColors = [scene.accent + '33', scene.accent + '22', scene.accent + '44'];
-      cardColors.forEach((color, i) => {
-        ctx.fillStyle = color;
-        this.roundRect(ctx, W * 0.05, H * (0.42 + i * 0.155), W * 0.90, H * 0.12, 6);
-        ctx.fill();
-        ctx.fillStyle = scene.color;
-        this.roundRect(ctx, W * 0.10, H * (0.44 + i * 0.155), W * 0.30, H * 0.025, 2);
-        ctx.fill();
-        ctx.fillStyle = '#e2e8f0';
-        this.roundRect(ctx, W * 0.10, H * (0.475 + i * 0.155), W * 0.50, H * 0.018, 2);
-        ctx.fill();
-      });
-
-      // Bottom bar
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, H * 0.91, W, H * 0.09);
-      ctx.fillStyle = scene.color;
-      ['⌂', '☰', '♥', '👤'].forEach((icon, i) => {
-        ctx.font = `${H * 0.04}px sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.fillStyle = i === 0 ? scene.color : '#94a3b8';
-        ctx.fillText(icon, W * (0.15 + i * 0.23), H * 0.955);
-      });
-      ctx.textAlign = 'left';
-    }
-
-    // Label
-    ctx.fillStyle = scene.color;
-    ctx.globalAlpha = alpha * 0.9;
-    this.roundRect(ctx, W * 0.05, H * 0.91 - (scene.hasNav ? H * 0.12 : 0), W * 0.90, H * 0.055, 8);
-    if (scene.hasNav) {
-      this.roundRect(ctx, W * 0.05, H * 0.79, W * 0.90, H * 0.055, 8);
-    }
-    ctx.fill();
-    ctx.globalAlpha = alpha;
-    ctx.fillStyle = '#ffffff';
-    ctx.font = `bold ${Math.max(7, H * 0.038)}px Inter, sans-serif`;
-    ctx.textAlign = 'center';
-    const labelY = scene.hasNav ? H * 0.825 : H * 0.945;
-    ctx.fillText(scene.label, W * 0.50, labelY);
-    ctx.textAlign = 'left';
-
-    ctx.globalAlpha = 1;
-  }
-
-  /* ─── Utility: rounded rect ──────────────────────────────── */
-  private roundRect(
-    ctx: CanvasRenderingContext2D,
-    x: number, y: number,
-    w: number, h: number,
-    r: number
-  ): void {
-    if (ctx.roundRect) {
-      ctx.beginPath();
-      ctx.roundRect(x, y, w, h, r);
-    } else {
-      // Fallback for older browsers
-      const minR = Math.min(r, w / 2, h / 2);
-      ctx.beginPath();
-      ctx.moveTo(x + minR, y);
-      ctx.arcTo(x + w, y, x + w, y + h, minR);
-      ctx.arcTo(x + w, y + h, x, y + h, minR);
-      ctx.arcTo(x, y + h, x, y, minR);
-      ctx.arcTo(x, y, x + w, y, minR);
-      ctx.closePath();
-    }
-  }
-
-  /* ─── Actions ────────────────────────────────────────────── */
-  openConsultation(): void {
-    this.modalService.open();
-  }
-
-  scrollToServices(): void {
-    const el = document.getElementById('services');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  playDemo(): void {
-    this.showDemoVideo.set(true);
-  }
-
-  closeDemo(): void {
-    this.showDemoVideo.set(false);
-  }
+  /* ─── Actions ─── */
+  openConsultation(): void { this.modalService.open(); }
+  scrollToServices(): void { document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }); }
+  playDemo(): void { this.showDemoVideo.set(true); }
+  closeDemo(): void { this.showDemoVideo.set(false); }
 }
