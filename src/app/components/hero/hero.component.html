@@ -1,73 +1,166 @@
 <!-- ══════════════════════════════════════════════════════════════
-     HERO — 3D interactivo con personaje animado
+     HERO / SAMUEL HOME — Experiencia Principal Integrada SAMTS AI
      ══════════════════════════════════════════════════════════════ -->
-<section id="hero" class="hero-section" #heroSection>
+<section id="hero" class="samuel-home-section" #heroSection>
 
-  <!-- Canvas Three.js: fondo transparente, personaje a la izquierda -->
-  <canvas #heroCanvas class="hero-canvas" aria-label="Personaje 3D SAMTS interactivo"></canvas>
+  <!-- Background Tech Grid & Aurora Glows -->
+  <div class="samuel-home__bg-grid"></div>
+  <div class="samuel-home__glow-bg samuel-home__glow-bg--1"></div>
+  <div class="samuel-home__glow-bg samuel-home__glow-bg--2"></div>
+  <div class="samuel-home__glow-bg samuel-home__glow-bg--3"></div>
 
-  <!-- Contenido siempre visible a la derecha -->
-  <div class="hero-content">
-    <span class="hero-eyebrow">Soluciones Digitales Inteligentes</span>
-    <h1 class="hero-heading">
-      Tu negocio,<br>
-      <em>automatizado.</em><br>
-      Sin esfuerzo.
-    </h1>
-    <p class="hero-sub">
-      Construimos páginas web que trabajan por ti: generan contenido, gestionan tu marca y convierten visitas en clientes, de forma automática.
-    </p>
-
-    <div class="hero-ctas">
-      <button (click)="openConsultation()" class="hero-btn-primary">
-        <i class="pi pi-calendar"></i>
-        <span>Agendar Asesoría</span>
-      </button>
-      <button (click)="scrollToServices()" class="hero-btn-outline">
-        <i class="pi pi-arrow-down"></i>
-        <span>Ver Servicios</span>
-      </button>
+  <!-- Holographic Stage / Pedestal for Samuel 3D Character -->
+  <div class="samuel-stage">
+    <div class="samuel-stage__glow"></div>
+    <div class="samuel-stage__ring samuel-stage__ring--outer"></div>
+    <div class="samuel-stage__ring samuel-stage__ring--inner"></div>
+    <div class="samuel-stage__badge">
+      <span class="samuel-stage__badge-dot"></span>
+      <span class="samuel-stage__badge-text">SAMUEL AI · ASESOR 3D</span>
     </div>
+  </div>
 
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <strong>100%</strong>
-        <span>Personalizado</span>
+  <!-- Canvas Three.js: Personaje 3D interactivo en segundo plano -->
+  <canvas #heroCanvas class="samuel-home-canvas" aria-label="Personaje 3D Samuel - IA de SAMTS"></canvas>
+
+  <!-- Right Side: The Interactive Samuel Conversation Panel -->
+  <div class="samuel-home__panel-container">
+    <div class="samuel-home__panel">
+      
+      <!-- Panel Header -->
+      <div class="samuel-home__panel-header">
+        <div class="samuel-home__agent-badge">
+          <div class="samuel-home__avatar-wrap">
+            <div class="samuel-home__avatar-icon">
+              <i class="pi pi-sparkles"></i>
+            </div>
+            <span class="samuel-home__status-dot"></span>
+          </div>
+          <div class="samuel-home__agent-details">
+            <div class="samuel-home__agent-name-row">
+              <span class="samuel-home__agent-name">Samuel AI</span>
+              <span class="samuel-home__online-pill">
+                <span class="online-beacon"></span>
+                En línea
+              </span>
+            </div>
+            <span class="samuel-home__agent-tag">Asesor Tecnológico · SAMTS Neural Core</span>
+          </div>
+        </div>
+
+        <div class="samuel-home__panel-actions">
+          <button
+            class="samuel-home__action-btn"
+            (click)="onRestart()"
+            title="Reiniciar diagnóstico"
+            aria-label="Reiniciar diagnóstico">
+            <i class="pi pi-refresh"></i>
+          </button>
+        </div>
       </div>
-      <div class="hero-stat-sep"></div>
-      <div class="hero-stat">
-        <strong>24/7</strong>
-        <span>Soporte IA</span>
+
+      <!-- Step Progress Bar (active during diagnosis) -->
+      @if (!samuel.showResult() && samuel.stepIndex() > 0) {
+        <div class="samuel-home__progress-track">
+          <div
+            class="samuel-home__progress-fill"
+            [style.width.%]="(samuel.stepIndex() / samuel.totalSteps()) * 100">
+          </div>
+        </div>
+      }
+
+      <!-- Messages Stream Area -->
+      <div class="samuel-home__messages-viewport" #messagesEl>
+        
+        @for (msg of samuel.messages(); track msg.id) {
+          <div
+            class="samuel-bubble-row"
+            [class.samuel-bubble-row--samuel]="msg.sender === 'samuel'"
+            [class.samuel-bubble-row--user]="msg.sender === 'user'">
+
+            @if (msg.sender === 'samuel') {
+              <div class="samuel-bubble-avatar">
+                <i class="pi pi-bolt"></i>
+              </div>
+            }
+
+            <div class="samuel-bubble-content">
+              <p class="samuel-bubble-text">{{ msg.text }}</p>
+            </div>
+          </div>
+        }
+
+        <!-- Thinking typing indicator -->
+        @if (samuel.isThinking()) {
+          <div class="samuel-bubble-row samuel-bubble-row--samuel samuel-bubble-row--typing">
+            <div class="samuel-bubble-avatar">
+              <i class="pi pi-bolt"></i>
+            </div>
+            <div class="samuel-bubble-content samuel-bubble-content--dots">
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+              <span class="typing-dot"></span>
+            </div>
+          </div>
+        }
+
+        <!-- Inline Recommendation Result -->
+        @if (samuel.showResult() && samuel.recommendation(); as rec) {
+          <div class="samuel-home__result-container">
+            <app-samuel-result
+              [recommendation]="rec"
+              (selectSolution)="onSelectSolution($event)"
+              (requestQuote)="onRequestQuote()"
+              (whatsappContact)="onWhatsApp()"
+              (restart)="onRestart()">
+            </app-samuel-result>
+          </div>
+        }
+
       </div>
-      <div class="hero-stat-sep"></div>
-      <div class="hero-stat">
-        <strong>10x</strong>
-        <span>Más rápido</span>
-      </div>
+
+      <!-- Interactive Controls (Quick replies + Free text) -->
+      @if (!samuel.showResult()) {
+        <div class="samuel-home__controls">
+          
+          <!-- Quick Replies List -->
+          @if (!samuel.isThinking() && samuel.currentQuickReplies().length > 0) {
+            <div class="samuel-home__replies-container">
+              @for (reply of samuel.currentQuickReplies(); track reply.id) {
+                <button
+                  type="button"
+                  class="samuel-home__chip"
+                  (click)="onQuickReply(reply.value)">
+                  <span>{{ reply.label }}</span>
+                </button>
+              }
+            </div>
+          }
+
+          <!-- Free text input row -->
+          <div class="samuel-home__input-wrapper">
+            <input
+              type="text"
+              class="samuel-home__input"
+              [(ngModel)]="freeText"
+              (keyup.enter)="onSendText()"
+              [placeholder]="samuel.currentQuestionStep()?.inputPlaceholder || 'Escribe tu respuesta o duda aquí...'"
+              [disabled]="samuel.isThinking()" />
+
+            <button
+              type="button"
+              class="samuel-home__send-action"
+              [disabled]="!freeText.trim() || samuel.isThinking()"
+              (click)="onSendText()"
+              aria-label="Enviar respuesta">
+              <i class="pi pi-send"></i>
+            </button>
+          </div>
+
+        </div>
+      }
+
     </div>
   </div>
 
 </section>
-
-<!-- Demo Video Dialog -->
-<p-dialog
-  [visible]="showDemoVideo()"
-  (visibleChange)="$event ? null : closeDemo()"
-  [modal]="true"
-  [draggable]="false"
-  [resizable]="false"
-  [dismissableMask]="true"
-  [style]="{ width: '90%', maxWidth: '900px' }"
-  styleClass="samts-dialog"
-  [showHeader]="false">
-  <div class="relative p-1">
-    <button (click)="closeDemo()"
-      class="absolute top-4 right-4 z-20 p-2.5 rounded-full bg-white border border-gray-200 text-gray-600 hover:bg-gray-100 transition-colors"
-      aria-label="Cerrar demo">
-      <i class="pi pi-times text-base"></i>
-    </button>
-    <div class="aspect-video bg-gray-900 flex flex-col items-center justify-center text-center relative overflow-hidden rounded-2xl">
-      <h4 class="text-2xl font-bold text-white">SAMTS AI Web Engine</h4>
-    </div>
-  </div>
-</p-dialog>

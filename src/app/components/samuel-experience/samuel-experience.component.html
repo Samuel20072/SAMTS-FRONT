@@ -1,0 +1,173 @@
+<!-- ══════════════════════════════════════════════════════════════
+     Samuel Experience — Overlay de diagnóstico conversacional
+     Se activa cuando el usuario hace clic en "Habla con Samuel"
+     ══════════════════════════════════════════════════════════════ -->
+
+@if (samuel.isOpen()) {
+  <!-- Full-screen overlay backdrop -->
+  <div
+    id="samuel-overlay"
+    class="samuel-overlay"
+    (click)="onBackdropClick($event)"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Diagnóstico con Samuel AI">
+
+    <!-- Main panel -->
+    <div class="samuel-panel" #panelRef>
+
+      <!-- ── Header ──────────────────────────────────────── -->
+      <header class="samuel-panel__header">
+        <div class="samuel-panel__brand">
+          <div class="samuel-avatar">
+            <span class="samuel-avatar__dot"></span>
+            <i class="pi pi-sparkles samuel-avatar__icon"></i>
+          </div>
+          <div>
+            <h2 class="samuel-panel__title">Samuel AI</h2>
+            <p class="samuel-panel__subtitle">
+              <span class="samuel-online-dot"></span>
+              IA Comercial · SAMTS
+            </p>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        @if (!samuel.showResult()) {
+          <div class="samuel-progress">
+            <span class="samuel-progress__label">
+              {{ samuel.stepIndex() }}/{{ samuel.totalSteps() }}
+            </span>
+            <div class="samuel-progress__track">
+              <div
+                class="samuel-progress__fill"
+                [style.width.%]="samuel.progress() * 100">
+              </div>
+            </div>
+          </div>
+        }
+
+        <button
+          id="samuel-close-btn"
+          class="samuel-close-btn"
+          (click)="samuel.close()"
+          aria-label="Cerrar">
+          <i class="pi pi-times"></i>
+        </button>
+      </header>
+
+      <!-- ── Body ───────────────────────────────────────── -->
+      <div class="samuel-panel__body">
+
+        <!-- Left: Samuel character + state -->
+        <div class="samuel-character-col">
+          <div class="samuel-state-badge" [class]="'samuel-state-badge--' + samuel.samuelAnimState()">
+            <span class="samuel-state-dot"></span>
+            {{ stateLabel() }}
+          </div>
+
+          <div class="samuel-char-visual">
+            <div class="samuel-char-glow"></div>
+            <div class="samuel-char-avatar">
+              <i class="pi pi-user samuel-char-avatar__icon"></i>
+            </div>
+            <div class="samuel-char-waves">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+
+          @if (!samuel.showResult()) {
+            <div class="samuel-step-dots">
+              @for (step of stepDots(); track $index) {
+                <span
+                  class="samuel-step-dot"
+                  [class.samuel-step-dot--active]="$index === samuel.stepIndex()"
+                  [class.samuel-step-dot--done]="$index < samuel.stepIndex()">
+                </span>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Right: Conversation -->
+        <div class="samuel-chat-col">
+
+          <!-- Show result card -->
+          @if (samuel.showResult() && samuel.recommendation()) {
+            <app-samuel-result
+              [recommendation]="samuel.recommendation()!"
+              (selectSolution)="onSelectSolution($event)"
+              (requestQuote)="onRequestQuote()"
+              (whatsappContact)="onWhatsApp()"
+              (restart)="samuel.restart()">
+            </app-samuel-result>
+
+          } @else {
+
+            <!-- Messages area -->
+            <div class="samuel-messages" #messagesEl>
+              @for (msg of samuel.messages(); track msg.id) {
+                <div
+                  class="samuel-msg"
+                  [class.samuel-msg--samuel]="msg.sender === 'samuel'"
+                  [class.samuel-msg--user]="msg.sender === 'user'">
+                  <p class="samuel-msg__text">{{ msg.text }}</p>
+                </div>
+              }
+
+              <!-- Thinking indicator -->
+              @if (samuel.isThinking()) {
+                <div class="samuel-msg samuel-msg--samuel">
+                  <div class="samuel-typing">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!-- Quick replies (shown after Samuel finishes thinking) -->
+            @if (!samuel.isThinking() && samuel.currentQuickReplies().length > 0 && samuel.currentStep() !== 'intro') {
+              <div class="samuel-quick-replies" id="samuel-quick-replies">
+                @for (opt of samuel.currentQuickReplies(); track opt.id) {
+                  <button
+                    class="samuel-qr-btn"
+                    [id]="'qr-' + opt.id"
+                    (click)="onQuickReply(opt.value)">
+                    {{ opt.label }}
+                  </button>
+                }
+              </div>
+            }
+
+            <!-- Free text input -->
+            @if (!samuel.isThinking() && samuel.currentQuestionStep()?.allowFreeText && samuel.currentStep() !== 'intro') {
+              <div class="samuel-input-row" id="samuel-text-input">
+                <div class="samuel-input-wrap">
+                  <input
+                    #textInputEl
+                    type="text"
+                    class="samuel-input"
+                    [placeholder]="samuel.currentQuestionStep()?.inputPlaceholder || 'Escribe tu respuesta...'"
+                    [(ngModel)]="freeText"
+                    (keydown.enter)="onSendText()"
+                    [disabled]="samuel.isThinking()"
+                    autocomplete="off"
+                    maxlength="200" />
+                  <button
+                    class="samuel-send-btn"
+                    id="samuel-send-btn"
+                    (click)="onSendText()"
+                    [disabled]="!freeText.trim() || samuel.isThinking()"
+                    aria-label="Enviar">
+                    <i class="pi pi-send"></i>
+                  </button>
+                </div>
+              </div>
+            }
+          }
+        </div>
+      </div>
+
+    </div><!-- /samuel-panel -->
+  </div><!-- /samuel-overlay -->
+}

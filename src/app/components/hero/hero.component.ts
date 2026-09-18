@@ -2,6 +2,7 @@ import {
   Component,
   inject,
   signal,
+  effect,
   ElementRef,
   ViewChild,
   AfterViewInit,
@@ -11,9 +12,13 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ConsultationService } from '../../services/consultation.service';
+import { SamuelDiagnosisService } from '../../services/samuel-diagnosis.service';
+import { SamuelResultComponent } from '../samuel-result/samuel-result.component';
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -23,18 +28,28 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule, ButtonModule, DialogModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    ButtonModule,
+    DialogModule,
+    SamuelResultComponent,
+  ],
   templateUrl: './hero.component.html',
 })
 export class HeroComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private zone       = inject(NgZone);
   modalService       = inject(ConsultationService);
+  samuel             = inject(SamuelDiagnosisService);
 
   showDemoVideo = signal(false);
+  freeText = '';
 
   @ViewChild('heroSection') heroSection!: ElementRef<HTMLElement>;
   @ViewChild('heroCanvas')  heroCanvasRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('messagesEl') messagesEl?: ElementRef<HTMLDivElement>;
 
   // Three.js
   private scene!: THREE.Scene;
@@ -53,7 +68,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   // Animation cycle state
   private anim1LoopCount = 0;
   private isGreeting = false;
-  private readonly ANIM1_LOOPS_BEFORE_GREET = 3; // Plays Anim 1 three times before greeting
+  private readonly ANIM1_LOOPS_BEFORE_GREET = 3;
   private hasScrolledOut = false;
   private mixerLoopFn?: (e: any) => void;
   private mixerFinishedFn?: (e: any) => void;
@@ -68,7 +83,18 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   private rafId: number | null = null;
   private onResizeFn?: () => void;
   private onMouseMoveFn?: (e: MouseEvent) => void;
-  private scrollTriggerInstance?: ScrollTrigger;
+  private resizeObserver?: ResizeObserver;
+  private hasInitializedHome = false;
+
+  constructor() {
+    effect(() => {
+      // Track reactive signals to auto-scroll chat
+      this.samuel.messages();
+      this.samuel.isThinking();
+      this.samuel.showResult();
+      setTimeout(() => this.scrollToBottom(), 50);
+    });
+  }
 
   /* ════════════════════════════════════
      Lifecycle
@@ -77,8 +103,6 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) return;
 
     this.zone.runOutsideAngular(() => {
-      gsap.registerPlugin(ScrollTrigger);
-
       const nav = document.querySelector<HTMLElement>('.samts-nav');
       if (nav) {
         nav.style.transition = 'opacity .6s ease, transform .6s ease';
@@ -88,12 +112,17 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
       this.initThree();
       this.setupMouseMoveListener();
-
-      setTimeout(() => {
-        this.loadModel();
-        this.setupResizeListener();
-      }, 80);
+      this.setupResizeListener();
+      this.loadModel();
     });
+
+    // Auto-start Samuel AI conversation directly on page load (only once)
+    if (!this.hasInitializedHome) {
+      this.hasInitializedHome = true;
+      setTimeout(() => {
+        this.samuel.startHome();
+      }, 400);
+    }
   }
 
   ngOnDestroy(): void {
@@ -107,14 +136,14 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     const canvas = this.heroCanvasRef.nativeElement;
     const section = this.heroSection.nativeElement;
 
-    // Use window dimensions as safe fallback — section may have 0 size on first paint
     const W = section.clientWidth  || window.innerWidth;
     const H = section.clientHeight || window.innerHeight;
 
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 100);
-    this.camera.position.set(0, 1.5, 4);
+    this.camera.position.set(0, 1.35, 2.8);
+    this.camera.lookAt(-0.35, 1.1, 0);
 
     this.renderer = new THREE.WebGLRenderer({
       canvas,
@@ -128,20 +157,27 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    // Lighting
-    const ambient = new THREE.AmbientLight(0xffffff, 1.5);
+    // Lighting setup for crisp character presentation
+    const ambient = new THREE.AmbientLight(0xffffff, 1.8);
     this.scene.add(ambient);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 2.2);
     dirLight.position.set(4, 8, 5);
     dirLight.castShadow = true;
     dirLight.shadow.mapSize.set(1024, 1024);
     dirLight.shadow.bias = -0.001;
     this.scene.add(dirLight);
 
-    const rimLight = new THREE.DirectionalLight(0xdbeafe, 1.4);
+    const rimLight = new THREE.DirectionalLight(0x93c5fd, 1.6);
     rimLight.position.set(-4, 4, -3);
     this.scene.add(rimLight);
+
+    const fillLight = new THREE.DirectionalLight(0xc084fc, 0.8);
+    fillLight.position.set(0, -2, 3);
+    this.scene.add(fillLight);
+
+    // Start RAF render loop immediately so canvas stays alive and reactive
+    this.startLoop();
   }
 
   /* ════════════════════════════════════
@@ -149,7 +185,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
      ════════════════════════════════════ */
   private loadModel(): void {
     const loader = new GLTFLoader();
-    const urls = ['3d/SAMTS.glb', '3d/samts-character.glb'];
+    const urls = ['3d/SAMTS.glb', '/3d/SAMTS.glb', '3d/samts-character.glb'];
     let attempt = 0;
 
     const tryLoad = (url: string) => {
@@ -163,8 +199,8 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
               node.castShadow = true;
               node.receiveShadow = true;
               if (node.material) {
-                node.material.roughness = 0.3;
-                node.material.metalness = 0.1;
+                node.material.roughness = 0.35;
+                node.material.metalness = 0.15;
               }
             }
           });
@@ -185,10 +221,10 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
           model.position.z -= scaledCenter.z;
           model.position.y -= scaledBox.min.y;
 
-          // Physical shift centered perfectly in the free space (-0.08 units)
-          model.position.x = -0.08;
+          // Physical shift centered in the left open canvas area
+          model.position.x = -0.35;
 
-          // Rotate model to 3/4 side profile upright ("de lado y derecho")
+          // Rotate model to 3/4 side profile upright
           model.rotation.y = 0.35;
 
           this.modelMaxDim = 2.7;
@@ -205,18 +241,15 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
           // Setup repetition cycle (anim 1 loop -> anim 2 greet -> anim 1)
           this.setupAnimationCycle();
-
-          // ScrollTrigger: detect when user leaves the hero section
-          this.setupScrollOut();
-
-          // Render loop
-          this.startLoop();
         },
         undefined,
         (err) => {
-          console.warn(`Could not load ${url}:`, err);
-          if (++attempt < urls.length) tryLoad(urls[attempt]);
-          else console.error('All model URLs failed.');
+          console.warn(`[SAMTS] Could not load ${url}:`, err);
+          if (++attempt < urls.length) {
+            tryLoad(urls[attempt]);
+          } else {
+            console.error('[SAMTS] All model URLs failed.');
+          }
         }
       );
     };
@@ -439,7 +472,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     const camY = isMobile ? 1.2 : 1.35;
     const camX = 0;
 
-    const targetX = isMobile ? 0 : -0.08;
+    const targetX = isMobile ? 0 : -0.35;
     const targetY = 1.1;
 
     this.camera.position.set(camX, camY, camZ);
@@ -457,7 +490,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     const camY = isMobile ? 1.2 : 1.35;
     const camX = 0;
 
-    const targetX = isMobile ? 0 : -0.08;
+    const targetX = isMobile ? 0 : -0.35;
     const targetY = 1.1;
 
     // Smooth mouse parallax
@@ -487,14 +520,16 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
   private setupResizeListener(): void {
     this.onResizeFn = () => {
-      if (!this.heroSection || !this.renderer || !this.camera) return;
-      const s = this.heroSection.nativeElement;
-      this.renderer.setSize(s.clientWidth, s.clientHeight);
-      this.camera.aspect = s.clientWidth / s.clientHeight;
-      this.camera.updateProjectionMatrix();
       this.fitCamera();
     };
     window.addEventListener('resize', this.onResizeFn, { passive: true });
+
+    if (typeof ResizeObserver !== 'undefined' && this.heroSection) {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.fitCamera();
+      });
+      this.resizeObserver.observe(this.heroSection.nativeElement);
+    }
   }
 
   /* ════════════════════════════════════
@@ -508,7 +543,9 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       if (this.mixerFinishedFn) this.mixer.removeEventListener('finished', this.mixerFinishedFn);
     }
 
-    if (this.scrollTriggerInstance) this.scrollTriggerInstance.kill();
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
     if (this.onResizeFn)    window.removeEventListener('resize',    this.onResizeFn);
     if (this.onMouseMoveFn) window.removeEventListener('mousemove', this.onMouseMoveFn);
 
@@ -527,7 +564,42 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
   /* ─── Actions ─── */
   openConsultation(): void { this.modalService.open(); }
-  scrollToServices(): void { document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }); }
   playDemo(): void { this.showDemoVideo.set(true); }
   closeDemo(): void { this.showDemoVideo.set(false); }
+
+  onQuickReply(value: string): void {
+    this.samuel.submitAnswer(value);
+  }
+
+  onSendText(): void {
+    const text = this.freeText.trim();
+    if (!text) return;
+    this.freeText = '';
+    this.samuel.submitAnswer(text);
+  }
+
+  onWhatsApp(): void {
+    const msg = encodeURIComponent(this.samuel.buildWhatsAppMessage());
+    const phone = '573000000000'; // Configurable WhatsApp
+    window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+  }
+
+  onRequestQuote(): void {
+    this.modalService.open();
+  }
+
+  onRestart(): void {
+    this.samuel.restart();
+  }
+
+  onSelectSolution(plan: any): void {
+    this.onRequestQuote();
+  }
+
+  private scrollToBottom(): void {
+    if (this.messagesEl?.nativeElement) {
+      const el = this.messagesEl.nativeElement;
+      el.scrollTop = el.scrollHeight;
+    }
+  }
 }
