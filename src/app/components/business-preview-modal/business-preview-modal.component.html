@@ -1,0 +1,416 @@
+<!-- ══════════════════════════════════════════════════════════════
+     Business Home Preview Modal — Demo Interactiva en Vivo
+     ══════════════════════════════════════════════════════════════ -->
+
+@if (visible) {
+<div class="bpm-overlay" (click)="onCloseModal()">
+  <div class="bpm-dialog" (click)="$event.stopPropagation()">
+
+    <!-- ── Header de Control de la Demo ── -->
+    <header class="bpm-header">
+      <div class="bpm-header-left">
+        <div class="bpm-tag-badge">
+          <i class="pi pi-eye"></i>
+          <span>Demo Interactiva en Vivo</span>
+        </div>
+        <h3 class="bpm-title">
+          Así se verá la web para tu negocio
+        </h3>
+      </div>
+
+      <!-- Controles de vista y dispositivo -->
+      <div class="bpm-header-controls">
+        <!-- Switcher de Vistas: Cliente vs Panel Admin -->
+        <div class="bpm-view-switch">
+          <button
+            type="button"
+            class="bpm-tab-btn"
+            [class.active]="viewMode() === 'client'"
+            (click)="viewMode.set('client')">
+            <i class="pi pi-globe"></i>
+            <span>Vista Web / Catálogo</span>
+          </button>
+          <button
+            type="button"
+            class="bpm-tab-btn"
+            [class.active]="viewMode() === 'admin'"
+            (click)="viewMode.set('admin')">
+            <i class="pi pi-cog"></i>
+            <span>Panel Administrativo ($320)</span>
+          </button>
+        </div>
+
+        <!-- Switcher de Dispositivo: Desktop vs Mobile -->
+        <div class="bpm-device-switch">
+          <button
+            type="button"
+            class="bpm-device-btn"
+            [class.active]="deviceMode() === 'desktop'"
+            (click)="deviceMode.set('desktop')"
+            title="Vista Computador">
+            <i class="pi pi-desktop"></i>
+          </button>
+          <button
+            type="button"
+            class="bpm-device-btn"
+            [class.active]="deviceMode() === 'mobile'"
+            (click)="deviceMode.set('mobile')"
+            title="Vista Móvil">
+            <i class="pi pi-mobile"></i>
+          </button>
+        </div>
+
+        <!-- Botón cerrar -->
+        <button
+          type="button"
+          class="bpm-close-btn"
+          (click)="onCloseModal()"
+          aria-label="Cerrar modal">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Barra de selección rápida de rubro/negocio ── -->
+    <div class="bpm-niche-bar">
+      <span class="bpm-niche-label">Selecciona tu tipo de negocio:</span>
+      <div class="bpm-niche-chips">
+        @for (niche of niches; track niche.id) {
+        <button
+          type="button"
+          class="bpm-niche-chip"
+          [class.active]="activeNicheId() === niche.id"
+          (click)="setNiche(niche.id)">
+          <i [class]="'pi ' + niche.icon"></i>
+          <span>{{ niche.name }}</span>
+        </button>
+        }
+      </div>
+    </div>
+
+    <!-- ── Contenedor Simulador de Pantalla ── -->
+    <div class="bpm-viewport-container" [class.device-mobile]="deviceMode() === 'mobile'">
+      
+      <!-- Frame del Navegador / Móvil -->
+      <div class="bpm-device-frame">
+        
+        <!-- Browser Top Bar -->
+        <div class="bpm-browser-bar">
+          <div class="bpm-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="bpm-url-bar">
+            <i class="pi pi-lock"></i>
+            <span>https://{{ currentNiche().businessTitle.toLowerCase().replace(' ', '') }}.samts.app</span>
+          </div>
+          <div class="bpm-browser-badge">
+            <span class="bpm-pulse-live"></span>
+            <span>En Vivo</span>
+          </div>
+        </div>
+
+        <!-- ═════════════════════════════════════════════════════
+             VISTA 1: TIENDA / WEB DEL CLIENTE
+             ═════════════════════════════════════════════════════ -->
+        @if (viewMode() === 'client') {
+        <div class="bpm-screen-content client-view">
+
+          <!-- Header de la Web del Negocio -->
+          <nav class="bpm-site-nav">
+            <div class="bpm-site-logo">
+              <span class="bpm-logo-icon" [style.background]="currentNiche().primaryColor">
+                <i [class]="'pi ' + currentNiche().icon"></i>
+              </span>
+              <span class="bpm-site-name">{{ currentNiche().businessTitle }}</span>
+            </div>
+            <div class="bpm-nav-links">
+              <span class="bpm-nav-link active">Inicio</span>
+              <span class="bpm-nav-link">Catálogo</span>
+              <span class="bpm-nav-link">Nosotros</span>
+              <span class="bpm-nav-link">Contacto</span>
+            </div>
+            <button class="bpm-site-whatsapp-btn" (click)="openWhatsAppMessagePreview()">
+              <i class="pi pi-whatsapp"></i>
+              <span>Escríbenos</span>
+            </button>
+          </nav>
+
+          <!-- Hero Banner de la Web del Negocio -->
+          <section class="bpm-site-hero" [style.backgroundImage]="'linear-gradient(rgba(15,23,42,0.65), rgba(15,23,42,0.85)), url(' + currentNiche().heroImage + ')'">
+            <div class="bpm-hero-content">
+              <span class="bpm-hero-badge" [style.backgroundColor]="currentNiche().primaryColor">
+                {{ currentNiche().badge }}
+              </span>
+              <h1 class="bpm-hero-title">
+                {{ currentNiche().businessTitle }}
+              </h1>
+              <p class="bpm-hero-tagline">
+                {{ currentNiche().tagline }}
+              </p>
+              <div class="bpm-hero-actions">
+                <a href="#demo-catalog" class="bpm-hero-btn primary" [style.backgroundColor]="currentNiche().primaryColor">
+                  Explorar Catálogo
+                </a>
+                <button type="button" class="bpm-hero-btn outline" (click)="openWhatsAppMessagePreview()">
+                  <i class="pi pi-whatsapp"></i>
+                  Pedir por WhatsApp
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Sección de Catálogo Interactivo -->
+          <section id="demo-catalog" class="bpm-site-catalog">
+            <div class="bpm-catalog-header">
+              <div>
+                <h2 class="bpm-catalog-title">Catálogo & Productos Destacados</h2>
+                <p class="bpm-catalog-sub">Haz clic en "+ Agregar" para simular cómo tus clientes arman su pedido</p>
+              </div>
+              <div class="bpm-catalog-search">
+                <i class="pi pi-search"></i>
+                <input type="text" placeholder="Buscar producto..." />
+              </div>
+            </div>
+
+            <!-- Grid de Productos -->
+            <div class="bpm-products-grid">
+              @for (product of editableProducts(); track product.id) {
+              <div class="bpm-product-card" [class.out-of-stock]="!product.inStock">
+                <div class="bpm-card-img-wrap">
+                  <img [src]="product.image" [alt]="product.name" loading="lazy" />
+                  <span class="bpm-prod-category">{{ product.category }}</span>
+                  @if (!product.inStock) {
+                  <span class="bpm-stock-badge">Agotado</span>
+                  }
+                </div>
+
+                <div class="bpm-card-body">
+                  <h4 class="bpm-prod-name">{{ product.name }}</h4>
+                  <div class="bpm-prod-footer">
+                    <span class="bpm-prod-price">${{ product.price }} USD</span>
+
+                    @if (product.inStock) {
+                      @if (getCartQty(product.id) === 0) {
+                      <button
+                        type="button"
+                        class="bpm-add-btn"
+                        [style.backgroundColor]="currentNiche().primaryColor"
+                        (click)="addToCart(product.id)">
+                        <i class="pi pi-plus"></i>
+                        <span>Agregar</span>
+                      </button>
+                      } @else {
+                      <div class="bpm-qty-control">
+                        <button type="button" (click)="removeFromCart(product.id)">−</button>
+                        <span>{{ getCartQty(product.id) }}</span>
+                        <button type="button" (click)="addToCart(product.id)">+</button>
+                      </div>
+                      }
+                    } @else {
+                    <span class="bpm-unavailable-txt">No disponible</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              }
+            </div>
+
+          </section>
+
+          <!-- Barra Flotante de Pedido por WhatsApp -->
+          @if (totalCartItems() > 0) {
+          <div class="bpm-floating-cart">
+            <div class="bpm-cart-summary">
+              <div class="bpm-cart-icon-bubble">
+                <i class="pi pi-shopping-cart"></i>
+                <span class="bpm-cart-count">{{ totalCartItems() }}</span>
+              </div>
+              <div class="bpm-cart-texts">
+                <span class="bpm-cart-label">{{ totalCartItems() }} producto(s) seleccionado(s)</span>
+                <span class="bpm-cart-amount">Total: ${{ totalCartPrice() }} USD</span>
+              </div>
+            </div>
+            <button type="button" class="bpm-send-whatsapp-btn" (click)="openWhatsAppMessagePreview()">
+              <i class="pi pi-whatsapp"></i>
+              <span>Enviar Pedido por WhatsApp</span>
+            </button>
+          </div>
+          }
+
+        </div>
+        }
+
+        <!-- ═════════════════════════════════════════════════════
+             VISTA 2: PANEL ADMINISTRATIVO ($320 USD)
+             ═════════════════════════════════════════════════════ -->
+        @if (viewMode() === 'admin') {
+        <div class="bpm-screen-content admin-view">
+          
+          <!-- Admin Sidebar + Topbar -->
+          <div class="bpm-admin-layout">
+            <aside class="bpm-admin-sidebar">
+              <div class="bpm-admin-brand">
+                <i class="pi pi-bolt"></i>
+                <span>Panel SAMTS</span>
+              </div>
+              <div class="bpm-admin-menu">
+                <span class="bpm-admin-item active"><i class="pi pi-box"></i> Mis Productos</span>
+                <span class="bpm-admin-item"><i class="pi pi-list"></i> Pedidos WhatsApp</span>
+                <span class="bpm-admin-item"><i class="pi pi-chart-line"></i> Estadísticas</span>
+                <span class="bpm-admin-item"><i class="pi pi-sliders-h"></i> Ajustes de Web</span>
+              </div>
+              <div class="bpm-admin-user">
+                <span class="bpm-user-avatar">👤</span>
+                <div class="bpm-user-info">
+                  <strong>Admin Negocio</strong>
+                  <small>Plan $320 USD Activo</small>
+                </div>
+              </div>
+            </aside>
+
+            <main class="bpm-admin-main">
+              <!-- Admin Header -->
+              <div class="bpm-admin-header">
+                <div>
+                  <h2 class="bpm-admin-title">Gestión de Catálogo en Vivo</h2>
+                  <p class="bpm-admin-desc">Aquí editas precios, fotos y disponibilidad. Los cambios se ven reflejados al instante en la web.</p>
+                </div>
+                <div class="bpm-admin-stats">
+                  <div class="bpm-stat-card">
+                    <span class="bpm-stat-num">{{ editableProducts().length }}</span>
+                    <span class="bpm-stat-lbl">Productos</span>
+                  </div>
+                  <div class="bpm-stat-card green">
+                    <span class="bpm-stat-num">14</span>
+                    <span class="bpm-stat-lbl">Pedidos WhatsApp hoy</span>
+                  </div>
+                  <div class="bpm-stat-card blue">
+                    <span class="bpm-stat-num">$420 USD</span>
+                    <span class="bpm-stat-lbl">Ventas estimadas</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Admin Table -->
+              <div class="bpm-admin-table-wrap">
+                <table class="bpm-admin-table">
+                  <thead>
+                    <tr>
+                      <th>Producto</th>
+                      <th>Categoría</th>
+                      <th>Precio (USD)</th>
+                      <th>Disponibilidad</th>
+                      <th>Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (prod of editableProducts(); track prod.id) {
+                    <tr>
+                      <td class="bpm-td-prod">
+                        <img [src]="prod.image" [alt]="prod.name" class="bpm-table-thumb" />
+                        <span>{{ prod.name }}</span>
+                      </td>
+                      <td><span class="bpm-table-tag">{{ prod.category }}</span></td>
+                      <td>
+                        <div class="bpm-price-input-wrap">
+                          <span>$</span>
+                          <input
+                            type="number"
+                            [value]="prod.price"
+                            #priceInput
+                            (change)="updatePrice(prod, priceInput.value)" />
+                        </div>
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          class="bpm-stock-toggle"
+                          [class.in-stock]="prod.inStock"
+                          (click)="toggleStock(prod)">
+                          {{ prod.inStock ? '✓ Disponible' : '✕ Agotado' }}
+                        </button>
+                      </td>
+                      <td>
+                        <span class="bpm-synced-badge"><i class="pi pi-check"></i> Sincronizado</span>
+                      </td>
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="bpm-admin-banner">
+                <i class="pi pi-sparkles"></i>
+                <p>
+                  <strong>Incluido en el Plan $320 USD:</strong> No necesitas saber programar. Te capacitamos para que administres tu tienda en 5 minutos desde tu celular o computadora.
+                </p>
+              </div>
+
+            </main>
+          </div>
+
+        </div>
+        }
+
+      </div>
+    </div>
+
+    <!-- ── Footer Modal Bar / Call to Action ── -->
+    <footer class="bpm-footer">
+      <div class="bpm-footer-info">
+        <span class="bpm-rec-label">Propuesta recomendada para tu negocio:</span>
+        <strong class="bpm-rec-name">{{ plan?.name || 'Catálogo Editable + Pedidos WhatsApp' }} — {{ plan?.price || '$320 USD' }}</strong>
+      </div>
+
+      <div class="bpm-footer-actions">
+        <button type="button" class="bpm-btn-secondary" (click)="onCloseModal()">
+          Volver a la asesoría
+        </button>
+        <button type="button" class="bpm-btn-primary" (click)="onOrderThisPlan()">
+          <i class="pi pi-whatsapp"></i>
+          <span>Quiero esta solución para mi negocio</span>
+        </button>
+      </div>
+    </footer>
+
+  </div>
+</div>
+}
+
+<!-- ── Modal Simulación de Mensaje de WhatsApp ── -->
+@if (showWhatsAppMessageModal()) {
+<div class="bpm-suboverlay" (click)="closeWhatsAppMessagePreview()">
+  <div class="bpm-whatsapp-mock-dialog" (click)="$event.stopPropagation()">
+    <div class="bpm-wa-header">
+      <div class="bpm-wa-user">
+        <div class="bpm-wa-avatar">
+          <i class="pi pi-user"></i>
+        </div>
+        <div>
+          <strong>{{ currentNiche().businessTitle }}</strong>
+          <small>En línea · WhatsApp Business</small>
+        </div>
+      </div>
+      <button class="bpm-wa-close" (click)="closeWhatsAppMessagePreview()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <div class="bpm-wa-chat-body">
+      <div class="bpm-wa-bubble-user">
+        <p class="bpm-wa-bubble-text" style="white-space: pre-line;">{{ buildWhatsAppFormattedText() }}</p>
+        <span class="bpm-wa-time">10:45 AM ✓✓</span>
+      </div>
+    </div>
+
+    <div class="bpm-wa-footer">
+      <p class="bpm-wa-note">
+        💡 <strong>Así recibirá tu negocio los pedidos:</strong> Tus clientes no tendrán que escribir precios o nombres a mano. El catálogo les genera el pedido perfecto listo para despachar.
+      </p>
+      <button type="button" class="bpm-wa-confirm-btn" (click)="closeWhatsAppMessagePreview()">
+        Entendido, ¡genial!
+      </button>
+    </div>
+  </div>
+</div>
+}

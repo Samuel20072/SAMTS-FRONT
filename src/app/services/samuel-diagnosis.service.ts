@@ -46,6 +46,7 @@ export class SamuelDiagnosisService {
   // ─── State ──────────────────────────────────────────────────
   private _state = signal<DiagnosticState>({ ...INITIAL_STATE });
   readonly homeMode = signal<boolean>(false);
+  readonly demoUnlocked = signal<boolean>(false);
 
   // ─── Public readonly signals ─────────────────────────────────
   readonly state = this._state.asReadonly();
@@ -90,6 +91,7 @@ export class SamuelDiagnosisService {
   open(): void {
     const sessionId = ++this._currentSessionId;
     this.homeMode.set(false);
+    this.demoUnlocked.set(false);
     this._state.set({ ...INITIAL_STATE, isOpen: true });
     this._recommendation.set(null);
     this._playIntro(sessionId);
@@ -98,6 +100,7 @@ export class SamuelDiagnosisService {
   startHome(): void {
     const sessionId = ++this._currentSessionId;
     this.homeMode.set(true);
+    this.demoUnlocked.set(false);
     this._state.set({ ...INITIAL_STATE, isOpen: true });
     this._recommendation.set(null);
     this._playHomeIntro(sessionId);
@@ -109,11 +112,22 @@ export class SamuelDiagnosisService {
   }
 
   restart(): void {
+    this.demoUnlocked.set(false);
     if (this.homeMode()) {
       this.startHome();
     } else {
       this.open();
     }
+  }
+
+  unlockDemo(): void {
+    this.demoUnlocked.set(true);
+    setTimeout(() => {
+      const el = document.getElementById('demo-section');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   }
 
   // ─── Intro sequence ──────────────────────────────────────────

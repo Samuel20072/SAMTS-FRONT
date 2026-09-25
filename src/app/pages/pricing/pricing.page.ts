@@ -74,45 +74,47 @@ export class PricingPage {
 
   plans = [
     {
-      name: 'Startup',
-      price: '$990',
-      period: 'pago único - entrega en 2 semanas',
-      description: 'Para negocios que necesitan presencia web profesional y empezar a crecer.',
+      name: 'Landing Page Startup',
+      price: '$249',
+      period: 'pago único - entrega en 7 a 10 días',
+      description: 'Presencia digital moderna y optimizada para captar clientes potenciales desde el primer día.',
       features: [
-        'Diseño web premium (5 vistas)',
-        'Optimización móvil y SEO básico',
-        'Formularios de contacto avanzados',
-        'Soporte técnico 1 mes',
-        'Hosting gratis x 1 año'
+        'Diseño web premium (5 secciones)',
+        'Optimización móvil y SEO para Google',
+        'Botones de contacto y WhatsApp directo',
+        'Formularios de captación de leads',
+        'Hosting y dominio gratis por 1 año',
+        'Soporte técnico y garantía 30 días'
       ],
       highlight: false
     },
     {
-      name: 'Neural AI Pro',
-      price: '$2,490',
-      period: 'pago único - entrega en 3 semanas',
-      description: 'Automatización total. Tu página vende, califica y crece sola con IA integrada.',
+      name: 'Catálogo Editable + WhatsApp',
+      price: '$320',
+      period: 'pago único - entrega en 10 a 14 días',
+      description: 'Catálogo digital interactivo, panel autoadministrable para editar productos y pedidos automáticos por WhatsApp.',
       features: [
-        'Todo lo del plan Startup',
-        'Chatbot IA entrenado con tus datos',
-        'E-commerce + pasarelas de pago',
-        'Generación automática de leads',
-        'Dashboard administrativo',
-        'Soporte VIP 3 meses'
+        'Catálogo de productos con fotos y categorías',
+        'Panel administrativo para cambiar precios y fotos',
+        'Generador de pedidos automático directo a WhatsApp',
+        'Buscador y filtros en tiempo real',
+        'Hosting y dominio gratis por 1 año',
+        'Video-capacitación de uso del panel'
       ],
       highlight: true
     },
     {
-      name: 'Enterprise',
-      price: 'A medida',
-      period: 'suscripción o proyecto, conversemos',
-      description: 'Para empresas que necesitan sistemas a medida, integraciones y escalabilidad total.',
+      name: 'Neural AI Pro',
+      price: '$790',
+      period: 'pago único - entrega en 3 semanas',
+      description: 'Automatización total. IA entrenada con tus datos que atiende, califica y vende 24/7.',
       features: [
-        'Arquitectura en la nube escalable',
-        'Agentes multicanal (WhatsApp, Web)',
-        'Integración con ERPs y CRMs',
-        'Modelos RAG propios',
-        'Acuerdo SLA 99.9% uptime'
+        'Todo lo del plan Catálogo',
+        'Chatbot IA entrenado con tus datos',
+        'Pasarelas de pago y carrito de compras',
+        'Automatización de respuestas en WhatsApp',
+        'Dashboard administrativo con métricas',
+        'Soporte VIP 3 meses'
       ],
       highlight: false
     }

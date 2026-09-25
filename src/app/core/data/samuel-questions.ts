@@ -99,18 +99,17 @@ export const QUESTION_STEPS: QuestionStep[] = [
   {
     step: 'scope',
     messages: [
-      '¿Qué tan completa te gustaría que fuera la solución?',
+      '¿Qué tipo de solución tienes en mente para tu negocio?',
     ],
     answerKey: 'scope',
     allowFreeText: false,
     quickReplies: [
-      { id: 'scope-1', label: '🌱 Algo sencillo para empezar', value: 'Algo sencillo para empezar' },
-      { id: 'scope-2', label: '💻 Una página web profesional', value: 'Una página web profesional' },
-      { id: 'scope-3', label: '📱 Catálogo con pedidos por WhatsApp', value: 'Catálogo con pedidos por WhatsApp' },
-      { id: 'scope-4', label: '🛒 Una tienda online completa', value: 'Una tienda online completa' },
-      { id: 'scope-5', label: '🤖 Automatizaciones para mi negocio', value: 'Automatizaciones para mi negocio' },
-      { id: 'scope-6', label: '⚙️ Sistema personalizado para mi empresa', value: 'Sistema personalizado para mi empresa' },
-      { id: 'scope-7', label: '🔍 Quiero explorar opciones', value: 'Quiero explorar opciones' },
+      { id: 'scope-1', label: '🌐 Landing Page profesional (menos de $270 USD)', value: 'Landing Page profesional' },
+      { id: 'scope-2', label: '📱 Catálogo editable + Panel + Pedidos WhatsApp ($320 USD)', value: 'Catálogo editable con panel y pedidos por WhatsApp' },
+      { id: 'scope-3', label: '🛒 Tienda online completa con pagos', value: 'Tienda online completa con pagos' },
+      { id: 'scope-4', label: '🤖 Automatizaciones e IA para mensajes', value: 'Automatizaciones e IA para mensajes' },
+      { id: 'scope-5', label: '⚙️ Sistema personalizado a medida', value: 'Sistema personalizado a medida' },
+      { id: 'scope-6', label: '🔍 Quiero que me recomiendes la mejor opción', value: 'Quiero que me asesores' },
     ],
   },
 
@@ -118,17 +117,17 @@ export const QUESTION_STEPS: QuestionStep[] = [
   {
     step: 'budget',
     messages: [
-      'Para recomendarte algo que tenga sentido para tu negocio, ¿tienes una idea del presupuesto que puedes invertir?',
+      'Para ofrecerte la mejor propuesta, ¿cuál es tu rango de presupuesto estimado?',
     ],
     answerKey: 'budget',
     allowFreeText: false,
     quickReplies: [
-      { id: 'bud-1', label: '💵 Menos de $1.000.000 COP', value: 'Menos de $1.000.000 COP' },
-      { id: 'bud-2', label: '💵 $1.000.000 – $3.000.000 COP', value: '$1.000.000 – $3.000.000 COP' },
-      { id: 'bud-3', label: '💵 $3.000.000 – $6.000.000 COP', value: '$3.000.000 – $6.000.000 COP' },
-      { id: 'bud-4', label: '💵 Más de $6.000.000 COP', value: 'Más de $6.000.000 COP' },
-      { id: 'bud-5', label: '🤔 Sin presupuesto definido aún', value: 'Todavía no tengo un presupuesto' },
-      { id: 'bud-6', label: '🔍 Quiero conocer las opciones primero', value: 'Quiero conocer las opciones primero' },
+      { id: 'bud-1', label: '💵 Menos de $270 USD (Landing Page)', value: 'Menos de $270 USD' },
+      { id: 'bud-2', label: '💵 $270 – $350 USD (Catálogo + Panel WhatsApp)', value: '$270 – $350 USD' },
+      { id: 'bud-3', label: '💵 $350 – $600 USD (Tienda Online)', value: '$350 – $600 USD' },
+      { id: 'bud-4', label: '💵 Más de $600 USD (IA / Sistema a Medida)', value: 'Más de $600 USD' },
+      { id: 'bud-5', label: '🤔 Aún no tengo presupuesto definido', value: 'Todavía no tengo un presupuesto definido' },
+      { id: 'bud-6', label: '🔍 Busco conocer las opciones disponibles', value: 'Quiero conocer las opciones primero' },
     ],
   },
 

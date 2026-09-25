@@ -1,5 +1,13 @@
 <app-header></app-header>
-<main class="samuel-home-root">
+<main class="samuel-home-root" [class.scroll-locked]="!samuel.demoUnlocked()">
   <app-hero></app-hero>
+
+  @if (samuel.demoUnlocked()) {
+    <app-business-demo-section
+      [plan]="samuel.recommendation()?.primary || null"
+      [initialBusinessType]="samuel.answers().businessType || ''">
+    </app-business-demo-section>
+    <app-footer></app-footer>
+  }
 </main>
 <app-consultation-modal></app-consultation-modal>

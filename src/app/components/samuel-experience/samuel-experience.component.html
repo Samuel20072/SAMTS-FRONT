@@ -96,6 +96,7 @@
           @if (samuel.showResult() && samuel.recommendation()) {
             <app-samuel-result
               [recommendation]="samuel.recommendation()!"
+              [businessType]="samuel.answers().businessType || ''"
               (selectSolution)="onSelectSolution($event)"
               (requestQuote)="onRequestQuote()"
               (whatsappContact)="onWhatsApp()"

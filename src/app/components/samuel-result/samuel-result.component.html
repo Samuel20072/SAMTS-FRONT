@@ -1,118 +1,75 @@
 <!-- ══════════════════════════════════════════════════════════════
-     Samuel Result — Pantalla de recomendación personalizada
+     Samuel Result — Pantalla Compacta y Elegante (Apple Style)
      ══════════════════════════════════════════════════════════════ -->
 
 <div class="samuel-result" id="samuel-result-panel">
 
-  <!-- ── Header del resultado ─────────────────────────────── -->
-  <div class="samuel-result__header">
-    <div class="samuel-result__icon">
-      <i class="pi pi-check-circle"></i>
-    </div>
-    <h3 class="samuel-result__title">
-      ¡Ya encontramos una oportunidad para tu negocio!
-    </h3>
-    <p class="samuel-result__subtitle">
-      Según lo que me contaste, esta es la solución que más sentido tiene para ti:
-    </p>
-  </div>
-
-  <!-- ── Reasoning (personalizado) ──────────────────────── -->
-  <div class="samuel-result__reasoning">
-    <div class="samuel-result__reasoning-bar"></div>
-    <p>{{ recommendation.reasoning }}</p>
-  </div>
-
-  <!-- ── Solución recomendada ───────────────────────────── -->
-  <div class="samuel-result__primary-card" id="samuel-primary-recommendation">
-    <div class="samuel-rec-badge">
-      <i class="pi pi-star-fill"></i>
-      Recomendado para ti
-    </div>
-
-    <div class="samuel-rec-card__content">
-      <div class="samuel-rec-card__left">
-        <h4 class="samuel-rec-card__name">{{ recommendation.primary.name }}</h4>
-        <p class="samuel-rec-card__tagline">{{ recommendation.primary.tagline }}</p>
-        <p class="samuel-rec-card__description">{{ recommendation.primary.description }}</p>
-
-        <!-- Features -->
-        <ul class="samuel-rec-card__features">
-          @for (f of recommendation.primary.features; track f) {
-            <li>
-              <i class="pi pi-check"></i>
-              <span>{{ f }}</span>
-            </li>
-          }
-        </ul>
-      </div>
-
-      <div class="samuel-rec-card__right">
-        <div class="samuel-rec-card__price-box">
-          <span class="samuel-rec-card__price">{{ recommendation.primary.price }}</span>
-          @if (recommendation.primary.priceNote) {
-            <span class="samuel-rec-card__price-note">{{ recommendation.primary.priceNote }}</span>
-          }
-        </div>
-
-        <!-- Primary CTA -->
-        <button
-          id="samuel-result-whatsapp"
-          class="samuel-result__cta-primary"
-          (click)="onWhatsApp()">
-          <i class="pi pi-whatsapp"></i>
-          {{ recommendation.primary.ctaPrimary }}
-        </button>
-
-        <!-- Secondary CTA -->
-        <button
-          id="samuel-result-quote"
-          class="samuel-result__cta-secondary"
-          (click)="onRequestQuote()">
-          <i class="pi pi-file"></i>
-          Solicitar cotización
-        </button>
+  <!-- ── Tarjeta Principal Compacta ──────────────────────── -->
+  <div class="samuel-result__card">
+    
+    <!-- Top badge + precio -->
+    <div class="samuel-result__card-top">
+      <span class="samuel-rec-badge">
+        <i class="pi pi-sparkles"></i>
+        Propuesta Recomendada
+      </span>
+      <div class="samuel-result__price-tag">
+        <span class="samuel-result__price-val">{{ recommendation.primary.price }}</span>
+        <span class="samuel-result__price-sub">{{ recommendation.primary.priceNote || 'Pago único' }}</span>
       </div>
     </div>
-  </div>
 
-  <!-- ── Alternativas ───────────────────────────────────── -->
-  @if (recommendation.alternatives.length > 0) {
-    <div class="samuel-result__alternatives">
-      <h5 class="samuel-result__alts-title">También podrías considerar:</h5>
-      <div class="samuel-result__alts-grid">
-        @for (alt of recommendation.alternatives; track alt.id) {
-          <div class="samuel-alt-card" [id]="'samuel-alt-' + alt.id">
-            <div class="samuel-alt-card__header">
-              <span class="samuel-alt-card__name">{{ alt.name }}</span>
-              <span class="samuel-alt-card__price">{{ alt.price }}</span>
-            </div>
-            <p class="samuel-alt-card__desc">{{ alt.tagline }}</p>
-            <button
-              class="samuel-alt-card__cta"
-              (click)="onSelectSolution(alt)">
-              {{ alt.ctaPrimary }}
-              <i class="pi pi-arrow-right"></i>
-            </button>
-          </div>
-        }
-      </div>
+    <!-- Título y subtítulo -->
+    <h3 class="samuel-result__plan-title">{{ recommendation.primary.name }}</h3>
+    <p class="samuel-result__plan-reasoning">{{ recommendation.reasoning }}</p>
+
+    <!-- Bullets clave (máximo 3) -->
+    <ul class="samuel-result__feature-list">
+      @for (f of recommendation.primary.features.slice(0, 3); track f) {
+        <li>
+          <i class="pi pi-check"></i>
+          <span>{{ f }}</span>
+        </li>
+      }
+    </ul>
+
+    <!-- ── Botones de Acción Estilo Frosted Pill Apple ── -->
+    <div class="samuel-result__actions">
+      <!-- Botón Principal: Ver Demo Interactiva (Scrolls down to full demo) -->
+      <button
+        type="button"
+        id="samuel-btn-open-demo"
+        class="samuel-frosted-btn samuel-frosted-btn--hero"
+        (click)="openPreview()">
+        <i class="pi pi-eye"></i>
+        <span>Ver demo de mi negocio</span>
+      </button>
+
+      <!-- Botón Pedir por WhatsApp -->
+      <button
+        type="button"
+        id="samuel-result-whatsapp"
+        class="samuel-frosted-btn samuel-frosted-btn--accent"
+        (click)="onWhatsApp()">
+        <i class="pi pi-whatsapp"></i>
+        <span>Solicitar solución</span>
+      </button>
     </div>
-  }
 
-  <!-- ── Footer actions ────────────────────────────────── -->
-  <div class="samuel-result__footer">
-    <button
-      id="samuel-restart-btn"
-      class="samuel-result__restart"
-      (click)="onRestart()">
-      <i class="pi pi-refresh"></i>
-      Hacer el diagnóstico de nuevo
-    </button>
-    <p class="samuel-result__footer-note">
-      <i class="pi pi-lock"></i>
-      Sin compromiso · Respuesta en menos de 24h
-    </p>
+    <!-- Botón secundario discreto de reinicio -->
+    <div class="samuel-result__bottom-bar">
+      <button
+        type="button"
+        class="samuel-result__restart-link"
+        (click)="onRestart()">
+        <i class="pi pi-refresh"></i>
+        <span>Hacer otro diagnóstico</span>
+      </button>
+      <span class="samuel-result__guarantee">
+        <i class="pi pi-lock"></i> Sin compromiso
+      </span>
+    </div>
+
   </div>
 
 </div>

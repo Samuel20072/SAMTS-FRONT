@@ -6,20 +6,33 @@
   <!-- Ambient Light Apple Glow (muy sutil) -->
   <div class="samuel-apple-glow"></div>
 
-  <!-- Video Hero: Samuel -->
-  <video
-    #heroVideo
-    class="samuel-apple-canvas"
-    src="/videos/homevideo1.mp4"
-    autoplay
-    loop
-    muted
-    [muted]="true"
-    playsinline
-    preload="auto"
-    ngSkipHydration
-    aria-label="Video presentación Samuel - IA de SAMTS">
-  </video>
+  <!-- Video Hero: dos capas para crossfade sin parpadeo -->
+  <div class="samuel-video-stage">
+    <video
+      #videoA
+      class="samuel-apple-canvas samuel-video-layer"
+      [class.video-active]="activeLayer() === 'A'"
+      src="/videos/homevideo1.mp4"
+      autoplay
+      muted
+      [muted]="true"
+      playsinline
+      preload="auto"
+      (ended)="onVideoEnded()"
+      aria-label="Video presentación Samuel - IA de SAMTS">
+    </video>
+    <video
+      #videoB
+      class="samuel-apple-canvas samuel-video-layer"
+      [class.video-active]="activeLayer() === 'B'"
+      muted
+      [muted]="true"
+      playsinline
+      preload="auto"
+      (ended)="onVideoEnded()"
+      aria-label="Video presentación Samuel - IA de SAMTS">
+    </video>
+  </div>
 
   <!-- Contenedor Principal Lado Derecho -->
   <div class="samuel-apple-container">
@@ -93,7 +106,7 @@
       <!-- Recomendación final integrada -->
       @if (samuel.showResult() && samuel.recommendation(); as rec) {
       <div class="samuel-apple-result">
-        <app-samuel-result [recommendation]="rec" (selectSolution)="onSelectSolution($event)"
+        <app-samuel-result [recommendation]="rec" [businessType]="samuel.answers().businessType || ''" (selectSolution)="onSelectSolution($event)"
           (requestQuote)="onRequestQuote()" (whatsappContact)="onWhatsApp()" (restart)="onRestart()">
         </app-samuel-result>
       </div>
