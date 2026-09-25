@@ -38,10 +38,27 @@ export const HOME_FIRST_REPLIES: QuickReplyOption[] = [
 ];
 
 export const QUESTION_STEPS: QuestionStep[] = [
-  // Step 1 — Business type
+  // Step 1 — Goal / Objetivo principal
+  {
+    step: 'goal',
+    messages: ['Cuéntame, ¿qué te gustaría mejorar o construir para tu negocio?'],
+    answerKey: 'goal',
+    allowFreeText: true,
+    inputPlaceholder: 'Ej. Quiero crear una página para vender mis productos...',
+    quickReplies: [
+      { id: 'goal-1', label: '🌐 Crear una página web', value: 'Quiero crear una página web profesional' },
+      { id: 'goal-2', label: '🛒 Vender por internet', value: 'Quiero vender mis productos por internet' },
+      { id: 'goal-3', label: '🤖 Automatizar mensajes o tareas', value: 'Quiero automatizar respuestas o procesos con IA' },
+      { id: 'goal-4', label: '⚙️ Sistema para mi empresa', value: 'Necesito un software o sistema a medida' },
+      { id: 'goal-5', label: '📈 Mejorar mis ventas digitales', value: 'Quiero optimizar mi presencia digital y vender más' },
+      { id: 'goal-6', label: '🔍 Explorar qué me conviene', value: 'Quiero que me asesores sobre qué me conviene' },
+    ],
+  },
+
+  // Step 2 — Business type
   {
     step: 'business-type',
-    messages: ['¡Empecemos! Cuéntame, ¿qué tipo de negocio tienes?'],
+    messages: ['¡Excelente! ¿Qué tipo de negocio tienes o estás creando?'],
     answerKey: 'businessType',
     allowFreeText: true,
     inputPlaceholder: 'Ej. Tengo una tienda de ropa...',
@@ -57,11 +74,11 @@ export const QUESTION_STEPS: QuestionStep[] = [
     ],
   },
 
-  // Step 2 — Main problem
+  // Step 3 — Main problem
   {
     step: 'main-problem',
     messages: [
-      'Perfecto. Ahora quiero entender algo importante: ¿qué es lo que más te está frenando actualmente?',
+      '¿Qué es lo que más te está frenando o quitando tiempo actualmente?',
     ],
     answerKey: 'mainProblem',
     allowFreeText: true,
@@ -78,48 +95,7 @@ export const QUESTION_STEPS: QuestionStep[] = [
     ],
   },
 
-  // Step 3 — Repetitive tasks
-  {
-    step: 'repetitive-tasks',
-    messages: [
-      '¿Qué tareas haces una y otra vez que te gustaría dejar de hacer manualmente?',
-    ],
-    answerKey: 'repetitiveTasks',
-    allowFreeText: true,
-    inputPlaceholder: 'Ej. Responder preguntas de precios por WhatsApp...',
-    quickReplies: [
-      { id: 'task-1', label: '💬 Responder preguntas de clientes', value: 'Responder preguntas de clientes' },
-      { id: 'task-2', label: '📸 Enviar catálogos y precios', value: 'Enviar catálogos y precios' },
-      { id: 'task-3', label: '📝 Registrar pedidos', value: 'Registrar pedidos' },
-      { id: 'task-4', label: '📦 Organizar inventario', value: 'Organizar inventario' },
-      { id: 'task-5', label: '👥 Gestionar clientes', value: 'Gestionar clientes' },
-      { id: 'task-6', label: '📣 Crear contenido y promociones', value: 'Crear contenido y promociones' },
-      { id: 'task-7', label: '📊 Generar reportes', value: 'Generar reportes' },
-      { id: 'task-8', label: '✅ No tengo tareas repetitivas', value: 'No tengo tareas repetitivas' },
-    ],
-  },
-
-  // Step 4 — Goal
-  {
-    step: 'goal',
-    messages: [
-      '¿Qué te gustaría conseguir con una solución digital?',
-    ],
-    answerKey: 'goal',
-    allowFreeText: false,
-    quickReplies: [
-      { id: 'goal-1', label: '🖼️ Mostrar mis productos profesionalmente', value: 'Mostrar mis productos de forma profesional' },
-      { id: 'goal-2', label: '🛒 Recibir pedidos por internet', value: 'Recibir pedidos por internet' },
-      { id: 'goal-3', label: '💳 Recibir pagos online', value: 'Recibir pagos online' },
-      { id: 'goal-4', label: '⏱️ Ahorrar tiempo', value: 'Ahorrar tiempo' },
-      { id: 'goal-5', label: '🤖 Automatizar procesos', value: 'Automatizar procesos' },
-      { id: 'goal-6', label: '📂 Organizar mejor mi empresa', value: 'Organizar mejor mi empresa' },
-      { id: 'goal-7', label: '⚙️ Crear un sistema personalizado', value: 'Crear un sistema personalizado' },
-      { id: 'goal-8', label: '📈 Escalar mi negocio', value: 'Escalar mi negocio' },
-    ],
-  },
-
-  // Step 5 — Scope
+  // Step 4 — Scope
   {
     step: 'scope',
     messages: [
@@ -138,7 +114,7 @@ export const QUESTION_STEPS: QuestionStep[] = [
     ],
   },
 
-  // Step 6 — Budget
+  // Step 5 — Budget
   {
     step: 'budget',
     messages: [
@@ -156,7 +132,7 @@ export const QUESTION_STEPS: QuestionStep[] = [
     ],
   },
 
-  // Step 7 — Urgency
+  // Step 6 — Urgency
   {
     step: 'urgency',
     messages: [
@@ -185,12 +161,11 @@ export const SAMUEL_THINKING_MESSAGES = [
 
 // Transition messages between steps
 export const STEP_TRANSITIONS: Partial<Record<DiagnosisStep, string>> = {
-  'main-problem': '¡Excelente! Ahora quiero entender algo importante:',
-  'repetitive-tasks': 'Entendido. Déjame preguntarte algo más específico:',
-  'goal': '¡Perfecto! Eso me da mucho contexto. Ahora dime:',
+  'business-type': '¡Excelente! Ahora cuéntame:',
+  'main-problem': 'Perfecto. Para recomendarte la mejor opción:',
   'scope': '¡Bien! Casi terminamos. Dime:',
-  'budget': 'Muy bien. Una última pregunta antes de mostrarte mi recomendación:',
-  'urgency': '¡Casi listo! Solo una cosa más:',
+  'budget': 'Muy bien. Una pregunta importante sobre presupuesto:',
+  'urgency': '¡Casi listo! Solo una última cosa:',
 };
 
 // Result reveal messages

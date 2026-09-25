@@ -63,9 +63,6 @@ export class SamuelDiagnosisService {
   /** Current quick-reply options for the active step */
   readonly currentQuickReplies = computed(() => {
     const idx = this._state().stepIndex;
-    if (this.homeMode() && idx === 0) {
-      return HOME_FIRST_REPLIES;
-    }
     const step = QUESTION_STEPS[idx];
     return step?.quickReplies ?? [];
   });
@@ -123,39 +120,31 @@ export class SamuelDiagnosisService {
 
   private async _playIntro(sessionId: number): Promise<void> {
     this._setSamuelAnim('greeting');
+    const firstStep = QUESTION_STEPS[0];
+    this._addSamuelMessage('¡Hola! Soy Samuel, la IA de SAMTS. 👋');
+    await this._delay(600);
+    if (this._currentSessionId !== sessionId) return;
+    this._addSamuelMessage(firstStep.messages[0]);
 
-    for (let i = 0; i < SAMUEL_INTRO_MESSAGES.length; i++) {
-      if (this._currentSessionId !== sessionId) return;
-      await this._delay(i === 0 ? 300 : 800);
-      if (this._currentSessionId !== sessionId) return;
-      this._addSamuelMessage(SAMUEL_INTRO_MESSAGES[i]);
-    }
-
-    // Move to first question after intro messages
-    await this._delay(500);
     if (this._currentSessionId !== sessionId) return;
     this._state.update((s) => ({
       ...s,
-      currentStep: 'business-type',
+      currentStep: firstStep.step,
+      stepIndex: 0,
       samuelAnimState: 'explaining',
     }));
   }
 
   private async _playHomeIntro(sessionId: number): Promise<void> {
     this._setSamuelAnim('greeting');
+    const firstStep = QUESTION_STEPS[0];
+    this._addSamuelMessage(firstStep.messages[0]);
 
-    for (let i = 0; i < HOME_INTRO_MESSAGES.length; i++) {
-      if (this._currentSessionId !== sessionId) return;
-      await this._delay(i === 0 ? 200 : 700);
-      if (this._currentSessionId !== sessionId) return;
-      this._addSamuelMessage(HOME_INTRO_MESSAGES[i]);
-    }
-
-    await this._delay(300);
     if (this._currentSessionId !== sessionId) return;
     this._state.update((s) => ({
       ...s,
-      currentStep: 'business-type',
+      currentStep: firstStep.step,
+      stepIndex: 0,
       samuelAnimState: 'explaining',
     }));
   }
@@ -167,8 +156,6 @@ export class SamuelDiagnosisService {
 
     const currentStepData = QUESTION_STEPS[this._state().stepIndex];
     if (!currentStepData) return;
-
-    const sessionId = this._currentSessionId;
 
     // 1. Add user message
     this._addUserMessage(value);
@@ -182,45 +169,25 @@ export class SamuelDiagnosisService {
       samuelAnimState: 'thinking',
     }));
 
-    // 3. Thinking delay
-    await this._delay(800 + Math.random() * 300);
-    if (this._currentSessionId !== sessionId) return;
+    // 3. Quick thinking delay for smooth UX
+    await this._delay(450);
 
-    // 4. Move to next step
+    // 4. Move to next step or show result
     const nextIndex = this._state().stepIndex + 1;
     const isDone = nextIndex >= QUESTION_STEPS.length;
 
     if (isDone) {
-      await this._showResult(sessionId);
+      this._showResult();
     } else {
-      await this._advanceToStep(nextIndex, sessionId);
+      this._advanceToStep(nextIndex);
     }
   }
 
   // ─── Navigation ──────────────────────────────────────────────
 
-  private async _advanceToStep(index: number, sessionId: number): Promise<void> {
+  private _advanceToStep(index: number): void {
     const nextStep = QUESTION_STEPS[index];
-
-    // Transition message (optional)
-    const transMsg = STEP_TRANSITIONS[nextStep.step];
-    if (transMsg) {
-      if (this._currentSessionId !== sessionId) return;
-      this._addSamuelMessage(transMsg);
-      await this._delay(500);
-    }
-
-    if (this._currentSessionId !== sessionId) return;
-
-    // Samuel's question messages
-    for (let i = 0; i < nextStep.messages.length; i++) {
-      if (this._currentSessionId !== sessionId) return;
-      if (i > 0) await this._delay(600);
-      if (this._currentSessionId !== sessionId) return;
-      this._addSamuelMessage(nextStep.messages[i]);
-    }
-
-    if (this._currentSessionId !== sessionId) return;
+    this._addSamuelMessage(nextStep.messages[0]);
 
     this._state.update((s) => ({
       ...s,
@@ -231,18 +198,7 @@ export class SamuelDiagnosisService {
     }));
   }
 
-  private async _showResult(sessionId: number): Promise<void> {
-    // Reveal messages
-    for (const msg of RESULT_REVEAL_MESSAGES) {
-      if (this._currentSessionId !== sessionId) return;
-      await this._delay(600);
-      if (this._currentSessionId !== sessionId) return;
-      this._addSamuelMessage(msg);
-    }
-
-    await this._delay(700);
-    if (this._currentSessionId !== sessionId) return;
-
+  private _showResult(): void {
     // Compute recommendation
     const answers = this._state().answers;
     const { primary, alternatives } = getRecommendation(answers);

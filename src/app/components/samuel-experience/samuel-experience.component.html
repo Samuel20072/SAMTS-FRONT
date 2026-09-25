@@ -140,14 +140,14 @@
             }
 
             <!-- Free text input -->
-            @if (!samuel.isThinking() && samuel.currentQuestionStep()?.allowFreeText && samuel.currentStep() !== 'intro') {
+            @if (!samuel.isThinking() && samuel.currentQuestionStep().allowFreeText && samuel.currentStep() !== 'intro') {
               <div class="samuel-input-row" id="samuel-text-input">
                 <div class="samuel-input-wrap">
                   <input
                     #textInputEl
                     type="text"
                     class="samuel-input"
-                    [placeholder]="samuel.currentQuestionStep()?.inputPlaceholder || 'Escribe tu respuesta...'"
+                    [placeholder]="samuel.currentQuestionStep().inputPlaceholder || 'Escribe tu respuesta...'"
                     [(ngModel)]="freeText"
                     (keydown.enter)="onSendText()"
                     [disabled]="samuel.isThinking()"
