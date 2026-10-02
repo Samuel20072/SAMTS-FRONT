@@ -2,7 +2,7 @@
      Business Demo Section — Sección de Demo Interactiva Completa en Home
      ══════════════════════════════════════════════════════════════ -->
 
-<section id="demo-section" class="bds-section">
+<section id="demo-section" class="bds-section" [class.bds-fullwidth-niche]="activeNicheId() === 'boutique' && deviceMode() === 'desktop'">
 
   <!-- Glows de fondo Apple Style -->
   <div class="bds-glow-1"></div>
@@ -64,7 +64,7 @@
               [class.active]="viewMode() === 'admin'"
               (click)="viewMode.set('admin')">
               <i class="pi pi-sliders-h"></i>
-              <span>Panel Administrativo ($320 USD)</span>
+              <span>Panel Administrativo</span>
             </button>
           </div>
         </div>
@@ -103,7 +103,7 @@
           </div>
           <div class="bds-url-bar">
             <i class="pi pi-lock"></i>
-            <span>https://{{ currentNiche().businessTitle.toLowerCase().replace(' ', '') }}.samts.app</span>
+            <span>https://{{ getCleanSlug(currentNiche().businessTitle) }}.samts.app</span>
           </div>
           <div class="bds-browser-badge">
             <span class="bds-live-indicator"></span>
@@ -115,128 +115,704 @@
              VISTA 1: TIENDA / WEB DEL CLIENTE
              ═════════════════════════════════════════════════════ -->
         @if (viewMode() === 'client') {
-        <div class="bds-screen-content client-view">
+        <div class="bds-screen-content client-view" [attr.data-niche]="activeNicheId()">
 
-          <!-- Header de la Web del Negocio -->
-          <nav class="bds-site-nav">
-            <div class="bds-site-logo">
-              <span class="bds-logo-icon" [style.background]="currentNiche().primaryColor">
-                <i [class]="'pi ' + currentNiche().icon"></i>
-              </span>
-              <span class="bds-site-name">{{ currentNiche().businessTitle }}</span>
-            </div>
-            <div class="bds-nav-links">
-              <span class="bds-nav-link active">Inicio</span>
-              <span class="bds-nav-link">Catálogo</span>
-              <span class="bds-nav-link">Promociones</span>
-              <span class="bds-nav-link">Ubicación</span>
-            </div>
-            <button class="bds-site-whatsapp-btn" (click)="openWhatsAppMessagePreview()">
-              <i class="pi pi-whatsapp"></i>
-              <span>WhatsApp</span>
-            </button>
-          </nav>
+          <!-- ════════════════════════════════════════
+               NICHE: BOUTIQUE / ROPA — ROSANT BOUTIQUE
+               ════════════════════════════════════════ -->
+          @if (activeNicheId() === 'boutique') {
+          <div class="niche-boutique ros-boutique">
 
-          <!-- Hero Banner de la Web del Negocio -->
-          <section class="bds-site-hero" [style.backgroundImage]="'linear-gradient(rgba(15,23,42,0.6), rgba(15,23,42,0.85)), url(' + currentNiche().heroImage + ')'">
-            <div class="bds-hero-content">
-              <span class="bds-hero-badge" [style.backgroundColor]="currentNiche().primaryColor">
-                {{ currentNiche().badge }}
-              </span>
-              <h1 class="bds-hero-title">
-                {{ currentNiche().businessTitle }}
-              </h1>
-              <p class="bds-hero-tagline">
-                {{ currentNiche().tagline }}
-              </p>
-              <div class="bds-hero-actions">
-                <a href="#bds-catalog-grid" class="bds-hero-btn primary" [style.backgroundColor]="currentNiche().primaryColor">
-                  <i class="pi pi-shopping-bag"></i>
-                  Ver Catálogo
-                </a>
-                <button type="button" class="bds-hero-btn outline" (click)="openWhatsAppMessagePreview()">
-                  <i class="pi pi-whatsapp"></i>
-                  Hacer Pedido
-                </button>
-              </div>
-            </div>
-          </section>
-
-          <!-- Sección de Catálogo Interactivo -->
-          <section id="bds-catalog-grid" class="bds-site-catalog">
-            <div class="bds-catalog-top">
-              <div>
-                <h3 class="bds-catalog-heading">Catálogo de Productos & Servicios</h3>
-                <p class="bds-catalog-caption">Haz clic en <strong>"+ Agregar"</strong> para ver cómo tus clientes seleccionan productos y arman su pedido</p>
-              </div>
-              <div class="bds-catalog-search">
-                <i class="pi pi-search"></i>
-                <input type="text" placeholder="Buscar producto..." />
-              </div>
-            </div>
-
-            <!-- Grid de Productos -->
-            <div class="bds-products-grid">
-              @for (product of editableProducts(); track product.id) {
-              <div class="bds-product-card" [class.out-of-stock]="!product.inStock">
-                <div class="bds-card-img-wrap">
-                  <img [src]="product.image" [alt]="product.name" loading="lazy" />
-                  <span class="bds-prod-category">{{ product.category }}</span>
-                  @if (!product.inStock) {
-                  <span class="bds-stock-badge">Agotado</span>
-                  }
+            <!-- NAVBAR TRANSPARENT / DARK OVERLAY -->
+            <nav class="ros-nav">
+              <div class="ros-nav-inner">
+                <div class="ros-nav-brand" (click)="openWhatsAppMessagePreview()">
+                  <img [src]="boutiqueAssets.logoTransparent" alt="ROSANT Boutique" class="ros-brand-img" />
                 </div>
-
-                <div class="bds-card-body">
-                  <h4 class="bds-prod-name">{{ product.name }}</h4>
-                  <div class="bds-prod-footer">
-                    <span class="bds-prod-price">${{ product.price }} USD</span>
-
-                    @if (product.inStock) {
-                      @if (getCartQty(product.id) === 0) {
-                      <button
-                        type="button"
-                        class="bds-add-btn"
-                        [style.backgroundColor]="currentNiche().primaryColor"
-                        (click)="addToCart(product.id)">
-                        <i class="pi pi-plus"></i>
-                        <span>Agregar</span>
-                      </button>
-                      } @else {
-                      <div class="bds-qty-control">
-                        <button type="button" (click)="removeFromCart(product.id)">−</button>
-                        <span>{{ getCartQty(product.id) }}</span>
-                        <button type="button" (click)="addToCart(product.id)">+</button>
-                      </div>
-                      }
-                    } @else {
-                    <span class="bds-unavailable-txt">Agotado</span>
+                <div class="ros-nav-links">
+                  <span (click)="openWhatsAppMessagePreview()">Inicio</span>
+                  <span (click)="openWhatsAppMessagePreview()">Colecciones</span>
+                  <span (click)="openWhatsAppMessagePreview()">Contacto</span>
+                  <span (click)="openWhatsAppMessagePreview()">Nosotros</span>
+                </div>
+                <div class="ros-nav-actions">
+                  <button class="ros-icon-btn" (click)="openWhatsAppMessagePreview()" title="Buscar">
+                    <i class="pi pi-search"></i>
+                  </button>
+                  <button class="ros-icon-btn" (click)="openWhatsAppMessagePreview()" title="Carrito de Compras">
+                    <i class="pi pi-shopping-bag"></i>
+                    @if (totalCartItems() > 0) {
+                      <span class="ros-cart-badge">{{ totalCartItems() }}</span>
                     }
+                  </button>
+                </div>
+              </div>
+            </nav>
+
+            <!-- HERO FULL WIDTH -->
+            <section class="ros-hero">
+              <div class="ros-hero-bg">
+                <img [src]="boutiqueAssets.hero" alt="Nueva Colección Rosant Boutique" class="ros-hero-img" />
+              </div>
+              <div class="ros-hero-overlay"></div>
+              <div class="ros-hero-content">
+                <h1 class="ros-hero-title">NUEVA COLECCIÓN</h1>
+                <p class="ros-hero-sub">Descubre las tendencias que resaltan tu estilo esta nueva temporada.</p>
+                <button class="ros-btn-primary" (click)="openWhatsAppMessagePreview()">Comprar Ahora</button>
+              </div>
+            </section>
+
+            <!-- SECTION TITLE 1: NUEVA COLECCIÓN -->
+            <section class="ros-section-header">
+              <h2 class="ros-heading">NUEVA COLECCIÓN</h2>
+            </section>
+
+            <!-- PRODUCT GRID ROW 1 (4 COLUMNS) -->
+            <section class="ros-products-section">
+              <div class="ros-products-grid">
+                @for (product of boutiqueRow1Products(); track product.id) {
+                <div class="ros-product-card">
+                  <div class="ros-card-image-wrap">
+                    <img [src]="product.image" [alt]="product.name" />
+                    <button class="ros-add-btn" (click)="addToCart(product.id)" [title]="'Añadir ' + product.name">
+                      @if (getCartQty(product.id) === 0) {
+                        <i class="pi pi-shopping-bag"></i>
+                      } @else {
+                        <span>{{ getCartQty(product.id) }}</span>
+                      }
+                    </button>
+                  </div>
+                  <div class="ros-card-meta">
+                    <h3 class="ros-product-title">{{ product.name }}</h3>
+                    <p class="ros-product-price">$ {{ product.price | number:'1.0-0' }}</p>
+                  </div>
+                </div>
+                }
+              </div>
+            </section>
+
+            <!-- 2-COLUMN CATEGORY BANNERS (VESTIDOS & CONJUNTOS) -->
+            <section class="ros-banners-section">
+              <div class="ros-banners-grid">
+                <!-- Banner 1: Vestidos -->
+                <div class="ros-category-banner" (click)="setBoutiqueTab('vestiditos')">
+                  <img [src]="boutiqueAssets.bannerVestidos" alt="Vestidos" class="ros-banner-img" />
+                  <div class="ros-banner-overlay"></div>
+                  <div class="ros-banner-content">
+                    <h3 class="ros-banner-title">VESTIDOS</h3>
+                    <button class="ros-banner-btn" (click)="openWhatsAppMessagePreview(); $event.stopPropagation()">Comprar Ahora</button>
+                  </div>
+                </div>
+                <!-- Banner 2: Conjuntos -->
+                <div class="ros-category-banner" (click)="setBoutiqueTab('conjuntos')">
+                  <img [src]="boutiqueAssets.bannerConjuntos" alt="Conjuntos" class="ros-banner-img" />
+                  <div class="ros-banner-overlay"></div>
+                  <div class="ros-banner-content">
+                    <h3 class="ros-banner-title">CONJUNTOS</h3>
+                    <button class="ros-banner-btn" (click)="openWhatsAppMessagePreview(); $event.stopPropagation()">Ver Conjuntos</button>
                   </div>
                 </div>
               </div>
-              }
+            </section>
+
+            <!-- CATEGORY FILTER TABS -->
+            <section class="ros-tabs-section">
+              <div class="ros-tabs-bar">
+                <button
+                  type="button"
+                  class="ros-tab"
+                  [class.active]="boutiqueActiveTab() === 'todos'"
+                  (click)="setBoutiqueTab('todos')">
+                  Todos
+                </button>
+                <button
+                  type="button"
+                  class="ros-tab"
+                  [class.active]="boutiqueActiveTab() === 'vestiditos'"
+                  (click)="setBoutiqueTab('vestiditos')">
+                  Vestiditos
+                </button>
+                <button
+                  type="button"
+                  class="ros-tab"
+                  [class.active]="boutiqueActiveTab() === 'conjuntos'"
+                  (click)="setBoutiqueTab('conjuntos')">
+                  Conjuntos
+                </button>
+                <button
+                  type="button"
+                  class="ros-tab"
+                  [class.active]="boutiqueActiveTab() === 'blusas'"
+                  (click)="setBoutiqueTab('blusas')">
+                  Blusas
+                </button>
+              </div>
+            </section>
+
+            <!-- PRODUCT GRID ROW 2 (4 COLUMNS) -->
+            <section class="ros-products-section">
+              <div class="ros-products-grid">
+                @for (product of boutiqueRow2Products(); track product.id) {
+                <div class="ros-product-card">
+                  <div class="ros-card-image-wrap">
+                    <img [src]="product.image" [alt]="product.name" />
+                    <button class="ros-add-btn" (click)="addToCart(product.id)" [title]="'Añadir ' + product.name">
+                      @if (getCartQty(product.id) === 0) {
+                        <i class="pi pi-shopping-bag"></i>
+                      } @else {
+                        <span>{{ getCartQty(product.id) }}</span>
+                      }
+                    </button>
+                  </div>
+                  <div class="ros-card-meta">
+                    <h3 class="ros-product-title">{{ product.name }}</h3>
+                    <p class="ros-product-price">$ {{ product.price | number:'1.0-0' }}</p>
+                  </div>
+                </div>
+                }
+              </div>
+            </section>
+
+            <!-- BANNER PROMO: ELEGANCIA & CHIC -->
+            <section class="ros-promo-banner">
+              <div class="ros-promo-bg">
+                <img [src]="boutiqueAssets.bannerElegancia" alt="Elegancia & Chic" class="ros-promo-img" />
+              </div>
+              <div class="ros-promo-overlay"></div>
+              <div class="ros-promo-content">
+                <h2 class="ros-promo-title">ELEGANCIA &amp; CHIC</h2>
+                <p class="ros-promo-sub">Sets ejecutivos y chalecos diseñados a tu medida.</p>
+                <button class="ros-promo-btn" (click)="openWhatsAppMessagePreview()">Ver Colección</button>
+              </div>
+            </section>
+
+            <!-- FOOTER TAUPE / NUDE -->
+            <footer class="ros-footer">
+              <div class="ros-footer-inner">
+                <div class="ros-footer-logo-wrap">
+                  <img [src]="boutiqueAssets.logoFooter" alt="ROSANT Boutique" class="ros-footer-logo-img" />
+                </div>
+                <div class="ros-footer-bottom">
+                  <p class="ros-footer-copy">© 2024 Rosant Boutique. Todos los derechos reservados.</p>
+                  <div class="ros-footer-socials">
+                    <a href="javascript:void(0)" (click)="openWhatsAppMessagePreview()" class="ros-social-icon" aria-label="Facebook">
+                      <i class="pi pi-facebook"></i>
+                    </a>
+                    <a href="javascript:void(0)" (click)="openWhatsAppMessagePreview()" class="ros-social-icon" aria-label="Instagram">
+                      <i class="pi pi-instagram"></i>
+                    </a>
+                    <a href="javascript:void(0)" (click)="openWhatsAppMessagePreview()" class="ros-social-icon" aria-label="WhatsApp">
+                      <i class="pi pi-whatsapp"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </footer>
+
+            <!-- FLOATING CART -->
+            @if (totalCartItems() > 0) {
+            <div class="bds-floating-cart">
+              <div class="bds-cart-summary">
+                <div class="bds-cart-icon-bubble">
+                  <i class="pi pi-shopping-cart"></i>
+                  <span class="bds-cart-count">{{ totalCartItems() }}</span>
+                </div>
+                <div class="bds-cart-texts">
+                  <span class="bds-cart-label">{{ totalCartItems() }} producto(s) en tu pedido</span>
+                  <span class="bds-cart-amount">Total: ${{ totalCartPrice() }} USD</span>
+                </div>
+              </div>
+              <button type="button" class="bds-send-whatsapp-btn" (click)="openWhatsAppMessagePreview()">
+                <i class="pi pi-whatsapp"></i>
+                <span>Enviar Pedido a WhatsApp</span>
+              </button>
             </div>
+            }
+          </div>
+          }
 
-          </section>
+          <!-- ════════════════════════════════════════
+               NICHE: RESTAURANTE — Estilo Verdeo
+               ════════════════════════════════════════ -->
+          @if (activeNicheId() === 'restaurant') {
+          <div class="niche-restaurant">
+            <!-- Nav -->
+            <nav class="nr-nav">
+              <div class="nr-logo">
+                <div class="nr-logo-icon">&#127807;</div>
+                <div>
+                  <div class="nr-logo-name">{{ currentNiche().businessTitle }}</div>
+                  <div class="nr-logo-sub">Kitchen &amp; Bar</div>
+                </div>
+              </div>
+              <div class="nr-nav-links">
+                <span>Inicio</span>
+                <span>Menú</span>
+                <span>Galería</span>
+                <span>Reservas</span>
+              </div>
+              <button class="nr-book-btn" (click)="openWhatsAppMessagePreview()">
+                <i class="pi pi-calendar"></i> Reservar Mesa
+              </button>
+            </nav>
 
-          <!-- Barra Flotante de Pedido por WhatsApp -->
-          @if (totalCartItems() > 0) {
-          <div class="bds-floating-cart">
-            <div class="bds-cart-summary">
-              <div class="bds-cart-icon-bubble">
+            <!-- Hero -->
+            <section class="nr-hero">
+              <div class="nr-hero-left">
+                <p class="nr-hero-tagline">Good Food, Great Mood</p>
+                <h1 class="nr-hero-title">
+                  Experimenta una<br>
+                  Comida del <em class="nr-hero-accent">Corazón</em>
+                </h1>
+                <p class="nr-hero-desc">{{ currentNiche().tagline }}</p>
+                <div class="nr-hero-btns">
+                  <button class="nr-btn-explore" (click)="openWhatsAppMessagePreview()">Explorar Menú &#8594;</button>
+                  <button class="nr-btn-story" (click)="openWhatsAppMessagePreview()">&#9654; Nuestra Historia</button>
+                </div>
+              </div>
+              <div class="nr-hero-right">
+                <img [src]="currentNiche().heroImage" alt="Plato principal" class="nr-hero-dish" />
+              </div>
+            </section>
+
+            <!-- Features -->
+            <section class="nr-features">
+              <div class="nr-feature-item">
+                <span class="nr-feature-icon">&#127807;</span>
+                <strong>Ingredientes Frescos</strong>
+                <small>De granjas locales</small>
+              </div>
+              <div class="nr-feature-item">
+                <span class="nr-feature-icon">&#128104;&#8205;&#127859;</span>
+                <strong>Chefs Expertos</strong>
+                <small>Pasión en cada plato</small>
+              </div>
+              <div class="nr-feature-item">
+                <span class="nr-feature-icon">&#128557;</span>
+                <strong>Ambiente Acogedor</strong>
+                <small>Relájate y disfruta</small>
+              </div>
+              <div class="nr-feature-item">
+                <span class="nr-feature-icon">&#128101;</span>
+                <strong>Para Grupos</strong>
+                <small>Perfecto para familias</small>
+              </div>
+              <div class="nr-feature-item">
+                <span class="nr-feature-icon">&#10084;&#65039;</span>
+                <strong>Clientes Felices</strong>
+                <small>Tu satisfacción es todo</small>
+              </div>
+            </section>
+
+            <!-- Menu -->
+            <section class="nr-menu-section">
+              <p class="nr-menu-badge">— NUESTRO MENÚ —</p>
+              <h2 class="nr-menu-title">Favoritos del Chef</h2>
+              <div class="nr-menu-grid">
+                @for (product of editableProducts(); track product.id) {
+                <div class="nr-menu-card">
+                  <div class="nr-menu-card-img">
+                    <img [src]="product.image" [alt]="product.name" />
+                    <button class="nr-fav-btn">&#9825;</button>
+                  </div>
+                  <div class="nr-menu-card-body">
+                    <h4 class="nr-menu-name">{{ product.name }}</h4>
+                    <p class="nr-menu-desc">{{ product.category }} · Especialidad del chef</p>
+                    <div class="nr-menu-footer">
+                      <span class="nr-menu-price">${{ product.price }}</span>
+                      <button class="nr-add-btn" [style.backgroundColor]="currentNiche().primaryColor" (click)="addToCart(product.id)">
+                        @if(getCartQty(product.id) === 0) { + Agregar } @else { {{ getCartQty(product.id) }} en mesa }
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                }
+              </div>
+              <div class="nr-view-full-menu">
+                <button (click)="openWhatsAppMessagePreview()">Ver Menú Completo &#8594;</button>
+              </div>
+            </section>
+
+            <!-- Reservation Banner -->
+            <section class="nr-reservation-banner" [style.backgroundImage]="'url(' + currentNiche().heroImage + ')'">
+              <div class="nr-res-overlay"></div>
+              <div class="nr-res-content">
+                <p class="nr-res-badge">RESERVA TU MESA</p>
+                <h3>La Buena Comida Merece<br>una Gran Mesa</h3>
+                <ul>
+                  <li>&#10003; Reserva Fácil</li>
+                  <li>&#10003; Sin Cargos Ocultos</li>
+                  <li>&#10003; Mejor Precio Garantizado</li>
+                </ul>
+              </div>
+              <button class="nr-res-btn" (click)="openWhatsAppMessagePreview()">
+                <i class="pi pi-calendar"></i> Reservar Mesa
+              </button>
+            </section>
+
+            <!-- Stats -->
+            <section class="nr-stats">
+              <div class="nr-stat">
+                <span class="nr-stat-num">12+</span>
+                <span class="nr-stat-lbl">Años de Experiencia</span>
+              </div>
+              <div class="nr-stat">
+                <span class="nr-stat-num">25K+</span>
+                <span class="nr-stat-lbl">Clientes Felices</span>
+              </div>
+              <div class="nr-stat">
+                <span class="nr-stat-num">150+</span>
+                <span class="nr-stat-lbl">Platos Deliciosos</span>
+              </div>
+              <div class="nr-stat">
+                <span class="nr-stat-num">4.8</span>
+                <span class="nr-stat-lbl">Calificación</span>
+              </div>
+            </section>
+
+            <!-- Floating Cart -->
+            @if (totalCartItems() > 0) {
+            <div class="bds-floating-cart">
+              <div class="bds-cart-summary">
+                <div class="bds-cart-icon-bubble">
+                  <i class="pi pi-shopping-cart"></i>
+                  <span class="bds-cart-count">{{ totalCartItems() }}</span>
+                </div>
+                <div class="bds-cart-texts">
+                  <span class="bds-cart-label">{{ totalCartItems() }} plato(s) en tu orden</span>
+                  <span class="bds-cart-amount">Total: ${{ totalCartPrice() }} USD</span>
+                </div>
+              </div>
+              <button type="button" class="bds-send-whatsapp-btn" (click)="openWhatsAppMessagePreview()">
+                <i class="pi pi-whatsapp"></i>
+                <span>Enviar Pedido a WhatsApp</span>
+              </button>
+            </div>
+            }
+          </div>
+          }
+
+          <!-- ════════════════════════════════════════
+               NICHE: BARBERÍA — Estilo Gvora (Dark/Gold)
+               ════════════════════════════════════════ -->
+          @if (activeNicheId() === 'barbershop') {
+          <div class="niche-barber">
+            <!-- Nav -->
+            <nav class="nba-nav">
+              <div class="nba-logo">
+                <span class="nba-logo-icon">&#9986;</span>
+                <span class="nba-logo-text">{{ currentNiche().businessTitle }}</span>
+              </div>
+              <div class="nba-nav-links">
+                <span class="active">Inicio</span>
+                <span>Servicios</span>
+                <span>Galería</span>
+                <span>Contacto</span>
+              </div>
+              <button class="nba-book-btn" (click)="openWhatsAppMessagePreview()">Reservar Cita</button>
+            </nav>
+
+            <!-- Hero -->
+            <section class="nba-hero" [style.backgroundImage]="'url(' + currentNiche().heroImage + ')'">
+              <div class="nba-hero-overlay"></div>
+              <div class="nba-hero-content">
+                <span class="nba-badge">BARBERÍA PREMIUM</span>
+                <h1 class="nba-hero-title">Cortes Precisos<br>para el Hombre<br>Moderno.</h1>
+                <p class="nba-hero-desc">{{ currentNiche().tagline }}</p>
+                <div class="nba-hero-btns">
+                  <button class="nba-btn-book" (click)="openWhatsAppMessagePreview()">Reservar Cita</button>
+                  <button class="nba-btn-services" (click)="openWhatsAppMessagePreview()">Ver Servicios &#8250;</button>
+                </div>
+                <div class="nba-hero-info">
+                  <div class="nba-info-item">
+                    <i class="pi pi-map-marker"></i>
+                    <div>
+                      <strong>Ubicación</strong>
+                      <small>Calle Principal 27, Tu Ciudad</small>
+                    </div>
+                  </div>
+                  <div class="nba-info-item">
+                    <i class="pi pi-clock"></i>
+                    <div>
+                      <strong>Horario</strong>
+                      <small>Lun-Vie: 8am – 8pm</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Stats -->
+            <section class="nba-stats">
+              <div class="nba-stat">
+                <span class="nba-stat-num">18+</span>
+                <span class="nba-stat-lbl">Años de Experiencia</span>
+              </div>
+              <div class="nba-stat">
+                <span class="nba-stat-num">20+</span>
+                <span class="nba-stat-lbl">Barberos Expertos</span>
+              </div>
+              <div class="nba-stat">
+                <span class="nba-stat-num">5K+</span>
+                <span class="nba-stat-lbl">Clientes Felices</span>
+              </div>
+              <div class="nba-stat">
+                <span class="nba-stat-num">100%</span>
+                <span class="nba-stat-lbl">Garantía de Precisión</span>
+              </div>
+            </section>
+
+            <!-- Services -->
+            <section class="nba-services">
+              <p class="nba-section-badge">NUESTROS SERVICIOS</p>
+              <h2 class="nba-section-title">Grooming de Precisión,<br>para el Hombre Moderno.</h2>
+              <div class="nba-services-grid">
+                @for (product of editableProducts(); track product.id) {
+                <div class="nba-service-card">
+                  <div class="nba-service-img">
+                    <img [src]="product.image" [alt]="product.name" />
+                    <span class="nba-service-price">${{ product.price }} USD</span>
+                  </div>
+                  <div class="nba-service-body">
+                    <div class="nba-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <h4 class="nba-service-name">{{ product.name }}</h4>
+                    <p class="nba-service-cat">{{ product.category }}</p>
+                    <button class="nba-book-service-btn" (click)="addToCart(product.id)">
+                      @if(getCartQty(product.id) === 0) { Agendar Servicio } @else { &#10003; Agendado ({{ getCartQty(product.id) }}) }
+                    </button>
+                  </div>
+                </div>
+                }
+              </div>
+            </section>
+
+            <!-- Floating Cart -->
+            @if (totalCartItems() > 0) {
+            <div class="bds-floating-cart bds-floating-cart--barber">
+              <div class="bds-cart-summary">
+                <div class="bds-cart-icon-bubble">
+                  <i class="pi pi-calendar"></i>
+                  <span class="bds-cart-count">{{ totalCartItems() }}</span>
+                </div>
+                <div class="bds-cart-texts">
+                  <span class="bds-cart-label">{{ totalCartItems() }} servicio(s) seleccionado(s)</span>
+                  <span class="bds-cart-amount">Total: ${{ totalCartPrice() }} USD</span>
+                </div>
+              </div>
+              <button type="button" class="bds-send-whatsapp-btn bds-send-whatsapp-btn--gold" (click)="openWhatsAppMessagePreview()">
+                <i class="pi pi-whatsapp"></i>
+                <span>Agendar por WhatsApp</span>
+              </button>
+            </div>
+            }
+          </div>
+          }
+
+          <!-- ════════════════════════════════════════
+               NICHE: SERVICIOS — Estilo Apex Arc
+               ════════════════════════════════════════ -->
+          @if (activeNicheId() === 'services') {
+          <div class="niche-services">
+            <!-- Nav -->
+            <nav class="ns-nav">
+              <div class="ns-logo">{{ currentNiche().businessTitle }}</div>
+              <div class="ns-nav-links">
+                <span>Nosotros</span>
+                <span>Servicios</span>
+                <span>Portafolio</span>
+                <span>Proceso</span>
+                <span>Contacto</span>
+              </div>
+            </nav>
+
+            <!-- Hero -->
+            <section class="ns-hero">
+              <img [src]="currentNiche().heroImage" alt="Hero" class="ns-hero-img" />
+              <div class="ns-hero-overlay">
+                <h1 class="ns-hero-title">Diseñando Soluciones<br>Que Inspiran &amp; Perduran</h1>
+                <p class="ns-hero-desc">Transformamos visiones en resultados reales, combinando diseño innovador con excelencia funcional.</p>
+                <button class="ns-hero-btn" (click)="openWhatsAppMessagePreview()">Agendar Consulta Gratuita</button>
+              </div>
+            </section>
+
+            <!-- About / Stats -->
+            <section class="ns-about">
+              <div class="ns-about-left">
+                <h3>Sobre la Empresa</h3>
+                <p>Creemos que los servicios de calidad van más allá de resultados: crean experiencias que mejoran vidas y transforman negocios.</p>
+                <div class="ns-clients">
+                  <span>Forbes</span>
+                  <span>Bloomberg</span>
+                  <span>Reuters</span>
+                </div>
+              </div>
+              <div class="ns-about-stats">
+                <div class="ns-stat-item">
+                  <span class="ns-stat-num">15+</span>
+                  <span class="ns-stat-lbl">Años de Excelencia</span>
+                </div>
+                <div class="ns-stat-item">
+                  <span class="ns-stat-num">500+</span>
+                  <span class="ns-stat-lbl">Proyectos Completados</span>
+                </div>
+                <div class="ns-stat-item">
+                  <span class="ns-stat-num">98%</span>
+                  <span class="ns-stat-lbl">Retención de Clientes</span>
+                </div>
+                <div class="ns-stat-item">
+                  <span class="ns-stat-num">15+</span>
+                  <span class="ns-stat-lbl">Países con Proyectos</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- Services Grid -->
+            <section class="ns-services">
+              <div class="ns-services-header">
+                <h2>Servicios que Brindamos</h2>
+                <div class="ns-nav-arrows">
+                  <button>&#8592;</button>
+                  <button class="ns-arrow-active" [style.background]="currentNiche().primaryColor">&#8594;</button>
+                </div>
+              </div>
+              <div class="ns-services-grid">
+                @for (product of editableProducts(); track product.id; let i = $index) {
+                <div class="ns-service-card">
+                  <div class="ns-service-img">
+                    <img [src]="product.image" [alt]="product.name" />
+                    <span class="ns-service-num">0{{ i + 1 }}</span>
+                  </div>
+                  <h4 class="ns-service-name">{{ product.name }}</h4>
+                  <p class="ns-service-desc">{{ product.category }} · Servicio especializado</p>
+                  <div class="ns-service-price-row">
+                    <span class="ns-service-price">${{ product.price }} USD</span>
+                    <button class="ns-contact-btn" [style.color]="currentNiche().primaryColor" (click)="addToCart(product.id)">
+                      @if(getCartQty(product.id) === 0) { Contratar &#8594; } @else { &#10003; Contratado }
+                    </button>
+                  </div>
+                </div>
+                }
+              </div>
+            </section>
+
+            <!-- Floating Cart -->
+            @if (totalCartItems() > 0) {
+            <div class="bds-floating-cart">
+              <div class="bds-cart-summary">
+                <div class="bds-cart-icon-bubble">
+                  <i class="pi pi-briefcase"></i>
+                  <span class="bds-cart-count">{{ totalCartItems() }}</span>
+                </div>
+                <div class="bds-cart-texts">
+                  <span class="bds-cart-label">{{ totalCartItems() }} servicio(s) seleccionado(s)</span>
+                  <span class="bds-cart-amount">Total: ${{ totalCartPrice() }} USD</span>
+                </div>
+              </div>
+              <button type="button" class="bds-send-whatsapp-btn" (click)="openWhatsAppMessagePreview()">
+                <i class="pi pi-whatsapp"></i>
+                <span>Solicitar por WhatsApp</span>
+              </button>
+            </div>
+            }
+          </div>
+          }
+
+          <!-- ════════════════════════════════════════
+               NICHE: TECH/PRODUCTOS — Tienda Moderna
+               ════════════════════════════════════════ -->
+          @if (activeNicheId() === 'products') {
+          <div class="niche-tech">
+            <!-- Nav -->
+            <nav class="nt-nav">
+              <div class="nt-logo">
+                <span class="nt-logo-icon" [style.background]="currentNiche().primaryColor">
+                  <i class="pi pi-bolt"></i>
+                </span>
+                <span class="nt-logo-name">{{ currentNiche().businessTitle }}</span>
+              </div>
+              <div class="nt-nav-links">
+                <span>Productos</span>
+                <span>Novedades</span>
+                <span>Soporte</span>
+              </div>
+              <button class="nt-cart-btn" (click)="openWhatsAppMessagePreview()">
                 <i class="pi pi-shopping-cart"></i>
-                <span class="bds-cart-count">{{ totalCartItems() }}</span>
+                @if(totalCartItems() > 0){<span class="nt-cart-badge">{{ totalCartItems() }}</span>}
+              </button>
+            </nav>
+
+            <!-- Hero Banner -->
+            <section class="nt-hero" [style.background]="'linear-gradient(135deg, #1a0533 0%, ' + currentNiche().primaryColor + ' 100%)'">
+              <div class="nt-hero-content">
+                <span class="nt-hero-badge">NEW ARRIVALS 2026</span>
+                <h1 class="nt-hero-title">Tecnología que<br><span class="nt-hero-accent">Transforma</span> tu Vida</h1>
+                <p class="nt-hero-desc">{{ currentNiche().tagline }}</p>
+                <button class="nt-hero-btn" (click)="openWhatsAppMessagePreview()">Ver Catálogo Completo</button>
               </div>
-              <div class="bds-cart-texts">
-                <span class="bds-cart-label">{{ totalCartItems() }} producto(s) en tu pedido</span>
-                <span class="bds-cart-amount">Total estimado: ${{ totalCartPrice() }} USD</span>
+              <div class="nt-hero-visual">
+                <img [src]="editableProducts()[0]?.image" alt="Producto destacado" class="nt-hero-product" />
               </div>
+            </section>
+
+            <!-- Products -->
+            <section class="nt-products">
+              <div class="nt-products-header">
+                <h2>Productos Destacados</h2>
+                <p>Tecnología garantizada · Envíos exprés</p>
+              </div>
+              <div class="nt-products-grid">
+                @for (product of editableProducts(); track product.id) {
+                <div class="nt-product-card" [class.out-of-stock]="!product.inStock">
+                  <div class="nt-product-img">
+                    <img [src]="product.image" [alt]="product.name" />
+                    <span class="nt-product-category" [style.background]="currentNiche().primaryColor">{{ product.category }}</span>
+                    @if(!product.inStock){ <span class="nt-stock-badge">Agotado</span> }
+                  </div>
+                  <div class="nt-product-body">
+                    <h4 class="nt-product-name">{{ product.name }}</h4>
+                    <div class="nt-product-footer">
+                      <span class="nt-product-price" [style.color]="currentNiche().primaryColor">${{ product.price }} USD</span>
+                      @if(product.inStock) {
+                        @if(getCartQty(product.id) === 0) {
+                          <button class="nt-add-btn" [style.background]="currentNiche().primaryColor" (click)="addToCart(product.id)">
+                            <i class="pi pi-plus"></i> Agregar
+                          </button>
+                        } @else {
+                          <div class="bds-qty-control">
+                            <button (click)="removeFromCart(product.id)">&#8722;</button>
+                            <span>{{ getCartQty(product.id) }}</span>
+                            <button (click)="addToCart(product.id)">+</button>
+                          </div>
+                        }
+                      } @else {
+                        <span class="bds-unavailable-txt">Agotado</span>
+                      }
+                    </div>
+                  </div>
+                </div>
+                }
+              </div>
+            </section>
+
+            <!-- Floating Cart -->
+            @if (totalCartItems() > 0) {
+            <div class="bds-floating-cart bds-floating-cart--tech" [style.background]="'linear-gradient(135deg, #1a0533 0%, ' + currentNiche().primaryColor + ' 100%)'">
+              <div class="bds-cart-summary">
+                <div class="bds-cart-icon-bubble">
+                  <i class="pi pi-shopping-cart"></i>
+                  <span class="bds-cart-count">{{ totalCartItems() }}</span>
+                </div>
+                <div class="bds-cart-texts">
+                  <span class="bds-cart-label">{{ totalCartItems() }} producto(s) seleccionado(s)</span>
+                  <span class="bds-cart-amount">Total: ${{ totalCartPrice() }} USD</span>
+                </div>
+              </div>
+              <button type="button" class="bds-send-whatsapp-btn" (click)="openWhatsAppMessagePreview()">
+                <i class="pi pi-whatsapp"></i>
+                <span>Enviar Pedido a WhatsApp</span>
+              </button>
             </div>
-            <button type="button" class="bds-send-whatsapp-btn" (click)="openWhatsAppMessagePreview()">
-              <i class="pi pi-whatsapp"></i>
-              <span>Enviar Pedido a WhatsApp</span>
-            </button>
+            }
           </div>
           }
 
@@ -257,7 +833,7 @@
                 <span>Panel de Control</span>
               </div>
               <div class="bds-admin-menu">
-                <span class="bds-admin-item active"><i class="pi pi-box"></i> Productos & Precios</span>
+                <span class="bds-admin-item active"><i class="pi pi-box"></i> Productos &amp; Precios</span>
                 <span class="bds-admin-item"><i class="pi pi-whatsapp"></i> Pedidos WhatsApp</span>
                 <span class="bds-admin-item"><i class="pi pi-chart-line"></i> Estadísticas</span>
                 <span class="bds-admin-item"><i class="pi pi-cog"></i> Configuración</span>
@@ -266,7 +842,7 @@
                 <span class="bds-user-avatar">💼</span>
                 <div class="bds-user-info">
                   <strong>Panel Administrador</strong>
-                  <small>Plan $320 USD</small>
+                  <small>Sitio Web Profesional</small>
                 </div>
               </div>
             </aside>
@@ -345,7 +921,7 @@
               <div class="bds-admin-banner">
                 <i class="pi pi-sparkles"></i>
                 <p>
-                  <strong>¿Por qué el Plan $320 USD es el más vendido?</strong> Te da independencia total. No pagas mensualidades por cambiar fotos o precios: lo haces tú mismo desde tu celular o computadora en cualquier momento.
+                  <strong>¿Por qué un Sitio Web Profesional es la mejor inversión?</strong> Te da independencia total. No pagas mensualidades por cambiar fotos o precios: lo haces tú mismo desde tu celular o computadora en cualquier momento.
                 </p>
               </div>
 
@@ -372,13 +948,31 @@
       <div class="bds-cta-actions">
         <button type="button" class="bds-cta-btn whatsapp" (click)="onOrderSolution()">
           <i class="pi pi-whatsapp"></i>
-          <span>Solicitar por WhatsApp ({{ plan?.price || '$320 USD' }})</span>
+          <span>Solicitar por WhatsApp ({{ plan?.price || '$2.500.000 COP ($625 USD)' }})</span>
         </button>
         <button type="button" class="bds-cta-btn quote" (click)="openConsultation()">
           <i class="pi pi-calendar"></i>
           <span>Agendar asesoría gratis</span>
         </button>
       </div>
+    </div>
+
+    <!-- ── Lead Magnet Alternative Banner (Recurso Gratuito) ── -->
+    <div class="bds-lead-magnet-card" style="margin-top: 2rem; padding: 1.5rem 2rem; border-radius: 16px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(37, 99, 235, 0.2); display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 1.25rem;">
+        <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(37, 99, 235, 0.1); display: flex; align-items: center; justify-content: center; color: #2563eb; font-size: 1.4rem; flex-shrink: 0;">
+          <i class="pi pi-book"></i>
+        </div>
+        <div>
+          <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #2563eb;">Recurso Gratuito · SAMTS</span>
+          <h4 style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; margin: 0.15rem 0 0 0; color: var(--color-gray-900);">¿Aún no estás listo para contratar? Aprende primero cómo convertir seguidores</h4>
+          <p style="font-size: 0.85rem; color: var(--color-gray-600); margin: 0.25rem 0 0 0;">Descarga gratis nuestra guía: «De Instagram a Ventas: 15 ideas prácticas para transformar tráfico en clientes».</p>
+        </div>
+      </div>
+      <a routerLink="/guia" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.4rem; border-radius: 10px; background: #2563eb; color: #ffffff; font-weight: 600; font-size: 0.9rem; text-decoration: none; transition: transform 0.2s ease, background 0.2s ease; white-space: nowrap;">
+        <span>Descargar guía gratis</span>
+        <i class="pi pi-arrow-right"></i>
+      </a>
     </div>
 
   </div>

@@ -24,6 +24,7 @@ export class FooterComponent {
     { name: 'Nosotros', link: 'footer' },
     { name: 'Portafolio', link: '/portfolio', isRoute: true },
     { name: 'Blog', link: '/blog', isRoute: true },
+    { name: 'Guía Gratuita (PDF)', link: '/guia', isRoute: true },
     { name: 'Contacto', link: 'footer' }
   ];
 

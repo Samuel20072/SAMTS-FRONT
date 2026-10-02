@@ -14,6 +14,10 @@
       <button (click)="scrollToSection('services')" class="samts-nav__link">Servicios</button>
       <button (click)="navigateTo('/portfolio')" class="samts-nav__link">Portafolio</button>
       <button (click)="navigateTo('/pricing')" class="samts-nav__link">Precios</button>
+      <button (click)="navigateTo('/guia')" class="samts-nav__link" style="display: inline-flex; align-items: center; gap: 6px;">
+        <span>Guía</span>
+        <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 9999px; background: rgba(37,99,235,0.12); color: #2563eb; letter-spacing: 0.04em;">GRATIS</span>
+      </button>
     </div>
 
     <!-- Right side -->
@@ -37,6 +41,10 @@
       <button (click)="scrollToSection('services'); toggleMenu()" class="samts-nav__mobile-link">Servicios</button>
       <button (click)="navigateTo('/portfolio')" class="samts-nav__mobile-link">Portafolio</button>
       <button (click)="navigateTo('/pricing')" class="samts-nav__mobile-link">Precios</button>
+      <button (click)="navigateTo('/guia')" class="samts-nav__mobile-link" style="display: flex; align-items: center; justify-content: space-between;">
+        <span>Guía Gratuita</span>
+        <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 9999px; background: rgba(37,99,235,0.15); color: #2563eb;">PDF</span>
+      </button>
       <button (click)="openConsultation(); toggleMenu()" class="samts-btn samts-btn--primary w-full mt-3">
         Empezar
       </button>

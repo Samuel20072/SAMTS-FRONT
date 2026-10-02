@@ -28,6 +28,15 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/blog/blog-detail.page').then(m => m.BlogDetailPage)
   },
   {
+    path: 'guia',
+    loadComponent: () => import('./pages/lead-magnet/lead-magnet.page').then(m => m.LeadMagnetPage)
+  },
+  {
+    path: 'recurso-gratuito',
+    redirectTo: 'guia',
+    pathMatch: 'full'
+  },
+  {
     path: 'login',
     loadComponent: () => import('./pages/auth/login.page').then(m => m.LoginPage)
   },

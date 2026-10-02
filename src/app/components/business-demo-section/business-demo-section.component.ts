@@ -1,9 +1,11 @@
 import { Component, Input, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { SolutionPlan } from '../../core/models/samuel.models';
 import { SamuelDiagnosisService } from '../../services/samuel-diagnosis.service';
 import { ConsultationService } from '../../services/consultation.service';
+import { BOUTIQUE_ASSETS } from '../../data/boutique-assets.data';
 
 export interface DemoProduct {
   id: string;
@@ -29,13 +31,15 @@ export interface DemoNiche {
 @Component({
   selector: 'app-business-demo-section',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './business-demo-section.component.html',
   styleUrls: ['./business-demo-section.component.scss'],
 })
 export class BusinessDemoSectionComponent implements OnInit {
   samuel = inject(SamuelDiagnosisService);
   modalService = inject(ConsultationService);
+
+  readonly boutiqueAssets = BOUTIQUE_ASSETS;
 
   @Input() plan: SolutionPlan | null = null;
   @Input() initialBusinessType = '';
@@ -54,42 +58,74 @@ export class BusinessDemoSectionComponent implements OnInit {
       id: 'boutique',
       name: 'Ropa & Moda',
       icon: 'pi-tag',
-      businessTitle: 'Aura Boutique & Moda',
+      businessTitle: 'Rosant Boutique',
       tagline: 'Nueva colección de temporada · Envíos nacionales',
-      badge: 'Colección 2026',
-      heroImage: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80',
-      primaryColor: '#e11d48',
+      badge: 'Nueva Colección',
+      heroImage: BOUTIQUE_ASSETS.hero,
+      primaryColor: '#2b241e',
       products: [
         {
           id: 'b1',
-          name: 'Vestido Midi Silk Luxe',
-          category: 'Vestidos',
-          price: 45,
-          image: 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&w=600&q=80',
+          name: 'Vestido Denim Ajustado',
+          category: 'Vestiditos',
+          price: 140000,
+          image: BOUTIQUE_ASSETS.product1,
           inStock: true,
         },
         {
           id: 'b2',
-          name: 'Blazer Oversized Lino',
-          category: 'Chaquetas',
-          price: 65,
-          image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80',
+          name: 'Set Top & Jean Capri',
+          category: 'Conjuntos',
+          price: 110000,
+          image: BOUTIQUE_ASSETS.product2,
           inStock: true,
         },
         {
           id: 'b3',
-          name: 'Bolso de Cuero Minimal',
-          category: 'Accesorios',
-          price: 38,
-          image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80',
+          name: 'Blusa Encaje & Denim Celeste',
+          category: 'Blusas',
+          price: 120000,
+          image: BOUTIQUE_ASSETS.product3,
           inStock: true,
         },
         {
           id: 'b4',
-          name: 'Conjunto Urban Casual',
+          name: 'Vestido Sexy Ruffle Blanco',
+          category: 'Vestiditos',
+          price: 150000,
+          image: BOUTIQUE_ASSETS.product4,
+          inStock: true,
+        },
+        {
+          id: 'b5',
+          name: 'Top Royal Blue',
+          category: 'Blusas',
+          price: 130000,
+          image: BOUTIQUE_ASSETS.product5,
+          inStock: true,
+        },
+        {
+          id: 'b6',
+          name: 'Vestido Negro Ceñido',
+          category: 'Vestiditos',
+          price: 140000,
+          image: BOUTIQUE_ASSETS.product6,
+          inStock: true,
+        },
+        {
+          id: 'b7',
+          name: 'Vestido Fiesta Night',
+          category: 'Vestiditos',
+          price: 160000,
+          image: BOUTIQUE_ASSETS.product7,
+          inStock: true,
+        },
+        {
+          id: 'b8',
+          name: 'Enterizo Glam Dark Edition',
           category: 'Conjuntos',
-          price: 52,
-          image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80',
+          price: 150000,
+          image: BOUTIQUE_ASSETS.product8,
           inStock: true,
         },
       ],
@@ -273,10 +309,29 @@ export class BusinessDemoSectionComponent implements OnInit {
   ];
 
   editableProducts = signal<DemoProduct[]>([]);
+  boutiqueActiveTab = signal<string>('todos');
 
   readonly currentNiche = computed(() => {
     return this.niches.find((n) => n.id === this.activeNicheId()) || this.niches[0];
   });
+
+  readonly boutiqueRow1Products = computed(() => {
+    return this.editableProducts().slice(0, 4);
+  });
+
+  readonly boutiqueRow2Products = computed(() => {
+    const tab = this.boutiqueActiveTab();
+    const all = this.editableProducts();
+    if (tab === 'todos') {
+      return all.slice(4, 8);
+    }
+    const filtered = all.filter((p) => p.category.toLowerCase().includes(tab.toLowerCase()));
+    return filtered.length > 0 ? filtered : all.slice(4, 8);
+  });
+
+  setBoutiqueTab(tab: string): void {
+    this.boutiqueActiveTab.set(tab);
+  }
 
   readonly totalCartItems = computed(() => {
     const c = this.cart();
@@ -382,7 +437,11 @@ export class BusinessDemoSectionComponent implements OnInit {
     for (const [id, qty] of Object.entries(c)) {
       const prod = prods.find((p) => p.id === id);
       if (prod && qty > 0) {
-        items.push(`• ${qty}x ${prod.name} ($${prod.price * qty} USD)`);
+        const priceStr =
+          niche.id === 'boutique'
+            ? `$${(prod.price * qty).toLocaleString('es-CO')} COP`
+            : `$${prod.price * qty} USD`;
+        items.push(`• ${qty}x ${prod.name} (${priceStr})`);
       }
     }
 
@@ -390,11 +449,16 @@ export class BusinessDemoSectionComponent implements OnInit {
       return `¡Hola ${niche.businessTitle}! 👋\nVi su catálogo digital y me gustaría consultar disponibilidad de sus productos.`;
     }
 
+    const totalStr =
+      niche.id === 'boutique'
+        ? `$${this.totalCartPrice().toLocaleString('es-CO')} COP`
+        : `$${this.totalCartPrice()} USD`;
+
     return (
       `¡Hola ${niche.businessTitle}! 👋\n` +
       `Me gustaría realizar el siguiente pedido desde su catálogo web:\n\n` +
       items.join('\n') +
-      `\n\n*Total estimado:* $${this.totalCartPrice()} USD\n\n` +
+      `\n\n*Total estimado:* ${totalStr}\n\n` +
       `¿Tienen disponibilidad para coordinar la entrega? Muchas gracias.`
     );
   }
@@ -407,6 +471,15 @@ export class BusinessDemoSectionComponent implements OnInit {
 
   openConsultation(): void {
     this.modalService.open();
+  }
+
+  getCleanSlug(title: string): string {
+    if (!title) return 'demo';
+    return title.toLowerCase().replace(/[^a-z0-9]/g, '');
+  }
+
+  getDiscountAmount(price: number): number {
+    return Math.round(price * 0.2);
   }
 
   scrollToHero(): void {

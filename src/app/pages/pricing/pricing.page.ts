@@ -74,47 +74,49 @@ export class PricingPage {
 
   plans = [
     {
-      name: 'Landing Page Startup',
-      price: '$249',
+      name: 'Landing Page',
+      priceCOP: '$900.000 COP',
+      priceUSD: '$225 USD',
       period: 'pago único - entrega en 7 a 10 días',
       description: 'Presencia digital moderna y optimizada para captar clientes potenciales desde el primer día.',
       features: [
-        'Diseño web premium (5 secciones)',
-        'Optimización móvil y SEO para Google',
-        'Botones de contacto y WhatsApp directo',
-        'Formularios de captación de leads',
-        'Hosting y dominio gratis por 1 año',
-        'Soporte técnico y garantía 30 días'
+        'Diseño premium',
+        'Responsive',
+        'Formulario de contacto',
+        'Botón de WhatsApp',
+        'SEO básico',
+        'Hosting'
       ],
       highlight: false
     },
     {
-      name: 'Catálogo Editable + WhatsApp',
-      price: '$320',
+      name: 'Sitio Web Profesional',
+      priceCOP: '$2.500.000 COP',
+      priceUSD: '$625 USD',
       period: 'pago único - entrega en 10 a 14 días',
-      description: 'Catálogo digital interactivo, panel autoadministrable para editar productos y pedidos automáticos por WhatsApp.',
+      description: 'Plataforma completa para posicionar tu marca con múltiples páginas, blog y panel de administración.',
       features: [
-        'Catálogo de productos con fotos y categorías',
-        'Panel administrativo para cambiar precios y fotos',
-        'Generador de pedidos automático directo a WhatsApp',
-        'Buscador y filtros en tiempo real',
-        'Hosting y dominio gratis por 1 año',
-        'Video-capacitación de uso del panel'
+        'Varias páginas',
+        'Blog',
+        'Diseño personalizado',
+        'SEO básico',
+        'Formularios avanzados',
+        'Panel administrativo (si aplica)'
       ],
       highlight: true
     },
     {
-      name: 'Neural AI Pro',
-      price: '$790',
-      period: 'pago único - entrega en 3 semanas',
-      description: 'Automatización total. IA entrenada con tus datos que atiende, califica y vende 24/7.',
+      name: 'Soluciones Personalizadas',
+      priceCOP: '$4.000.000 COP',
+      priceUSD: '$1.000 USD',
+      period: 'pago único - según requerimientos',
+      description: 'El valor final depende de los requerimientos específicos del proyecto.',
       features: [
-        'Todo lo del plan Catálogo',
-        'Chatbot IA entrenado con tus datos',
-        'Pasarelas de pago y carrito de compras',
-        'Automatización de respuestas en WhatsApp',
-        'Dashboard administrativo con métricas',
-        'Soporte VIP 3 meses'
+        'Plataformas',
+        'Sistemas administrativos',
+        'E-commerce avanzado',
+        'Automatizaciones',
+        'Integraciones'
       ],
       highlight: false
     }

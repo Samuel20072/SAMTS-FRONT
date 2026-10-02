@@ -1,0 +1,371 @@
+<app-header></app-header>
+
+<main class="lm-page">
+
+  <!-- ═══════════════════════════════════════════
+       STEP 1: LANDING HERO
+       ═══════════════════════════════════════════ -->
+  @if (step() === 'landing') {
+    <section class="lm-hero" id="lm-hero">
+
+      <!-- Background decorations -->
+      <div class="lm-hero__blob lm-hero__blob--1"></div>
+      <div class="lm-hero__blob lm-hero__blob--2"></div>
+
+      <div class="lm-container">
+        <div class="lm-hero__grid">
+
+          <!-- Left: Copy -->
+          <div class="lm-hero__copy">
+
+            <div class="lm-badge">
+              <span class="lm-badge__dot"></span>
+              Recurso gratuito · SAMTS
+            </div>
+
+            <h1 class="lm-hero__title">
+              Tu página web no sirve de mucho si nadie llega a ella.
+            </h1>
+
+            <p class="lm-hero__subtitle">
+              Descarga gratis nuestra guía con 15 ideas para convertir el tráfico de Instagram y redes sociales en visitas, clientes y ventas.
+            </p>
+
+            <div class="lm-hero__trust">
+              <div class="lm-trust-item">
+                <i class="pi pi-check-circle"></i>
+                <span>15 ideas con ejemplos reales</span>
+              </div>
+              <div class="lm-trust-item">
+                <i class="pi pi-check-circle"></i>
+                <span>Incluye hooks y CTAs listos para usar</span>
+              </div>
+              <div class="lm-trust-item">
+                <i class="pi pi-check-circle"></i>
+                <span>Aplicable desde hoy, sin herramientas extra</span>
+              </div>
+            </div>
+
+            <div class="lm-hero__cta-group">
+              <button
+                id="lm-cta-primary"
+                class="lm-btn lm-btn--primary lm-btn--lg"
+                (click)="openForm()">
+                <i class="pi pi-download"></i>
+                Quiero la guía gratis
+              </button>
+              <p class="lm-cta-caption">100% gratuita · Sin compromiso</p>
+            </div>
+          </div>
+
+          <!-- Right: PDF Mockup -->
+          <div class="lm-hero__visual">
+            <div class="lm-mockup-wrapper">
+              <img
+                src="/assets/images/guia-mockup.jpg"
+                alt="Guía De Instagram a Ventas - SAMTS"
+                class="lm-mockup-img"
+                loading="eager"
+                width="400"
+                height="533">
+              <div class="lm-mockup-glow"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- What's inside teaser -->
+      <div class="lm-inside">
+        <div class="lm-container">
+          <p class="lm-inside__label">Lo que encontrarás en la guía</p>
+          <div class="lm-inside__grid">
+            <div class="lm-inside__item">
+              <span class="lm-inside__num">01</span>
+              <span>El error más común de los negocios con web</span>
+            </div>
+            <div class="lm-inside__item">
+              <span class="lm-inside__num">02</span>
+              <span>15 ideas de contenido con hook, formato y CTA</span>
+            </div>
+            <div class="lm-inside__item">
+              <span class="lm-inside__num">03</span>
+              <span>El CTA que convierte contenido en tráfico real</span>
+            </div>
+            <div class="lm-inside__item">
+              <span class="lm-inside__num">04</span>
+              <span>El flujo completo: Redes → Web → Venta</span>
+            </div>
+          </div>
+
+          <div class="lm-inside__cta">
+            <button
+              id="lm-cta-secondary"
+              class="lm-btn lm-btn--primary lm-btn--lg"
+              (click)="openForm()">
+              Descargar guía gratis
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  }
+
+  <!-- ═══════════════════════════════════════════
+       STEP 2: FORM
+       ═══════════════════════════════════════════ -->
+  @if (step() === 'form') {
+    <section class="lm-form-section" id="lm-form">
+      <div class="lm-container lm-container--narrow">
+
+        <!-- Header -->
+        <div class="lm-form-header">
+          <div class="lm-badge">
+            <span class="lm-badge__dot"></span>
+            Casi listo
+          </div>
+          <h1 class="lm-form-header__title">
+            Un paso más y la guía es tuya.
+          </h1>
+          <p class="lm-form-header__sub">
+            Ingresa tus datos para descargar la guía gratis.
+          </p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="lm-form-card">
+
+          <!-- PDF Mini Preview -->
+          <div class="lm-form-card__preview">
+            <img
+              src="/assets/images/guia-mockup.jpg"
+              alt="Guía De Instagram a Ventas"
+              class="lm-form-preview-img">
+            <div class="lm-form-card__preview-text">
+              <p class="lm-form-card__preview-title">De Instagram a Ventas</p>
+              <p class="lm-form-card__preview-sub">15 ideas · PDF gratuito · SAMTS</p>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <form (ngSubmit)="onSubmit()" class="lm-form" novalidate>
+
+            <!-- Name -->
+            <div class="lm-field" [class.lm-field--error]="nameError()">
+              <label class="lm-label" for="lm-name">Nombre *</label>
+              <input
+                id="lm-name"
+                type="text"
+                class="lm-input"
+                placeholder="Tu nombre"
+                [(ngModel)]="name"
+                [ngModelOptions]="{standalone: true}"
+                autocomplete="given-name"
+                maxlength="100">
+              @if (nameError()) {
+                <span class="lm-error">{{ nameError() }}</span>
+              }
+            </div>
+
+            <!-- Email -->
+            <div class="lm-field" [class.lm-field--error]="emailError()">
+              <label class="lm-label" for="lm-email">Correo electrónico *</label>
+              <input
+                id="lm-email"
+                type="email"
+                class="lm-input"
+                placeholder="tu@correo.com"
+                [(ngModel)]="email"
+                [ngModelOptions]="{standalone: true}"
+                autocomplete="email"
+                maxlength="150">
+              @if (emailError()) {
+                <span class="lm-error">{{ emailError() }}</span>
+              }
+            </div>
+
+            <!-- WhatsApp -->
+            <div class="lm-field">
+              <label class="lm-label" for="lm-whatsapp">
+                WhatsApp
+                <span class="lm-label__optional">(opcional)</span>
+              </label>
+              <input
+                id="lm-whatsapp"
+                type="tel"
+                class="lm-input"
+                placeholder="+57 300 123 4567"
+                [(ngModel)]="whatsapp"
+                [ngModelOptions]="{standalone: true}"
+                autocomplete="tel"
+                maxlength="20">
+            </div>
+
+            <!-- Business Type -->
+            <div class="lm-field" [class.lm-field--error]="businessTypeError()">
+              <label class="lm-label" for="lm-business-type">Tipo de negocio *</label>
+              <select
+                id="lm-business-type"
+                class="lm-select"
+                [(ngModel)]="businessType"
+                [ngModelOptions]="{standalone: true}">
+                <option value="">Selecciona una opción</option>
+                @for (type of businessTypes; track type) {
+                  <option [value]="type">{{ type }}</option>
+                }
+              </select>
+              @if (businessTypeError()) {
+                <span class="lm-error">{{ businessTypeError() }}</span>
+              }
+            </div>
+
+            <!-- Has Website -->
+            <div class="lm-field">
+              <label class="lm-label">
+                ¿Ya tienes página web?
+                <span class="lm-label__optional">(opcional)</span>
+              </label>
+              <div class="lm-radio-group">
+                @for (opt of websiteOptions; track opt) {
+                  <label class="lm-radio-label" [class.lm-radio-label--active]="hasWebsite() === opt">
+                    <input
+                      type="radio"
+                      [value]="opt"
+                      [(ngModel)]="hasWebsite"
+                      [ngModelOptions]="{standalone: true}"
+                      class="lm-radio">
+                    <span>{{ opt }}</span>
+                  </label>
+                }
+              </div>
+            </div>
+
+            <!-- Terms -->
+            <div class="lm-field lm-field--terms" [class.lm-field--error]="termsError()">
+              <label class="lm-checkbox-label">
+                <input
+                  type="checkbox"
+                  class="lm-checkbox"
+                  [(ngModel)]="acceptTerms"
+                  [ngModelOptions]="{standalone: true}"
+                  id="lm-terms">
+                <span>Acepto recibir información relacionada con SAMTS y el recurso solicitado.</span>
+              </label>
+              @if (termsError()) {
+                <span class="lm-error">{{ termsError() }}</span>
+              }
+            </div>
+
+            <!-- Submit Error -->
+            @if (submitError()) {
+              <div class="lm-submit-error">
+                <i class="pi pi-exclamation-circle"></i>
+                {{ submitError() }}
+              </div>
+            }
+
+            <!-- Submit Button -->
+            <button
+              id="lm-submit-btn"
+              type="submit"
+              class="lm-btn lm-btn--primary lm-btn--lg lm-btn--full"
+              [disabled]="isSubmitting()">
+              @if (isSubmitting()) {
+                <i class="pi pi-spin pi-spinner"></i>
+                Enviando...
+              } @else {
+                <i class="pi pi-download"></i>
+                Descargar guía gratis
+              }
+            </button>
+
+            <p class="lm-form-caption">100% gratuita · Sin spam · Puedes darte de baja en cualquier momento</p>
+
+          </form>
+        </div>
+
+        <!-- Back link -->
+        <button class="lm-back-link" (click)="step.set('landing')">
+          <i class="pi pi-arrow-left"></i>
+          Volver
+        </button>
+
+      </div>
+    </section>
+  }
+
+  <!-- ═══════════════════════════════════════════
+       STEP 3: SUCCESS / DOWNLOAD
+       ═══════════════════════════════════════════ -->
+  @if (step() === 'success') {
+    <section class="lm-success-section" id="lm-success">
+      <div class="lm-container lm-container--narrow">
+
+        <!-- Success Icon -->
+        <div class="lm-success-icon">
+          <i class="pi pi-check-circle"></i>
+        </div>
+
+        <h1 class="lm-success-title">¡Listo! Tu guía está preparada.</h1>
+        <p class="lm-success-sub">
+          Ya puedes descargar la guía y empezar a aplicar las ideas en tu negocio.
+        </p>
+
+        <!-- Download CTA -->
+        <button
+          id="lm-download-btn"
+          class="lm-btn lm-btn--primary lm-btn--lg"
+          (click)="downloadPdf()">
+          <i class="pi pi-file-pdf"></i>
+          Descargar guía
+        </button>
+
+        <!-- Divider -->
+        <div class="lm-divider">
+          <span>Ahora tenemos una pregunta...</span>
+        </div>
+
+        <!-- Post-download question -->
+        <div class="lm-question-card">
+          <p class="lm-question-card__label">¿Tu negocio ya tiene una página web?</p>
+
+          <div class="lm-question-card__actions">
+            <button
+              id="lm-has-website-yes"
+              class="lm-btn lm-btn--outline"
+              (click)="onWebsiteChoice('Sí')">
+              <i class="pi pi-globe"></i>
+              Sí, tengo una
+            </button>
+            <button
+              id="lm-has-website-no"
+              class="lm-btn lm-btn--primary"
+              (click)="onWebsiteChoice('No')">
+              <i class="pi pi-times-circle"></i>
+              No, todavía no
+            </button>
+          </div>
+        </div>
+
+        <!-- Context for "Sí, tengo una" -->
+        <div class="lm-improve-hint">
+          <p>
+            Si ya tienes web pero sientes que no está atrayendo clientes, el siguiente paso es
+            entender por qué y qué ajustar.
+          </p>
+          <button
+            id="lm-analyze-btn"
+            class="lm-link-btn"
+            (click)="onStartDiagnostic()">
+            Analizar mi negocio con Samuel →
+          </button>
+        </div>
+
+      </div>
+    </section>
+  }
+
+</main>
+
+<app-footer></app-footer>
