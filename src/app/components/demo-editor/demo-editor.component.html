@@ -1,0 +1,320 @@
+<section class="demo-editor-overlay" [class.is-open]="isOpen()">
+
+  <!-- Toggle Tab -->
+  <button class="demo-editor-tab" (click)="togglePanel()" [title]="isOpen() ? 'Cerrar editor' : 'Personalizar demo'">
+    <i class="pi" [class.pi-sliders-h]="!isOpen()" [class.pi-times]="isOpen()"></i>
+    <span *ngIf="!isOpen()">Editar Demo</span>
+  </button>
+
+  <!-- Panel -->
+  <div class="demo-editor-panel" *ngIf="isOpen()">
+    <div class="dep-header">
+      <div class="dep-header-left">
+        <i class="pi pi-palette"></i>
+        <span>Personalizar Demo</span>
+      </div>
+      <button class="dep-close-btn" (click)="togglePanel()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+
+    <div class="dep-body">
+
+      <!-- ─── Plantilla / Diseño de Boutique ─── -->
+      <div class="dep-section">
+        <div class="dep-section-title">
+          <i class="pi pi-th-large"></i>
+          Diseño de Plantilla
+        </div>
+        <div class="dep-layout-options">
+          <button
+            type="button"
+            class="dep-layout-card"
+            [class.active]="cfg().boutiqueLayout !== 'layout2'"
+            (click)="onLayoutChange('layout1')">
+            <span class="dep-layout-badge">Diseño 1</span>
+            <span class="dep-layout-name">Minimal Luxury</span>
+            <span class="dep-layout-sub">Rosant Boutique Style</span>
+          </button>
+
+          <button
+            type="button"
+            class="dep-layout-card"
+            [class.active]="cfg().boutiqueLayout === 'layout2'"
+            (click)="onLayoutChange('layout2')">
+            <span class="dep-layout-badge dep-layout-badge--v2">Diseño 2</span>
+            <span class="dep-layout-name">Sport &amp; Activewear</span>
+            <span class="dep-layout-sub">Vixta Fitness Style</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ─── Texto y Colores ─── -->
+      <div class="dep-section">
+        <div class="dep-section-title">
+          <i class="pi pi-pen-to-square"></i>
+          Nombre & Eslogan
+        </div>
+
+        <div class="dep-field">
+          <label class="dep-label">Nombre del negocio</label>
+          <input
+            class="dep-input"
+            type="text"
+            [value]="cfg().boutiqueBusinessTitle"
+            (input)="onTextChange('boutiqueBusinessTitle', $event)"
+            placeholder="Mi Boutique"
+          />
+        </div>
+
+        <div class="dep-field">
+          <label class="dep-label">Eslogan / tagline</label>
+          <input
+            class="dep-input"
+            type="text"
+            [value]="cfg().boutiqueTagline"
+            (input)="onTextChange('boutiqueTagline', $event)"
+            placeholder="Tu eslogan aquí..."
+          />
+        </div>
+      </div>
+
+      <!-- ─── Colores ─── -->
+      <div class="dep-section">
+        <div class="dep-section-title">
+          <i class="pi pi-palette"></i>
+          Colores & Tema de la Tienda
+        </div>
+
+        <!-- Presets -->
+        <div class="dep-presets-bar">
+          <span class="dep-presets-label">Temas rápidos:</span>
+          <div class="dep-presets-chips">
+            <button type="button" class="dep-preset-chip" (click)="applyPreset('nude')">✨ Nude Warm</button>
+            <button type="button" class="dep-preset-chip" (click)="applyPreset('dark')">🖤 Dark Luxury</button>
+            <button type="button" class="dep-preset-chip" (click)="applyPreset('rose')">🌸 Rose Gold</button>
+            <button type="button" class="dep-preset-chip" (click)="applyPreset('clean')">⚡ Slate Clean</button>
+          </div>
+        </div>
+
+        <div class="dep-colors-grid">
+          <div class="dep-color-field">
+            <label class="dep-label">Menú Nav / Principal</label>
+            <div class="dep-color-wrap">
+              <input
+                type="color"
+                class="dep-color-input"
+                [value]="cfg().boutiquePrimaryColor"
+                (input)="onColorChange('boutiquePrimaryColor', $event)"
+              />
+              <span class="dep-color-hex">{{ cfg().boutiquePrimaryColor }}</span>
+            </div>
+          </div>
+
+          <div class="dep-color-field">
+            <label class="dep-label">Fondo de Tienda</label>
+            <div class="dep-color-wrap">
+              <input
+                type="color"
+                class="dep-color-input"
+                [value]="cfg().boutiqueBgColor"
+                (input)="onColorChange('boutiqueBgColor', $event)"
+              />
+              <span class="dep-color-hex">{{ cfg().boutiqueBgColor }}</span>
+            </div>
+          </div>
+
+          <div class="dep-color-field">
+            <label class="dep-label">Pie de Página (Footer)</label>
+            <div class="dep-color-wrap">
+              <input
+                type="color"
+                class="dep-color-input"
+                [value]="cfg().boutiqueFooterBgColor"
+                (input)="onColorChange('boutiqueFooterBgColor', $event)"
+              />
+              <span class="dep-color-hex">{{ cfg().boutiqueFooterBgColor }}</span>
+            </div>
+          </div>
+
+          <div class="dep-color-field">
+            <label class="dep-label">Fondo de Botones</label>
+            <div class="dep-color-wrap">
+              <input
+                type="color"
+                class="dep-color-input"
+                [value]="cfg().boutiqueButtonBgColor"
+                (input)="onColorChange('boutiqueButtonBgColor', $event)"
+              />
+              <span class="dep-color-hex">{{ cfg().boutiqueButtonBgColor }}</span>
+            </div>
+          </div>
+
+          <div class="dep-color-field">
+            <label class="dep-label">Texto de Botones</label>
+            <div class="dep-color-wrap">
+              <input
+                type="color"
+                class="dep-color-input"
+                [value]="cfg().boutiqueButtonTextColor"
+                (input)="onColorChange('boutiqueButtonTextColor', $event)"
+              />
+              <span class="dep-color-hex">{{ cfg().boutiqueButtonTextColor }}</span>
+            </div>
+          </div>
+
+          <div class="dep-color-field">
+            <label class="dep-label">Color Acento</label>
+            <div class="dep-color-wrap">
+              <input
+                type="color"
+                class="dep-color-input"
+                [value]="cfg().boutiqueAccentColor"
+                (input)="onColorChange('boutiqueAccentColor', $event)"
+              />
+              <span class="dep-color-hex">{{ cfg().boutiqueAccentColor }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Logos ─── -->
+      <div class="dep-section">
+        <div class="dep-section-title">
+          <i class="pi pi-image"></i>
+          Logos
+        </div>
+
+        <div class="dep-img-field">
+          <div class="dep-img-preview-wrap">
+            <img [src]="cfg().boutiqueLogoTransparent" alt="Logo nav" class="dep-img-preview dep-img-logo" />
+          </div>
+          <div class="dep-img-meta">
+            <span class="dep-label">Logo navegación (transparente)</span>
+            <label class="dep-upload-btn">
+              <i class="pi pi-upload"></i> Cambiar
+              <input type="file" accept="image/*" (change)="onImageChange('boutiqueLogoTransparent', $event)" hidden />
+            </label>
+          </div>
+        </div>
+
+        <div class="dep-img-field">
+          <div class="dep-img-preview-wrap">
+            <img [src]="cfg().boutiqueLogoFooter" alt="Logo footer" class="dep-img-preview dep-img-logo" />
+          </div>
+          <div class="dep-img-meta">
+            <span class="dep-label">Logo footer</span>
+            <label class="dep-upload-btn">
+              <i class="pi pi-upload"></i> Cambiar
+              <input type="file" accept="image/*" (change)="onImageChange('boutiqueLogoFooter', $event)" hidden />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Hero ─── -->
+      <div class="dep-section">
+        <div class="dep-section-title">
+          <i class="pi pi-image"></i>
+          Imagen Hero
+        </div>
+
+        <div class="dep-img-field dep-img-field--hero">
+          <div class="dep-img-preview-wrap dep-img-preview-wrap--hero">
+            <img [src]="cfg().boutiqueHeroImage" alt="Hero" class="dep-img-preview" />
+          </div>
+          <div class="dep-img-meta">
+            <span class="dep-label">Foto principal (hero)</span>
+            <label class="dep-upload-btn">
+              <i class="pi pi-upload"></i> Cambiar foto
+              <input type="file" accept="image/*" (change)="onImageChange('boutiqueHeroImage', $event)" hidden />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Banners ─── -->
+      <div class="dep-section">
+        <div class="dep-section-title">
+          <i class="pi pi-images"></i>
+          Banners de categoría
+        </div>
+
+        <div class="dep-img-field">
+          <div class="dep-img-preview-wrap">
+            <img [src]="cfg().boutiqueBannerVestidos" alt="Banner vestidos" class="dep-img-preview" />
+          </div>
+          <div class="dep-img-meta">
+            <span class="dep-label">Banner Vestidos</span>
+            <label class="dep-upload-btn">
+              <i class="pi pi-upload"></i> Cambiar
+              <input type="file" accept="image/*" (change)="onImageChange('boutiqueBannerVestidos', $event)" hidden />
+            </label>
+          </div>
+        </div>
+
+        <div class="dep-img-field">
+          <div class="dep-img-preview-wrap">
+            <img [src]="cfg().boutiqueBannerConjuntos" alt="Banner conjuntos" class="dep-img-preview" />
+          </div>
+          <div class="dep-img-meta">
+            <span class="dep-label">Banner Conjuntos</span>
+            <label class="dep-upload-btn">
+              <i class="pi pi-upload"></i> Cambiar
+              <input type="file" accept="image/*" (change)="onImageChange('boutiqueBannerConjuntos', $event)" hidden />
+            </label>
+          </div>
+        </div>
+
+        <div class="dep-img-field">
+          <div class="dep-img-preview-wrap">
+            <img [src]="cfg().boutiqueBannerElegancia" alt="Banner elegancia" class="dep-img-preview" />
+          </div>
+          <div class="dep-img-meta">
+            <span class="dep-label">Banner Elegancia</span>
+            <label class="dep-upload-btn">
+              <i class="pi pi-upload"></i> Cambiar
+              <input type="file" accept="image/*" (change)="onImageChange('boutiqueBannerElegancia', $event)" hidden />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Productos ─── -->
+      <div class="dep-section">
+        <div class="dep-section-title">
+          <i class="pi pi-shopping-bag"></i>
+          Fotos de productos (1–8)
+        </div>
+
+        <div class="dep-products-grid">
+          @for (i of productIndexes; track i) {
+          <div class="dep-product-item">
+            <div class="dep-product-img-wrap">
+              <img [src]="getProductImage(i)" [alt]="'Producto ' + i" class="dep-product-preview" />
+              <label class="dep-product-overlay">
+                <i class="pi pi-camera"></i>
+                <input type="file" accept="image/*" (change)="onProductImageChange(i, $event)" hidden />
+              </label>
+            </div>
+            <span class="dep-product-lbl">Producto {{ i }}</span>
+          </div>
+          }
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer actions -->
+    <div class="dep-footer">
+      <button class="dep-reset-btn" (click)="onReset()" [disabled]="!demoConfig.hasCustomChanges()">
+        <i class="pi pi-refresh"></i>
+        Restablecer todo
+      </button>
+      <span class="dep-save-indicator" *ngIf="showSaved()">
+        <i class="pi pi-check-circle"></i> Guardado
+      </span>
+    </div>
+  </div>
+
+</section>

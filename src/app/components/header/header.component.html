@@ -1,4 +1,5 @@
-<nav class="samts-nav">
+<div class="samts-nav-trigger" (mouseenter)="isHoveredTop.set(true)"></div>
+<nav class="samts-nav" [class.scrolled]="isScrolled()" [class.hidden-demo]="isHeaderHidden()" (mouseenter)="isHoveredTop.set(true)">
   <div class="samts-nav__inner">
 
     <!-- Logo -->

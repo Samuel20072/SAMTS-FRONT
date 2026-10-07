@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal, computed, inject } from '@angular/core';
+import { Component, Input, OnInit, signal, computed, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -6,6 +6,7 @@ import { SolutionPlan } from '../../core/models/samuel.models';
 import { SamuelDiagnosisService } from '../../services/samuel-diagnosis.service';
 import { ConsultationService } from '../../services/consultation.service';
 import { BOUTIQUE_ASSETS } from '../../data/boutique-assets.data';
+import { DemoConfigService } from '../../services/demo-config.service';
 
 export interface DemoProduct {
   id: string;
@@ -38,8 +39,12 @@ export interface DemoNiche {
 export class BusinessDemoSectionComponent implements OnInit {
   samuel = inject(SamuelDiagnosisService);
   modalService = inject(ConsultationService);
+  demoConfig = inject(DemoConfigService);
 
   readonly boutiqueAssets = BOUTIQUE_ASSETS;
+
+  /** Reactive boutique config from DemoConfigService */
+  readonly demoAssets = computed(() => this.demoConfig.config());
 
   @Input() plan: SolutionPlan | null = null;
   @Input() initialBusinessType = '';
@@ -58,6 +63,7 @@ export class BusinessDemoSectionComponent implements OnInit {
       id: 'boutique',
       name: 'Ropa & Moda',
       icon: 'pi-tag',
+      // These are static defaults; template reads reactive demoAssets() for boutique
       businessTitle: 'Rosant Boutique',
       tagline: 'Nueva colección de temporada · Envíos nacionales',
       badge: 'Nueva Colección',
@@ -333,6 +339,10 @@ export class BusinessDemoSectionComponent implements OnInit {
     this.boutiqueActiveTab.set(tab);
   }
 
+  setLayout(layout: 'layout1' | 'layout2'): void {
+    this.demoConfig.update({ boutiqueLayout: layout });
+  }
+
   readonly totalCartItems = computed(() => {
     const c = this.cart();
     return Object.values(c).reduce((sum, qty) => sum + qty, 0);
@@ -350,6 +360,16 @@ export class BusinessDemoSectionComponent implements OnInit {
     }
     return total;
   });
+
+  constructor() {
+    // Re-load boutique products whenever config changes (e.g. image swapped in editor)
+    effect(() => {
+      this.demoConfig.config(); // track changes
+      if (this.activeNicheId() === 'boutique') {
+        this.loadNicheProducts('boutique');
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.selectInitialNiche();
@@ -381,7 +401,18 @@ export class BusinessDemoSectionComponent implements OnInit {
 
   private loadNicheProducts(nicheId: string): void {
     const niche = this.niches.find((n) => n.id === nicheId) || this.niches[0];
-    this.editableProducts.set(JSON.parse(JSON.stringify(niche.products)));
+    const products = JSON.parse(JSON.stringify(niche.products));
+
+    // For boutique, override product images with values from DemoConfigService
+    if (nicheId === 'boutique') {
+      const cfg = this.demoConfig.config();
+      products.forEach((p: DemoProduct, idx: number) => {
+        const key = `boutiqueProduct${idx + 1}` as keyof typeof cfg;
+        if (cfg[key]) p.image = cfg[key] as string;
+      });
+    }
+
+    this.editableProducts.set(products);
   }
 
   addToCart(productId: string): void {

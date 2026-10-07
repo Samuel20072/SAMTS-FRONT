@@ -6,6 +6,7 @@ import { BusinessDemoSectionComponent } from '../../components/business-demo-sec
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ConsultationModalComponent } from '../../components/consultation-modal/consultation-modal.component';
 import { SamuelDiagnosisService } from '../../services/samuel-diagnosis.service';
+import { DemoEditorComponent } from '../../components/demo-editor/demo-editor.component';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,7 @@ import { SamuelDiagnosisService } from '../../services/samuel-diagnosis.service'
     BusinessDemoSectionComponent,
     FooterComponent,
     ConsultationModalComponent,
+    DemoEditorComponent,
   ],
   templateUrl: './home.page.html'
 })

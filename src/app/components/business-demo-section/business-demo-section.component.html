@@ -18,7 +18,7 @@
       </div>
 
       <h2 class="bds-main-title">
-        Así funcionará la plataforma de <span class="bds-highlight-title">{{ currentNiche().businessTitle }}</span>
+        Así funcionará la plataforma de <span class="bds-highlight-title">{{ activeNicheId() === 'boutique' ? demoAssets().boutiqueBusinessTitle : currentNiche().businessTitle }}</span>
       </h2>
       <p class="bds-main-sub">
         Interactúa con la tienda en vivo, prueba el pedido por WhatsApp y explora el panel administrativo autogestionable.
@@ -70,6 +70,30 @@
         </div>
 
         <div class="bds-toolbar-right">
+          <!-- Layout Switcher para Boutique -->
+          @if (activeNicheId() === 'boutique' && viewMode() === 'client') {
+          <div class="bds-layout-switch">
+            <button
+              type="button"
+              class="bds-layout-chip"
+              [class.active]="demoAssets().boutiqueLayout !== 'layout2'"
+              (click)="setLayout('layout1')"
+              title="Diseño 1: Minimal Luxury">
+              <i class="pi pi-palette"></i>
+              <span>Diseño 1</span>
+            </button>
+            <button
+              type="button"
+              class="bds-layout-chip"
+              [class.active]="demoAssets().boutiqueLayout === 'layout2'"
+              (click)="setLayout('layout2')"
+              title="Diseño 2: Sport &amp; Activewear">
+              <i class="pi pi-th-large"></i>
+              <span>Diseño 2</span>
+            </button>
+          </div>
+          }
+
           <!-- Device Switcher -->
           <div class="bds-device-switch">
             <button
@@ -103,7 +127,7 @@
           </div>
           <div class="bds-url-bar">
             <i class="pi pi-lock"></i>
-            <span>https://{{ getCleanSlug(currentNiche().businessTitle) }}.samts.app</span>
+            <span>https://{{ getCleanSlug(demoAssets().boutiqueBusinessTitle) }}.samts.app</span>
           </div>
           <div class="bds-browser-badge">
             <span class="bds-live-indicator"></span>
@@ -118,217 +142,455 @@
         <div class="bds-screen-content client-view" [attr.data-niche]="activeNicheId()">
 
           <!-- ════════════════════════════════════════
-               NICHE: BOUTIQUE / ROPA — ROSANT BOUTIQUE
+               NICHE: BOUTIQUE / ROPA & MODA — 2 DISEÑOS
                ════════════════════════════════════════ -->
           @if (activeNicheId() === 'boutique') {
-          <div class="niche-boutique ros-boutique">
 
-            <!-- NAVBAR TRANSPARENT / DARK OVERLAY -->
-            <nav class="ros-nav">
-              <div class="ros-nav-inner">
-                <div class="ros-nav-brand" (click)="openWhatsAppMessagePreview()">
-                  <img [src]="boutiqueAssets.logoTransparent" alt="ROSANT Boutique" class="ros-brand-img" />
-                </div>
-                <div class="ros-nav-links">
-                  <span (click)="openWhatsAppMessagePreview()">Inicio</span>
-                  <span (click)="openWhatsAppMessagePreview()">Colecciones</span>
-                  <span (click)="openWhatsAppMessagePreview()">Contacto</span>
-                  <span (click)="openWhatsAppMessagePreview()">Nosotros</span>
-                </div>
-                <div class="ros-nav-actions">
-                  <button class="ros-icon-btn" (click)="openWhatsAppMessagePreview()" title="Buscar">
-                    <i class="pi pi-search"></i>
-                  </button>
-                  <button class="ros-icon-btn" (click)="openWhatsAppMessagePreview()" title="Carrito de Compras">
-                    <i class="pi pi-shopping-bag"></i>
-                    @if (totalCartItems() > 0) {
-                      <span class="ros-cart-badge">{{ totalCartItems() }}</span>
+            @if (demoAssets().boutiqueLayout === 'layout2') {
+            <!-- ════════════════════════════════════════
+                 DISEÑO 2: VIXTA SPORT & ACTIVEWEAR
+                 ════════════════════════════════════════ -->
+            <div
+              class="niche-boutique-v2 vxt-boutique"
+              [style.--vxt-primary]="demoAssets().boutiquePrimaryColor"
+              [style.--vxt-accent]="demoAssets().boutiqueAccentColor"
+              [style.--vxt-bg]="demoAssets().boutiqueBgColor"
+              [style.--vxt-footer-bg]="demoAssets().boutiqueFooterBgColor"
+              [style.--vxt-btn-bg]="demoAssets().boutiqueButtonBgColor"
+              [style.--vxt-btn-text]="demoAssets().boutiqueButtonTextColor"
+            >
+
+              <!-- NAVBAR DESIGN 2 -->
+              <nav class="vxt-nav">
+                <div class="vxt-nav-inner">
+                  <div class="vxt-nav-links">
+                    <span (click)="openWhatsAppMessagePreview()">Inicio</span>
+                    <span (click)="openWhatsAppMessagePreview()">Colecciones</span>
+                    <span (click)="openWhatsAppMessagePreview()">Contacto</span>
+                    <span (click)="openWhatsAppMessagePreview()">Nosotros</span>
+                  </div>
+                  <div class="vxt-nav-brand" (click)="openWhatsAppMessagePreview()">
+                    @if (demoAssets().boutiqueLogoTransparent) {
+                      <img [src]="demoAssets().boutiqueLogoTransparent" [alt]="demoAssets().boutiqueBusinessTitle" class="vxt-brand-img" />
+                    } @else {
+                      <span class="vxt-brand-text">{{ demoAssets().boutiqueBusinessTitle }}</span>
                     }
+                  </div>
+                  <div class="vxt-nav-actions">
+                    <button class="vxt-icon-btn" (click)="openWhatsAppMessagePreview()" title="Buscar">
+                      <i class="pi pi-search"></i>
+                    </button>
+                    <button class="vxt-icon-btn" (click)="openWhatsAppMessagePreview()" title="Carrito">
+                      <i class="pi pi-shopping-bag"></i>
+                      @if (totalCartItems() > 0) {
+                        <span class="vxt-cart-badge">{{ totalCartItems() }}</span>
+                      }
+                    </button>
+                  </div>
+                </div>
+              </nav>
+
+              <!-- HERO DESIGN 2 -->
+              <section class="vxt-hero">
+                <div class="vxt-hero-bg">
+                  <img [src]="demoAssets().boutiqueHeroImage" [alt]="demoAssets().boutiqueBusinessTitle" class="vxt-hero-img" />
+                </div>
+                <div class="vxt-watermark-text">{{ demoAssets().boutiqueBusinessTitle }}</div>
+                <div class="vxt-hero-overlay"></div>
+                <div class="vxt-hero-content">
+                  <h1 class="vxt-hero-title">NUEVA COLECCIÓN</h1>
+                  <p class="vxt-hero-sub">{{ demoAssets().boutiqueTagline }}</p>
+                  <button class="vxt-btn-primary" (click)="openWhatsAppMessagePreview()">Ver Colección</button>
+                </div>
+              </section>
+
+              <!-- SECTION 1: NUEVA COLECCIÓN (WITH ARROWS & COLOR DOTS) -->
+              <section class="vxt-products-section">
+                <div class="vxt-section-header">
+                  <h2 class="vxt-heading">NUEVA COLECCIÓN</h2>
+                  <div class="vxt-nav-arrows">
+                    <button class="vxt-arrow-btn" (click)="openWhatsAppMessagePreview()"><i class="pi pi-chevron-left"></i></button>
+                    <button class="vxt-arrow-btn" (click)="openWhatsAppMessagePreview()"><i class="pi pi-chevron-right"></i></button>
+                  </div>
+                </div>
+                <div class="vxt-products-grid">
+                  @for (product of boutiqueRow1Products(); track product.id) {
+                  <div class="vxt-product-card">
+                    <div class="vxt-card-image-wrap">
+                      <img [src]="product.image" [alt]="product.name" />
+                      <button class="vxt-add-btn" (click)="addToCart(product.id)" [title]="'Añadir ' + product.name">
+                        @if (getCartQty(product.id) === 0) {
+                          <i class="pi pi-plus"></i>
+                        } @else {
+                          <span>{{ getCartQty(product.id) }}</span>
+                        }
+                      </button>
+                    </div>
+                    <div class="vxt-card-meta">
+                      <h3 class="vxt-product-title">{{ product.name }}</h3>
+                      <p class="vxt-product-cat">{{ product.category }}</p>
+                      <div class="vxt-color-dots">
+                        <span class="vxt-dot dot-dark"></span>
+                        <span class="vxt-dot dot-nude"></span>
+                        <span class="vxt-dot dot-blue"></span>
+                        <span class="vxt-dot dot-gold"></span>
+                      </div>
+                      <p class="vxt-product-price">$ {{ product.price | number:'1.0-0' }}</p>
+                    </div>
+                  </div>
+                  }
+                </div>
+              </section>
+
+              <!-- SECTION 2: 4-COLUMN VERTICAL EDITORIAL LOOKBOOK GRID -->
+              <section class="vxt-lookbook-section">
+                <div class="vxt-lookbook-grid">
+                  <div class="vxt-lookbook-card" (click)="openWhatsAppMessagePreview()">
+                    <img [src]="demoAssets().boutiqueProduct5" alt="Top Athletic" />
+                    <div class="vxt-lookbook-overlay"></div>
+                    <span class="vxt-lookbook-title">TOP ATHLETIC</span>
+                  </div>
+                  <div class="vxt-lookbook-card" (click)="openWhatsAppMessagePreview()">
+                    <img [src]="demoAssets().boutiqueProduct6" alt="Set Elegance" />
+                    <div class="vxt-lookbook-overlay"></div>
+                    <span class="vxt-lookbook-title">SET ELEGANCE</span>
+                  </div>
+                  <div class="vxt-lookbook-card" (click)="openWhatsAppMessagePreview()">
+                    <img [src]="demoAssets().boutiqueProduct7" alt="Bodysuit Fit" />
+                    <div class="vxt-lookbook-overlay"></div>
+                    <span class="vxt-lookbook-title">BODYSUIT FIT</span>
+                  </div>
+                  <div class="vxt-lookbook-card" (click)="openWhatsAppMessagePreview()">
+                    <img [src]="demoAssets().boutiqueProduct8" alt="Jumpsuit Pro" />
+                    <div class="vxt-lookbook-overlay"></div>
+                    <span class="vxt-lookbook-title">JUMPSUIT PRO</span>
+                  </div>
+                </div>
+              </section>
+
+              <!-- SECTION 3: LO QUE ESTÁ DE MODA AHORA (TRENDING NOW GRID) -->
+              <section class="vxt-products-section">
+                <div class="vxt-section-header">
+                  <h2 class="vxt-heading">LO QUE ESTÁ DE MODA AHORA</h2>
+                </div>
+                <div class="vxt-products-grid">
+                  @for (product of boutiqueRow2Products(); track product.id) {
+                  <div class="vxt-product-card vxt-product-card--desc">
+                    <div class="vxt-card-image-wrap">
+                      <img [src]="product.image" [alt]="product.name" />
+                      <button class="vxt-add-btn" (click)="addToCart(product.id)" [title]="'Añadir ' + product.name">
+                        @if (getCartQty(product.id) === 0) {
+                          <i class="pi pi-shopping-bag"></i>
+                        } @else {
+                          <span>{{ getCartQty(product.id) }}</span>
+                        }
+                      </button>
+                    </div>
+                    <div class="vxt-card-meta">
+                      <h3 class="vxt-product-title">{{ product.name }}</h3>
+                      <p class="vxt-product-desc">Diseñado para brindar el mejor ajuste, comodidad y rendimiento en tu día a día.</p>
+                      <p class="vxt-product-price">$ {{ product.price | number:'1.0-0' }}</p>
+                    </div>
+                  </div>
+                  }
+                </div>
+              </section>
+
+              <!-- SECTION 4: 2x2 FEATURE BANNERS MASONRY GRID -->
+              <section class="vxt-masonry-section">
+                <div class="vxt-masonry-grid">
+                  <div class="vxt-masonry-item" (click)="openWhatsAppMessagePreview()">
+                    <img [src]="demoAssets().boutiqueBannerVestidos" alt="Tops &amp; Bras" />
+                    <div class="vxt-masonry-overlay"></div>
+                    <span class="vxt-masonry-tag">TOPS &amp; BRAS</span>
+                  </div>
+                  <div class="vxt-masonry-item" (click)="openWhatsAppMessagePreview()">
+                    <img [src]="demoAssets().boutiqueBannerConjuntos" alt="Leggings Fit" />
+                    <div class="vxt-masonry-overlay"></div>
+                    <span class="vxt-masonry-tag">LEGGINGS FIT</span>
+                  </div>
+                  <div class="vxt-masonry-item" (click)="openWhatsAppMessagePreview()">
+                    <img [src]="demoAssets().boutiqueBannerElegancia" alt="Sets Ejecutivos" />
+                    <div class="vxt-masonry-overlay"></div>
+                    <span class="vxt-masonry-tag">SETS EJECUTIVOS</span>
+                  </div>
+                  <div class="vxt-masonry-item" (click)="openWhatsAppMessagePreview()">
+                    <img [src]="demoAssets().boutiqueHeroImage" alt="Edición Limitada" />
+                    <div class="vxt-masonry-overlay"></div>
+                    <span class="vxt-masonry-tag">EDICIÓN LIMITADA</span>
+                  </div>
+                </div>
+              </section>
+
+              <!-- FOOTER DESIGN 2 -->
+              <footer class="vxt-footer">
+                <div class="vxt-footer-inner">
+                  <div class="vxt-footer-logo-wrap">
+                    @if (demoAssets().boutiqueLogoFooter) {
+                      <img [src]="demoAssets().boutiqueLogoFooter" [alt]="demoAssets().boutiqueBusinessTitle" class="vxt-footer-logo-img" />
+                    } @else {
+                      <span class="vxt-footer-logo-text">{{ demoAssets().boutiqueBusinessTitle }}</span>
+                    }
+                  </div>
+                  <div class="vxt-footer-bottom">
+                    <p class="vxt-footer-copy">© 2026 {{ demoAssets().boutiqueBusinessTitle }}. Todos los derechos reservados.</p>
+                    <div class="vxt-footer-socials">
+                      <a href="javascript:void(0)" (click)="openWhatsAppMessagePreview()" class="vxt-social-icon" aria-label="Facebook">
+                        <i class="pi pi-facebook"></i>
+                      </a>
+                      <a href="javascript:void(0)" (click)="openWhatsAppMessagePreview()" class="vxt-social-icon" aria-label="Instagram">
+                        <i class="pi pi-instagram"></i>
+                      </a>
+                      <a href="javascript:void(0)" (click)="openWhatsAppMessagePreview()" class="vxt-social-icon" aria-label="WhatsApp">
+                        <i class="pi pi-whatsapp"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </footer>
+
+              <!-- FLOATING CART -->
+              @if (totalCartItems() > 0) {
+              <div class="bds-floating-cart">
+                <div class="bds-cart-summary">
+                  <div class="bds-cart-icon-bubble">
+                    <i class="pi pi-shopping-cart"></i>
+                    <span class="bds-cart-count">{{ totalCartItems() }}</span>
+                  </div>
+                  <div class="bds-cart-texts">
+                    <span class="bds-cart-label">{{ totalCartItems() }} producto(s) en tu pedido</span>
+                    <span class="bds-cart-amount">Total: ${{ totalCartPrice() | number:'1.0-0' }} COP</span>
+                  </div>
+                </div>
+                <button type="button" class="bds-send-whatsapp-btn" (click)="openWhatsAppMessagePreview()">
+                  <i class="pi pi-whatsapp"></i>
+                  <span>Enviar Pedido a WhatsApp</span>
+                </button>
+              </div>
+              }
+            </div>
+            } @else {
+            <!-- ════════════════════════════════════════
+                 DISEÑO 1: ROSANT MINIMAL LUXURY
+                 ════════════════════════════════════════ -->
+            <div
+              class="niche-boutique ros-boutique"
+              [style.--ros-primary]="demoAssets().boutiquePrimaryColor"
+              [style.--ros-accent]="demoAssets().boutiqueAccentColor"
+              [style.--ros-bg]="demoAssets().boutiqueBgColor"
+              [style.--ros-footer-bg]="demoAssets().boutiqueFooterBgColor"
+              [style.--ros-btn-bg]="demoAssets().boutiqueButtonBgColor"
+              [style.--ros-btn-text]="demoAssets().boutiqueButtonTextColor"
+            >
+
+              <!-- NAVBAR TRANSPARENT / DARK OVERLAY -->
+              <nav class="ros-nav">
+                <div class="ros-nav-inner">
+              <div class="ros-nav-brand" (click)="openWhatsAppMessagePreview()">
+                    <img [src]="demoAssets().boutiqueLogoTransparent" alt="ROSANT Boutique" class="ros-brand-img" />
+                  </div>
+                  <div class="ros-nav-links">
+                    <span (click)="openWhatsAppMessagePreview()">Inicio</span>
+                    <span (click)="openWhatsAppMessagePreview()">Colecciones</span>
+                    <span (click)="openWhatsAppMessagePreview()">Contacto</span>
+                    <span (click)="openWhatsAppMessagePreview()">Nosotros</span>
+                  </div>
+                  <div class="ros-nav-actions">
+                    <button class="ros-icon-btn" (click)="openWhatsAppMessagePreview()" title="Buscar">
+                      <i class="pi pi-search"></i>
+                    </button>
+                    <button class="ros-icon-btn" (click)="openWhatsAppMessagePreview()" title="Carrito de Compras">
+                      <i class="pi pi-shopping-bag"></i>
+                      @if (totalCartItems() > 0) {
+                        <span class="ros-cart-badge">{{ totalCartItems() }}</span>
+                      }
+                    </button>
+                  </div>
+                </div>
+              </nav>
+
+              <!-- HERO FULL WIDTH -->
+              <section class="ros-hero">
+                <div class="ros-hero-bg">
+                  <img [src]="demoAssets().boutiqueHeroImage" alt="Nueva Colección Rosant Boutique" class="ros-hero-img" />
+                </div>
+                <div class="ros-hero-overlay"></div>
+                <div class="ros-hero-content">
+                  <h1 class="ros-hero-title">NUEVA COLECCIÓN</h1>
+                  <p class="ros-hero-sub">Descubre las tendencias que resaltan tu estilo esta nueva temporada.</p>
+                  <button class="ros-btn-primary" (click)="openWhatsAppMessagePreview()">Comprar Ahora</button>
+                </div>
+              </section>
+
+              <!-- SECTION TITLE 1: NUEVA COLECCIÓN -->
+              <section class="ros-section-header">
+                <h2 class="ros-heading">NUEVA COLECCIÓN</h2>
+              </section>
+
+              <!-- PRODUCT GRID ROW 1 (4 COLUMNS) -->
+              <section class="ros-products-section">
+                <div class="ros-products-grid">
+                  @for (product of boutiqueRow1Products(); track product.id) {
+                  <div class="ros-product-card">
+                    <div class="ros-card-image-wrap">
+                      <img [src]="product.image" [alt]="product.name" />
+                      <button class="ros-add-btn" (click)="addToCart(product.id)" [title]="'Añadir ' + product.name">
+                        @if (getCartQty(product.id) === 0) {
+                          <i class="pi pi-shopping-bag"></i>
+                        } @else {
+                          <span>{{ getCartQty(product.id) }}</span>
+                        }
+                      </button>
+                    </div>
+                    <div class="ros-card-meta">
+                      <h3 class="ros-product-title">{{ product.name }}</h3>
+                      <p class="ros-product-price">$ {{ product.price | number:'1.0-0' }}</p>
+                    </div>
+                  </div>
+                  }
+                </div>
+              </section>
+
+              <!-- 2-COLUMN CATEGORY BANNERS (VESTIDOS & CONJUNTOS) -->
+              <section class="ros-banners-section">
+                <div class="ros-banners-grid">
+                  <!-- Banner 1: Vestidos -->
+                  <div class="ros-category-banner" (click)="setBoutiqueTab('vestiditos')">
+                    <img [src]="demoAssets().boutiqueBannerVestidos" alt="Vestidos" class="ros-banner-img" />
+                    <div class="ros-banner-overlay"></div>
+                    <div class="ros-banner-content">
+                      <h3 class="ros-banner-title">VESTIDOS</h3>
+                      <button class="ros-banner-btn" (click)="openWhatsAppMessagePreview(); $event.stopPropagation()">Comprar Ahora</button>
+                    </div>
+                  </div>
+                  <!-- Banner 2: Conjuntos -->
+                  <div class="ros-category-banner" (click)="setBoutiqueTab('conjuntos')">
+                    <img [src]="demoAssets().boutiqueBannerConjuntos" alt="Conjuntos" class="ros-banner-img" />
+                    <div class="ros-banner-overlay"></div>
+                    <div class="ros-banner-content">
+                      <h3 class="ros-banner-title">CONJUNTOS</h3>
+                      <button class="ros-banner-btn" (click)="openWhatsAppMessagePreview(); $event.stopPropagation()">Ver Conjuntos</button>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- CATEGORY FILTER TABS -->
+              <section class="ros-tabs-section">
+                <div class="ros-tabs-bar">
+                  <button
+                    type="button"
+                    class="ros-tab"
+                    [class.active]="boutiqueActiveTab() === 'todos'"
+                    (click)="setBoutiqueTab('todos')">
+                    Todos
+                  </button>
+                  <button
+                    type="button"
+                    class="ros-tab"
+                    [class.active]="boutiqueActiveTab() === 'vestiditos'"
+                    (click)="setBoutiqueTab('vestiditos')">
+                    Vestiditos
+                  </button>
+                  <button
+                    type="button"
+                    class="ros-tab"
+                    [class.active]="boutiqueActiveTab() === 'conjuntos'"
+                    (click)="setBoutiqueTab('conjuntos')">
+                    Conjuntos
+                  </button>
+                  <button
+                    type="button"
+                    class="ros-tab"
+                    [class.active]="boutiqueActiveTab() === 'blusas'"
+                    (click)="setBoutiqueTab('blusas')">
+                    Blusas
                   </button>
                 </div>
-              </div>
-            </nav>
+              </section>
 
-            <!-- HERO FULL WIDTH -->
-            <section class="ros-hero">
-              <div class="ros-hero-bg">
-                <img [src]="boutiqueAssets.hero" alt="Nueva Colección Rosant Boutique" class="ros-hero-img" />
-              </div>
-              <div class="ros-hero-overlay"></div>
-              <div class="ros-hero-content">
-                <h1 class="ros-hero-title">NUEVA COLECCIÓN</h1>
-                <p class="ros-hero-sub">Descubre las tendencias que resaltan tu estilo esta nueva temporada.</p>
-                <button class="ros-btn-primary" (click)="openWhatsAppMessagePreview()">Comprar Ahora</button>
-              </div>
-            </section>
-
-            <!-- SECTION TITLE 1: NUEVA COLECCIÓN -->
-            <section class="ros-section-header">
-              <h2 class="ros-heading">NUEVA COLECCIÓN</h2>
-            </section>
-
-            <!-- PRODUCT GRID ROW 1 (4 COLUMNS) -->
-            <section class="ros-products-section">
-              <div class="ros-products-grid">
-                @for (product of boutiqueRow1Products(); track product.id) {
-                <div class="ros-product-card">
-                  <div class="ros-card-image-wrap">
-                    <img [src]="product.image" [alt]="product.name" />
-                    <button class="ros-add-btn" (click)="addToCart(product.id)" [title]="'Añadir ' + product.name">
-                      @if (getCartQty(product.id) === 0) {
-                        <i class="pi pi-shopping-bag"></i>
-                      } @else {
-                        <span>{{ getCartQty(product.id) }}</span>
-                      }
-                    </button>
+              <!-- PRODUCT GRID ROW 2 (4 COLUMNS) -->
+              <section class="ros-products-section">
+                <div class="ros-products-grid">
+                  @for (product of boutiqueRow2Products(); track product.id) {
+                  <div class="ros-product-card">
+                    <div class="ros-card-image-wrap">
+                      <img [src]="product.image" [alt]="product.name" />
+                      <button class="ros-add-btn" (click)="addToCart(product.id)" [title]="'Añadir ' + product.name">
+                        @if (getCartQty(product.id) === 0) {
+                          <i class="pi pi-shopping-bag"></i>
+                        } @else {
+                          <span>{{ getCartQty(product.id) }}</span>
+                        }
+                      </button>
+                    </div>
+                    <div class="ros-card-meta">
+                      <h3 class="ros-product-title">{{ product.name }}</h3>
+                      <p class="ros-product-price">$ {{ product.price | number:'1.0-0' }}</p>
+                    </div>
                   </div>
-                  <div class="ros-card-meta">
-                    <h3 class="ros-product-title">{{ product.name }}</h3>
-                    <p class="ros-product-price">$ {{ product.price | number:'1.0-0' }}</p>
+                  }
+                </div>
+              </section>
+
+              <!-- BANNER PROMO: ELEGANCIA & CHIC -->
+              <section class="ros-promo-banner">
+                <div class="ros-promo-bg">
+                  <img [src]="demoAssets().boutiqueBannerElegancia" alt="Elegancia &amp; Chic" class="ros-promo-img" />
+                </div>
+                <div class="ros-promo-overlay"></div>
+                <div class="ros-promo-content">
+                  <h2 class="ros-promo-title">ELEGANCIA &amp; CHIC</h2>
+                  <p class="ros-promo-sub">Sets ejecutivos y chalecos diseñados a tu medida.</p>
+                  <button class="ros-promo-btn" (click)="openWhatsAppMessagePreview()">Ver Colección</button>
+                </div>
+              </section>
+
+              <!-- FOOTER TAUPE / NUDE -->
+              <footer class="ros-footer">
+                <div class="ros-footer-inner">
+                  <div class="ros-footer-logo-wrap">
+                    <img [src]="demoAssets().boutiqueLogoFooter" alt="ROSANT Boutique" class="ros-footer-logo-img" />
+                  </div>
+                  <div class="ros-footer-bottom">
+                    <p class="ros-footer-copy">© 2024 Rosant Boutique. Todos los derechos reservados.</p>
+                    <div class="ros-footer-socials">
+                      <a href="javascript:void(0)" (click)="openWhatsAppMessagePreview()" class="ros-social-icon" aria-label="Facebook">
+                        <i class="pi pi-facebook"></i>
+                      </a>
+                      <a href="javascript:void(0)" (click)="openWhatsAppMessagePreview()" class="ros-social-icon" aria-label="Instagram">
+                        <i class="pi pi-instagram"></i>
+                      </a>
+                      <a href="javascript:void(0)" (click)="openWhatsAppMessagePreview()" class="ros-social-icon" aria-label="WhatsApp">
+                        <i class="pi pi-whatsapp"></i>
+                      </a>
+                    </div>
                   </div>
                 </div>
-                }
-              </div>
-            </section>
+              </footer>
 
-            <!-- 2-COLUMN CATEGORY BANNERS (VESTIDOS & CONJUNTOS) -->
-            <section class="ros-banners-section">
-              <div class="ros-banners-grid">
-                <!-- Banner 1: Vestidos -->
-                <div class="ros-category-banner" (click)="setBoutiqueTab('vestiditos')">
-                  <img [src]="boutiqueAssets.bannerVestidos" alt="Vestidos" class="ros-banner-img" />
-                  <div class="ros-banner-overlay"></div>
-                  <div class="ros-banner-content">
-                    <h3 class="ros-banner-title">VESTIDOS</h3>
-                    <button class="ros-banner-btn" (click)="openWhatsAppMessagePreview(); $event.stopPropagation()">Comprar Ahora</button>
+              <!-- FLOATING CART -->
+              @if (totalCartItems() > 0) {
+              <div class="bds-floating-cart">
+                <div class="bds-cart-summary">
+                  <div class="bds-cart-icon-bubble">
+                    <i class="pi pi-shopping-cart"></i>
+                    <span class="bds-cart-count">{{ totalCartItems() }}</span>
+                  </div>
+                  <div class="bds-cart-texts">
+                    <span class="bds-cart-label">{{ totalCartItems() }} producto(s) en tu pedido</span>
+                    <span class="bds-cart-amount">Total: ${{ totalCartPrice() }} USD</span>
                   </div>
                 </div>
-                <!-- Banner 2: Conjuntos -->
-                <div class="ros-category-banner" (click)="setBoutiqueTab('conjuntos')">
-                  <img [src]="boutiqueAssets.bannerConjuntos" alt="Conjuntos" class="ros-banner-img" />
-                  <div class="ros-banner-overlay"></div>
-                  <div class="ros-banner-content">
-                    <h3 class="ros-banner-title">CONJUNTOS</h3>
-                    <button class="ros-banner-btn" (click)="openWhatsAppMessagePreview(); $event.stopPropagation()">Ver Conjuntos</button>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <!-- CATEGORY FILTER TABS -->
-            <section class="ros-tabs-section">
-              <div class="ros-tabs-bar">
-                <button
-                  type="button"
-                  class="ros-tab"
-                  [class.active]="boutiqueActiveTab() === 'todos'"
-                  (click)="setBoutiqueTab('todos')">
-                  Todos
-                </button>
-                <button
-                  type="button"
-                  class="ros-tab"
-                  [class.active]="boutiqueActiveTab() === 'vestiditos'"
-                  (click)="setBoutiqueTab('vestiditos')">
-                  Vestiditos
-                </button>
-                <button
-                  type="button"
-                  class="ros-tab"
-                  [class.active]="boutiqueActiveTab() === 'conjuntos'"
-                  (click)="setBoutiqueTab('conjuntos')">
-                  Conjuntos
-                </button>
-                <button
-                  type="button"
-                  class="ros-tab"
-                  [class.active]="boutiqueActiveTab() === 'blusas'"
-                  (click)="setBoutiqueTab('blusas')">
-                  Blusas
+                <button type="button" class="bds-send-whatsapp-btn" (click)="openWhatsAppMessagePreview()">
+                  <i class="pi pi-whatsapp"></i>
+                  <span>Enviar Pedido a WhatsApp</span>
                 </button>
               </div>
-            </section>
-
-            <!-- PRODUCT GRID ROW 2 (4 COLUMNS) -->
-            <section class="ros-products-section">
-              <div class="ros-products-grid">
-                @for (product of boutiqueRow2Products(); track product.id) {
-                <div class="ros-product-card">
-                  <div class="ros-card-image-wrap">
-                    <img [src]="product.image" [alt]="product.name" />
-                    <button class="ros-add-btn" (click)="addToCart(product.id)" [title]="'Añadir ' + product.name">
-                      @if (getCartQty(product.id) === 0) {
-                        <i class="pi pi-shopping-bag"></i>
-                      } @else {
-                        <span>{{ getCartQty(product.id) }}</span>
-                      }
-                    </button>
-                  </div>
-                  <div class="ros-card-meta">
-                    <h3 class="ros-product-title">{{ product.name }}</h3>
-                    <p class="ros-product-price">$ {{ product.price | number:'1.0-0' }}</p>
-                  </div>
-                </div>
-                }
-              </div>
-            </section>
-
-            <!-- BANNER PROMO: ELEGANCIA & CHIC -->
-            <section class="ros-promo-banner">
-              <div class="ros-promo-bg">
-                <img [src]="boutiqueAssets.bannerElegancia" alt="Elegancia & Chic" class="ros-promo-img" />
-              </div>
-              <div class="ros-promo-overlay"></div>
-              <div class="ros-promo-content">
-                <h2 class="ros-promo-title">ELEGANCIA &amp; CHIC</h2>
-                <p class="ros-promo-sub">Sets ejecutivos y chalecos diseñados a tu medida.</p>
-                <button class="ros-promo-btn" (click)="openWhatsAppMessagePreview()">Ver Colección</button>
-              </div>
-            </section>
-
-            <!-- FOOTER TAUPE / NUDE -->
-            <footer class="ros-footer">
-              <div class="ros-footer-inner">
-                <div class="ros-footer-logo-wrap">
-                  <img [src]="boutiqueAssets.logoFooter" alt="ROSANT Boutique" class="ros-footer-logo-img" />
-                </div>
-                <div class="ros-footer-bottom">
-                  <p class="ros-footer-copy">© 2024 Rosant Boutique. Todos los derechos reservados.</p>
-                  <div class="ros-footer-socials">
-                    <a href="javascript:void(0)" (click)="openWhatsAppMessagePreview()" class="ros-social-icon" aria-label="Facebook">
-                      <i class="pi pi-facebook"></i>
-                    </a>
-                    <a href="javascript:void(0)" (click)="openWhatsAppMessagePreview()" class="ros-social-icon" aria-label="Instagram">
-                      <i class="pi pi-instagram"></i>
-                    </a>
-                    <a href="javascript:void(0)" (click)="openWhatsAppMessagePreview()" class="ros-social-icon" aria-label="WhatsApp">
-                      <i class="pi pi-whatsapp"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </footer>
-
-            <!-- FLOATING CART -->
-            @if (totalCartItems() > 0) {
-            <div class="bds-floating-cart">
-              <div class="bds-cart-summary">
-                <div class="bds-cart-icon-bubble">
-                  <i class="pi pi-shopping-cart"></i>
-                  <span class="bds-cart-count">{{ totalCartItems() }}</span>
-                </div>
-                <div class="bds-cart-texts">
-                  <span class="bds-cart-label">{{ totalCartItems() }} producto(s) en tu pedido</span>
-                  <span class="bds-cart-amount">Total: ${{ totalCartPrice() }} USD</span>
-                </div>
-              </div>
-              <button type="button" class="bds-send-whatsapp-btn" (click)="openWhatsAppMessagePreview()">
-                <i class="pi pi-whatsapp"></i>
-                <span>Enviar Pedido a WhatsApp</span>
-              </button>
+              }
             </div>
             }
-          </div>
+
           }
 
           <!-- ════════════════════════════════════════
