@@ -15,6 +15,8 @@ export interface DemoProduct {
   price: number;
   image: string;
   inStock: boolean;
+  size?: string;
+  color?: string;
 }
 
 export interface DemoNiche {
@@ -77,6 +79,8 @@ export class BusinessDemoSectionComponent implements OnInit {
           price: 140000,
           image: BOUTIQUE_ASSETS.product1,
           inStock: true,
+          size: 'M',
+          color: 'Azul Denim',
         },
         {
           id: 'b2',
@@ -85,6 +89,8 @@ export class BusinessDemoSectionComponent implements OnInit {
           price: 110000,
           image: BOUTIQUE_ASSETS.product2,
           inStock: true,
+          size: 'S',
+          color: 'Celeste',
         },
         {
           id: 'b3',
@@ -93,6 +99,8 @@ export class BusinessDemoSectionComponent implements OnInit {
           price: 120000,
           image: BOUTIQUE_ASSETS.product3,
           inStock: true,
+          size: 'M',
+          color: 'Blanco / Celeste',
         },
         {
           id: 'b4',
@@ -101,6 +109,8 @@ export class BusinessDemoSectionComponent implements OnInit {
           price: 150000,
           image: BOUTIQUE_ASSETS.product4,
           inStock: true,
+          size: 'S',
+          color: 'Blanco',
         },
         {
           id: 'b5',
@@ -109,6 +119,8 @@ export class BusinessDemoSectionComponent implements OnInit {
           price: 130000,
           image: BOUTIQUE_ASSETS.product5,
           inStock: true,
+          size: 'M',
+          color: 'Azul Real',
         },
         {
           id: 'b6',
@@ -117,6 +129,8 @@ export class BusinessDemoSectionComponent implements OnInit {
           price: 140000,
           image: BOUTIQUE_ASSETS.product6,
           inStock: true,
+          size: 'L',
+          color: 'Negro',
         },
         {
           id: 'b7',
@@ -125,6 +139,8 @@ export class BusinessDemoSectionComponent implements OnInit {
           price: 160000,
           image: BOUTIQUE_ASSETS.product7,
           inStock: true,
+          size: 'M',
+          color: 'Negro',
         },
         {
           id: 'b8',
@@ -133,6 +149,8 @@ export class BusinessDemoSectionComponent implements OnInit {
           price: 150000,
           image: BOUTIQUE_ASSETS.product8,
           inStock: true,
+          size: 'S',
+          color: 'Negro',
         },
       ],
     },
@@ -472,12 +490,31 @@ export class BusinessDemoSectionComponent implements OnInit {
           niche.id === 'boutique'
             ? `$${(prod.price * qty).toLocaleString('es-CO')} COP`
             : `$${prod.price * qty} USD`;
-        items.push(`• ${qty}x ${prod.name} (${priceStr})`);
+
+        const details: string[] = [];
+        if (prod.size) details.push(`Talla: ${prod.size}`);
+        if (prod.color) details.push(`Color: ${prod.color}`);
+        const attrStr = details.length > 0 ? ` (${details.join(', ')})` : '';
+
+        items.push(`• ${qty}x ${prod.name}${attrStr} - ${priceStr}`);
       }
     }
 
     if (items.length === 0) {
-      return `¡Hola ${niche.businessTitle}! 👋\nVi su catálogo digital y me gustaría consultar disponibilidad de sus productos.`;
+      if (niche.id === 'boutique') {
+        return (
+          `¡Hola, buenas! 👋\n` +
+          `Quiero pedir este producto:\n\n` +
+          `• *Producto:* Vestido Denim Ajustado\n` +
+          `• *Talla:* M\n` +
+          `• *Color:* Azul Denim\n` +
+          `• *Cantidad:* 1\n` +
+          `• *Precio:* $140.000 COP\n\n` +
+          `*Total estimado:* $140.000 COP\n\n` +
+          `¿Tienen disponibilidad para coordinar la entrega? Muchas gracias.`
+        );
+      }
+      return `¡Hola, buenas! 👋\nQuiero realizar un pedido desde su catálogo digital. ¿Tienen disponibilidad de sus productos?`;
     }
 
     const totalStr =
@@ -486,8 +523,8 @@ export class BusinessDemoSectionComponent implements OnInit {
         : `$${this.totalCartPrice()} USD`;
 
     return (
-      `¡Hola ${niche.businessTitle}! 👋\n` +
-      `Me gustaría realizar el siguiente pedido desde su catálogo web:\n\n` +
+      `¡Hola, buenas! 👋\n` +
+      `Quiero realizar el siguiente pedido desde su catálogo web:\n\n` +
       items.join('\n') +
       `\n\n*Total estimado:* ${totalStr}\n\n` +
       `¿Tienen disponibilidad para coordinar la entrega? Muchas gracias.`
