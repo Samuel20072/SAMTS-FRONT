@@ -47,6 +47,69 @@ export class BusinessPreviewModalComponent implements OnInit {
   activeNicheId = signal<string>('boutique');
   showWhatsAppMessageModal = signal<boolean>(false);
 
+  // Admin Panel Tab & Demo States
+  adminActiveTab = signal<'products' | 'whatsapp' | 'stats' | 'settings'>('products');
+  showCreateProductModal = signal<boolean>(false);
+  showAiChatSimModal = signal<boolean>(false);
+  activeSimOrder = signal<any | null>(null);
+  adminToastMessage = signal<string | null>(null);
+
+  // New product form
+  newProdName = signal<string>('');
+  newProdCategory = signal<string>('Colección Exclusiva');
+  newProdPrice = signal<number>(120);
+  newProdImage = signal<string>('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80');
+
+  // Settings
+  settingsBusinessName = signal<string>('Rosant Boutique');
+  settingsPhone = signal<string>('+57 300 123 4567');
+  settingsCurrency = signal<string>('USD');
+  settingsAiEnabled = signal<boolean>(true);
+  settingsWelcomeMsg = signal<string>('¡Hola! 👋 Bienvenido a nuestro negocio. Soy tu asistente de IA 24/7. ¿En qué te podemos asesorar hoy?');
+
+  // WhatsApp Demo Orders
+  whatsappOrders = signal([
+    {
+      id: '#1004', customer: 'Valentina Ríos', avatar: '🌸', phone: '+57 312 890 4421',
+      items: '1x Vestido Fiesta Night + 1x Top Royal Blue', total: '$290 USD', time: 'Hace 5 min',
+      status: 'Nuevo', statusClass: 'status-new',
+      dialog: [
+        { sender: 'user', text: '¡Hola! Me interesan el Vestido Fiesta Night en talla M y el Top Royal Blue.' },
+        { sender: 'bot', text: '¡Hola Valentina! 🌟 Claro, ambos están disponibles. El total con envío exprés es $290 USD. ¿A qué dirección registramos el despacho?' },
+        { sender: 'user', text: 'Envíalo a Calle 85 #12-45 Apto 402. Pago por Nequi/Wompi.' },
+        { sender: 'bot', text: '¡Pedido #1004 generado con éxito! Te enviamos el link de pago seguro. 📦' }
+      ]
+    },
+    {
+      id: '#1003', customer: 'Carlos Mendoza', avatar: '👨‍💼', phone: '+57 301 456 7890',
+      items: '2x Set Top & Jean Capri', total: '$220 USD', time: 'Hace 32 min',
+      status: 'En Proceso', statusClass: 'status-progress',
+      dialog: [
+        { sender: 'user', text: 'Buenas tardes, ¿tienen disponibilidad del Set Capri en talla S?' },
+        { sender: 'bot', text: '¡Hola Carlos! Sí, tenemos 3 unidades en stock. ¿Deseas ordenar 2 conjuntos con un 10% de descuento?' },
+        { sender: 'user', text: 'Sí, por favor. Envío a Bogotá.' }
+      ]
+    },
+    {
+      id: '#1002', customer: 'Mariana Gómez', avatar: '👩', phone: '+57 315 234 5678',
+      items: '1x Blusa Encaje & Denim Celeste', total: '$120 USD', time: 'Hace 2 horas',
+      status: 'Completado', statusClass: 'status-completed',
+      dialog: [
+        { sender: 'user', text: '¿El envío a Medellín tarda mucho?' },
+        { sender: 'bot', text: 'Llega en 24 horas hábiles. Tu guía de rastreo es Servientrega #994821. 🚚' }
+      ]
+    },
+    {
+      id: '#1001', customer: 'Andrés Silva', avatar: '🧑', phone: '+57 300 987 6543',
+      items: '1x Enterizo Glam Dark Edition', total: '$150 USD', time: 'Ayer',
+      status: 'Completado', statusClass: 'status-completed',
+      dialog: [
+        { sender: 'user', text: 'Gracias por la atención rápida, la prenda llegó perfecta 👌' },
+        { sender: 'bot', text: '¡Con mucho gusto Andrés! Gracias por comprar con nosotros. ✨' }
+      ]
+    }
+  ]);
+
   // Cart state
   cart = signal<{ [productId: string]: number }>({});
 
@@ -421,6 +484,43 @@ export class BusinessPreviewModalComponent implements OnInit {
 
   closeWhatsAppMessagePreview(): void {
     this.showWhatsAppMessageModal.set(false);
+  }
+
+  triggerAdminToast(msg: string): void {
+    this.adminToastMessage.set(msg);
+    setTimeout(() => this.adminToastMessage.set(null), 3500);
+  }
+
+  saveNewProductDemo(): void {
+    const name = this.newProdName().trim() || 'Producto Exclusivo Demo';
+    const cat = this.newProdCategory().trim() || 'Novedades';
+    const price = this.newProdPrice() || 120;
+    const img = this.newProdImage() || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80';
+    const newProd: DemoProduct = {
+      id: 'demo-' + Date.now(), name, category: cat, price, image: img, inStock: true
+    };
+    this.editableProducts.update(prods => [newProd, ...prods]);
+    this.showCreateProductModal.set(false);
+    this.newProdName.set('');
+    this.triggerAdminToast(`✨ ¡Producto "${name}" agregado al catálogo en vivo!`);
+  }
+
+  saveSettingsDemo(): void {
+    this.triggerAdminToast('⚡ ¡Configuración guardada! Tu sitio web y bot de IA están sincronizados.');
+  }
+
+  openAiChatSimulation(order: any): void {
+    this.activeSimOrder.set(order);
+    this.showAiChatSimModal.set(true);
+  }
+
+  closeAiChatSimulation(): void {
+    this.showAiChatSimModal.set(false);
+    this.activeSimOrder.set(null);
+  }
+
+  getDiscountAmount(price: number): number {
+    return Math.round(price * 0.2);
   }
 
   buildWhatsAppFormattedText(): string {

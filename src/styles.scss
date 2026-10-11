@@ -4,8 +4,7 @@
    violet (#4F35F3) accent, organic blob decorations
    ============================== */
 
-/* Google Fonts – Space Grotesk for bold headlines + Inter for body */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Apple San Francisco Typography (SF Pro Display & SF Pro Text) */
 
 /* ==============================
    CSS Custom Properties
@@ -25,8 +24,9 @@
   --color-gray-700: #374151;
   --color-gray-900: #111827;
 
-  --font-display: 'Space Grotesk', 'Inter', sans-serif;
-  --font-body: 'Inter', 'Space Grotesk', sans-serif;
+  --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-apple);
+  --font-body: var(--font-apple);
 
   --radius-sm: 6px;
   --radius-md: 12px;
@@ -72,15 +72,24 @@ h2,
 h3,
 h4,
 h5,
-h6 {
-  font-family: var(--font-display);
-  font-weight: 800;
+h6,
+.title,
+.heading,
+.bds-title,
+.bds-section-title,
+.bds-heading,
+.samuel-apple-question-text {
+  font-family: var(--font-display) !important;
+  font-weight: 700;
   color: var(--color-black);
   line-height: 1.1;
 }
 
-p {
+p, span, a, label, input, button, select, textarea, li {
   font-family: var(--font-body);
+}
+
+p {
   line-height: 1.6;
   color: var(--color-gray-600);
 }
@@ -93,7 +102,7 @@ p {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-body);
   font-weight: 650;
   font-size: 0.92rem;
   letter-spacing: -0.015em;

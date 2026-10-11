@@ -20,7 +20,28 @@
 
     <div class="dep-body">
 
-      <!-- ─── Plantilla / Diseño de Boutique ─── -->
+      <!-- ─── Selector de Rubro ─── -->
+      <div class="dep-section">
+        <div class="dep-section-title">
+          <i class="pi pi-th-large"></i>
+          Rubro activo
+        </div>
+        <div class="dep-niche-tabs">
+          @for (nm of nicheMetas; track nm.id) {
+          <button
+            type="button"
+            class="dep-niche-tab"
+            [class.active]="activeEditorNiche() === nm.id"
+            (click)="switchEditorNiche(nm.id)">
+            <i class="pi" [class]="'pi ' + nm.icon"></i>
+            <span>{{ nm.label }}</span>
+          </button>
+          }
+        </div>
+      </div>
+
+      <!-- ─── Diseño de Plantilla (solo boutique) ─── -->
+      @if (isBoutique()) {
       <div class="dep-section">
         <div class="dep-section-title">
           <i class="pi pi-th-large"></i>
@@ -48,12 +69,13 @@
           </button>
         </div>
       </div>
+      }
 
-      <!-- ─── Texto y Colores ─── -->
+      <!-- ─── Nombre & Eslogan (todos los nichos) ─── -->
       <div class="dep-section">
         <div class="dep-section-title">
           <i class="pi pi-pen-to-square"></i>
-          Nombre & Eslogan
+          Nombre &amp; Eslogan
         </div>
 
         <div class="dep-field">
@@ -61,9 +83,9 @@
           <input
             class="dep-input"
             type="text"
-            [value]="cfg().boutiqueBusinessTitle"
-            (input)="onTextChange('boutiqueBusinessTitle', $event)"
-            placeholder="Mi Boutique"
+            [value]="activeCfg().businessTitle"
+            (input)="onNicheTextChange('businessTitle', $event)"
+            placeholder="Mi Negocio"
           />
         </div>
 
@@ -72,8 +94,8 @@
           <input
             class="dep-input"
             type="text"
-            [value]="cfg().boutiqueTagline"
-            (input)="onTextChange('boutiqueTagline', $event)"
+            [value]="activeCfg().tagline"
+            (input)="onNicheTextChange('tagline', $event)"
             placeholder="Tu eslogan aquí..."
           />
         </div>
@@ -83,7 +105,7 @@
       <div class="dep-section">
         <div class="dep-section-title">
           <i class="pi pi-palette"></i>
-          Colores & Tema de la Tienda
+          Colores &amp; Tema
         </div>
 
         <!-- Presets -->
@@ -99,31 +121,46 @@
 
         <div class="dep-colors-grid">
           <div class="dep-color-field">
-            <label class="dep-label">Menú Nav / Principal</label>
+            <label class="dep-label">Color Principal</label>
             <div class="dep-color-wrap">
               <input
                 type="color"
                 class="dep-color-input"
-                [value]="cfg().boutiquePrimaryColor"
-                (input)="onColorChange('boutiquePrimaryColor', $event)"
+                [value]="activeCfg().primaryColor"
+                (input)="onNicheColorChange('primaryColor', $event)"
               />
-              <span class="dep-color-hex">{{ cfg().boutiquePrimaryColor }}</span>
+              <span class="dep-color-hex">{{ activeCfg().primaryColor }}</span>
             </div>
           </div>
 
           <div class="dep-color-field">
-            <label class="dep-label">Fondo de Tienda</label>
+            <label class="dep-label">Color Acento</label>
             <div class="dep-color-wrap">
               <input
                 type="color"
                 class="dep-color-input"
-                [value]="cfg().boutiqueBgColor"
-                (input)="onColorChange('boutiqueBgColor', $event)"
+                [value]="activeCfg().accentColor || '#c5a882'"
+                (input)="onNicheColorChange('accentColor', $event)"
               />
-              <span class="dep-color-hex">{{ cfg().boutiqueBgColor }}</span>
+              <span class="dep-color-hex">{{ activeCfg().accentColor || '#c5a882' }}</span>
             </div>
           </div>
 
+          <div class="dep-color-field">
+            <label class="dep-label">Fondo</label>
+            <div class="dep-color-wrap">
+              <input
+                type="color"
+                class="dep-color-input"
+                [value]="activeCfg().bgColor"
+                (input)="onNicheColorChange('bgColor', $event)"
+              />
+              <span class="dep-color-hex">{{ activeCfg().bgColor }}</span>
+            </div>
+          </div>
+
+          <!-- Boutique extra color fields -->
+          @if (isBoutique()) {
           <div class="dep-color-field">
             <label class="dep-label">Pie de Página (Footer)</label>
             <div class="dep-color-wrap">
@@ -162,23 +199,12 @@
               <span class="dep-color-hex">{{ cfg().boutiqueButtonTextColor }}</span>
             </div>
           </div>
-
-          <div class="dep-color-field">
-            <label class="dep-label">Color Acento</label>
-            <div class="dep-color-wrap">
-              <input
-                type="color"
-                class="dep-color-input"
-                [value]="cfg().boutiqueAccentColor"
-                (input)="onColorChange('boutiqueAccentColor', $event)"
-              />
-              <span class="dep-color-hex">{{ cfg().boutiqueAccentColor }}</span>
-            </div>
-          </div>
+          }
         </div>
       </div>
 
-      <!-- ─── Logos ─── -->
+      <!-- ─── Logos (solo boutique) ─── -->
+      @if (isBoutique()) {
       <div class="dep-section">
         <div class="dep-section-title">
           <i class="pi pi-image"></i>
@@ -211,6 +237,7 @@
           </div>
         </div>
       </div>
+      }
 
       <!-- ─── Hero ─── -->
       <div class="dep-section">
@@ -221,19 +248,20 @@
 
         <div class="dep-img-field dep-img-field--hero">
           <div class="dep-img-preview-wrap dep-img-preview-wrap--hero">
-            <img [src]="cfg().boutiqueHeroImage" alt="Hero" class="dep-img-preview" />
+            <img [src]="activeCfg().heroImage" alt="Hero" class="dep-img-preview" />
           </div>
           <div class="dep-img-meta">
             <span class="dep-label">Foto principal (hero)</span>
             <label class="dep-upload-btn">
               <i class="pi pi-upload"></i> Cambiar foto
-              <input type="file" accept="image/*" (change)="onImageChange('boutiqueHeroImage', $event)" hidden />
+              <input type="file" accept="image/*" (change)="onNicheHeroChange($event)" hidden />
             </label>
           </div>
         </div>
       </div>
 
-      <!-- ─── Banners ─── -->
+      <!-- ─── Banners (solo boutique) ─── -->
+      @if (isBoutique()) {
       <div class="dep-section">
         <div class="dep-section-title">
           <i class="pi pi-images"></i>
@@ -279,25 +307,26 @@
           </div>
         </div>
       </div>
+      }
 
-      <!-- ─── Productos ─── -->
+      <!-- ─── Productos (todos los nichos) ─── -->
       <div class="dep-section">
         <div class="dep-section-title">
           <i class="pi pi-shopping-bag"></i>
-          Fotos de productos (1–8)
+          Fotos de productos / servicios (1–8)
         </div>
 
         <div class="dep-products-grid">
           @for (i of productIndexes; track i) {
           <div class="dep-product-item">
             <div class="dep-product-img-wrap">
-              <img [src]="getProductImage(i)" [alt]="'Producto ' + i" class="dep-product-preview" />
+              <img [src]="getNicheProductImage(i)" [alt]="'Producto ' + (i + 1)" class="dep-product-preview" />
               <label class="dep-product-overlay">
                 <i class="pi pi-camera"></i>
-                <input type="file" accept="image/*" (change)="onProductImageChange(i, $event)" hidden />
+                <input type="file" accept="image/*" (change)="onNicheProductImageChange(i, $event)" hidden />
               </label>
             </div>
-            <span class="dep-product-lbl">Producto {{ i }}</span>
+            <span class="dep-product-lbl">Producto {{ i + 1 }}</span>
           </div>
           }
         </div>
@@ -316,5 +345,5 @@
       </span>
     </div>
   </div>
-
 </section>
+

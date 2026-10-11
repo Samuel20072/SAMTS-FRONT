@@ -2,7 +2,7 @@
      Business Demo Section — Sección de Demo Interactiva Completa en Home
      ══════════════════════════════════════════════════════════════ -->
 
-<section id="demo-section" class="bds-section" [class.bds-fullwidth-niche]="activeNicheId() === 'boutique' && deviceMode() === 'desktop'">
+<section id="demo-section" class="bds-section" [class.bds-fullwidth-niche]="deviceMode() === 'desktop'">
 
   <!-- Glows de fondo Apple Style -->
   <div class="bds-glow-1"></div>
@@ -18,7 +18,7 @@
       </div>
 
       <h2 class="bds-main-title">
-        Así funcionará la plataforma de <span class="bds-highlight-title">{{ activeNicheId() === 'boutique' ? demoAssets().boutiqueBusinessTitle : currentNiche().businessTitle }}</span>
+        Así funcionará la plataforma de <span class="bds-highlight-title">{{ activeNicheConfig().businessTitle }}</span>
       </h2>
       <p class="bds-main-sub">
         Interactúa con la tienda en vivo, prueba el pedido por WhatsApp y explora el panel administrativo autogestionable.
@@ -127,7 +127,7 @@
           </div>
           <div class="bds-url-bar">
             <i class="pi pi-lock"></i>
-            <span>https://{{ getCleanSlug(demoAssets().boutiqueBusinessTitle) }}.samts.app</span>
+            <span>https://{{ getCleanSlug(activeNicheConfig().businessTitle) }}.samts.app</span>
           </div>
           <div class="bds-browser-badge">
             <span class="bds-live-indicator"></span>
@@ -603,7 +603,7 @@
               <div class="nr-logo">
                 <div class="nr-logo-icon">&#127807;</div>
                 <div>
-                  <div class="nr-logo-name">{{ currentNiche().businessTitle }}</div>
+                  <div class="nr-logo-name">{{ activeNicheConfig().businessTitle }}</div>
                   <div class="nr-logo-sub">Kitchen &amp; Bar</div>
                 </div>
               </div>
@@ -626,14 +626,14 @@
                   Experimenta una<br>
                   Comida del <em class="nr-hero-accent">Corazón</em>
                 </h1>
-                <p class="nr-hero-desc">{{ currentNiche().tagline }}</p>
+                <p class="nr-hero-desc">{{ activeNicheConfig().tagline }}</p>
                 <div class="nr-hero-btns">
                   <button class="nr-btn-explore" (click)="openWhatsAppMessagePreview()">Explorar Menú &#8594;</button>
                   <button class="nr-btn-story" (click)="openWhatsAppMessagePreview()">&#9654; Nuestra Historia</button>
                 </div>
               </div>
               <div class="nr-hero-right">
-                <img [src]="currentNiche().heroImage" alt="Plato principal" class="nr-hero-dish" />
+                <img [src]="activeNicheConfig().heroImage" alt="Plato principal" class="nr-hero-dish" />
               </div>
             </section>
 
@@ -672,19 +672,24 @@
               <h2 class="nr-menu-title">Favoritos del Chef</h2>
               <div class="nr-menu-grid">
                 @for (product of editableProducts(); track product.id) {
-                <div class="nr-menu-card">
+                <div class="nr-menu-card" [class.out-of-stock]="!product.inStock">
                   <div class="nr-menu-card-img">
                     <img [src]="product.image" [alt]="product.name" />
                     <button class="nr-fav-btn">&#9825;</button>
+                    @if(!product.inStock){ <span class="bds-stock-badge-tag">Agotado</span> }
                   </div>
                   <div class="nr-menu-card-body">
                     <h4 class="nr-menu-name">{{ product.name }}</h4>
                     <p class="nr-menu-desc">{{ product.category }} · Especialidad del chef</p>
                     <div class="nr-menu-footer">
-                      <span class="nr-menu-price">${{ product.price }}</span>
-                      <button class="nr-add-btn" [style.backgroundColor]="currentNiche().primaryColor" (click)="addToCart(product.id)">
-                        @if(getCartQty(product.id) === 0) { + Agregar } @else { {{ getCartQty(product.id) }} en mesa }
-                      </button>
+                      <span class="nr-menu-price">${{ product.price }} USD</span>
+                      @if(product.inStock) {
+                        <button class="nr-add-btn" [style.backgroundColor]="activeNicheConfig().primaryColor" (click)="addToCart(product.id)">
+                          @if(getCartQty(product.id) === 0) { + Agregar } @else { {{ getCartQty(product.id) }} en mesa }
+                        </button>
+                      } @else {
+                        <span class="bds-unavailable-txt">Agotado</span>
+                      }
                     </div>
                   </div>
                 </div>
@@ -696,7 +701,7 @@
             </section>
 
             <!-- Reservation Banner -->
-            <section class="nr-reservation-banner" [style.backgroundImage]="'url(' + currentNiche().heroImage + ')'">
+            <section class="nr-reservation-banner" [style.backgroundImage]="'url(' + activeNicheConfig().heroImage + ')'">
               <div class="nr-res-overlay"></div>
               <div class="nr-res-content">
                 <p class="nr-res-badge">RESERVA TU MESA</p>
@@ -732,6 +737,20 @@
               </div>
             </section>
 
+            <!-- Footer Restaurante -->
+            <footer class="nr-footer">
+              <div class="nr-footer-inner">
+                <div class="nr-footer-brand">
+                  <span class="nr-logo-icon">&#127807;</span>
+                  <strong>{{ activeNicheConfig().businessTitle }}</strong>
+                  <p>Experiencia gastronómica artesanal con servicio a mesa y domicilios.</p>
+                </div>
+                <div class="nr-footer-copy">
+                  <p>© 2026 {{ activeNicheConfig().businessTitle }}. Todos los derechos reservados.</p>
+                </div>
+              </div>
+            </footer>
+
             <!-- Floating Cart -->
             @if (totalCartItems() > 0) {
             <div class="bds-floating-cart">
@@ -763,7 +782,7 @@
             <nav class="nba-nav">
               <div class="nba-logo">
                 <span class="nba-logo-icon">&#9986;</span>
-                <span class="nba-logo-text">{{ currentNiche().businessTitle }}</span>
+                <span class="nba-logo-text">{{ activeNicheConfig().businessTitle }}</span>
               </div>
               <div class="nba-nav-links">
                 <span class="active">Inicio</span>
@@ -775,12 +794,12 @@
             </nav>
 
             <!-- Hero -->
-            <section class="nba-hero" [style.backgroundImage]="'url(' + currentNiche().heroImage + ')'">
+            <section class="nba-hero" [style.backgroundImage]="'url(' + activeNicheConfig().heroImage + ')'">
               <div class="nba-hero-overlay"></div>
               <div class="nba-hero-content">
                 <span class="nba-badge">BARBERÍA PREMIUM</span>
                 <h1 class="nba-hero-title">Cortes Precisos<br>para el Hombre<br>Moderno.</h1>
-                <p class="nba-hero-desc">{{ currentNiche().tagline }}</p>
+                <p class="nba-hero-desc">{{ activeNicheConfig().tagline }}</p>
                 <div class="nba-hero-btns">
                   <button class="nba-btn-book" (click)="openWhatsAppMessagePreview()">Reservar Cita</button>
                   <button class="nba-btn-services" (click)="openWhatsAppMessagePreview()">Ver Servicios &#8250;</button>
@@ -830,23 +849,50 @@
               <h2 class="nba-section-title">Grooming de Precisión,<br>para el Hombre Moderno.</h2>
               <div class="nba-services-grid">
                 @for (product of editableProducts(); track product.id) {
-                <div class="nba-service-card">
+                <div class="nba-service-card" [class.out-of-stock]="!product.inStock">
                   <div class="nba-service-img">
                     <img [src]="product.image" [alt]="product.name" />
                     <span class="nba-service-price">${{ product.price }} USD</span>
+                    @if(!product.inStock){ <span class="bds-stock-badge-tag">Sin Turno</span> }
                   </div>
                   <div class="nba-service-body">
                     <div class="nba-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     <h4 class="nba-service-name">{{ product.name }}</h4>
                     <p class="nba-service-cat">{{ product.category }}</p>
-                    <button class="nba-book-service-btn" (click)="addToCart(product.id)">
-                      @if(getCartQty(product.id) === 0) { Agendar Servicio } @else { &#10003; Agendado ({{ getCartQty(product.id) }}) }
-                    </button>
+                    @if(product.inStock) {
+                      <button class="nba-book-service-btn" (click)="addToCart(product.id)">
+                        @if(getCartQty(product.id) === 0) { Agendar Servicio } @else { &#10003; Agendado ({{ getCartQty(product.id) }}) }
+                      </button>
+                    } @else {
+                      <span class="bds-unavailable-txt">Sin Turno</span>
+                    }
                   </div>
                 </div>
                 }
               </div>
             </section>
+
+            <!-- Promo Banner Barbería -->
+            <section class="nba-promo-banner">
+              <div class="nba-promo-content">
+                <span class="nba-badge">MEMBRESÍA CLUB VIP</span>
+                <h3>Únete a nuestro Club de Grooming</h3>
+                <p>Cortes ilimitados y atención preferencial cada mes con reservación prioritaria por WhatsApp.</p>
+                <button class="nba-btn-book" (click)="openWhatsAppMessagePreview()">Solicitar Membresía</button>
+              </div>
+            </section>
+
+            <!-- Footer Barbería -->
+            <footer class="nba-footer">
+              <div class="nba-footer-inner">
+                <div class="nba-footer-brand">
+                  <span class="nba-logo-icon">&#9986;</span>
+                  <strong>{{ activeNicheConfig().businessTitle }}</strong>
+                  <p>Estilo, precisión y cuidado masculino de alto nivel.</p>
+                </div>
+                <p>© 2026 {{ activeNicheConfig().businessTitle }}. Todos los derechos reservados.</p>
+              </div>
+            </footer>
 
             <!-- Floating Cart -->
             @if (totalCartItems() > 0) {
@@ -877,7 +923,7 @@
           <div class="niche-services">
             <!-- Nav -->
             <nav class="ns-nav">
-              <div class="ns-logo">{{ currentNiche().businessTitle }}</div>
+              <div class="ns-logo">{{ activeNicheConfig().businessTitle }}</div>
               <div class="ns-nav-links">
                 <span>Nosotros</span>
                 <span>Servicios</span>
@@ -889,7 +935,7 @@
 
             <!-- Hero -->
             <section class="ns-hero">
-              <img [src]="currentNiche().heroImage" alt="Hero" class="ns-hero-img" />
+              <img [src]="activeNicheConfig().heroImage" alt="Hero" class="ns-hero-img" />
               <div class="ns-hero-overlay">
                 <h1 class="ns-hero-title">Diseñando Soluciones<br>Que Inspiran &amp; Perduran</h1>
                 <p class="ns-hero-desc">Transformamos visiones en resultados reales, combinando diseño innovador con excelencia funcional.</p>
@@ -934,28 +980,44 @@
                 <h2>Servicios que Brindamos</h2>
                 <div class="ns-nav-arrows">
                   <button>&#8592;</button>
-                  <button class="ns-arrow-active" [style.background]="currentNiche().primaryColor">&#8594;</button>
+                  <button class="ns-arrow-active" [style.background]="activeNicheConfig().primaryColor">&#8594;</button>
                 </div>
               </div>
               <div class="ns-services-grid">
                 @for (product of editableProducts(); track product.id; let i = $index) {
-                <div class="ns-service-card">
+                <div class="ns-service-card" [class.out-of-stock]="!product.inStock">
                   <div class="ns-service-img">
                     <img [src]="product.image" [alt]="product.name" />
                     <span class="ns-service-num">0{{ i + 1 }}</span>
+                    @if(!product.inStock){ <span class="bds-stock-badge-tag">No Disponible</span> }
                   </div>
                   <h4 class="ns-service-name">{{ product.name }}</h4>
                   <p class="ns-service-desc">{{ product.category }} · Servicio especializado</p>
                   <div class="ns-service-price-row">
                     <span class="ns-service-price">${{ product.price }} USD</span>
-                    <button class="ns-contact-btn" [style.color]="currentNiche().primaryColor" (click)="addToCart(product.id)">
-                      @if(getCartQty(product.id) === 0) { Contratar &#8594; } @else { &#10003; Contratado }
-                    </button>
+                    @if(product.inStock) {
+                      <button class="ns-contact-btn" [style.color]="activeNicheConfig().primaryColor" (click)="addToCart(product.id)">
+                        @if(getCartQty(product.id) === 0) { Contratar &#8594; } @else { &#10003; Contratado }
+                      </button>
+                    } @else {
+                      <span class="bds-unavailable-txt">No Disponible</span>
+                    }
                   </div>
                 </div>
                 }
               </div>
             </section>
+
+            <!-- Footer Servicios -->
+            <footer class="ns-footer">
+              <div class="ns-footer-inner">
+                <div class="ns-footer-brand">
+                  <strong>{{ activeNicheConfig().businessTitle }}</strong>
+                  <p>Soluciones profesionales y consultoría estratégica para empresas exigentes.</p>
+                </div>
+                <p>© 2026 {{ activeNicheConfig().businessTitle }}. Todos los derechos reservados.</p>
+              </div>
+            </footer>
 
             <!-- Floating Cart -->
             @if (totalCartItems() > 0) {
@@ -987,10 +1049,10 @@
             <!-- Nav -->
             <nav class="nt-nav">
               <div class="nt-logo">
-                <span class="nt-logo-icon" [style.background]="currentNiche().primaryColor">
+                <span class="nt-logo-icon" [style.background]="activeNicheConfig().primaryColor">
                   <i class="pi pi-bolt"></i>
                 </span>
-                <span class="nt-logo-name">{{ currentNiche().businessTitle }}</span>
+                <span class="nt-logo-name">{{ activeNicheConfig().businessTitle }}</span>
               </div>
               <div class="nt-nav-links">
                 <span>Productos</span>
@@ -1004,11 +1066,11 @@
             </nav>
 
             <!-- Hero Banner -->
-            <section class="nt-hero" [style.background]="'linear-gradient(135deg, #1a0533 0%, ' + currentNiche().primaryColor + ' 100%)'">
+            <section class="nt-hero" [style.background]="'linear-gradient(135deg, #1a0533 0%, ' + activeNicheConfig().primaryColor + ' 100%)'">
               <div class="nt-hero-content">
                 <span class="nt-hero-badge">NEW ARRIVALS 2026</span>
                 <h1 class="nt-hero-title">Tecnología que<br><span class="nt-hero-accent">Transforma</span> tu Vida</h1>
-                <p class="nt-hero-desc">{{ currentNiche().tagline }}</p>
+                <p class="nt-hero-desc">{{ activeNicheConfig().tagline }}</p>
                 <button class="nt-hero-btn" (click)="openWhatsAppMessagePreview()">Ver Catálogo Completo</button>
               </div>
               <div class="nt-hero-visual">
@@ -1027,16 +1089,16 @@
                 <div class="nt-product-card" [class.out-of-stock]="!product.inStock">
                   <div class="nt-product-img">
                     <img [src]="product.image" [alt]="product.name" />
-                    <span class="nt-product-category" [style.background]="currentNiche().primaryColor">{{ product.category }}</span>
+                    <span class="nt-product-category" [style.background]="activeNicheConfig().primaryColor">{{ product.category }}</span>
                     @if(!product.inStock){ <span class="nt-stock-badge">Agotado</span> }
                   </div>
                   <div class="nt-product-body">
                     <h4 class="nt-product-name">{{ product.name }}</h4>
                     <div class="nt-product-footer">
-                      <span class="nt-product-price" [style.color]="currentNiche().primaryColor">${{ product.price }} USD</span>
+                      <span class="nt-product-price" [style.color]="activeNicheConfig().primaryColor">${{ product.price }} USD</span>
                       @if(product.inStock) {
                         @if(getCartQty(product.id) === 0) {
-                          <button class="nt-add-btn" [style.background]="currentNiche().primaryColor" (click)="addToCart(product.id)">
+                          <button class="nt-add-btn" [style.background]="activeNicheConfig().primaryColor" (click)="addToCart(product.id)">
                             <i class="pi pi-plus"></i> Agregar
                           </button>
                         } @else {
@@ -1056,9 +1118,20 @@
               </div>
             </section>
 
+            <!-- Footer Tech -->
+            <footer class="nt-footer">
+              <div class="nt-footer-inner">
+                <div class="nt-footer-brand">
+                  <span class="nt-logo-name">{{ activeNicheConfig().businessTitle }}</span>
+                  <p>Catálogo de tecnología premium, accesorios y dispositivos inteligentes.</p>
+                </div>
+                <p>© 2026 {{ activeNicheConfig().businessTitle }}. Todos los derechos reservados.</p>
+              </div>
+            </footer>
+
             <!-- Floating Cart -->
             @if (totalCartItems() > 0) {
-            <div class="bds-floating-cart bds-floating-cart--tech" [style.background]="'linear-gradient(135deg, #1a0533 0%, ' + currentNiche().primaryColor + ' 100%)'">
+            <div class="bds-floating-cart bds-floating-cart--tech" [style.background]="'linear-gradient(135deg, #1a0533 0%, ' + activeNicheConfig().primaryColor + ' 100%)'">
               <div class="bds-cart-summary">
                 <div class="bds-cart-icon-bubble">
                   <i class="pi pi-shopping-cart"></i>
@@ -1087,108 +1160,435 @@
         @if (viewMode() === 'admin') {
         <div class="bds-screen-content admin-view">
           
+          <!-- Floating Admin Toast Notification -->
+          @if (adminToastMessage()) {
+          <div class="bds-admin-toast">
+            <i class="pi pi-check-circle"></i>
+            <span>{{ adminToastMessage() }}</span>
+          </div>
+          }
+
           <div class="bds-admin-layout">
             <!-- Sidebar -->
             <aside class="bds-admin-sidebar">
               <div class="bds-admin-brand">
-                <i class="pi pi-bolt"></i>
-                <span>Panel de Control</span>
+                <div class="bds-brand-logo">
+                  <i class="pi pi-bolt"></i>
+                </div>
+                <div class="bds-brand-titles">
+                  <span class="bds-brand-name">SAMTS Admin OS</span>
+                  <span class="bds-brand-status">Online 🟢</span>
+                </div>
               </div>
-              <div class="bds-admin-menu">
-                <span class="bds-admin-item active"><i class="pi pi-box"></i> Productos &amp; Precios</span>
-                <span class="bds-admin-item"><i class="pi pi-whatsapp"></i> Pedidos WhatsApp</span>
-                <span class="bds-admin-item"><i class="pi pi-chart-line"></i> Estadísticas</span>
-                <span class="bds-admin-item"><i class="pi pi-cog"></i> Configuración</span>
-              </div>
+
+              <nav class="bds-admin-menu">
+                <button
+                  type="button"
+                  class="bds-admin-item"
+                  [class.active]="adminActiveTab() === 'products'"
+                  (click)="adminActiveTab.set('products')">
+                  <i class="pi pi-box"></i>
+                  <span>Productos &amp; Precios</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="bds-admin-item"
+                  [class.active]="adminActiveTab() === 'whatsapp'"
+                  (click)="adminActiveTab.set('whatsapp')">
+                  <i class="pi pi-whatsapp"></i>
+                  <span>Pedidos WhatsApp</span>
+                  <span class="bds-menu-badge">4</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="bds-admin-item"
+                  [class.active]="adminActiveTab() === 'stats'"
+                  (click)="adminActiveTab.set('stats')">
+                  <i class="pi pi-chart-line"></i>
+                  <span>Estadísticas</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="bds-admin-item"
+                  [class.active]="adminActiveTab() === 'settings'"
+                  (click)="adminActiveTab.set('settings')">
+                  <i class="pi pi-cog"></i>
+                  <span>Configuración</span>
+                </button>
+              </nav>
+
               <div class="bds-admin-user">
                 <span class="bds-user-avatar">💼</span>
                 <div class="bds-user-info">
                   <strong>Panel Administrador</strong>
-                  <small>Sitio Web Profesional</small>
+                  <small>Sitio Web Profesional Sincronizado</small>
                 </div>
               </div>
             </aside>
 
             <!-- Main Panel Content -->
             <main class="bds-admin-main">
-              <div class="bds-admin-header">
-                <div>
-                  <h3 class="bds-admin-title">Editor de Catálogo en Vivo</h3>
-                  <p class="bds-admin-desc">Edita los precios o marca agotado. Verás cómo cambia automáticamente en la vista de tu cliente.</p>
+              
+              <!-- ─── TAB 1: PRODUCTOS & PRECIOS ─── -->
+              @if (adminActiveTab() === 'products') {
+              <div class="bds-admin-tab-content">
+                <div class="bds-admin-header">
+                  <div>
+                    <h3 class="bds-admin-title">Gestión de Catálogo &amp; Precios en Vivo</h3>
+                    <p class="bds-admin-desc">Edita precios o inventario. Todo cambia en tiempo real en la vista de tu cliente.</p>
+                  </div>
+                  <div class="bds-admin-header-actions">
+                    <button type="button" class="bds-btn-create-product" (click)="showCreateProductModal.set(true)">
+                      <i class="pi pi-plus"></i>
+                      <span>+ Crear Producto Demo</span>
+                    </button>
+                  </div>
                 </div>
+
                 <div class="bds-admin-stats">
                   <div class="bds-stat-card">
                     <span class="bds-stat-num">{{ editableProducts().length }}</span>
-                    <span class="bds-stat-lbl">Productos</span>
+                    <span class="bds-stat-lbl">Productos en catálogo</span>
                   </div>
                   <div class="bds-stat-card green">
                     <span class="bds-stat-num">16</span>
-                    <span class="bds-stat-lbl">Pedidos WhatsApp hoy</span>
+                    <span class="bds-stat-lbl">Pedidos recibidos hoy</span>
                   </div>
                   <div class="bds-stat-card blue">
-                    <span class="bds-stat-num">$490 USD</span>
-                    <span class="bds-stat-lbl">Ventas registradas</span>
+                    <span class="bds-stat-num">$1,420 USD</span>
+                    <span class="bds-stat-lbl">Ventas estimadas</span>
+                  </div>
+                  <div class="bds-stat-card purple">
+                    <span class="bds-stat-num">⚡ 100%</span>
+                    <span class="bds-stat-lbl">Sincronización Web</span>
+                  </div>
+                </div>
+
+                <!-- Admin Table -->
+                <div class="bds-admin-table-wrap">
+                  <table class="bds-admin-table">
+                    <thead>
+                      <tr>
+                        <th>Producto</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th>Sincronización</th>
+                        <th>Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (prod of editableProducts(); track prod.id) {
+                      <tr>
+                        <td class="bds-td-prod">
+                          <img [src]="prod.image" [alt]="prod.name" class="bds-table-thumb" />
+                          <span>{{ prod.name }}</span>
+                        </td>
+                        <td><span class="bds-table-tag">{{ prod.category }}</span></td>
+                        <td>
+                          <div class="bds-price-input-wrap">
+                            <span>$</span>
+                            <input
+                              type="number"
+                              [value]="prod.price"
+                              #priceInput
+                              (change)="updatePrice(prod, priceInput.value)" />
+                          </div>
+                        </td>
+                        <td>
+                          <button
+                            type="button"
+                            class="bds-stock-toggle"
+                            [class.in-stock]="prod.inStock"
+                            (click)="toggleStock(prod)">
+                            {{ prod.inStock ? '✓ En Stock' : '✕ Agotado' }}
+                          </button>
+                        </td>
+                        <td>
+                          <span class="bds-synced-badge"><i class="pi pi-check-circle"></i> En tiempo real</span>
+                        </td>
+                        <td>
+                          <button type="button" class="bds-btn-edit-action" (click)="triggerAdminToast('Modo Demo: Edita precios e inventario directamente en la tabla')">
+                            <i class="pi pi-pencil"></i> Editar
+                          </button>
+                        </td>
+                      </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="bds-admin-banner">
+                  <i class="pi pi-sparkles"></i>
+                  <p>
+                    <strong>¿Por qué un Sitio Web Profesional es la mejor inversión?</strong> Te da independencia total. No pagas mensualidades por cambiar fotos o precios: lo haces tú mismo desde tu celular o computadora en cualquier momento.
+                  </p>
+                </div>
+              </div>
+              }
+
+              <!-- ─── TAB 2: PEDIDOS WHATSAPP ─── -->
+              @if (adminActiveTab() === 'whatsapp') {
+              <div class="bds-admin-tab-content">
+                <div class="bds-admin-header">
+                  <div>
+                    <h3 class="bds-admin-title">Pedidos por WhatsApp &amp; Automatización IA</h3>
+                    <p class="bds-admin-desc">Visualiza las conversaciones y pedidos cerrados automáticamente por tu Inteligencia Artificial 24/7.</p>
+                  </div>
+                </div>
+
+                <div class="bds-orders-grid">
+                  @for (order of whatsappOrders(); track order.id) {
+                  <div class="bds-order-card">
+                    <div class="bds-order-header">
+                      <div class="bds-order-customer">
+                        <span class="bds-cust-avatar">{{ order.avatar }}</span>
+                        <div>
+                          <strong>{{ order.customer }}</strong>
+                          <small>{{ order.phone }}</small>
+                        </div>
+                      </div>
+                      <span class="bds-order-status {{ order.statusClass }}">{{ order.status }}</span>
+                    </div>
+
+                    <div class="bds-order-body">
+                      <div class="bds-order-items">
+                        <i class="pi pi-shopping-bag"></i>
+                        <span>{{ order.items }}</span>
+                      </div>
+                      <div class="bds-order-meta">
+                        <span class="bds-order-price">{{ order.total }}</span>
+                        <span class="bds-order-time"><i class="pi pi-clock"></i> {{ order.time }}</span>
+                      </div>
+                    </div>
+
+                    <div class="bds-order-footer">
+                      <button type="button" class="bds-btn-sim-ai" (click)="openAiChatSimulation(order)">
+                        <i class="pi pi-sparkles"></i>
+                        <span>Ver Chat Bot IA 🤖</span>
+                      </button>
+                      <button type="button" class="bds-btn-wa-direct" (click)="triggerAdminToast('Simulación de WhatsApp: Abre chat directo con el cliente')">
+                        <i class="pi pi-whatsapp"></i>
+                        <span>WhatsApp</span>
+                      </button>
+                    </div>
+                  </div>
+                  }
+                </div>
+              </div>
+              }
+
+              <!-- ─── TAB 3: ESTADÍSTICAS ─── -->
+              @if (adminActiveTab() === 'stats') {
+              <div class="bds-admin-tab-content">
+                <div class="bds-admin-header">
+                  <div>
+                    <h3 class="bds-admin-title">Estadísticas &amp; Rendimiento en Tiempo Real</h3>
+                    <p class="bds-admin-desc">Métricas clave sobre visitas a tu catálogo, pedidos por WhatsApp e ingresos semanales.</p>
+                  </div>
+                </div>
+
+                <div class="bds-stats-cards-grid">
+                  <div class="bds-metric-card">
+                    <div class="bds-metric-icon green"><i class="pi pi-dollar"></i></div>
+                    <div class="bds-metric-info">
+                      <span class="bds-metric-val">$1,420 USD</span>
+                      <span class="bds-metric-lbl">Ventas Totales (+24.5%)</span>
+                    </div>
+                  </div>
+
+                  <div class="bds-metric-card blue">
+                    <div class="bds-metric-icon blue"><i class="pi pi-whatsapp"></i></div>
+                    <div class="bds-metric-info">
+                      <span class="bds-metric-val">38 Pedidos</span>
+                      <span class="bds-metric-lbl">Cierre por WhatsApp (84%)</span>
+                    </div>
+                  </div>
+
+                  <div class="bds-metric-card purple">
+                    <div class="bds-metric-icon purple"><i class="pi pi-bolt"></i></div>
+                    <div class="bds-metric-info">
+                      <span class="bds-metric-val">142 Chats</span>
+                      <span class="bds-metric-lbl">Atendidos por IA 24/7</span>
+                    </div>
+                  </div>
+
+                  <div class="bds-metric-card orange">
+                    <div class="bds-metric-icon orange"><i class="pi pi-star"></i></div>
+                    <div class="bds-metric-info">
+                      <span class="bds-metric-val">28 ventas</span>
+                      <span class="bds-metric-lbl">Vestido Denim (Producto Top)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Visual Chart Graph -->
+                <div class="bds-chart-container">
+                  <div class="bds-chart-title">
+                    <i class="pi pi-chart-bar"></i>
+                    <span>Actividad de Ventas Semanales (Lunes a Domingo)</span>
+                  </div>
+                  <div class="bds-chart-bars">
+                    <div class="bds-bar-group"><div class="bds-bar" style="height: 55%;" data-val="$120"></div><span>Lun</span></div>
+                    <div class="bds-bar-group"><div class="bds-bar" style="height: 70%;" data-val="$210"></div><span>Mar</span></div>
+                    <div class="bds-bar-group"><div class="bds-bar" style="height: 65%;" data-val="$180"></div><span>Mié</span></div>
+                    <div class="bds-bar-group"><div class="bds-bar" style="height: 85%;" data-val="$340"></div><span>Jue</span></div>
+                    <div class="bds-bar-group"><div class="bds-bar highlight" style="height: 100%;" data-val="$490"></div><span>Vie</span></div>
+                    <div class="bds-bar-group"><div class="bds-bar" style="height: 90%;" data-val="$380"></div><span>Sáb</span></div>
+                    <div class="bds-bar-group"><div class="bds-bar" style="height: 80%;" data-val="$260"></div><span>Dom</span></div>
                   </div>
                 </div>
               </div>
+              }
 
-              <!-- Admin Table -->
-              <div class="bds-admin-table-wrap">
-                <table class="bds-admin-table">
-                  <thead>
-                    <tr>
-                      <th>Producto</th>
-                      <th>Categoría</th>
-                      <th>Precio (USD)</th>
-                      <th>Estado</th>
-                      <th>Sincronización</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @for (prod of editableProducts(); track prod.id) {
-                    <tr>
-                      <td class="bds-td-prod">
-                        <img [src]="prod.image" [alt]="prod.name" class="bds-table-thumb" />
-                        <span>{{ prod.name }}</span>
-                      </td>
-                      <td><span class="bds-table-tag">{{ prod.category }}</span></td>
-                      <td>
-                        <div class="bds-price-input-wrap">
-                          <span>$</span>
-                          <input
-                            type="number"
-                            [value]="prod.price"
-                            #priceInput
-                            (change)="updatePrice(prod, priceInput.value)" />
-                        </div>
-                      </td>
-                      <td>
-                        <button
-                          type="button"
-                          class="bds-stock-toggle"
-                          [class.in-stock]="prod.inStock"
-                          (click)="toggleStock(prod)">
-                          {{ prod.inStock ? '✓ En Stock' : '✕ Agotado' }}
-                        </button>
-                      </td>
-                      <td>
-                        <span class="bds-synced-badge"><i class="pi pi-check-circle"></i> En tiempo real</span>
-                      </td>
-                    </tr>
-                    }
-                  </tbody>
-                </table>
-              </div>
+              <!-- ─── TAB 4: CONFIGURACIÓN ─── -->
+              @if (adminActiveTab() === 'settings') {
+              <div class="bds-admin-tab-content">
+                <div class="bds-admin-header">
+                  <div>
+                    <h3 class="bds-admin-title">Configuración del Negocio &amp; Agente de IA</h3>
+                    <p class="bds-admin-desc">Personaliza tus datos de contacto, moneda e integración con respuestas automáticas.</p>
+                  </div>
+                </div>
 
-              <div class="bds-admin-banner">
-                <i class="pi pi-sparkles"></i>
-                <p>
-                  <strong>¿Por qué un Sitio Web Profesional es la mejor inversión?</strong> Te da independencia total. No pagas mensualidades por cambiar fotos o precios: lo haces tú mismo desde tu celular o computadora en cualquier momento.
-                </p>
+                <div class="bds-settings-grid">
+                  <div class="bds-settings-box">
+                    <h4 class="bds-box-title"><i class="pi pi-building"></i> Información Comercial</h4>
+                    
+                    <div class="bds-field-group">
+                      <label>Nombre del Negocio</label>
+                      <input type="text" [value]="settingsBusinessName()" (input)="settingsBusinessName.set($any($event.target).value)" class="bds-input" />
+                    </div>
+
+                    <div class="bds-field-group">
+                      <label>Número WhatsApp de Ventas</label>
+                      <input type="text" [value]="settingsPhone()" (input)="settingsPhone.set($any($event.target).value)" class="bds-input" />
+                    </div>
+
+                    <div class="bds-field-group">
+                      <label>Moneda Principal</label>
+                      <select [value]="settingsCurrency()" (change)="settingsCurrency.set($any($event.target).value)" class="bds-select">
+                        <option value="USD">USD ($)</option>
+                        <option value="COP">COP ($)</option>
+                        <option value="MXN">MXN ($)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="bds-settings-box">
+                    <div class="bds-box-header-toggle">
+                      <h4 class="bds-box-title"><i class="pi pi-bolt"></i> Agente de IA SAMTS (24/7)</h4>
+                      <label class="bds-switch">
+                        <input type="checkbox" [checked]="settingsAiEnabled()" (change)="settingsAiEnabled.set(!settingsAiEnabled())" />
+                        <span class="bds-slider"></span>
+                      </label>
+                    </div>
+
+                    <div class="bds-field-group">
+                      <label>Mensaje de Saludo Automático (WhatsApp)</label>
+                      <textarea rows="3" [value]="settingsWelcomeMsg()" (input)="settingsWelcomeMsg.set($any($event.target).value)" class="bds-textarea"></textarea>
+                    </div>
+
+                    <div class="bds-ai-status-badge" [class.active]="settingsAiEnabled()">
+                      <i class="pi pi-check-circle"></i>
+                      <span>{{ settingsAiEnabled() ? '🤖 Bot de IA Activo (Responde 24/7 sin pausas)' : '⏸ Bot en pausa' }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bds-settings-actions">
+                  <button type="button" class="bds-btn-save-settings" (click)="saveSettingsDemo()">
+                    <i class="pi pi-check"></i>
+                    <span>Guardar Configuración en Vivo</span>
+                  </button>
+                </div>
               </div>
+              }
 
             </main>
           </div>
+
+          <!-- Modal: Demo Crear Producto -->
+          @if (showCreateProductModal()) {
+          <div class="bds-admin-modal-overlay">
+            <div class="bds-admin-modal">
+              <div class="bds-modal-header">
+                <h3><i class="pi pi-plus-circle"></i> Registrar Nuevo Producto (Demo)</h3>
+                <button type="button" (click)="showCreateProductModal.set(false)"><i class="pi pi-times"></i></button>
+              </div>
+
+              <div class="bds-modal-body">
+                <div class="bds-field-group">
+                  <label>Nombre del Producto</label>
+                  <input type="text" placeholder="Ej: Vestido Gala Gold Edition" [value]="newProdName()" (input)="newProdName.set($any($event.target).value)" class="bds-input" />
+                </div>
+
+                <div class="bds-field-group">
+                  <label>Categoría</label>
+                  <input type="text" placeholder="Ej: Vestiditos" [value]="newProdCategory()" (input)="newProdCategory.set($any($event.target).value)" class="bds-input" />
+                </div>
+
+                <div class="bds-field-group">
+                  <label>Precio ($ USD / COP)</label>
+                  <input type="number" placeholder="120" [value]="newProdPrice()" (input)="newProdPrice.set(+$any($event.target).value)" class="bds-input" />
+                </div>
+
+                <div class="bds-field-group">
+                  <label>URL de Imagen del Producto</label>
+                  <input type="text" [value]="newProdImage()" (input)="newProdImage.set($any($event.target).value)" class="bds-input" />
+                </div>
+
+                @if (newProdImage()) {
+                <div class="bds-img-preview-box">
+                  <small>Vista previa de imagen:</small>
+                  <img [src]="newProdImage()" alt="Preview" />
+                </div>
+                }
+              </div>
+
+              <div class="bds-modal-footer">
+                <button type="button" class="bds-btn-cancel" (click)="showCreateProductModal.set(false)">Cancelar</button>
+                <button type="button" class="bds-btn-save-prod" (click)="saveNewProductDemo()">
+                  <i class="pi pi-check"></i> Guardar en Catálogo en Vivo
+                </button>
+              </div>
+            </div>
+          </div>
+          }
+
+          <!-- Modal: Demo Chat Bot IA -->
+          @if (showAiChatSimModal() && activeSimOrder()) {
+          <div class="bds-admin-modal-overlay">
+            <div class="bds-whatsapp-sim-modal">
+              <div class="bds-wa-sim-header">
+                <div class="bds-wa-sim-user">
+                  <span>{{ activeSimOrder().avatar }}</span>
+                  <div>
+                    <strong>{{ activeSimOrder().customer }}</strong>
+                    <small>🤖 Responde Agente de IA SAMTS 24/7</small>
+                  </div>
+                </div>
+                <button type="button" (click)="closeAiChatSimulation()"><i class="pi pi-times"></i></button>
+              </div>
+
+              <div class="bds-wa-sim-body">
+                @for (chat of activeSimOrder().dialog; track $index) {
+                <div class="bds-wa-bubble" [class.user-bubble]="chat.sender === 'user'" [class.bot-bubble]="chat.sender === 'bot'">
+                  <p>{{ chat.text }}</p>
+                </div>
+                }
+              </div>
+
+              <div class="bds-wa-sim-footer">
+                <span>💬 Esta conversación fue procesada y cerrada automáticamente por la IA.</span>
+                <button type="button" class="bds-btn-cancel" (click)="closeAiChatSimulation()">Cerrar Vista Previa</button>
+              </div>
+            </div>
+          </div>
+          }
 
         </div>
         }
@@ -1251,7 +1651,7 @@
           <i class="pi pi-user"></i>
         </div>
         <div>
-          <strong>{{ currentNiche().businessTitle }}</strong>
+          <strong>{{ activeNicheConfig().businessTitle }}</strong>
           <small>WhatsApp Business Oficial</small>
         </div>
       </div>

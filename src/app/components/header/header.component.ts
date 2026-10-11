@@ -66,7 +66,9 @@ export class HeaderComponent implements OnInit {
   }
 
   private checkDemoSectionVisibility(): void {
+    if (typeof document === 'undefined') return;
     const demoElem = document.getElementById('demo-section');
+
     if (!demoElem) {
       this.isDemoActive.set(false);
       return;

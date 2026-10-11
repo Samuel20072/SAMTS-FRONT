@@ -59,6 +59,94 @@ export class BusinessDemoSectionComponent implements OnInit {
   // Cart state
   cart = signal<{ [productId: string]: number }>({});
 
+  // Admin Panel Tab & Demo States
+  adminActiveTab = signal<'products' | 'whatsapp' | 'stats' | 'settings'>('products');
+  showCreateProductModal = signal<boolean>(false);
+  showAiChatSimModal = signal<boolean>(false);
+  activeSimOrder = signal<any | null>(null);
+  adminToastMessage = signal<string | null>(null);
+
+  // New product form inputs
+  newProdName = signal<string>('');
+  newProdCategory = signal<string>('Colección Exclusiva');
+  newProdPrice = signal<number>(120);
+  newProdImage = signal<string>('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80');
+
+  // Settings inputs
+  settingsBusinessName = signal<string>('Rosant Boutique');
+  settingsPhone = signal<string>('+57 300 123 4567');
+  settingsCurrency = signal<string>('USD');
+  settingsAiEnabled = signal<boolean>(true);
+  settingsWelcomeMsg = signal<string>('¡Hola! 👋 Bienvenido a nuestro negocio. Soy tu asistente de IA 24/7. ¿En qué producto o servicio te podemos asesorar hoy?');
+
+  // WhatsApp Incoming Orders Demo Data
+  whatsappOrders = signal([
+    {
+      id: '#1004',
+      customer: 'Valentina Ríos',
+      avatar: '🌸',
+      phone: '+57 312 890 4421',
+      items: '1x Vestido Fiesta Night + 1x Top Royal Blue',
+      total: '$290 USD',
+      time: 'Hace 5 min',
+      status: 'Nuevo',
+      statusClass: 'status-new',
+      dialog: [
+        { sender: 'user', text: '¡Hola! Me interesan el Vestido Fiesta Night en talla M y el Top Royal Blue.' },
+        { sender: 'bot', text: '¡Hola Valentina! 🌟 Claro que sí, ambos están disponibles en stock. El total con envío exprés es $290 USD. ¿A qué dirección registramos tu despacho?' },
+        { sender: 'user', text: 'Excelente, envíalo a la Calle 85 #12-45 Apto 402. Pago por Nequi/Wompi.' },
+        { sender: 'bot', text: '¡Pedido #1004 generado con éxito! Te enviamos el link de pago seguro por WhatsApp. 📦' }
+      ]
+    },
+    {
+      id: '#1003',
+      customer: 'Carlos Mendoza',
+      avatar: '👨‍💼',
+      phone: '+57 301 456 7890',
+      items: '2x Set Top & Jean Capri',
+      total: '$220 USD',
+      time: 'Hace 32 min',
+      status: 'En Proceso',
+      statusClass: 'status-progress',
+      dialog: [
+        { sender: 'user', text: 'Buenas tardes, ¿tienen disponibilidad del Set Capri en talla S?' },
+        { sender: 'bot', text: '¡Hola Carlos! Sí, tenemos 3 unidades en stock. ¿Deseas ordenar 2 conjuntos con un 10% de descuento especial?' },
+        { sender: 'user', text: 'Sí, por favor prepara 2 sets. Envío a Bogotá.' }
+      ]
+    },
+    {
+      id: '#1002',
+      customer: 'Mariana Gómez',
+      avatar: '👩',
+      phone: '+57 315 234 5678',
+      items: '1x Blusa Encaje & Denim Celeste',
+      total: '$120 USD',
+      time: 'Hace 2 horas',
+      status: 'Completado',
+      statusClass: 'status-completed',
+      dialog: [
+        { sender: 'user', text: '¿El envío a Medellín tarda mucho?' },
+        { sender: 'bot', text: 'Llega en 24 horas hábiles. Tu guía de rastreo es Servientrega #994821. 🚚' }
+      ]
+    },
+    {
+      id: '#1001',
+      customer: 'Andrés Silva',
+      avatar: '🧑',
+      phone: '+57 300 987 6543',
+      items: '1x Enterizo Glam Dark Edition',
+      total: '$150 USD',
+      time: 'Ayer',
+      status: 'Completado',
+      statusClass: 'status-completed',
+      dialog: [
+        { sender: 'user', text: 'Gracias por la atención rápida, la prenda llegó perfecta 👌' },
+        { sender: 'bot', text: '¡Con mucho gusto Andrés! Gracias por comprar con nosotros. ✨' }
+      ]
+    }
+  ]);
+
+
   // Niches catalog
   readonly niches: DemoNiche[] = [
     {
@@ -196,6 +284,38 @@ export class BusinessDemoSectionComponent implements OnInit {
           image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
+        {
+          id: 'r5',
+          name: 'Tacos Al Pastor Tradicionales',
+          category: 'Especialidades',
+          price: 12,
+          image: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 'r6',
+          name: 'Baby Back Ribs BBQ',
+          category: 'Carnes',
+          price: 22,
+          image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 'r7',
+          name: 'Pasta Fettuccine Alfredo & Camarón',
+          category: 'Pastas',
+          price: 17,
+          image: 'https://images.unsplash.com/photo-1621996346565-e3d5d6281313?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 'r8',
+          name: 'Tiramisú Artesanal de la Casa',
+          category: 'Postres',
+          price: 7,
+          image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
       ],
     },
     {
@@ -238,6 +358,38 @@ export class BusinessDemoSectionComponent implements OnInit {
           category: 'Productos',
           price: 18,
           image: 'https://images.unsplash.com/photo-1597854710119-a5a8fc0b8751?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 's5',
+          name: 'Corte Executive Fade & Profilado',
+          category: 'Cortes',
+          price: 20,
+          image: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 's6',
+          name: 'Tratamiento Facial Carbón Activado',
+          category: 'Spa',
+          price: 14,
+          image: 'https://images.unsplash.com/photo-1512290900676-26c2a5a545b6?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 's7',
+          name: 'Camuflaje de Canas & Coloración',
+          category: 'Color',
+          price: 18,
+          image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 's8',
+          name: 'Kit Cuidado Beard Care Premium',
+          category: 'Productos',
+          price: 22,
+          image: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
       ],
@@ -284,6 +436,38 @@ export class BusinessDemoSectionComponent implements OnInit {
           image: 'https://images.unsplash.com/photo-1609592424368-2831d166fc49?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
+        {
+          id: 't5',
+          name: 'Teclado Mecánico RGB Custom',
+          category: 'Setup',
+          price: 85,
+          image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 't6',
+          name: 'Mouse Ergónomico Wireless Gaming',
+          category: 'Periféricos',
+          price: 48,
+          image: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 't7',
+          name: 'Mochila Tech Impermeable Antirrobo',
+          category: 'Accesorios',
+          price: 65,
+          image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 't8',
+          name: 'Cámara Web 4K UltraHD Streaming',
+          category: 'Video',
+          price: 95,
+          image: 'https://images.unsplash.com/photo-1588702547923-7093a6c3ba33?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
       ],
     },
     {
@@ -326,6 +510,38 @@ export class BusinessDemoSectionComponent implements OnInit {
           category: 'Contabilidad',
           price: 90,
           image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 'p5',
+          name: 'Desarrollo de Sitio Web & App',
+          category: 'Tecnología',
+          price: 450,
+          image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 'p6',
+          name: 'Estrategia de Marketing Digital 360',
+          category: 'Marketing',
+          price: 300,
+          image: 'https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 'p7',
+          name: 'Automatización de Procesos & CRM',
+          category: 'Operaciones',
+          price: 380,
+          image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 'p8',
+          name: 'Auditoría Financiera & Presupuesto',
+          category: 'Finanzas',
+          price: 210,
+          image: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
       ],
@@ -379,13 +595,37 @@ export class BusinessDemoSectionComponent implements OnInit {
     return total;
   });
 
+  readonly activeNicheConfig = computed(() => {
+    const nicheId = this.activeNicheId();
+    const defaultNiche = this.currentNiche();
+    const cfg = this.demoConfig.config();
+    const key = nicheId as keyof typeof cfg.niches;
+    const custom = cfg.niches?.[key];
+
+    if (custom) {
+      return {
+        businessTitle: custom.businessTitle || defaultNiche.businessTitle,
+        tagline: custom.tagline || defaultNiche.tagline,
+        primaryColor: custom.primaryColor || defaultNiche.primaryColor,
+        bgColor: custom.bgColor || '#ffffff',
+        heroImage: custom.heroImage || defaultNiche.heroImage,
+      };
+    }
+
+    return {
+      businessTitle: defaultNiche.businessTitle,
+      tagline: defaultNiche.tagline,
+      primaryColor: defaultNiche.primaryColor,
+      bgColor: '#ffffff',
+      heroImage: defaultNiche.heroImage,
+    };
+  });
+
   constructor() {
-    // Re-load boutique products whenever config changes (e.g. image swapped in editor)
+    // Re-load products whenever config changes (e.g. image swapped in editor)
     effect(() => {
       this.demoConfig.config(); // track changes
-      if (this.activeNicheId() === 'boutique') {
-        this.loadNicheProducts('boutique');
-      }
+      this.loadNicheProducts(this.activeNicheId());
     });
   }
 
@@ -413,25 +653,30 @@ export class BusinessDemoSectionComponent implements OnInit {
 
   setNiche(nicheId: string): void {
     this.activeNicheId.set(nicheId);
+    this.demoConfig.setActiveNicheId(nicheId);
     this.cart.set({});
     this.loadNicheProducts(nicheId);
   }
 
   private loadNicheProducts(nicheId: string): void {
     const niche = this.niches.find((n) => n.id === nicheId) || this.niches[0];
-    const products = JSON.parse(JSON.stringify(niche.products));
+    const products: DemoProduct[] = JSON.parse(JSON.stringify(niche.products));
 
-    // For boutique, override product images with values from DemoConfigService
-    if (nicheId === 'boutique') {
-      const cfg = this.demoConfig.config();
+    const cfg = this.demoConfig.config();
+    const key = nicheId as keyof typeof cfg.niches;
+    const nicheCfg = cfg.niches?.[key];
+
+    if (nicheCfg && nicheCfg.productImages) {
       products.forEach((p: DemoProduct, idx: number) => {
-        const key = `boutiqueProduct${idx + 1}` as keyof typeof cfg;
-        if (cfg[key]) p.image = cfg[key] as string;
+        if (nicheCfg.productImages[idx]) {
+          p.image = nicheCfg.productImages[idx];
+        }
       });
     }
 
     this.editableProducts.set(products);
   }
+
 
   addToCart(productId: string): void {
     this.cart.update((c) => {
@@ -550,6 +795,46 @@ export class BusinessDemoSectionComponent implements OnInit {
     return Math.round(price * 0.2);
   }
 
+  triggerAdminToast(msg: string): void {
+    this.adminToastMessage.set(msg);
+    setTimeout(() => this.adminToastMessage.set(null), 3500);
+  }
+
+  saveNewProductDemo(): void {
+    const name = this.newProdName().trim() || 'Producto Exclusivo Demo';
+    const cat = this.newProdCategory().trim() || 'Novedades';
+    const price = this.newProdPrice() || 120;
+    const img = this.newProdImage() || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80';
+
+    const newProd: DemoProduct = {
+      id: 'demo-' + Date.now(),
+      name,
+      category: cat,
+      price,
+      image: img,
+      inStock: true
+    };
+
+    this.editableProducts.update(prods => [newProd, ...prods]);
+    this.showCreateProductModal.set(false);
+    this.newProdName.set('');
+    this.triggerAdminToast(`✨ ¡Producto "${name}" agregado al catálogo en vivo!`);
+  }
+
+  saveSettingsDemo(): void {
+    this.triggerAdminToast('⚡ ¡Configuración guardada! Tu sitio web y bot de IA están sincronizados.');
+  }
+
+  openAiChatSimulation(order: any): void {
+    this.activeSimOrder.set(order);
+    this.showAiChatSimModal.set(true);
+  }
+
+  closeAiChatSimulation(): void {
+    this.showAiChatSimModal.set(false);
+    this.activeSimOrder.set(null);
+  }
+
   scrollToHero(): void {
     const hero = document.getElementById('hero');
     if (hero) {
@@ -557,3 +842,4 @@ export class BusinessDemoSectionComponent implements OnInit {
     }
   }
 }
+
