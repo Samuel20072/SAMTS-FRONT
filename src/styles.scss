@@ -24,8 +24,8 @@
   --color-gray-700: #374151;
   --color-gray-900: #111827;
 
-  --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-display: var(--font-apple);
+  --font-apple: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: "Outfit", var(--font-apple);
   --font-body: var(--font-apple);
 
   --radius-sm: 6px;
@@ -211,21 +211,16 @@ p {
   right: 0;
   z-index: 100;
   width: 100%;
-  background-color: transparent;
-  border-bottom: 1px solid transparent;
-  backdrop-filter: none;
-  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, background-color 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease;
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.35s ease,
+              background-color 0.28s ease,
+              border-color 0.28s ease,
+              box-shadow 0.28s ease;
 
   &.hidden-demo {
     transform: translateY(-100%);
     opacity: 0;
     pointer-events: none;
-  }
-
-  &.scrolled {
-    background-color: rgba(223, 224, 222, 0.92);
-    border-bottom-color: rgba(0, 0, 0, 0.06);
-    backdrop-filter: blur(12px);
   }
 }
 
@@ -237,30 +232,43 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
+/* ─── Logo ─── */
 .samts-nav__logo {
   cursor: pointer;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: scale(1.03);
+  }
 }
 
 .samts-nav__logo-text {
   font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: var(--color-black);
-  letter-spacing: -0.01em;
+  font-size: 1.25rem;
+  font-weight: 850;
+  letter-spacing: -0.015em;
+  line-height: 1;
+  transition: color 0.2s ease;
 }
 
 .samts-nav__logo-bracket {
-  color: var(--color-violet);
+  color: #2563eb;
+  font-weight: 900;
+  transition: color 0.2s ease;
 }
 
+/* ─── Nav Links ─── */
 .samts-nav__links {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.35rem;
 
   @media (max-width: 767px) {
     display: none;
@@ -269,22 +277,31 @@ p {
 
 .samts-nav__link {
   font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--color-gray-700);
+  font-size: 0.92rem;
+  font-weight: 550;
   background: none;
   border: none;
-  padding: 0.5rem 0.85rem;
-  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.9rem;
+  border-radius: 9999px;
   cursor: pointer;
-  transition: color 0.18s ease, background 0.18s ease;
-
-  &:hover {
-    color: var(--color-black);
-    background-color: var(--color-gray-100);
-  }
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: -0.01em;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ─── Free Guide Badge ─── */
+.samts-nav__badge-free {
+  font-size: 10px;
+  font-weight: 750;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  letter-spacing: 0.04em;
+  transition: all 0.2s ease;
+}
+
+/* ─── Actions & CTA ─── */
 .samts-nav__actions {
   display: flex;
   align-items: center;
@@ -292,86 +309,197 @@ p {
   flex-shrink: 0;
 }
 
+/* Mobile actions container — only visible on mobile */
+.samts-nav__mobile-actions {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+
+  @media (max-width: 767px) {
+    display: flex;
+  }
+}
+
+.samts-nav__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-family: var(--font-body);
+  font-weight: 650;
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+  border-radius: 9999px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  padding: 0.58rem 1.35rem;
+  line-height: 1;
+  border: none;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Desktop CTA — hidden on mobile */
+.samts-nav__cta--desktop {
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+/* Mobile CTA — compact, shown only on mobile */
+.samts-nav__cta--mobile {
+  padding: 0.48rem 1rem;
+  font-size: 0.82rem;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+/* Mobile CTA full-width (in mobile menu) */
+.samts-nav__cta--mobile-full {
+  width: 100%;
+  margin-top: 0.75rem;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
 .samts-nav__mobile-toggle {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--color-gray-700);
   padding: 0.5rem;
   border-radius: var(--radius-sm);
-
-  &:hover {
-    background-color: var(--color-gray-100);
-  }
+  transition: all 0.2s ease;
 }
 
 .samts-nav__mobile-menu {
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  background-color: #DFE0DE;
   padding: 1rem 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
 
   @media (min-width: 768px) {
     display: none !important;
   }
 }
 
-.dark .samts-nav {
-  background-color: transparent;
-
-  &.scrolled {
-    background-color: rgba(5, 5, 8, 0.92);
-    border-bottom-color: rgba(255, 255, 255, 0.08);
-  }
-
-  .samts-nav__logo-text {
-    color: #ffffff;
-  }
-
-  .samts-nav__link {
-    color: rgba(255, 255, 255, 0.85);
-
-    &:hover {
-      color: #ffffff;
-      background-color: rgba(255, 255, 255, 0.06);
-    }
-  }
-}
-
-.dark .samts-nav__mobile-menu {
-  background-color: #050508;
-  border-top-color: rgba(255, 255, 255, 0.08);
-
-  .samts-nav__mobile-link {
-    color: #cbd5e1;
-
-    &:hover {
-      color: #ffffff;
-      background-color: rgba(255, 255, 255, 0.06);
-    }
-  }
-}
-
 .samts-nav__mobile-link {
   font-family: var(--font-body);
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--color-gray-700);
+  font-size: 0.98rem;
+  font-weight: 550;
   background: none;
   border: none;
   text-align: left;
   padding: 0.75rem 1rem;
-  border-radius: var(--radius-md);
+  border-radius: 10px;
   cursor: pointer;
-  transition: color 0.18s ease, background 0.18s ease;
+  transition: all 0.2s ease;
+}
 
-  &:hover {
-    color: var(--color-black);
-    background-color: var(--color-gray-100);
+/* ══════════════════════════════════════════
+   LIGHT MODE — used across all pages
+   ══════════════════════════════════════════ */
+.samts-nav--light {
+  background-color: rgba(223, 224, 222, 0.82);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+
+  &.scrolled {
+    background-color: rgba(223, 224, 222, 0.95);
+    border-bottom-color: rgba(0, 0, 0, 0.10);
+    box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.08);
+  }
+
+  .samts-nav__logo-text {
+    color: #0f172a;
+  }
+
+  .samts-nav__logo-bracket {
+    color: #2563eb;
+  }
+
+  .samts-nav__link {
+    color: #334155;
+
+    &:hover {
+      color: #0f172a;
+      background-color: rgba(0, 0, 0, 0.055);
+    }
+
+    &.active {
+      color: #2563eb;
+      background-color: rgba(37, 99, 235, 0.09);
+      font-weight: 650;
+    }
+  }
+
+  .samts-nav__badge-free {
+    background: rgba(37, 99, 235, 0.11);
+    color: #2563eb;
+    border: 1px solid rgba(37, 99, 235, 0.22);
+  }
+
+  .samts-nav__cta {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 14px -1px rgba(37, 99, 235, 0.40);
+
+    &:hover {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px -2px rgba(37, 99, 235, 0.50);
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.98);
+    }
+  }
+
+  .samts-nav__mobile-toggle {
+    color: #1e293b;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  .samts-nav__mobile-menu {
+    background-color: rgba(225, 226, 224, 0.98);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.12);
+  }
+
+  .samts-nav__mobile-link {
+    color: #1e293b;
+    font-weight: 500;
+
+    &:hover {
+      color: #0f172a;
+      background-color: rgba(0, 0, 0, 0.055);
+    }
   }
 }
+
+/* .samts-nav--dark kept for reference but not used — all pages use light mode */
 
 /* ══════════════════════════════════════════════════════════
    Hero — 3D interactivo (100 vh, personaje izquierda, texto derecha)
@@ -3063,8 +3191,15 @@ p {
   background-color: #DFE0DE;
 
   &.scroll-locked {
-    max-height: calc(100vh - 68px);
-    overflow: hidden;
+    @media (min-width: 861px) {
+      max-height: calc(100vh - 68px);
+      overflow: hidden;
+    }
+    @media (max-width: 860px) {
+      max-height: none;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
   }
 }
 
@@ -3421,19 +3556,12 @@ p {
 
 .samuel-result {
   display: flex;
-  /* ══════════════════════════════════════════════════════════════
-   Samuel Result Component — Compact & Aesthetic Apple Design
-   ══════════════════════════════════════════════════════════════ */
-
-  .samuel-result {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-    animation: apple-fade-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    width: 100%;
-    max-width: 520px;
-  }
+  flex-direction: column;
+  gap: 0.75rem;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  animation: apple-fade-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  width: 100%;
+  max-width: 520px;
 
   .samuel-result__card {
     background: rgba(255, 255, 255, 0.92);
@@ -3653,123 +3781,201 @@ p {
     align-items: center;
     gap: 4px;
   }
+}
 
-  /* Keyframe Animations */
-  @keyframes apple-fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
+/* ══════════════════════════════════════════════════════════════
+   Keyframe Animations
+   ══════════════════════════════════════════════════════════════ */
 
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+@keyframes apple-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
   }
-
-  @keyframes apple-bounce {
-
-    0%,
-    80%,
-    100% {
-      transform: scale(0.6);
-      opacity: 0.4;
-    }
-
-    40% {
-      transform: scale(1.1);
-      opacity: 1;
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
-  @keyframes apple-dot-pulse {
-    0% {
-      transform: scale(0.95);
-      box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7);
-    }
-
-    70% {
-      transform: scale(1);
-      box-shadow: 0 0 0 6px rgba(52, 199, 89, 0);
-    }
-
-    100% {
-      transform: scale(0.95);
-      box-shadow: 0 0 0 0 rgba(52, 199, 89, 0);
-    }
+@keyframes apple-bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0.4;
   }
+  40% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
 
-  /* ══════════════════════════════════════════════════════════════
+@keyframes apple-dot-pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(52, 199, 89, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
    RESPONSIVE — SAMUEL APPLE HERO
    ══════════════════════════════════════════════════════════════ */
 
-  @media (max-width: 1024px) {
-    .samuel-apple-hero {
-      padding: 0 4% 0 0;
-    }
-
-    .samuel-apple-container {
-      max-width: 500px;
-    }
+@media (max-width: 1024px) {
+  .samuel-apple-hero {
+    padding: 2rem 4% 2rem 0;
   }
 
-  @media (max-width: 860px) {
-    .samuel-apple-hero {
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 0 1.25rem 2rem;
-      height: auto;
-      min-height: 100svh;
-    }
+  .samuel-apple-container {
+    max-width: 480px;
+  }
+}
 
-    .samuel-video-stage {
-      position: relative;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 42vh;
-      min-height: 280px;
-    }
+@media (max-width: 860px) {
+  .samuel-apple-hero {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 1.5rem 1rem 3.5rem !important;
+    height: auto !important;
+    min-height: auto !important;
+    gap: 0.75rem;
+  }
 
-    .samuel-video-layer {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(1.15);
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
+  /* Video Hero stage: cleanly positioned at the TOP, visible and unblocked */
+  .samuel-video-stage {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 340px !important;
+    height: 250px !important;
+    min-height: 220px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 2 !important;
+    overflow: hidden !important;
+  }
 
-    .samuel-apple-canvas {
-      position: relative;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 40vh;
-      object-fit: contain;
-      object-position: center bottom;
-    }
+  .samuel-video-layer {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+  }
 
-    .samuel-apple-container {
-      max-width: 100%;
-      margin-top: -10px;
-      padding: 0;
-    }
+  /* Questions, Options & Input Container: neatly positioned BELOW Samuel */
+  .samuel-apple-container {
+    position: relative !important;
+    z-index: 10 !important;
+    width: 100% !important;
+    max-width: 500px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
 
-    .samuel-apple-question-text {
-      font-size: 1.35rem;
-      text-align: center;
-    }
+  .samuel-apple-dialogue {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+    width: 100% !important;
+  }
 
-    .samuel-apple-topbar {
-      justify-content: center;
-    }
+  .samuel-apple-topbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    padding: 0 4px !important;
+  }
 
-    .samuel-apple-options {
-      justify-content: center;
-    }
+  .samuel-apple-question-wrap {
+    text-align: center !important;
+    width: 100% !important;
+  }
+
+  .samuel-apple-question-text {
+    font-size: 1.25rem !important;
+    line-height: 1.35 !important;
+    text-align: center !important;
+    color: #1d1d1f !important;
+  }
+
+  .samuel-apple-options {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    justify-content: center !important;
+    width: 100% !important;
+    margin-top: 0.2rem !important;
+  }
+
+  .samuel-apple-pill {
+    padding: 9px 18px !important;
+    font-size: 0.88rem !important;
+    border-radius: 9999px !important;
+    text-align: center !important;
+    white-space: normal !important;
+    line-height: 1.3 !important;
+  }
+
+  .samuel-apple-input-container {
+    width: 100% !important;
+    margin-top: 0.35rem !important;
+  }
+
+  .samuel-apple-input-capsule {
+    width: 100% !important;
+    padding: 6px 8px 6px 18px !important;
+  }
+
+  .samuel-apple-glow {
+    width: 320px !important;
+    height: 320px !important;
+    top: 5% !important;
+    right: 50% !important;
+    transform: translateX(50%) !important;
+    filter: blur(60px) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .samuel-apple-hero {
+    padding: 1rem 0.85rem 3rem !important;
+    gap: 0.75rem !important;
+  }
+
+  .samuel-video-stage {
+    max-width: 280px !important;
+    height: 230px !important;
+    min-height: 200px !important;
+  }
+
+  .samuel-apple-question-text {
+    font-size: 1.15rem !important;
+  }
+
+  .samuel-apple-pill {
+    padding: 8px 14px !important;
+    font-size: 0.82rem !important;
+  }
+
+  .samuel-apple-input {
+    font-size: 0.85rem !important;
   }
 }

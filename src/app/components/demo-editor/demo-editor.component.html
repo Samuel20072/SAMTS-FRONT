@@ -313,20 +313,20 @@
       <div class="dep-section">
         <div class="dep-section-title">
           <i class="pi pi-shopping-bag"></i>
-          Fotos de productos / servicios (1–8)
+          {{ isServices() ? 'Fotos de servicios (1–6)' : (isRestaurant() ? 'Fotos de platos (1–8)' : 'Fotos de productos / servicios') }}
         </div>
 
         <div class="dep-products-grid">
-          @for (i of productIndexes; track i) {
+          @for (i of activeProductIndexes(); track i) {
           <div class="dep-product-item">
             <div class="dep-product-img-wrap">
-              <img [src]="getNicheProductImage(i)" [alt]="'Producto ' + (i + 1)" class="dep-product-preview" />
+              <img [src]="getNicheProductImage(i)" [alt]="getProductLabel(i)" class="dep-product-preview" />
               <label class="dep-product-overlay">
                 <i class="pi pi-camera"></i>
                 <input type="file" accept="image/*" (change)="onNicheProductImageChange(i, $event)" hidden />
               </label>
             </div>
-            <span class="dep-product-lbl">Producto {{ i + 1 }}</span>
+            <span class="dep-product-lbl">{{ getProductLabel(i) }}</span>
           </div>
           }
         </div>

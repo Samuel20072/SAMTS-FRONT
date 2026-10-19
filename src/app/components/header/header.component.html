@@ -1,9 +1,12 @@
 <div class="samts-nav-trigger" (mouseenter)="isHoveredTop.set(true)"></div>
-<nav class="samts-nav" [class.scrolled]="isScrolled()" [class.hidden-demo]="isHeaderHidden()" (mouseenter)="isHoveredTop.set(true)">
+<nav class="samts-nav samts-nav--light"
+     [class.scrolled]="isScrolled()"
+     [class.hidden-demo]="isHeaderHidden()"
+     (mouseenter)="isHoveredTop.set(true)">
   <div class="samts-nav__inner">
 
     <!-- Logo -->
-    <div class="samts-nav__logo" (click)="scrollToSection('hero')">
+    <div class="samts-nav__logo" (click)="scrollToSection('hero')" role="button" tabindex="0" (keydown.enter)="scrollToSection('hero')" aria-label="SAMTS Inicio">
       <span class="samts-nav__logo-text">
         <span class="samts-nav__logo-bracket">[</span>SAMTS<span class="samts-nav__logo-bracket">]</span>
       </span>
@@ -11,27 +14,33 @@
 
     <!-- Desktop Nav Links -->
     <div class="samts-nav__links">
-      <button (click)="scrollToSection('hero')" class="samts-nav__link">Inicio</button>
+      <button (click)="scrollToSection('hero')" class="samts-nav__link" [class.active]="isCurrentRoute('/')">Inicio</button>
       <button (click)="scrollToSection('services')" class="samts-nav__link">Servicios</button>
-      <button (click)="navigateTo('/portfolio')" class="samts-nav__link">Portafolio</button>
-      <button (click)="navigateTo('/pricing')" class="samts-nav__link">Precios</button>
-      <button (click)="navigateTo('/guia')" class="samts-nav__link" style="display: inline-flex; align-items: center; gap: 6px;">
+      <button (click)="navigateTo('/portfolio')" class="samts-nav__link" [class.active]="isCurrentRoute('/portfolio')">Portafolio</button>
+      <button (click)="navigateTo('/pricing')" class="samts-nav__link" [class.active]="isCurrentRoute('/pricing')">Precios</button>
+      <button (click)="navigateTo('/guia')" class="samts-nav__link samts-nav__link--badge" [class.active]="isCurrentRoute('/guia')">
         <span>Guía</span>
-        <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 9999px; background: rgba(37,99,235,0.12); color: #2563eb; letter-spacing: 0.04em;">GRATIS</span>
+        <span class="samts-nav__badge-free">GRATIS</span>
       </button>
     </div>
 
     <!-- Right side -->
     <div class="samts-nav__actions">
-      <!-- CTA Button -->
-      <button (click)="openConsultation()" class="samts-btn samts-btn--primary hidden sm:block">
-        Empezar
+      <!-- CTA Button — visible on desktop (≥768px) -->
+      <button (click)="openConsultation()" class="samts-nav__cta samts-nav__cta--desktop">
+        <span>Empezar</span>
+        <i class="pi pi-arrow-right" style="font-size: 11px;"></i>
       </button>
 
-      <!-- Mobile Menu Toggle -->
-      <button (click)="toggleMenu()" class="samts-nav__mobile-toggle inline-flex md:hidden">
-        <i class="pi text-xl" [ngClass]="isMenuOpen() ? 'pi-times' : 'pi-bars'"></i>
-      </button>
+      <!-- Mobile row: compact CTA + hamburger -->
+      <div class="samts-nav__mobile-actions">
+        <button (click)="openConsultation()" class="samts-nav__cta samts-nav__cta--mobile">
+          <span>Empezar</span>
+        </button>
+        <button (click)="toggleMenu()" class="samts-nav__mobile-toggle" aria-label="Abrir menú">
+          <i class="pi" [ngClass]="isMenuOpen() ? 'pi-times' : 'pi-bars'" style="font-size: 20px;"></i>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -44,11 +53,13 @@
       <button (click)="navigateTo('/pricing')" class="samts-nav__mobile-link">Precios</button>
       <button (click)="navigateTo('/guia')" class="samts-nav__mobile-link" style="display: flex; align-items: center; justify-content: space-between;">
         <span>Guía Gratuita</span>
-        <span style="font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 9999px; background: rgba(37,99,235,0.15); color: #2563eb;">PDF</span>
+        <span class="samts-nav__badge-free">PDF GRATIS</span>
       </button>
-      <button (click)="openConsultation(); toggleMenu()" class="samts-btn samts-btn--primary w-full mt-3">
-        Empezar
+      <button (click)="openConsultation(); toggleMenu()" class="samts-nav__cta samts-nav__cta--mobile-full">
+        <span>Empezar</span>
+        <i class="pi pi-arrow-right" style="font-size: 11px;"></i>
       </button>
     </div>
   }
 </nav>
+

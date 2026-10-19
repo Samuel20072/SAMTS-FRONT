@@ -25,7 +25,11 @@ export class DemoEditorComponent {
   isOpen = signal(false);
   showSaved = signal(false);
 
-  readonly productIndexes = [0, 1, 2, 3, 4, 5, 6, 7];
+  readonly activeProductIndexes = computed<number[]>(() => {
+    const list = this.activeCfg()?.productImages || [];
+    const count = Math.max(list.length, 6);
+    return Array.from({ length: Math.min(count, 8) }, (_, i) => i);
+  });
 
   readonly nicheMetas: NicheMeta[] = [
     { id: 'boutique', label: 'Ropa & Moda', icon: 'pi-tag' },
@@ -41,6 +45,16 @@ export class DemoEditorComponent {
   );
 
   readonly isBoutique = computed(() => this.activeEditorNiche() === 'boutique');
+  readonly isServices = computed(() => this.activeEditorNiche() === 'services');
+  readonly isRestaurant = computed(() => this.activeEditorNiche() === 'restaurant');
+
+  getProductLabel(index: number): string {
+    const niche = this.activeEditorNiche();
+    if (niche === 'services') return `Servicio ${index + 1}`;
+    if (niche === 'restaurant') return `Plato ${index + 1}`;
+    if (niche === 'barbershop') return `Servicio ${index + 1}`;
+    return `Producto ${index + 1}`;
+  }
 
   /** Returns the NicheConfig for the currently active niche */
   readonly activeCfg = computed<NicheConfig>(() => {
@@ -135,7 +149,7 @@ export class DemoEditorComponent {
   applyPreset(preset: 'nude' | 'dark' | 'rose' | 'clean'): void {
     const presets: Record<string, Partial<NicheConfig>> = {
       nude: { primaryColor: '#1e1b19', accentColor: '#c5a882', bgColor: '#ffffff' },
-      dark: { primaryColor: '#121212', accentColor: '#e2b857', bgColor: '#1a1a1a' },
+      dark: { primaryColor: '#c99b53', accentColor: '#e5a852', bgColor: '#0a0a0c' },
       rose: { primaryColor: '#4a2e35', accentColor: '#d48c9c', bgColor: '#fff8f9' },
       clean: { primaryColor: '#0f172a', accentColor: '#38bdf8', bgColor: '#f8fafc' },
     };

@@ -375,69 +375,94 @@
 .bpm-site-hero {
   background-size: cover;
   background-position: center;
-  padding: 2.5rem 1.5rem;
+  min-height: clamp(380px, 48vh, 520px);
+  display: flex;
+  align-items: center;
+  padding: clamp(3rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 3.5rem);
   color: #ffffff;
+  box-sizing: border-box;
 }
 
 .bpm-hero-content {
-  max-width: 600px;
+  max-width: 650px;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1.1rem;
 }
 
 .bpm-hero-badge {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 3px 10px;
+  padding: 5px 14px;
   border-radius: 9999px;
   width: fit-content;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
 .bpm-hero-title {
-  font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+  font-family: 'Outfit', 'Playfair Display', sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.1;
   color: #ffffff;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .bpm-hero-tagline {
-  font-size: 0.9rem;
-  color: #e2e8f0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.96rem;
+  color: #f1f5f9;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 .bpm-hero-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 0.5rem;
+  gap: 14px;
+  margin-top: 0.6rem;
   flex-wrap: wrap;
 }
 
 .bpm-hero-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 0.82rem;
-  font-weight: 600;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   text-decoration: none;
   cursor: pointer;
+  transition: all 0.25s ease;
 
   &.primary {
     color: #ffffff;
     border: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      filter: brightness(1.1);
+    }
   }
 
   &.outline {
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
     color: #ffffff;
-    border: 1px solid rgba(255,255,255,0.3);
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #ffffff;
+      transform: translateY(-2px);
+    }
   }
 }
 

@@ -1,243 +1,172 @@
 <app-header></app-header>
 
-<main class="min-h-screen bg-slate-50 dark:bg-[#050508] text-slate-800 dark:text-slate-100 pb-20 overflow-hidden relative font-sans">
-  <!-- Glowing Background Effects -->
-  <div class="absolute top-0 left-1/4 h-[500px] w-[500px] rounded-full bg-blue-600/5 dark:bg-blue-600/10 blur-[180px] pointer-events-none"></div>
-  <div class="absolute bottom-1/4 right-0 h-[600px] w-[600px] rounded-full bg-indigo-500/5 dark:bg-indigo-500/10 blur-[180px] pointer-events-none"></div>
+<main class="port-page">
+
+  <!-- Ambient glows -->
+  <div class="port-glow port-glow--1"></div>
+  <div class="port-glow port-glow--2"></div>
 
   <!-- Hero Section -->
-  <section class="relative py-16 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto z-10">
-    <div class="inline-flex items-center gap-2 mb-6">
-      <span class="text-blue-500 text-xs font-bold uppercase tracking-[0.2em]">— PORTAFOLIO</span>
+  <section class="port-hero">
+    <div class="port-container">
+      <span class="port-eyebrow">— PORTAFOLIO</span>
+      <h1 class="port-title">
+        Proyectos reales.<br class="port-br" /> Resultados medibles.
+      </h1>
+      <p class="port-subtitle">
+        Cada proyecto es un sistema construido para funcionar, no solo para verse bien.
+      </p>
     </div>
-    <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
-      Proyectos reales.<br class="hidden sm:inline" /> Resultados medibles.
-    </h1>
-    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
-      Cada proyecto es un sistema construido para funcionar, no solo para verse bien.
-    </p>
   </section>
 
-  <!-- Projects Grid Section -->
-  <section class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-    <div class="space-y-32">
-      
-      <!-- Single Project Row -->
-      <div *ngFor="let project of projects; let i = index" 
-           class="flex flex-col lg:flex-row gap-12 lg:items-center group"
-           [ngClass]="{'lg:flex-row-reverse': i % 2 !== 0}">
-        
-        <!-- Interactive CSS Mockup (Left/Right side) -->
-        <div class="lg:w-1/2 relative">
-          <!-- Outer shadow/glow -->
-          <div class="absolute -inset-1.5 rounded-3xl bg-gradient-to-r from-blue-600 to-indigo-600 opacity-5 blur-2xl group-hover:opacity-15 transition duration-1000"></div>
-          
-          <!-- Browser Wrapper -->
-          <div class="relative rounded-[1.5rem] border border-slate-200 dark:border-slate-900 bg-white dark:bg-[#08080c] overflow-hidden shadow-2xl aspect-[4/3] flex flex-col group-hover:border-slate-300 dark:group-hover:border-slate-800 transition-colors duration-500">
-            <!-- Simulated Browser UI Header -->
-            <div class="h-10 border-b border-slate-200 dark:border-slate-900/80 bg-white dark:bg-[#08080c] flex items-center px-4 gap-2 shrink-0">
-              <div class="flex gap-1.5">
-                <span class="h-2.5 w-2.5 rounded-full bg-red-500/80"></span>
-                <span class="h-2.5 w-2.5 rounded-full bg-yellow-500/80"></span>
-                <span class="h-2.5 w-2.5 rounded-full bg-green-500/80"></span>
+  <!-- Projects Section -->
+  <section class="port-projects">
+    <div class="port-container">
+      <div class="port-projects__list">
+
+        <div *ngFor="let project of projects; let i = index"
+             class="port-project"
+             [class.port-project--reversed]="i % 2 !== 0">
+
+          <!-- Visual: Browser Mockup -->
+          <div class="port-mockup-wrap">
+            <div class="port-mockup-glow"></div>
+            <div class="port-browser">
+              <!-- Browser top bar -->
+              <div class="port-browser__bar">
+                <div class="port-browser__dots">
+                  <span class="port-browser__dot port-browser__dot--red"></span>
+                  <span class="port-browser__dot port-browser__dot--yellow"></span>
+                  <span class="port-browser__dot port-browser__dot--green"></span>
+                </div>
+                <div class="port-browser__url">
+                  <span class="port-browser__url-text">{{ project.siteUrl ? project.siteUrl.replace('https://', '') : 'proximamente.co' }}</span>
+                  <i class="pi pi-lock" style="font-size: 8px; color: #64748b;"></i>
+                </div>
+                <div class="port-browser__spacer"></div>
               </div>
-              <div class="flex-1 max-w-[200px] mx-auto bg-slate-100 dark:bg-[#0c0d14] border border-slate-200 dark:border-slate-900 rounded-md h-5 px-3 flex items-center justify-between text-[10px] text-slate-600 font-mono select-none">
-                <span class="truncate">{{ project.siteUrl ? project.siteUrl.replace('https://', '') : 'proximamente.co' }}</span>
-                <i class="pi pi-lock text-[8px] text-slate-700"></i>
+
+              <!-- Browser content -->
+              <div class="port-browser__content" [class.port-browser__content--padded]="!project.videoUrl || project.videoError">
+
+                <video *ngIf="project.videoUrl && !project.videoError"
+                       [src]="project.videoUrl"
+                       class="port-browser__video"
+                       autoplay loop muted playsinline
+                       (error)="project.videoError = true">
+                </video>
+
+                <ng-container *ngIf="!project.videoUrl || project.videoError">
+
+                  <!-- Mockup: E-commerce (Index 0) -->
+                  <ng-container *ngIf="i === 0">
+                    <div class="port-mock-ecomm">
+                      <div class="port-mock-ecomm__grid">
+                        <div class="port-mock-product" *ngFor="let p of [1,2,3]">
+                          <div class="port-mock-product__img">
+                            <i class="pi pi-image" style="color: #94a3b8; font-size: 14px;"></i>
+                          </div>
+                          <div class="port-mock-product__bar" style="width: 65%;"></div>
+                          <span class="port-mock-product__price">${{ p * 45 + 75 }}</span>
+                        </div>
+                      </div>
+                      <div class="port-mock-chart">
+                        <div class="port-mock-chart__row">
+                          <div class="port-mock-chart__label"></div>
+                          <div class="port-mock-chart__label" style="width: 50px;"></div>
+                        </div>
+                        <div class="port-mock-chart__bars">
+                          <div class="port-mock-bar" style="height: 35%;"></div>
+                          <div class="port-mock-bar" style="height: 55%;"></div>
+                          <div class="port-mock-bar port-mock-bar--active" style="height: 85%;"></div>
+                          <div class="port-mock-bar" style="height: 45%;"></div>
+                          <div class="port-mock-bar" style="height: 70%;"></div>
+                          <div class="port-mock-bar" style="height: 60%;"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <!-- Mockup: Restaurant (Index 1) -->
+                  <ng-container *ngIf="i === 1">
+                    <div class="port-mock-resto">
+                      <div class="port-mock-resto__nav">
+                        <div class="port-mock-bar-flat" style="width: 50px;"></div>
+                        <div style="display: flex; gap: 8px;">
+                          <div class="port-mock-bar-flat" style="width: 28px;"></div>
+                          <div class="port-mock-bar-flat" style="width: 28px;"></div>
+                        </div>
+                      </div>
+                      <div class="port-mock-resto__content">
+                        <div class="port-mock-resto__hero">
+                          <i class="pi pi-images" style="color: #94a3b8; font-size: 18px;"></i>
+                          <div class="port-mock-bar-flat" style="width: 75%; margin-top: 8px;"></div>
+                          <div class="port-mock-bar-flat" style="width: 50%; margin-top: 5px;"></div>
+                        </div>
+                        <div class="port-mock-resto__side">
+                          <div class="port-mock-bar-flat" style="width: 100%;"></div>
+                          <i class="pi pi-calendar" style="color: #94a3b8; font-size: 14px; margin: 8px 0;"></i>
+                          <div class="port-mock-bar-flat" style="width: 70%; background: rgba(37,99,235,0.25);"></div>
+                        </div>
+                      </div>
+                      <div class="port-mock-resto__whatsapp">
+                        <i class="pi pi-whatsapp" style="font-size: 11px;"></i>
+                        <span>Reservas WhatsApp</span>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <!-- Placeholder -->
+                  <ng-container *ngIf="project.isPlaceholder">
+                    <div class="port-mock-placeholder">
+                      <div class="port-mock-placeholder__icon">
+                        <i class="pi pi-spin pi-cog" style="color: #64748b; font-size: 13px;"></i>
+                      </div>
+                      <div class="port-mock-placeholder__title">Proyecto en producción</div>
+                      <div class="port-mock-placeholder__sub">Caso de estudio próximamente</div>
+                    </div>
+                  </ng-container>
+
+                </ng-container>
               </div>
-              <div class="w-10"></div> <!-- Spacing alignment -->
-            </div>
-
-            <!-- Browser Content Area -->
-            <div class="flex-1 bg-white dark:bg-[#060608] relative overflow-hidden flex flex-col justify-between select-none"
-                 [ngClass]="{'p-5': !project.videoUrl || project.videoError}">
-              
-              <!-- Video Preview (plays only if videoUrl is set and has loaded successfully) -->
-              <video *ngIf="project.videoUrl && !project.videoError"
-                     [src]="project.videoUrl"
-                     class="w-full h-full object-cover object-top"
-                     autoplay
-                     loop
-                     muted
-                     playsinline
-                     (error)="project.videoError = true">
-              </video>
-              
-              <!-- CSS Mockups (as fallbacks if video is missing/fails or for placeholder) -->
-              <ng-container *ngIf="!project.videoUrl || project.videoError">
-                
-                <!-- Case 1: Luxury Store E-commerce Mockup (Index 0) -->
-                <ng-container *ngIf="i === 0">
-                  <!-- Grid of Mock Products -->
-                  <div class="grid grid-cols-3 gap-3 w-full">
-                    <!-- Product 1 -->
-                    <div class="bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-2.5 flex flex-col justify-between h-24">
-                      <div class="h-10 bg-slate-100 dark:bg-[#121422] rounded-lg w-full mb-2 flex items-center justify-center">
-                        <i class="pi pi-image text-slate-400 dark:text-slate-600 text-sm"></i>
-                      </div>
-                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-2/3 mb-1.5"></div>
-                      <div class="text-[9px] font-bold text-slate-600 dark:text-slate-400">$120</div>
-                    </div>
-                    <!-- Product 2 -->
-                    <div class="bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-2.5 flex flex-col justify-between h-24">
-                      <div class="h-10 bg-slate-100 dark:bg-[#121422] rounded-lg w-full mb-2 flex items-center justify-center">
-                        <i class="pi pi-image text-slate-800 text-sm"></i>
-                      </div>
-                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-3/4 mb-1.5"></div>
-                      <div class="text-[9px] font-bold text-slate-600 dark:text-slate-400">$180</div>
-                    </div>
-                    <!-- Product 3 (Monitoreo/Stock) -->
-                    <div class="bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-2.5 flex flex-col justify-between h-24 relative overflow-hidden">
-                      <div class="absolute top-1.5 right-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[6px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1">
-                        <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span> Stock Activo
-                      </div>
-                      <div class="h-10 bg-slate-100 dark:bg-[#121422] rounded-lg w-full mb-2 flex items-center justify-center">
-                        <i class="pi pi-image text-slate-400 dark:text-slate-600 text-sm"></i>
-                      </div>
-                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-1/2 mb-1.5"></div>
-                      <div class="text-[9px] font-bold text-slate-600 dark:text-slate-400">$95</div>
-                    </div>
-                  </div>
-
-                  <!-- Charts / Analytics Section -->
-                  <div class="bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-3 flex-1 mt-3 flex flex-col justify-between w-full">
-                    <div class="flex justify-between items-center mb-1">
-                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-1/4"></div>
-                      <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-12"></div>
-                    </div>
-                    <div class="flex items-end justify-between gap-2.5 h-16 pt-3 px-2">
-                      <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[35%] relative group">
-                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">35%</div>
-                      </div>
-                      <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[55%] relative group">
-                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">55%</div>
-                      </div>
-                      <div class="w-full bg-blue-600/30 hover:bg-blue-600/40 rounded-t-sm transition-all h-[85%] relative group shadow-[0_0_10px_rgba(37,99,235,0.2)]">
-                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">85%</div>
-                      </div>
-                      <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[45%] relative group">
-                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">45%</div>
-                      </div>
-                      <div class="w-full bg-blue-600/25 hover:bg-blue-600/35 rounded-t-sm transition-all h-[70%] relative group">
-                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">70%</div>
-                      </div>
-                      <div class="w-full bg-blue-600/20 hover:bg-blue-600/30 rounded-t-sm transition-all h-[60%] relative group">
-                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-[6px] text-slate-900 dark:text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">60%</div>
-                      </div>
-                    </div>
-                  </div>
-                </ng-container>
-
-                <!-- Case 2: Santuario Café & Restaurante Mockup (Index 1) -->
-                <ng-container *ngIf="i === 1">
-                  <div class="h-full flex flex-col gap-3 justify-between w-full">
-                    <!-- Navbar Mock -->
-                    <div class="flex justify-between items-center bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl px-3 py-2">
-                      <div class="h-2.5 bg-slate-100 dark:bg-slate-900 rounded w-16"></div>
-                      <div class="flex gap-2">
-                        <div class="h-1.5 bg-slate-100 dark:bg-slate-900 rounded w-8"></div>
-                        <div class="h-1.5 bg-slate-100 dark:bg-slate-900 rounded w-8"></div>
-                      </div>
-                    </div>
-                    <!-- Hero + Menu Cards -->
-                    <div class="flex-1 flex gap-3">
-                      <div class="flex-1 bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-3 flex flex-col justify-between">
-                        <div class="h-20 bg-slate-100 dark:bg-[#121422] rounded-lg w-full flex items-center justify-center">
-                          <i class="pi pi-images text-slate-400 dark:text-slate-600 text-lg"></i>
-                        </div>
-                        <div class="mt-2">
-                          <div class="h-2.5 bg-slate-100 dark:bg-slate-900 rounded w-3/4 mb-1.5"></div>
-                          <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-1/2"></div>
-                        </div>
-                      </div>
-                      <div class="w-1/3 bg-slate-50 dark:bg-[#0b0c14] border border-slate-200 dark:border-slate-900 rounded-xl p-3 flex flex-col justify-between">
-                        <div class="h-2 bg-slate-100 dark:bg-slate-900 rounded w-full"></div>
-                        <div class="h-10 bg-slate-100 dark:bg-[#121422] rounded-lg w-full my-2 flex items-center justify-center">
-                          <i class="pi pi-calendar text-slate-400 dark:text-slate-600 text-sm"></i>
-                        </div>
-                        <div class="h-2.5 bg-blue-600/30 rounded w-2/3"></div>
-                      </div>
-                    </div>
-                    <!-- Floating WhatsApp Bot Widget -->
-                    <div class="absolute bottom-4 right-4 bg-emerald-600 text-white rounded-full p-2 shadow-lg shadow-emerald-600/20 flex items-center gap-1.5 scale-90">
-                      <i class="pi pi-whatsapp text-xs"></i>
-                      <span class="text-[7px] font-bold tracking-wider uppercase pr-1">Reservas WhatsApp</span>
-                    </div>
-                  </div>
-                </ng-container>
-
-                <!-- Case 3: Próximamente Placeholder (Empty state) -->
-                <ng-container *ngIf="project.isPlaceholder">
-                  <div class="h-full border border-dashed border-slate-200 dark:border-slate-900 rounded-2xl flex flex-col items-center justify-center gap-2 text-center p-6 bg-white dark:bg-[#08080c]/30 w-full">
-                    <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-900/60 border border-slate-300 dark:border-slate-800 flex items-center justify-center mb-1">
-                      <i class="pi pi-spin pi-cog text-slate-600 text-xs"></i>
-                    </div>
-                    <div class="text-[11px] font-bold text-slate-600 dark:text-slate-400 tracking-wider">Proyecto en producción</div>
-                    <div class="text-[9px] text-slate-600 uppercase tracking-widest mt-0.5">Caso de estudio próximamente</div>
-                  </div>
-                </ng-container>
-                
-              </ng-container>
-
             </div>
           </div>
+
+          <!-- Project Info -->
+          <div class="port-info">
+            <p class="port-info__client">{{ project.isPlaceholder ? 'PRÓXIMAMENTE' : 'CLIENTE — ' + project.client }}</p>
+            <h2 class="port-info__title">{{ project.title }}</h2>
+            <p class="port-info__desc">{{ project.description }}</p>
+
+            <div class="port-info__tags">
+              <span *ngFor="let tag of project.tags" class="port-tag">{{ tag }}</span>
+            </div>
+
+            <div class="port-info__metrics-wrap">
+              <div *ngIf="!project.isPlaceholder && project.metrics.length" class="port-metrics">
+                <div *ngFor="let metric of project.metrics" class="port-metric">
+                  <p class="port-metric__value">{{ metric.value }}</p>
+                  <p class="port-metric__label">{{ metric.label }}</p>
+                </div>
+              </div>
+
+              <div class="port-info__actions">
+                <a *ngIf="project.siteUrl"
+                   [href]="project.siteUrl"
+                   target="_blank" rel="noopener noreferrer"
+                   class="port-btn port-btn--outline">
+                  <span>Visitar sitio</span>
+                  <i class="pi pi-external-link" style="font-size: 10px;"></i>
+                </a>
+                <button (click)="modalService.open()" class="port-btn port-btn--ghost">
+                  <span>{{ project.isPlaceholder ? 'Empezar mi proyecto' : 'Cotizar similar' }}</span>
+                  <i class="pi pi-arrow-right" style="font-size: 10px;"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
         </div>
-
-        <!-- Project Details / Text (Left/Right side) -->
-        <div class="lg:w-1/2 space-y-6">
-          <p class="text-blue-500 font-semibold tracking-[0.15em] text-xs uppercase">
-            {{ project.isPlaceholder ? 'PRÓXIMAMENTE' : 'CLIENTE — ' + project.client }}
-          </p>
-          <h2 class="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white leading-tight">
-            {{ project.title }}
-          </h2>
-          <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base font-light leading-relaxed">
-            {{ project.description }}
-          </p>
-          
-          <!-- Tags -->
-          <div class="flex flex-wrap gap-2 pt-1">
-            <span *ngFor="let tag of project.tags" 
-                  class="px-3 py-1 rounded-md text-[10px] sm:text-xs font-semibold bg-slate-100 dark:bg-[#0d0f14] text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-900">
-              {{ tag }}
-            </span>
-          </div>
-
-          <!-- Divider & Metrics / Action Button -->
-          <div class="pt-6 border-t border-slate-200 dark:border-slate-900 mt-6 space-y-8">
-            <!-- Metrics Grid (if not placeholder) -->
-            <div *ngIf="!project.isPlaceholder && project.metrics && project.metrics.length > 0" 
-                 class="grid grid-cols-3 gap-6">
-              <div *ngFor="let metric of project.metrics" class="space-y-1">
-                <p class="text-2xl sm:text-3xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight">
-                  {{ metric.value }}
-                </p>
-                <p class="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-500 dark:text-slate-500 uppercase tracking-wider font-bold">
-                  {{ metric.label }}
-                </p>
-              </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex flex-wrap gap-3">
-              <a *ngIf="project.siteUrl"
-                 [href]="project.siteUrl"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 class="px-6 py-3 rounded-xl border border-blue-600/20 hover:border-blue-600/40 bg-blue-600/10 hover:bg-blue-600/20 text-blue-600 dark:text-blue-400 font-semibold text-xs uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer no-underline">
-                <span>Visitar sitio web</span>
-                <i class="pi pi-external-link text-[10px]"></i>
-              </a>
-              <button 
-                (click)="modalService.open()"
-                class="px-6 py-3 rounded-xl border border-slate-200 dark:border-slate-900 hover:border-slate-300 dark:border-slate-800 bg-slate-100 dark:bg-[#0d0f14] hover:bg-slate-200 dark:hover:bg-[#141822] text-slate-700 dark:text-slate-300 font-semibold text-xs uppercase tracking-wider transition-colors flex items-center gap-2 cursor-pointer">
-                <span>{{ project.isPlaceholder ? 'Empezar mi proyecto' : 'Cotizar similar' }}</span>
-                <i class="pi pi-arrow-right text-[10px]"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>

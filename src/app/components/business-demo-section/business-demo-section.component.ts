@@ -13,6 +13,10 @@ export interface DemoProduct {
   name: string;
   category: string;
   price: number;
+  oldPrice?: number;
+  discountPercent?: string;
+  rating?: number;
+  subtitle?: string;
   image: string;
   inStock: boolean;
   size?: string;
@@ -29,6 +33,22 @@ export interface DemoNiche {
   heroImage: string;
   primaryColor: string;
   products: DemoProduct[];
+}
+
+export interface BarberServiceItem {
+  id: string;
+  name: string;
+  price: number;
+  duration: string;
+  included: string;
+}
+
+export interface BarberStaffItem {
+  id: string;
+  name: string;
+  rating: number;
+  avatar: string;
+  specialty: string;
 }
 
 @Component({
@@ -249,71 +269,71 @@ export class BusinessDemoSectionComponent implements OnInit {
       businessTitle: 'La Casona Gourmet',
       tagline: 'Sabores artesanales · Pide en línea y recibe en tu mesa o domicilio',
       badge: 'Menú Digital',
-      heroImage: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80',
-      primaryColor: '#ea580c',
+      heroImage: '/images/restaurant/hero-pasta.jpg',
+      primaryColor: '#c99b53',
       products: [
         {
           id: 'r1',
-          name: 'Burger Angus Artesanal Doble',
-          category: 'Hamburguesas',
-          price: 14,
-          image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80',
+          name: 'Tagliatelle al Tartufo & Funghi',
+          category: 'Pastas de Autor',
+          price: 28,
+          image: 'https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
         {
           id: 'r2',
-          name: 'Pizza Rústica Trufa y Hongos',
-          category: 'Pizzas',
-          price: 18,
-          image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80',
+          name: 'Risotto Dorado alla Milanese',
+          category: 'Risottos',
+          price: 26,
+          image: 'https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
         {
           id: 'r3',
-          name: 'Bowl Salmón & Aguacate',
-          category: 'Saludables',
-          price: 16,
-          image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
-          inStock: true,
-        },
-        {
-          id: 'r4',
-          name: 'Limonada de Coco & Menta',
-          category: 'Bebidas',
-          price: 5,
-          image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80',
-          inStock: true,
-        },
-        {
-          id: 'r5',
-          name: 'Tacos Al Pastor Tradicionales',
-          category: 'Especialidades',
-          price: 12,
-          image: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=600&q=80',
-          inStock: true,
-        },
-        {
-          id: 'r6',
-          name: 'Baby Back Ribs BBQ',
-          category: 'Carnes',
-          price: 22,
+          name: 'Medallón de Res Rossini',
+          category: 'Carnes Nobles',
+          price: 34,
           image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
         {
+          id: 'r4',
+          name: 'Lubina Salvaje al Azafrán',
+          category: 'Pescados & Mariscos',
+          price: 32,
+          image: 'https://images.unsplash.com/photo-1551248429-40975aa4de74?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 'r5',
+          name: 'Salmón Noruego al Fuego de Leña',
+          category: 'Especialidades',
+          price: 34,
+          image: '/images/restaurant/specialty-salmon.jpg',
+          inStock: true,
+        },
+        {
+          id: 'r6',
+          name: 'Filet Mignon & Reducción de Oporto',
+          category: 'Carnes',
+          price: 38,
+          image: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
           id: 'r7',
-          name: 'Pasta Fettuccine Alfredo & Camarón',
+          name: 'Pasta Fresca al Pomodoro & Albahaca',
           category: 'Pastas',
-          price: 17,
-          image: 'https://images.unsplash.com/photo-1621996346565-e3d5d6281313?auto=format&fit=crop&w=600&q=80',
+          price: 24,
+          image: '/images/restaurant/hero-pasta.jpg',
           inStock: true,
         },
         {
           id: 'r8',
-          name: 'Tiramisú Artesanal de la Casa',
-          category: 'Postres',
-          price: 7,
-          image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=600&q=80',
+          name: 'Mille-Feuille de Frutos Rojos',
+          category: 'Postres de Autor',
+          price: 18,
+          image: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
       ],
@@ -322,11 +342,11 @@ export class BusinessDemoSectionComponent implements OnInit {
       id: 'barbershop',
       name: 'Barbería & Spa',
       icon: 'pi-star',
-      businessTitle: 'Studio 99 Barber & Care',
-      tagline: 'Cortes exclusivos y cuidado masculino · Agenda tu cita o servicio',
+      businessTitle: 'Barbería Exclusiva',
+      tagline: 'Cortes de autor, rituales de toalla caliente y perfilado al detalle. Reserva tu turno en segundos.',
       badge: 'Citas & Servicios',
       heroImage: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=80',
-      primaryColor: '#0284c7',
+      primaryColor: '#c99b53',
       products: [
         {
           id: 's1',
@@ -398,150 +418,178 @@ export class BusinessDemoSectionComponent implements OnInit {
       id: 'products',
       name: 'Tienda de Productos & Tech',
       icon: 'pi-box',
-      businessTitle: 'NovaTech Solutions Store',
-      tagline: 'Tecnología y accesorios garantizados · Envíos exprés',
-      badge: 'Catálogo de Productos',
-      heroImage: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&w=1200&q=80',
-      primaryColor: '#7c3aed',
+      businessTitle: 'Emetix Audio & Tech',
+      tagline: 'Special Discount Latest Audio System & Wearables · Free Shipping',
+      badge: 'Special Discount',
+      heroImage: '/images/tech/emetix-hero.jpg',
+      primaryColor: '#f59e0b',
       products: [
         {
           id: 't1',
-          name: 'Auriculares Pro Wireless ANC',
+          name: 'Wireless Smart Audio Capsule',
           category: 'Audio',
-          price: 59,
-          image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80',
+          price: 79,
+          oldPrice: 85,
+          discountPercent: '-7%',
+          rating: 5,
+          image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
         {
           id: 't2',
-          name: 'Smartwatch Serie Ultra Fit',
-          category: 'Wearables',
-          price: 79,
-          image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80',
+          name: 'Smart 360 Vision Tripod Cam',
+          category: 'Cámaras',
+          price: 80,
+          oldPrice: 95,
+          rating: 5,
+          image: '/images/tech/emetix-bento-camera.jpg',
           inStock: true,
         },
         {
           id: 't3',
-          name: 'Soporte Ergonómico de Aluminio',
-          category: 'Setup',
-          price: 35,
-          image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&w=600&q=80',
+          name: 'Smartwatch Serie Ultra Sport',
+          category: 'Wearables',
+          price: 80,
+          oldPrice: 110,
+          rating: 5,
+          image: '/images/tech/emetix-bento-smartwatch.jpg',
           inStock: true,
         },
         {
           id: 't4',
-          name: 'Powerbank MagSafe 10.000mAh',
-          category: 'Carga',
-          price: 42,
-          image: 'https://images.unsplash.com/photo-1609592424368-2831d166fc49?auto=format&fit=crop&w=600&q=80',
+          name: 'Studio Master Wireless ANC Headset',
+          category: 'Audio',
+          price: 120,
+          oldPrice: 150,
+          rating: 5,
+          image: '/images/tech/emetix-bento-headphones.jpg',
           inStock: true,
         },
         {
           id: 't5',
-          name: 'Teclado Mecánico RGB Custom',
-          category: 'Setup',
-          price: 85,
-          image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80',
+          name: 'Flagship Smartphone Red Edition',
+          category: 'Smartphones',
+          price: 98,
+          oldPrice: 130,
+          rating: 5,
+          image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
         {
           id: 't6',
-          name: 'Mouse Ergónomico Wireless Gaming',
-          category: 'Periféricos',
-          price: 48,
-          image: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=600&q=80',
+          name: 'Smartwatch Pulse Digital Tracker',
+          category: 'Wearables',
+          price: 98,
+          oldPrice: 125,
+          rating: 5,
+          image: 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
         {
           id: 't7',
-          name: 'Mochila Tech Impermeable Antirrobo',
-          category: 'Accesorios',
-          price: 65,
-          image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80',
+          name: 'Portable Sound Cylinder Metal',
+          category: 'Audio',
+          price: 89,
+          oldPrice: 100,
+          discountPercent: '-10%',
+          rating: 5,
+          image: 'https://images.unsplash.com/photo-1543512214-318c7553f230?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
         {
           id: 't8',
-          name: 'Cámara Web 4K UltraHD Streaming',
-          category: 'Video',
-          price: 95,
-          image: 'https://images.unsplash.com/photo-1588702547923-7093a6c3ba33?auto=format&fit=crop&w=600&q=80',
+          name: 'Smart Desktop Appliance & Hub',
+          category: 'Smart Home',
+          price: 98,
+          oldPrice: 119,
+          rating: 5,
+          image: 'https://images.unsplash.com/photo-1584285418504-0050ec44b4b7?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 't9',
+          name: 'Wireless Deep Bass Headphones Blue',
+          category: 'Audio',
+          price: 85,
+          oldPrice: 110,
+          rating: 5,
+          image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 't10',
+          name: 'Amazon Echo Smart Assistant Hub',
+          category: 'Smart Home',
+          price: 120,
+          oldPrice: 140,
+          rating: 5,
+          image: '/images/tech/emetix-bento-speaker.jpg',
           inStock: true,
         },
       ],
     },
     {
       id: 'services',
-      name: 'Servicios Profesionales',
-      icon: 'pi-briefcase',
-      businessTitle: 'Nexus Legal & Consulting',
-      tagline: 'Asesoría estratégica y soluciones para empresas',
-      badge: 'Servicios Profesionales',
-      heroImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
-      primaryColor: '#059669',
+      name: 'Servicios Personales & Diseño',
+      icon: 'pi-user',
+      businessTitle: 'Sevora Studio',
+      tagline: 'Design Better, Faster, Smarter · Refined brands, websites & interfaces',
+      badge: 'Product Design & Creative Direction',
+      heroImage: '/images/services/sevora-portrait.jpg',
+      primaryColor: '#0a0a0c',
       products: [
         {
           id: 'p1',
-          name: 'Diagnóstico Legal & Corporativo',
-          category: 'Auditoría',
-          price: 120,
-          image: 'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80',
+          name: 'Brand Strategy & Visual Identity',
+          category: 'Branding',
+          subtitle: 'Sistema visual completo, tipografía, paleta y manual de marca escalable.',
+          price: 1800,
+          image: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
         {
           id: 'p2',
-          name: 'Creación y Estructuración de Empresa',
-          category: 'Constitución',
-          price: 250,
-          image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80',
+          name: 'High-Converting Web & UI Design',
+          category: 'Web & UI',
+          subtitle: 'Diseño web refinado de alta conversión en Figma y desarrollo moderno.',
+          price: 2400,
+          image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
         {
           id: 'p3',
-          name: 'Registro de Marca & Patentes',
-          category: 'Propiedad Intelectual',
-          price: 180,
-          image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=600&q=80',
+          name: 'Design System & Frontend Handoff',
+          category: 'Sistemas',
+          subtitle: 'Biblioteca de componentes atómicos documentados listos para producción.',
+          price: 1600,
+          image: 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
         {
           id: 'p4',
-          name: 'Asesoría Tributaria Mensual',
-          category: 'Contabilidad',
-          price: 90,
-          image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80',
-          inStock: true,
-        },
-        {
-          id: 'p5',
-          name: 'Desarrollo de Sitio Web & App',
-          category: 'Tecnología',
-          price: 450,
-          image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
-          inStock: true,
-        },
-        {
-          id: 'p6',
-          name: 'Estrategia de Marketing Digital 360',
-          category: 'Marketing',
-          price: 300,
-          image: 'https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&w=600&q=80',
-          inStock: true,
-        },
-        {
-          id: 'p7',
-          name: 'Automatización de Procesos & CRM',
-          category: 'Operaciones',
-          price: 380,
+          name: 'Fractional Design Partner (Retainer)',
+          category: 'Acompañamiento',
+          subtitle: 'Liderazgo de diseño dedicado para startups y equipos creativos.',
+          price: 3200,
           image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
         {
-          id: 'p8',
-          name: 'Auditoría Financiera & Presupuesto',
-          category: 'Finanzas',
-          price: 210,
-          image: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=600&q=80',
+          id: 'p5',
+          name: 'SaaS Experience & Mobile App UI',
+          category: 'Producto',
+          subtitle: 'Flujos intuitivos de onboarding, dashboards complejos y diseño mobile.',
+          price: 2900,
+          image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 'p6',
+          name: 'Sprint de Consultoría Creativa',
+          category: 'Estrategia',
+          subtitle: 'Auditoría express de UX, benchmarking y roadmap de optimización de conversión.',
+          price: 1200,
+          image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80',
           inStock: true,
         },
       ],
@@ -550,6 +598,175 @@ export class BusinessDemoSectionComponent implements OnInit {
 
   editableProducts = signal<DemoProduct[]>([]);
   boutiqueActiveTab = signal<string>('todos');
+  techActiveTab = signal<'latest' | 'bestseller' | 'featured'>('latest');
+
+  filteredTechProducts = computed(() => {
+    const list = this.editableProducts();
+    const tab = this.techActiveTab();
+    if (tab === 'bestseller') {
+      return [...list].reverse();
+    }
+    if (tab === 'featured') {
+      return list.filter((_, idx) => idx % 2 === 0);
+    }
+    return list;
+  });
+
+  scrollToSevServices(): void {
+    const el = document.getElementById('sev-services-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // ─── Barbería: Servicios y Agendamiento ───
+  readonly barberServices: BarberServiceItem[] = [
+    {
+      id: 'srv-corte',
+      name: 'Corte de Cabello',
+      price: 15,
+      duration: '30 min',
+      included: 'Lavado, corte personalizado, toalla caliente y styling premium',
+    },
+    {
+      id: 'srv-barba',
+      name: 'Ritual de Barba',
+      price: 12,
+      duration: '25 min',
+      included: 'Vapor de ozono, aceites esenciales, navaja y toalla caliente',
+    },
+    {
+      id: 'srv-corte-barba',
+      name: 'Corte + Barba',
+      price: 24,
+      duration: '50 min',
+      included: 'Experiencia completa con toalla tibia y perfilado milimétrico',
+    },
+    {
+      id: 'srv-cejas',
+      name: 'Perfilado de Cejas',
+      price: 6,
+      duration: '15 min',
+      included: 'Diseño anatómico y perfilado limpio a navaja clásica',
+    },
+    {
+      id: 'srv-combo-full',
+      name: 'Corte + Barba + Cejas',
+      price: 28,
+      duration: '65 min',
+      included: 'El servicio insignia: corte, barba, cejas y mascarilla revitalizante',
+    },
+  ];
+
+  readonly barberStaff: BarberStaffItem[] = [
+    {
+      id: 'barber-lucas',
+      name: 'Lucas Ferreira',
+      rating: 4.9,
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+      specialty: 'Master Barber · Fade & Diseños',
+    },
+    {
+      id: 'barber-gabriel',
+      name: 'Gabriel Santos',
+      rating: 4.8,
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+      specialty: 'Especialista en Barbas & Afeitado',
+    },
+    {
+      id: 'barber-rafael',
+      name: 'Rafael Lima',
+      rating: 4.9,
+      avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=200&q=80',
+      specialty: 'Cortes Ejecutivos & Textura',
+    },
+    {
+      id: 'barber-matheus',
+      name: 'Matheus Alves',
+      rating: 4.7,
+      avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80',
+      specialty: 'Estilo Urbano & Coloración',
+    },
+  ];
+
+  selectedBarberService = signal<BarberServiceItem>(this.barberServices[0]);
+  selectedBarber = signal<BarberStaffItem>(this.barberStaff[0]);
+  selectedBarberDay = signal<number>(22);
+  selectedBarberMonthYear = signal<string>('Mayo 2026');
+  selectedBarberTime = signal<string>('16:00');
+
+  readonly barberTimeSlots: string[] = [
+    '09:00', '10:00', '11:00',
+    '14:00', '15:00', '16:00',
+    '17:00', '18:00', '19:00'
+  ];
+
+  readonly barberCalendarDays = [
+    { day: 27, inCurrentMonth: false },
+    { day: 28, inCurrentMonth: false },
+    { day: 29, inCurrentMonth: false },
+    { day: 30, inCurrentMonth: false },
+    { day: 1, inCurrentMonth: true },
+    { day: 2, inCurrentMonth: true },
+    { day: 3, inCurrentMonth: true },
+    { day: 4, inCurrentMonth: true },
+    { day: 5, inCurrentMonth: true },
+    { day: 6, inCurrentMonth: true },
+    { day: 7, inCurrentMonth: true },
+    { day: 8, inCurrentMonth: true },
+    { day: 9, inCurrentMonth: true },
+    { day: 10, inCurrentMonth: true },
+    { day: 11, inCurrentMonth: true },
+    { day: 12, inCurrentMonth: true },
+    { day: 13, inCurrentMonth: true },
+    { day: 14, inCurrentMonth: true },
+    { day: 15, inCurrentMonth: true },
+    { day: 16, inCurrentMonth: true },
+    { day: 17, inCurrentMonth: true },
+    { day: 18, inCurrentMonth: true },
+    { day: 19, inCurrentMonth: true },
+    { day: 20, inCurrentMonth: true },
+    { day: 21, inCurrentMonth: true },
+    { day: 22, inCurrentMonth: true },
+    { day: 23, inCurrentMonth: true },
+    { day: 24, inCurrentMonth: true },
+    { day: 25, inCurrentMonth: true },
+    { day: 26, inCurrentMonth: true },
+    { day: 27, inCurrentMonth: true },
+    { day: 28, inCurrentMonth: true },
+    { day: 29, inCurrentMonth: true },
+    { day: 30, inCurrentMonth: true },
+    { day: 31, inCurrentMonth: true },
+  ];
+
+  selectBarberService(service: BarberServiceItem): void {
+    this.selectedBarberService.set(service);
+  }
+
+  selectBarber(barber: BarberStaffItem): void {
+    this.selectedBarber.set(barber);
+  }
+
+  selectBarberDay(day: number): void {
+    this.selectedBarberDay.set(day);
+  }
+
+  selectBarberTime(time: string): void {
+    this.selectedBarberTime.set(time);
+  }
+
+  confirmBarberBooking(): void {
+    this.openWhatsAppMessagePreview();
+  }
+
+  scrollToBarberBooking(): void {
+    const el = document.getElementById('barber-booking-widget');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      this.openWhatsAppMessagePreview();
+    }
+  }
 
   readonly currentNiche = computed(() => {
     return this.niches.find((n) => n.id === this.activeNicheId()) || this.niches[0];
@@ -602,31 +819,68 @@ export class BusinessDemoSectionComponent implements OnInit {
     const key = nicheId as keyof typeof cfg.niches;
     const custom = cfg.niches?.[key];
 
-    if (custom) {
-      return {
-        businessTitle: custom.businessTitle || defaultNiche.businessTitle,
-        tagline: custom.tagline || defaultNiche.tagline,
-        primaryColor: custom.primaryColor || defaultNiche.primaryColor,
-        bgColor: custom.bgColor || '#ffffff',
-        heroImage: custom.heroImage || defaultNiche.heroImage,
-      };
-    }
+    const fallbackPrimary = (defaultNiche as any).primaryColor || '#c99b53';
+    const fallbackAccent = (defaultNiche as any).accentColor || '#e5a852';
+    const fallbackBg = (defaultNiche as any).bgColor || (nicheId === 'restaurant' ? '#0a0a0c' : (nicheId === 'barbershop' ? '#0a0a0c' : '#ffffff'));
 
     return {
-      businessTitle: defaultNiche.businessTitle,
-      tagline: defaultNiche.tagline,
-      primaryColor: defaultNiche.primaryColor,
-      bgColor: '#ffffff',
-      heroImage: defaultNiche.heroImage,
+      businessTitle: custom?.businessTitle || defaultNiche.businessTitle,
+      tagline: custom?.tagline || defaultNiche.tagline,
+      primaryColor: custom?.primaryColor || fallbackPrimary,
+      accentColor: custom?.accentColor || fallbackAccent,
+      bgColor: custom?.bgColor || fallbackBg,
+      heroImage: custom?.heroImage || defaultNiche.heroImage,
     };
   });
 
+  readonly sevHeadline = computed(() => {
+    const raw = this.activeNicheConfig().tagline || 'Design Better, Faster, Smarter · Refined brands, websites & interfaces';
+    const parts = raw.split(/\s*[·•|]\s*/);
+    const titleFull = parts[0]?.trim() || 'Design Better, Faster, Smarter';
+    const bio = parts.slice(1).join(' · ').trim() || 'I design refined brands, websites, and interfaces for ambitious founders and creative teams.';
+
+    const commaIndex = titleFull.indexOf(',');
+    let primaryText = titleFull;
+    let mutedText = '';
+
+    if (commaIndex !== -1 && commaIndex < titleFull.length - 1) {
+      primaryText = titleFull.substring(0, commaIndex).trim();
+      mutedText = titleFull.substring(commaIndex + 1).replace(/^,*\s*/, '').trim();
+    } else {
+      const words = titleFull.split(/\s+/);
+      if (words.length >= 3) {
+        primaryText = words.slice(0, Math.ceil(words.length / 2)).join(' ');
+        mutedText = words.slice(Math.ceil(words.length / 2)).join(' ');
+      }
+    }
+
+    return { primaryText, mutedText, bio };
+  });
+
+  readonly isSevDarkBg = computed(() => {
+    const bg = (this.activeNicheConfig().bgColor || '').toLowerCase();
+    if (bg.startsWith('#')) {
+      const hex = bg.replace('#', '');
+      if (hex.length === 6) {
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        return luma < 128;
+      }
+    }
+    return false;
+  });
+
   constructor() {
-    // Re-load products whenever config changes (e.g. image swapped in editor)
+    // Sync activeNicheId and reload products when config changes
     effect(() => {
-      this.demoConfig.config(); // track changes
+      const cfg = this.demoConfig.config();
+      if (cfg.activeNicheId && cfg.activeNicheId !== this.activeNicheId()) {
+        this.activeNicheId.set(cfg.activeNicheId);
+      }
       this.loadNicheProducts(this.activeNicheId());
-    });
+    }, { allowSignalWrites: true });
   }
 
   ngOnInit(): void {
@@ -635,20 +889,22 @@ export class BusinessDemoSectionComponent implements OnInit {
 
   private selectInitialNiche(): void {
     const bType = (this.initialBusinessType || this.samuel.answers().businessType || '').toLowerCase();
+    let nicheId = 'boutique';
     if (bType.includes('ropa') || bType.includes('boutique') || bType.includes('moda')) {
-      this.activeNicheId.set('boutique');
+      nicheId = 'boutique';
     } else if (bType.includes('restaurante') || bType.includes('comida') || bType.includes('café')) {
-      this.activeNicheId.set('restaurant');
+      nicheId = 'restaurant';
     } else if (bType.includes('barber') || bType.includes('corte') || bType.includes('spa')) {
-      this.activeNicheId.set('barbershop');
+      nicheId = 'barbershop';
     } else if (bType.includes('servicio') || bType.includes('empresa') || bType.includes('consultor')) {
-      this.activeNicheId.set('services');
+      nicheId = 'services';
     } else if (bType.includes('producto') || bType.includes('tienda')) {
-      this.activeNicheId.set('products');
-    } else {
-      this.activeNicheId.set('boutique');
+      nicheId = 'products';
     }
-    this.loadNicheProducts(this.activeNicheId());
+
+    this.activeNicheId.set(nicheId);
+    this.demoConfig.setActiveNicheId(nicheId);
+    this.loadNicheProducts(nicheId);
   }
 
   setNiche(nicheId: string): void {
@@ -724,6 +980,25 @@ export class BusinessDemoSectionComponent implements OnInit {
 
   buildWhatsAppFormattedText(): string {
     const niche = this.currentNiche();
+
+    if (niche.id === 'barbershop') {
+      const srv = this.selectedBarberService();
+      const brb = this.selectedBarber();
+      const day = this.selectedBarberDay();
+      const my = this.selectedBarberMonthYear();
+      const time = this.selectedBarberTime();
+      return (
+        `¡Hola! 👋 Deseo agendar mi cita en *${this.activeNicheConfig().businessTitle}*:\n\n` +
+        `✂ *Servicio:* ${srv.name} ($${srv.price} USD)\n` +
+        `👤 *Barbero asignado:* ${brb.name}\n` +
+        `📅 *Fecha:* ${day} de ${my}\n` +
+        `⏰ *Horario:* ${time}\n` +
+        `⏳ *Duración estimada:* ${srv.duration}\n` +
+        `💰 *Total:* $${srv.price} USD\n\n` +
+        `¿Me confirman disponibilidad para este turno? ¡Muchas gracias!`
+      );
+    }
+
     const c = this.cart();
     const prods = this.editableProducts();
     const items: string[] = [];

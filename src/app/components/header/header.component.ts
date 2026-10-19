@@ -1,6 +1,7 @@
 import { Component, inject, signal, HostListener, ElementRef, OnInit, computed, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { ConsultationService } from '../../services/consultation.service';
 import { ThemeService } from '../../services/theme.service';
@@ -20,6 +21,10 @@ export class HeaderComponent implements OnInit {
   isScrolled = signal(false);
   isDemoActive = signal(false);
   isHoveredTop = signal(false);
+  currentUrl = signal(this.router.url);
+
+  // All pages use light mode header — unified design system
+  isHeaderLight = computed(() => true);
 
   isHeaderHidden = computed(() => {
     return this.isDemoActive() && !this.isHoveredTop() && !this.isMenuOpen();
@@ -28,13 +33,29 @@ export class HeaderComponent implements OnInit {
   isDark = this.themeService.isDark;
 
   constructor() {
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd)
+    ).subscribe((event) => {
+      this.currentUrl.set(event.urlAfterRedirects);
+    });
+
     afterNextRender(() => {
+      this.currentUrl.set(this.router.url);
       this.checkDemoSectionVisibility();
     });
   }
 
   ngOnInit(): void {
+    this.currentUrl.set(this.router.url);
     this.checkDemoSectionVisibility();
+  }
+
+  isCurrentRoute(path: string): boolean {
+    const url = this.currentUrl();
+    if (path === '/') {
+      return url === '/' || url === '' || url.startsWith('/#hero') || url.startsWith('/?');
+    }
+    return url.startsWith(path);
   }
 
   @HostListener('window:scroll', [])

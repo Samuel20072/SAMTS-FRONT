@@ -27,9 +27,10 @@ export class App implements OnInit {
         setTimeout(() => {
           window.__samtsHideSplash?.();
 
-          // Show intro only once per browser session
+          // Show intro only once per browser session and only on home page
           const seen = sessionStorage.getItem('samts-intro-seen');
-          if (!seen) {
+          const isHome = window.location.pathname === '/' || window.location.pathname === '';
+          if (!seen && isHome) {
             this.showIntro.set(true);
           }
         }, 400);
