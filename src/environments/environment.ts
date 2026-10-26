@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:3001/api', // Change this to your production API URL
+  apiUrl: 'https://api.samts.app/api',
 
   // ─── Analytics & Tracking ───────────────────────────────────────────────────
   // Fill these in when you have the real IDs from each platform.
