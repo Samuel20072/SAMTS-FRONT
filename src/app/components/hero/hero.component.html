@@ -5,17 +5,8 @@
 
   <!-- Video de fondo en pantalla completa -->
   <div class="hero-bg-stage">
-    <video
-      #heroVideo
-      class="hero-bg-video"
-      src="/videos/hero.mp4"
-      autoplay
-      muted
-      [muted]="true"
-      loop
-      playsinline
-      preload="auto"
-      aria-label="Presentación SAMTS Tecnología web y Agentes de IA">
+    <video #heroVideo class="hero-bg-video" src="/videos/hero.mp4" autoplay muted [muted]="true" loop playsinline
+      preload="auto" aria-label="Presentación SAMTS Tecnología web y Agentes de IA">
     </video>
     <!-- Gradiente lateral para asegurar legibilidad impecable del texto a la izquierda -->
     <div class="hero-bg-overlay"></div>
@@ -42,12 +33,14 @@
 
       <!-- Descripción -->
       <p class="hero-sub-description">
-        Creamos páginas web profesionales, sistemas a medida y soluciones inteligentes que automatizan tus ventas y multiplican tus clientes sin complicaciones.
+        Creamos páginas web profesionales, sistemas a medida y soluciones inteligentes que automatizan tus ventas y
+        multiplican tus clientes sin complicaciones.
       </p>
 
       <!-- Botones de Acción -->
       <div class="hero-cta-buttons">
-        <button type="button" class="btn-hero-primary" (click)="openDiagnosis()" aria-label="Descubrir qué solución necesito">
+        <button type="button" class="btn-hero-primary" (click)="openDiagnosis()"
+          aria-label="Descubrir qué solución necesito">
           <i class="pi pi-sparkles" style="font-size: 0.95rem;"></i>
           <span>Descubrir qué solución necesito</span>
           <i class="pi pi-arrow-right" style="font-size: 0.9rem;"></i>
@@ -62,10 +55,14 @@
       <!-- Social Proof / Testimonios resumidos -->
       <div class="hero-social-proof">
         <div class="avatars-cluster">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Cliente SAMTS" class="avatar-circle" />
-          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Cliente SAMTS" class="avatar-circle" />
-          <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=120&q=80" alt="Cliente SAMTS" class="avatar-circle" />
-          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=80" alt="Cliente SAMTS" class="avatar-circle" />
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80"
+            alt="Cliente SAMTS" class="avatar-circle" />
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80"
+            alt="Cliente SAMTS" class="avatar-circle" />
+          <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=120&q=80"
+            alt="Cliente SAMTS" class="avatar-circle" />
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=80"
+            alt="Cliente SAMTS" class="avatar-circle" />
         </div>
         <div class="proof-labels">
           <span class="proof-count">+50 empresas ya confían en SAMTS</span>
@@ -86,14 +83,8 @@
 
   <!-- Modal Interactivo de Asesoría con Samuel AI -->
   <!-- Modal Interactivo de Asesoría con Samuel AI (Dark Glassmorphism) -->
-  <p-dialog
-    [(visible)]="isDiagnosisModalOpen"
-    [modal]="true"
-    [draggable]="false"
-    [resizable]="false"
-    [dismissableMask]="true"
-    [style]="{ width: '92%', maxWidth: '540px' }"
-    styleClass="samuel-dark-glass-dialog"
+  <p-dialog [(visible)]="isDiagnosisModalOpen" [modal]="true" [draggable]="false" [resizable]="false"
+    [dismissableMask]="true" [style]="{ width: '92%', maxWidth: '540px' }" styleClass="samuel-dark-glass-dialog"
     [showHeader]="false">
 
     <div class="diag-modal-content">
@@ -107,14 +98,16 @@
 
         <div class="diag-actions-cluster">
           @if (!samuel.showResult() && samuel.stepIndex() > 0) {
-            <span class="diag-badge-step">
-              Paso {{ samuel.stepIndex() + 1 }} de {{ samuel.totalSteps() }}
-            </span>
+          <span class="diag-badge-step">
+            Paso {{ samuel.stepIndex() + 1 }} de {{ samuel.totalSteps() }}
+          </span>
           }
-          <button type="button" class="diag-icon-btn" (click)="onRestart()" title="Reiniciar asesoría" aria-label="Reiniciar asesoría">
+          <button type="button" class="diag-icon-btn" (click)="onRestart()" title="Reiniciar asesoría"
+            aria-label="Reiniciar asesoría">
             <i class="pi pi-refresh"></i>
           </button>
-          <button type="button" class="diag-icon-btn diag-icon-btn--close" (click)="closeDiagnosis()" title="Cerrar ventana" aria-label="Cerrar ventana">
+          <button type="button" class="diag-icon-btn diag-icon-btn--close" (click)="closeDiagnosis()"
+            title="Cerrar ventana" aria-label="Cerrar ventana">
             <i class="pi pi-times"></i>
           </button>
         </div>
@@ -123,59 +116,55 @@
       <!-- Pregunta actual -->
       <div class="diag-question-container">
         @if (samuel.isThinking()) {
-          <div class="diag-thinking-indicator">
-            <span class="diag-glow-dot"></span>
-            <span class="diag-glow-dot"></span>
-            <span class="diag-glow-dot"></span>
-            <span class="diag-thinking-msg">Analizando tu negocio...</span>
-          </div>
+        <div class="diag-thinking-indicator">
+          <span class="diag-glow-dot"></span>
+          <span class="diag-glow-dot"></span>
+          <span class="diag-glow-dot"></span>
+          <span class="diag-thinking-msg">Analizando tu negocio...</span>
+        </div>
         } @else if (!samuel.showResult()) {
-          <h2 class="diag-prompt-headline">
-            {{ currentSamuelPrompt() }}
-          </h2>
+        <h2 class="diag-prompt-headline">
+          {{ currentSamuelPrompt() }}
+        </h2>
         }
       </div>
 
       <!-- Opciones Rápidas en Píldoras -->
       @if (!samuel.showResult() && !samuel.isThinking() && samuel.currentQuickReplies().length > 0) {
-        <div class="diag-pills-grid">
-          @for (reply of samuel.currentQuickReplies(); track reply.id) {
-            <button type="button" class="diag-glass-pill" (click)="onQuickReply(reply.value)">
-              <span>{{ reply.label }}</span>
-            </button>
-          }
-        </div>
+      <div class="diag-pills-grid">
+        @for (reply of samuel.currentQuickReplies(); track reply.id) {
+        <button type="button" class="diag-glass-pill" (click)="onQuickReply(reply.value)">
+          <span>{{ reply.label }}</span>
+        </button>
+        }
+      </div>
       }
 
       <!-- Input de Texto Libre -->
       @if (!samuel.showResult()) {
-        <div class="diag-input-wrapper">
-          <div class="diag-input-bar">
-            <i class="pi pi-sparkles diag-input-sparkle"></i>
-            <input type="text" class="diag-text-field" [(ngModel)]="freeText" (keyup.enter)="onSendText()"
-              [placeholder]="samuel.currentQuestionStep().inputPlaceholder || 'Escribe tu respuesta o duda aquí...'"
-              [disabled]="samuel.isThinking()" />
+      <div class="diag-input-wrapper">
+        <div class="diag-input-bar">
+          <i class="pi pi-sparkles diag-input-sparkle"></i>
+          <input type="text" class="diag-text-field" [(ngModel)]="freeText" (keyup.enter)="onSendText()"
+            [placeholder]="samuel.currentQuestionStep().inputPlaceholder || 'Escribe tu respuesta o duda aquí...'"
+            [disabled]="samuel.isThinking()" />
 
-            <button type="button" class="diag-submit-btn" [disabled]="!freeText.trim() || samuel.isThinking()"
-              (click)="onSendText()" aria-label="Enviar respuesta">
-              <i class="pi pi-arrow-up"></i>
-            </button>
-          </div>
+          <button type="button" class="diag-submit-btn" [disabled]="!freeText.trim() || samuel.isThinking()"
+            (click)="onSendText()" aria-label="Enviar respuesta">
+            <i class="pi pi-arrow-up"></i>
+          </button>
         </div>
+      </div>
       }
 
       <!-- Resultado / Recomendación final -->
       @if (samuel.showResult() && samuel.recommendation(); as rec) {
-        <div class="diag-result-wrapper">
-          <app-samuel-result
-            [recommendation]="rec"
-            [businessType]="samuel.answers().businessType || ''"
-            (selectSolution)="onSelectSolution($event)"
-            (requestQuote)="onRequestQuote()"
-            (whatsappContact)="onWhatsApp()"
-            (restart)="onRestart()">
-          </app-samuel-result>
-        </div>
+      <div class="diag-result-wrapper">
+        <app-samuel-result [recommendation]="rec" [businessType]="samuel.answers().businessType || ''"
+          (selectSolution)="onSelectSolution($event)" (requestQuote)="onRequestQuote()" (whatsappContact)="onWhatsApp()"
+          (restart)="onRestart()">
+        </app-samuel-result>
+      </div>
       }
     </div>
 

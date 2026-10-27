@@ -4006,12 +4006,293 @@ p {
   animation: apple-fade-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* ══════════════════════════════════════════════════════════════
+   HERO INTRO — Presentación SAMTS (Estado Inicial)
+   ══════════════════════════════════════════════════════════════ */
+.samuel-apple-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: apple-fade-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.samts-apple-badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  padding: 5px 14px 5px 10px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.samts-apple-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34c759;
+  box-shadow: 0 0 8px rgba(52, 199, 89, 0.6);
+  animation: apple-dot-pulse 2s infinite ease-in-out;
+}
+
+.samts-apple-badge-brand {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #1d1d1f;
+  letter-spacing: -0.01em;
+}
+
+.samts-apple-badge-sep {
+  color: #86868b;
+  font-size: 0.85rem;
+}
+
+.samts-apple-badge-text {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #48484a;
+}
+
+.samts-apple-title {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(1.65rem, 2.7vw, 2.35rem);
+  font-weight: 700;
+  color: #1d1d1f;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  margin: 0;
+  text-wrap: balance;
+
+  .samts-apple-gradient {
+    background: linear-gradient(135deg, #0071e3 0%, #4338ca 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.samts-apple-description {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(0.92rem, 1.15vw, 1.02rem);
+  color: #48484a;
+  line-height: 1.55;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.samts-apple-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 0.1rem;
+}
+
+.samts-apple-feature-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #2c2c2e;
+  letter-spacing: -0.01em;
+
+  i {
+    font-size: 0.85rem;
+    color: #0071e3;
+  }
+}
+
+.samts-apple-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 0.4rem;
+}
+
+.samts-apple-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 24px;
+  border-radius: 9999px;
+  background: #0071e3;
+  color: #ffffff;
+  border: none;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  cursor: pointer;
+  box-shadow: 0 8px 24px -4px rgba(0, 113, 227, 0.4), 0 2px 6px rgba(0, 113, 227, 0.2);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+
+  .samts-apple-cta-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    i {
+      font-size: 0.95rem;
+    }
+  }
+
+  .samts-apple-cta-arrow {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    background: #0077ed;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 30px -4px rgba(0, 113, 227, 0.5);
+
+    .samts-apple-cta-arrow {
+      transform: translateX(4px);
+    }
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+}
+
+.samts-apple-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 22px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid #d2d2d7;
+  color: #1d1d1f;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.2s ease;
+
+  i {
+    font-size: 0.88rem;
+    color: #48484a;
+  }
+
+  &:hover {
+    background: #ffffff;
+    border-color: #86868b;
+    transform: translateY(-1px);
+    color: #0071e3;
+
+    i {
+      color: #0071e3;
+    }
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.samts-apple-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 14px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+
+  .samts-apple-hint-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #34c759;
+    flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(52, 199, 89, 0.5);
+  }
+
+  .samts-apple-hint-text {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    font-size: 0.82rem;
+    color: #48484a;
+    line-height: 1.45;
+    margin: 0;
+
+    strong {
+      font-weight: 700;
+      color: #1d1d1f;
+    }
+  }
+}
+
 /* Topbar Meta */
 .samuel-apple-topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+
+.samuel-apple-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.samuel-apple-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px 4px 9px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #d2d2d7;
+  color: #48484a;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+
+  i {
+    font-size: 0.72rem;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    background: #ffffff;
+    color: #0071e3;
+    border-color: #0071e3;
+    transform: translateX(-2px);
+
+    i {
+      transform: translateX(-2px);
+    }
+  }
+
+  &:active {
+    transform: translateX(0);
+  }
 }
 
 .samuel-apple-status {
@@ -4550,56 +4831,136 @@ p {
   .samuel-apple-hero {
     flex-direction: column !important;
     align-items: center !important;
-    justify-content: flex-start !important;
-    padding: 1.5rem 1rem 3.5rem !important;
-    height: auto !important;
-    min-height: auto !important;
-    gap: 0.75rem;
-  }
-
-  /* Video Hero stage: cleanly positioned at the TOP, visible and unblocked */
-  .samuel-video-stage {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    width: 100% !important;
-    max-width: 340px !important;
-    height: 250px !important;
-    min-height: 220px !important;
-    margin: 0 auto !important;
-    display: flex !important;
-    align-items: center !important;
     justify-content: center !important;
-    z-index: 2 !important;
-    overflow: hidden !important;
+    padding: 5.25rem 1.25rem 2.5rem !important;
+    height: auto !important;
+    min-height: 100dvh !important;
+    min-height: 100vh !important;
+    box-sizing: border-box !important;
+    gap: 0 !important;
   }
 
-  .samuel-video-layer {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    transform: none !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain !important;
-    object-position: center bottom !important;
+  /* Ocultar video de Samuel en dispositivos móviles / celular */
+  .samuel-video-stage {
+    display: none !important;
   }
 
-  /* Questions, Options & Input Container: neatly positioned BELOW Samuel */
+  /* Questions, Options & Input Container: centrado y proporcionado */
   .samuel-apple-container {
     position: relative !important;
     z-index: 10 !important;
     width: 100% !important;
-    max-width: 500px !important;
+    max-width: 520px !important;
     margin: 0 auto !important;
     padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+
+  .samuel-apple-intro {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.65rem !important;
+    width: 100% !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 0.5rem 0 !important;
+  }
+
+  .samts-apple-badge {
+    align-self: center !important;
+    padding: 7px 18px 7px 14px !important;
+    gap: 10px !important;
+  }
+
+  .samts-apple-badge-brand {
+    font-size: 0.92rem !important;
+  }
+
+  .samts-apple-badge-text {
+    font-size: 0.86rem !important;
+  }
+
+  .samts-apple-title {
+    font-size: clamp(1.55rem, 5.2vw, 2.05rem) !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+    letter-spacing: -0.025em !important;
+    margin: 0.15rem 0 !important;
+  }
+
+  .samts-apple-description {
+    font-size: clamp(0.95rem, 3.2vw, 1.05rem) !important;
+    line-height: 1.6 !important;
+    text-align: center !important;
+    color: #48484a !important;
+    max-width: 440px !important;
+    margin: 0 auto !important;
+  }
+
+  .samts-apple-features {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    margin: 0.25rem 0 !important;
+  }
+
+  .samts-apple-feature-pill {
+    padding: 8px 16px !important;
+    font-size: 0.86rem !important;
+    border-radius: 9999px !important;
+  }
+
+  .samts-apple-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    align-items: stretch !important;
+    gap: 14px !important;
+    margin-top: 0.35rem !important;
+  }
+
+  .samts-apple-cta-primary {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 16px 24px !important;
+    font-size: 1rem !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 8px 24px -4px rgba(0, 113, 227, 0.45) !important;
+  }
+
+  .samts-apple-cta-secondary {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 15px 24px !important;
+    font-size: 0.96rem !important;
+    border-radius: 9999px !important;
+  }
+
+  .samts-apple-hint {
+    text-align: left !important;
+    width: 100% !important;
+    padding: 14px 18px !important;
+    border-radius: 16px !important;
+    gap: 12px !important;
+    margin-top: 0.25rem !important;
+  }
+
+  .samts-apple-hint-text {
+    font-size: 0.86rem !important;
+    line-height: 1.5 !important;
   }
 
   .samuel-apple-dialogue {
     display: flex !important;
     flex-direction: column !important;
-    gap: 1rem !important;
+    gap: 1.65rem !important;
     width: 100% !important;
+    padding: 0.5rem 0 !important;
   }
 
   .samuel-apple-topbar {
@@ -4613,11 +4974,12 @@ p {
   .samuel-apple-question-wrap {
     text-align: center !important;
     width: 100% !important;
+    margin: 0.25rem 0 !important;
   }
 
   .samuel-apple-question-text {
-    font-size: 1.25rem !important;
-    line-height: 1.35 !important;
+    font-size: clamp(1.35rem, 4.5vw, 1.7rem) !important;
+    line-height: 1.32 !important;
     text-align: center !important;
     color: #1d1d1f !important;
   }
@@ -4625,29 +4987,38 @@ p {
   .samuel-apple-options {
     display: flex !important;
     flex-wrap: wrap !important;
-    gap: 8px !important;
+    gap: 12px 10px !important;
     justify-content: center !important;
     width: 100% !important;
-    margin-top: 0.2rem !important;
+    margin: 0.5rem 0 !important;
   }
 
   .samuel-apple-pill {
-    padding: 9px 18px !important;
-    font-size: 0.88rem !important;
+    padding: 12px 20px !important;
+    font-size: 0.92rem !important;
     border-radius: 9999px !important;
     text-align: center !important;
     white-space: normal !important;
-    line-height: 1.3 !important;
+    line-height: 1.35 !important;
   }
 
   .samuel-apple-input-container {
     width: 100% !important;
-    margin-top: 0.35rem !important;
+    margin-top: 0.5rem !important;
   }
 
   .samuel-apple-input-capsule {
     width: 100% !important;
-    padding: 6px 8px 6px 18px !important;
+    padding: 8px 10px 8px 20px !important;
+  }
+
+  .samuel-apple-input {
+    font-size: 0.92rem !important;
+  }
+
+  .samuel-apple-send-btn {
+    width: 38px !important;
+    height: 38px !important;
   }
 
   .samuel-apple-glow {
@@ -4662,26 +5033,47 @@ p {
 
 @media (max-width: 480px) {
   .samuel-apple-hero {
-    padding: 1rem 0.85rem 3rem !important;
-    gap: 0.75rem !important;
+    padding: 4.75rem 1rem 2rem !important;
+    min-height: 100dvh !important;
+    min-height: 100vh !important;
   }
 
   .samuel-video-stage {
-    max-width: 280px !important;
-    height: 230px !important;
-    min-height: 200px !important;
+    display: none !important;
+  }
+
+  .samuel-apple-intro {
+    gap: 1.45rem !important;
+  }
+
+  .samts-apple-title {
+    font-size: 1.5rem !important;
+  }
+
+  .samts-apple-description {
+    font-size: 0.92rem !important;
+  }
+
+  .samts-apple-cta-primary {
+    padding: 15px 20px !important;
+    font-size: 0.96rem !important;
+  }
+
+  .samts-apple-cta-secondary {
+    padding: 14px 20px !important;
+    font-size: 0.92rem !important;
   }
 
   .samuel-apple-question-text {
-    font-size: 1.15rem !important;
+    font-size: 1.25rem !important;
   }
 
   .samuel-apple-pill {
-    padding: 8px 14px !important;
-    font-size: 0.82rem !important;
+    padding: 10px 16px !important;
+    font-size: 0.88rem !important;
   }
 
   .samuel-apple-input {
-    font-size: 0.85rem !important;
+    font-size: 0.88rem !important;
   }
 }
