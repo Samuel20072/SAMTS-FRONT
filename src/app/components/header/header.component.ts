@@ -23,8 +23,13 @@ export class HeaderComponent implements OnInit {
   isHoveredTop = signal(false);
   currentUrl = signal(this.router.url);
 
-  // All pages use light mode header — unified design system
-  isHeaderLight = computed(() => true);
+  // Home page uses dark header to match the dark video hero background
+  isHomePage = computed(() => {
+    const url = this.currentUrl();
+    return url === '/' || url === '' || url.startsWith('/#') || url.startsWith('/?');
+  });
+
+  isHeaderLight = computed(() => !this.isHomePage());
 
   isHeaderHidden = computed(() => {
     return this.isDemoActive() && !this.isHoveredTop() && !this.isMenuOpen();

@@ -1,5 +1,7 @@
 <div class="samts-nav-trigger" (mouseenter)="isHoveredTop.set(true)"></div>
-<nav class="samts-nav samts-nav--light"
+<nav class="samts-nav"
+     [class.samts-nav--dark]="isHomePage()"
+     [class.samts-nav--light]="!isHomePage()"
      [class.scrolled]="isScrolled()"
      [class.hidden-demo]="isHeaderHidden()"
      (mouseenter)="isHoveredTop.set(true)">

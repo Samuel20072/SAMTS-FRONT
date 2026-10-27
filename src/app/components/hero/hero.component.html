@@ -1,118 +1,184 @@
 <!-- ══════════════════════════════════════════════════════════════
-     HERO / SAMUEL AI — Diseño Apple Minimalista e Interactivo
+     SAMTS HERO — Video Background & Dark Cyberpunk Design
      ══════════════════════════════════════════════════════════════ -->
-<section id="hero" class="samuel-apple-hero" #heroSection>
+<section id="hero" class="samts-video-hero" #heroSection>
 
-  <!-- Ambient Light Apple Glow (muy sutil) -->
-  <div class="samuel-apple-glow"></div>
-
-  <!-- Video Hero: dos capas para crossfade sin parpadeo -->
-  <div class="samuel-video-stage">
+  <!-- Video de fondo en pantalla completa -->
+  <div class="hero-bg-stage">
     <video
-      #videoA
-      class="samuel-apple-canvas samuel-video-layer"
-      [class.video-active]="activeLayer() === 'A'"
-      src="/videos/homevideo1.mp4"
+      #heroVideo
+      class="hero-bg-video"
+      src="/videos/hero.mp4"
       autoplay
       muted
       [muted]="true"
+      loop
       playsinline
       preload="auto"
-      (ended)="onVideoEnded()"
-      aria-label="Video presentación Samuel - IA de SAMTS">
+      aria-label="Presentación SAMTS Tecnología web y Agentes de IA">
     </video>
-    <video
-      #videoB
-      class="samuel-apple-canvas samuel-video-layer"
-      [class.video-active]="activeLayer() === 'B'"
-      muted
-      [muted]="true"
-      playsinline
-      preload="auto"
-      (ended)="onVideoEnded()"
-      aria-label="Video presentación Samuel - IA de SAMTS">
-    </video>
+    <!-- Gradiente lateral para asegurar legibilidad impecable del texto a la izquierda -->
+    <div class="hero-bg-overlay"></div>
   </div>
 
-  <!-- Contenedor Principal Lado Derecho -->
-  <div class="samuel-apple-container">
-    <div class="samuel-apple-dialogue">
+  <!-- Contenedor principal de contenidos -->
+  <div class="hero-container">
+    <div class="hero-left-content">
 
-      <!-- Barra superior sutil de estado -->
-      <div class="samuel-apple-topbar">
-        <div class="samuel-apple-status">
-          <span class="samuel-apple-dot"></span>
-          <span class="samuel-apple-agent-title">Samuel AI</span>
-          <span class="samuel-apple-agent-role">· Asesor Tecnológico</span>
-        </div>
-
-        <div class="samuel-apple-actions">
-          @if (!samuel.showResult() && samuel.stepIndex() > 0) {
-          <span class="samuel-apple-step-tag">
-            Paso {{ samuel.stepIndex() + 1 }} de {{ samuel.totalSteps() }}
-          </span>
-          }
-
-          <button type="button" class="samuel-apple-reset-btn" (click)="onRestart()" title="Reiniciar asesoría"
-            aria-label="Reiniciar asesoría">
-            <i class="pi pi-refresh"></i>
-          </button>
-        </div>
+      <!-- Badge de categoría / Estado -->
+      <div class="hero-badge-pill animate-fade-in">
+        <span class="badge-dot-green"></span>
+        <span class="badge-brand">[SAMTS]</span>
+        <span class="badge-sep">|</span>
+        <span class="badge-text">Soluciones Web &amp; Agentes de IA</span>
       </div>
 
-      <!-- Área de Texto / Pregunta Principal Estilo Apple -->
-      <div class="samuel-apple-question-wrap">
-        @if (samuel.isThinking()) {
-        <div class="samuel-apple-thinking">
-          <span class="apple-dot"></span>
-          <span class="apple-dot"></span>
-          <span class="apple-dot"></span>
-          <span class="samuel-apple-thinking-text">Analizando tu respuesta...</span>
-        </div>
-        } @else if (!samuel.showResult()) {
-        <h1 class="samuel-apple-question-text">
-          {{ currentSamuelPrompt() }}
-        </h1>
-        }
-      </div>
+      <!-- Título Principal -->
+      <h1 class="hero-main-title">
+        Tecnología web y<br>
+        <span class="hero-gradient-text">agentes de IA</span><br>
+        para impulsar tu negocio.
+      </h1>
 
-      <!-- Opciones / Botones en estilo píldora Apple -->
-      @if (!samuel.showResult() && !samuel.isThinking() && samuel.currentQuickReplies().length > 0) {
-      <div class="samuel-apple-options">
-        @for (reply of samuel.currentQuickReplies(); track reply.id) {
-        <button type="button" class="samuel-apple-pill" (click)="onQuickReply(reply.value)">
-          <span>{{ reply.label }}</span>
+      <!-- Descripción -->
+      <p class="hero-sub-description">
+        Creamos páginas web profesionales, sistemas a medida y soluciones inteligentes que automatizan tus ventas y multiplican tus clientes sin complicaciones.
+      </p>
+
+      <!-- Botones de Acción -->
+      <div class="hero-cta-buttons">
+        <button type="button" class="btn-hero-primary" (click)="openDiagnosis()" aria-label="Descubrir qué solución necesito">
+          <i class="pi pi-sparkles" style="font-size: 0.95rem;"></i>
+          <span>Descubrir qué solución necesito</span>
+          <i class="pi pi-arrow-right" style="font-size: 0.9rem;"></i>
         </button>
-        }
+
+        <button type="button" class="btn-hero-secondary" (click)="openConsultation()" aria-label="Agendar asesoría">
+          <i class="pi pi-calendar"></i>
+          <span>Agendar asesoría</span>
+        </button>
       </div>
-      }
 
-      <!-- Input de texto libre estilo Apple (cápsula con botón enviar) -->
-      @if (!samuel.showResult()) {
-      <div class="samuel-apple-input-container">
-        <div class="samuel-apple-input-capsule">
-          <input type="text" class="samuel-apple-input" [(ngModel)]="freeText" (keyup.enter)="onSendText()"
-            [placeholder]="samuel.currentQuestionStep().inputPlaceholder || 'Escribe tu respuesta o duda aquí...'"
-            [disabled]="samuel.isThinking()" />
-
-          <button type="button" class="samuel-apple-send-btn" [disabled]="!freeText.trim() || samuel.isThinking()"
-            (click)="onSendText()" aria-label="Enviar">
-            <i class="pi pi-arrow-up"></i>
-          </button>
+      <!-- Social Proof / Testimonios resumidos -->
+      <div class="hero-social-proof">
+        <div class="avatars-cluster">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Cliente SAMTS" class="avatar-circle" />
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Cliente SAMTS" class="avatar-circle" />
+          <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=120&q=80" alt="Cliente SAMTS" class="avatar-circle" />
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=80" alt="Cliente SAMTS" class="avatar-circle" />
+        </div>
+        <div class="proof-labels">
+          <span class="proof-count">+50 empresas ya confían en SAMTS</span>
+          <span class="proof-detail">Desde pequeñas tiendas hasta grandes negocios.</span>
         </div>
       </div>
-      }
-
-      <!-- Recomendación final integrada -->
-      @if (samuel.showResult() && samuel.recommendation(); as rec) {
-      <div class="samuel-apple-result">
-        <app-samuel-result [recommendation]="rec" [businessType]="samuel.answers().businessType || ''" (selectSolution)="onSelectSolution($event)"
-          (requestQuote)="onRequestQuote()" (whatsappContact)="onWhatsApp()" (restart)="onRestart()">
-        </app-samuel-result>
-      </div>
-      }
 
     </div>
   </div>
+
+  <!-- Indicador SCROLL DOWN inferior derecho -->
+  <div class="hero-scroll-down-wrap" (click)="onScrollDown()" role="button" tabindex="0" aria-label="Desplazar abajo">
+    <span class="scroll-down-label">SCROLL DOWN</span>
+    <div class="scroll-down-btn">
+      <i class="pi pi-arrow-down"></i>
+    </div>
+  </div>
+
+  <!-- Modal Interactivo de Asesoría con Samuel AI -->
+  <!-- Modal Interactivo de Asesoría con Samuel AI (Dark Glassmorphism) -->
+  <p-dialog
+    [(visible)]="isDiagnosisModalOpen"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [dismissableMask]="true"
+    [style]="{ width: '92%', maxWidth: '540px' }"
+    styleClass="samuel-dark-glass-dialog"
+    [showHeader]="false">
+
+    <div class="diag-modal-content">
+      <!-- Barra superior de estado -->
+      <div class="diag-modal-topbar">
+        <div class="diag-status-info">
+          <span class="diag-dot-green"></span>
+          <span class="diag-agent-name">Samuel AI</span>
+          <span class="diag-agent-tag">· Asesor Tecnológico</span>
+        </div>
+
+        <div class="diag-actions-cluster">
+          @if (!samuel.showResult() && samuel.stepIndex() > 0) {
+            <span class="diag-badge-step">
+              Paso {{ samuel.stepIndex() + 1 }} de {{ samuel.totalSteps() }}
+            </span>
+          }
+          <button type="button" class="diag-icon-btn" (click)="onRestart()" title="Reiniciar asesoría" aria-label="Reiniciar asesoría">
+            <i class="pi pi-refresh"></i>
+          </button>
+          <button type="button" class="diag-icon-btn diag-icon-btn--close" (click)="closeDiagnosis()" title="Cerrar ventana" aria-label="Cerrar ventana">
+            <i class="pi pi-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Pregunta actual -->
+      <div class="diag-question-container">
+        @if (samuel.isThinking()) {
+          <div class="diag-thinking-indicator">
+            <span class="diag-glow-dot"></span>
+            <span class="diag-glow-dot"></span>
+            <span class="diag-glow-dot"></span>
+            <span class="diag-thinking-msg">Analizando tu negocio...</span>
+          </div>
+        } @else if (!samuel.showResult()) {
+          <h2 class="diag-prompt-headline">
+            {{ currentSamuelPrompt() }}
+          </h2>
+        }
+      </div>
+
+      <!-- Opciones Rápidas en Píldoras -->
+      @if (!samuel.showResult() && !samuel.isThinking() && samuel.currentQuickReplies().length > 0) {
+        <div class="diag-pills-grid">
+          @for (reply of samuel.currentQuickReplies(); track reply.id) {
+            <button type="button" class="diag-glass-pill" (click)="onQuickReply(reply.value)">
+              <span>{{ reply.label }}</span>
+            </button>
+          }
+        </div>
+      }
+
+      <!-- Input de Texto Libre -->
+      @if (!samuel.showResult()) {
+        <div class="diag-input-wrapper">
+          <div class="diag-input-bar">
+            <i class="pi pi-sparkles diag-input-sparkle"></i>
+            <input type="text" class="diag-text-field" [(ngModel)]="freeText" (keyup.enter)="onSendText()"
+              [placeholder]="samuel.currentQuestionStep().inputPlaceholder || 'Escribe tu respuesta o duda aquí...'"
+              [disabled]="samuel.isThinking()" />
+
+            <button type="button" class="diag-submit-btn" [disabled]="!freeText.trim() || samuel.isThinking()"
+              (click)="onSendText()" aria-label="Enviar respuesta">
+              <i class="pi pi-arrow-up"></i>
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- Resultado / Recomendación final -->
+      @if (samuel.showResult() && samuel.recommendation(); as rec) {
+        <div class="diag-result-wrapper">
+          <app-samuel-result
+            [recommendation]="rec"
+            [businessType]="samuel.answers().businessType || ''"
+            (selectSolution)="onSelectSolution($event)"
+            (requestQuote)="onRequestQuote()"
+            (whatsappContact)="onWhatsApp()"
+            (restart)="onRestart()">
+          </app-samuel-result>
+        </div>
+      }
+    </div>
+
+  </p-dialog>
 
 </section>
