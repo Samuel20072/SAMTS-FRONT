@@ -38,6 +38,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   samuel       = inject(SamuelDiagnosisService);
 
   showDemoVideo = signal(false);
+  showQuestions = signal(false);
   freeText = '';
 
   /* ─── Video sequencing (dual-layer crossfade) ─── */
@@ -50,6 +51,10 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
   /** Which video element is currently active/visible ('A' | 'B') */
   readonly activeLayer = signal<'A' | 'B'>('A');
+
+  readonly isDialogueActive = computed(() => {
+    return this.showQuestions() || this.samuel.stepIndex() > 0 || this.samuel.showResult();
+  });
 
   readonly currentSamuelPrompt = computed(() => {
     const step = this.samuel.currentQuestionStep();
@@ -179,6 +184,19 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   }
 
   /* ─── Actions ─── */
+  startQuestions(): void {
+    this.showQuestions.set(true);
+    if (!this.hasInitializedHome) {
+      this.hasInitializedHome = true;
+      this.samuel.startHome();
+    }
+  }
+
+  backToIntro(): void {
+    this.showQuestions.set(false);
+    this.samuel.restart();
+  }
+
   openConsultation(): void { this.modalService.open(); }
   playDemo(): void { this.showDemoVideo.set(true); }
   closeDemo(): void { this.showDemoVideo.set(false); }
@@ -206,6 +224,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
   onRestart(): void {
     this.samuel.restart();
+    this.showQuestions.set(true);
   }
 
   onSelectSolution(plan: any): void {
