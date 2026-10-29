@@ -98,8 +98,8 @@ export class SamuelExperienceComponent implements AfterViewChecked {
 
   onWhatsApp(): void {
     const msg = encodeURIComponent(this.samuel.buildWhatsAppMessage());
-    // Replace with actual SAMTS WhatsApp number
-    const phone = '573000000000';
+    // Official SAMTS WhatsApp number
+    const phone = '573148180949';
     window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
   }
 

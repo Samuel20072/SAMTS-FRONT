@@ -62,6 +62,18 @@ export class UtmService {
     }
   }
 
+  /** Retrieve persisted UTM params (alias for consultation-modal compatibility) */
+  getUtmParams(): Record<string, string | undefined> {
+    const p = this.getParams();
+    return {
+      utm_source: p.utmSource,
+      utm_medium: p.utmMedium,
+      utm_campaign: p.utmCampaign,
+      utm_content: p.utmContent,
+      utm_term: p.utmTerm,
+    };
+  }
+
   /** Retrieve persisted UTM params */
   getParams(): UtmParams {
     if (!isPlatformBrowser(this.platformId)) return {};

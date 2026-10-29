@@ -81,17 +81,43 @@ h6,
 .samuel-apple-question-text {
   font-family: var(--font-display) !important;
   font-weight: 700;
-  color: var(--color-black);
   line-height: 1.1;
+}
+
+/* Light context default colors (only when no explicit text-* class is set) */
+h1:not([class*="text-"]):not(.dark *),
+h2:not([class*="text-"]):not(.dark *),
+h3:not([class*="text-"]):not(.dark *),
+h4:not([class*="text-"]):not(.dark *),
+h5:not([class*="text-"]):not(.dark *),
+h6:not([class*="text-"]):not(.dark *) {
+  color: var(--color-black);
 }
 
 p, span, a, label, input, button, select, textarea, li {
   font-family: var(--font-body);
 }
 
-p {
+p:not([class*="text-"]):not(.dark *) {
   line-height: 1.6;
   color: var(--color-gray-600);
+}
+
+/* Ensure dark section typography is always ultra-crisp and legible */
+.dark-section,
+[data-theme="dark"],
+.bg-slate-950,
+.bg-slate-900 {
+  color: #f8fafc;
+}
+.dark-section h1,
+.dark-section h2,
+.dark-section h3,
+.dark-section h4 {
+  color: #ffffff !important;
+}
+.dark-section p {
+  color: #94a3b8 !important;
 }
 
 /* ==============================
@@ -5080,5 +5106,51 @@ p {
 
   .samuel-apple-input {
     font-size: 0.88rem !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════
+   SAMTS Scroll Animations – AnimateOnScrollDirective
+   ═══════════════════════════════════════════════ */
+
+.samts-anim {
+  opacity: 0;
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--anim-delay, 0ms),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--anim-delay, 0ms);
+}
+
+.samts-anim.fade-up {
+  transform: translateY(40px);
+}
+
+.samts-anim.fade-left {
+  transform: translateX(-40px);
+}
+
+.samts-anim.fade-right {
+  transform: translateX(40px);
+}
+
+.samts-anim.fade-in {
+  transform: none;
+}
+
+.samts-anim.fade-scale {
+  transform: scale(0.92);
+}
+
+.samts-anim.is-visible {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Respeta prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .samts-anim {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }

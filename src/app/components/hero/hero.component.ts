@@ -109,6 +109,11 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.modalService.open();
   }
 
+  openWhatsAppBooking(): void {
+    const text = encodeURIComponent('¡Hola SAMTS! 👋 Me gustaría agendar una llamada para conocer más sobre sus servicios de páginas web y agentes de IA.');
+    window.open('https://wa.me/573148180949?text=' + text, '_blank');
+  }
+
   playDemo(): void {
     this.showDemoVideo.set(true);
   }
@@ -130,7 +135,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
   onWhatsApp(): void {
     const msg = encodeURIComponent(this.samuel.buildWhatsAppMessage());
-    const phone = '573000000000'; // Configurable WhatsApp
+    const phone = '573148180949';
     window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
   }
 

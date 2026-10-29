@@ -4,6 +4,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BlogPostsService } from '../../services/api/blog-posts.service';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ConsultationModalComponent } from '../../components/consultation-modal/consultation-modal.component';
+import { ConsultationService } from '../../services/consultation.service';
 
 interface BlogPost {
   id: string;
@@ -17,7 +19,7 @@ interface BlogPost {
 @Component({
   selector: 'app-blog-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent],
+  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent, ConsultationModalComponent],
   templateUrl: './blog-detail.page.html',
   styles: [`
     .prose-content p {
@@ -30,6 +32,7 @@ export class BlogDetailPage implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private blogPostsService = inject(BlogPostsService);
+  modalService = inject(ConsultationService);
 
   post = signal<BlogPost | null>(null);
   paragraphs = signal<string[]>([]);
@@ -83,5 +86,14 @@ export class BlogDetailPage implements OnInit {
   // Inject inline image after every 3rd paragraph
   shouldShowImage(index: number): boolean {
     return (index + 1) % 3 === 0 && index < this.paragraphs().length - 1;
+  }
+
+  requestConsultation(): void {
+    const currentPost = this.post();
+    this.modalService.open({
+      solutionInterest: 'Contenido y Automatización Web',
+      source: 'blog_detail_cta',
+      notes: currentPost ? `El lector consultó desde el artículo: "${currentPost.title}".` : undefined
+    });
   }
 }

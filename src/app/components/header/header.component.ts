@@ -23,10 +23,18 @@ export class HeaderComponent implements OnInit {
   isHoveredTop = signal(false);
   currentUrl = signal(this.router.url);
 
-  // Home page uses dark header to match the dark video hero background
+  // Dark header on dark-themed pages
   isHomePage = computed(() => {
     const url = this.currentUrl();
-    return url === '/' || url === '' || url.startsWith('/#') || url.startsWith('/?');
+    return (
+      url === '/' ||
+      url === '' ||
+      url.startsWith('/#') ||
+      url.startsWith('/?') ||
+      url.startsWith('/pricing') ||
+      url.startsWith('/contacto') ||
+      url.startsWith('/contact')
+    );
   });
 
   isHeaderLight = computed(() => !this.isHomePage());

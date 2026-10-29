@@ -38,7 +38,12 @@ export type AnalyticsEvent =
   | 'website_status_selected'
   | 'diagnostic_started'
   | 'whatsapp_click'
-  | 'lead_converted';
+  | 'lead_converted'
+  | 'lead_created'
+  | 'whatsapp_clicked'
+  | 'consultation_submitted'
+  | 'faq_opened'
+  | 'how_we_work_viewed';
 
 @Injectable({
   providedIn: 'root',

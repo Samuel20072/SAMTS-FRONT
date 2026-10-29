@@ -11,8 +11,8 @@ export const BOUTIQUE_ASSETS = {
   product8: '/images/boutique/product-8.png',
   bannerVestidos: '/images/boutique/banner-vestidos.png',
   bannerConjuntos: '/images/boutique/banner-conjuntos.png',
-  bannerElegancia: '/images/boutique/banner-elegancia.png',
+  bannerElegancia: '/images/boutique/ultimo banner.png',
   logoTransparent: '/images/boutique/rosant-logo-transparent.png',
-  logoTop: '/images/boutique/logo_top.png',
-  logoFooter: '/images/boutique/logo_footer.png',
+  logoTop: '/images/boutique/rosant-logo-transparent.png',
+  logoFooter: '/images/boutique/rosant-logo-transparent.png',
 };

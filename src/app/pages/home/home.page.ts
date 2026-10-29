@@ -7,6 +7,8 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { ConsultationModalComponent } from '../../components/consultation-modal/consultation-modal.component';
 import { SamuelDiagnosisService } from '../../services/samuel-diagnosis.service';
 import { DemoEditorComponent } from '../../components/demo-editor/demo-editor.component';
+import { FaqComponent } from '../../components/faq/faq.component';
+import { HowWeWorkComponent } from '../../components/how-we-work/how-we-work.component';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +21,8 @@ import { DemoEditorComponent } from '../../components/demo-editor/demo-editor.co
     FooterComponent,
     ConsultationModalComponent,
     DemoEditorComponent,
+    FaqComponent,
+    HowWeWorkComponent,
   ],
   templateUrl: './home.page.html'
 })

@@ -1,84 +1,226 @@
 <app-header></app-header>
 
-<main class="pricing-page">
+<main>
 
-  <!-- Ambient glow -->
-  <div class="pricing-glow pricing-glow--1"></div>
-  <div class="pricing-glow pricing-glow--2"></div>
+  <!-- ═════════════════════════════════════════════════════════
+       SECCIÓN 1 (OSCURA): Hero + Selector de Necesidades
+       ═════════════════════════════════════════════════════════ -->
+  <section class="pricing-hero-section">
+    <!-- Ambient glow -->
+    <div class="pricing-glow pricing-glow--1"></div>
+    <div class="pricing-glow pricing-glow--2"></div>
 
-  <!-- Hero / Header Section -->
-  <section class="pricing-hero">
     <div class="pricing-container">
-      <span class="pricing-eyebrow">— PRECIOS</span>
-      <h1 class="pricing-title">
-        Simple, transparente,<br class="hidden-mobile" /> sin sorpresas.
-      </h1>
-      <p class="pricing-subtitle">
-        No vendemos simples páginas web. Construimos motores de ventas automatizadas con Inteligencia Artificial.
-      </p>
+      <!-- Hero Header -->
+      <div class="pricing-hero-header" samtsAnimate animDelay="0ms">
+        <span class="pricing-eyebrow-dark">— PRECIOS Y SOLUCIONES</span>
+        <h1 class="pricing-title-dark">
+          Simple, transparente,<br class="hidden-mobile" /> sin sorpresas.
+        </h1>
+        <p class="pricing-subtitle-dark">
+          Conoce la inversión estimada para tu proyecto o descubre la solución ideal para tu negocio.
+        </p>
+      </div>
+
+      <!-- Selector de Necesidades -->
+      <div class="needs-card-container" samtsAnimate="fade-up" animDelay="150ms">
+        <div class="needs-header">
+          <span class="needs-eyebrow">
+            <i class="pi pi-compass text-[11px]"></i>
+            <span>Selector de Soluciones</span>
+          </span>
+          <h2 class="needs-main-title">
+            ¿Qué necesitas resolver en tu negocio?
+          </h2>
+          <p class="needs-subtitle">
+            Selecciona tu objetivo y te orientaremos hacia la arquitectura y propuesta adecuada.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <button
+            *ngFor="let need of needs"
+            (click)="selectNeed(need)"
+            type="button"
+            class="need-card-btn"
+            [class.active]="selectedNeed() === need.id">
+            
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="w-10 h-10 rounded-xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center text-blue-400">
+                  <i class="pi" [ngClass]="need.icon"></i>
+                </div>
+                <span *ngIf="need.actionType === 'samuel'" class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/35">
+                  IA Asistida
+                </span>
+              </div>
+              <h3 class="need-title">
+                {{ need.label }}
+              </h3>
+              <p class="need-desc">
+                {{ need.description }}
+              </p>
+            </div>
+
+            <div class="need-action-link">
+              <span>{{ need.actionType === 'samuel' ? 'Abrir con Samuel AI' : 'Ver solución sugerida' }}</span>
+              <i class="pi pi-arrow-right text-[10px]"></i>
+            </div>
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Pricing Grid -->
-  <section class="pricing-grid-section">
+  <!-- ═════════════════════════════════════════════════════════
+       SECCIÓN 2 (CLARA): Planes Principales de Inversión
+       ═════════════════════════════════════════════════════════ -->
+  <section class="pricing-plans-section">
     <div class="pricing-container">
-      <div class="pricing-grid">
+      <div class="pricing-plans-header" samtsAnimate animDelay="0ms">
+        <span class="pricing-eyebrow-light">— PAQUETES ESTANDARIZADOS</span>
+        <h2 class="pricing-title-light">
+          Planes diseñados para cada etapa
+        </h2>
+        <p class="pricing-subtitle-light">
+          Entregables definidos, diseño profesional a medida y código de alto rendimiento sin costos ocultos.
+        </p>
+      </div>
 
-        <div *ngFor="let plan of plans"
-             class="pricing-card"
-             [class.pricing-card--featured]="plan.highlight">
+      <div class="pricing-grid">
+        <div *ngFor="let plan of plans; let i = index"
+             class="plan-card-light"
+             [class.plan-card-light--featured]="plan.highlight"
+             samtsAnimate="fade-up"
+             [animDelay]="(i * 120) + 'ms'">
 
           <!-- Popular Badge -->
-          <div *ngIf="plan.highlight" class="pricing-card__badge">MÁS POPULAR</div>
+          <div *ngIf="plan.highlight" class="plan-card-badge">MÁS POPULAR</div>
 
-          <div class="pricing-card__body">
+          <div class="plan-card-body">
             <!-- Plan Name & Description -->
-            <div class="pricing-card__header">
-              <h3 class="pricing-card__name" [class.pricing-card__name--blue]="plan.highlight">{{ plan.name }}</h3>
-              <p class="pricing-card__desc">{{ plan.description }}</p>
+            <div class="plan-card-header">
+              <h3 class="plan-card-name" [class.plan-card-name--blue]="plan.highlight">{{ plan.name }}</h3>
+              <p class="plan-card-desc">{{ plan.description }}</p>
             </div>
 
             <!-- Price -->
-            <div class="pricing-card__price-wrap">
-              <span class="pricing-card__since">Desde</span>
-              <div class="pricing-card__price">{{ plan.priceCOP }}</div>
-              <div class="pricing-card__usd">≈ {{ plan.priceUSD }}</div>
-              <span class="pricing-card__period">{{ plan.period }}</span>
+            <div class="plan-card-price-wrap">
+              <span class="plan-card-since">Desde</span>
+              <div class="plan-card-price">{{ plan.priceCOP }}</div>
+              <div class="plan-card-usd">≈ {{ plan.priceUSD }}</div>
+              <span class="plan-card-period">{{ plan.period }}</span>
             </div>
 
             <!-- Divider -->
-            <div class="pricing-card__divider"></div>
+            <div class="plan-card-divider"></div>
 
             <!-- Features -->
-            <ul class="pricing-card__features">
-              <li *ngFor="let feature of plan.features" class="pricing-card__feature">
+            <ul class="plan-card-features">
+              <li *ngFor="let feature of plan.features" class="plan-card-feature">
                 <ng-container *ngIf="plan.highlight; else stdBullet">
-                  <div class="pricing-card__check">
+                  <div class="plan-card-check">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                   </div>
                 </ng-container>
                 <ng-template #stdBullet>
-                  <div class="pricing-card__bullet">
+                  <div class="plan-card-bullet">
                     <span></span><span></span>
                   </div>
                 </ng-template>
                 <span>{{ feature }}</span>
               </li>
             </ul>
+
+            <!-- Not included section for commercial transparency -->
+            <div *ngIf="plan.notIncluded && plan.notIncluded.length > 0" class="plan-card-not-included">
+              <span class="plan-card-not-included-title">No incluye por defecto:</span>
+              <ul class="plan-card-not-included-list">
+                <li *ngFor="let ni of plan.notIncluded" class="plan-card-not-included-item">
+                  <i class="pi pi-times"></i>
+                  <span>{{ ni }}</span>
+                </li>
+              </ul>
+            </div>
           </div>
 
           <!-- CTA Button -->
-          <button (click)="openConsultation()"
-                  class="pricing-card__cta"
-                  [class.pricing-card__cta--featured]="plan.highlight">
+          <button (click)="openConsultation(plan)"
+                  class="plan-card-cta"
+                  [class.plan-card-cta--featured]="plan.highlight">
             <span>Comenzar proyecto</span>
             <i class="pi pi-arrow-right" style="font-size: 10px;"></i>
           </button>
         </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- ═════════════════════════════════════════════════════════
+       SECCIÓN 3 (OSCURA): Categorías Comerciales & Trust Bar
+       ═════════════════════════════════════════════════════════ -->
+  <section class="pricing-comp-section">
+    <!-- Ambient glow -->
+    <div class="pricing-glow pricing-comp-glow--1"></div>
+    <div class="pricing-glow pricing-comp-glow--2"></div>
+
+    <div class="pricing-container">
+      <div class="pricing-comp-header" samtsAnimate animDelay="0ms">
+        <span class="pricing-comp-eyebrow">
+          <i class="pi pi-table text-[11px]"></i>
+          <span>Comparador de Soluciones</span>
+        </span>
+        <h2 class="pricing-comp-title">
+          Categorías Comerciales SAMTS
+        </h2>
+        <p class="pricing-comp-subtitle">
+          Entiende las capacidades, plazos y valor de referencia de cada solución tecnológica.
+        </p>
       </div>
 
-      <!-- Footer trust row -->
+      <div class="comp-grid">
+        <div *ngFor="let cat of comparisonCategories; let i = index"
+             class="comp-card"
+             samtsAnimate="fade-up"
+             [animDelay]="(i * 100) + 'ms'">
+          <div>
+            <div class="comp-card__top">
+              <div class="comp-card__meta">
+                <span class="comp-card__badge">{{ cat.badge }}</span>
+                <span class="comp-card__time">
+                  <i class="pi pi-clock text-[10px]"></i>
+                  <span>{{ cat.time }}</span>
+                </span>
+              </div>
+              <h3 class="comp-card__name">{{ cat.name }}</h3>
+              <p class="comp-card__scope">{{ cat.scope }}</p>
+            </div>
+            
+            <div class="comp-card__price-box">
+              <span class="comp-card__price-label">Inversión de referencia</span>
+              <span class="comp-card__price-value">{{ cat.price }}</span>
+            </div>
+
+            <ul class="comp-card__highlights">
+              <li *ngFor="let h of cat.highlights" class="comp-card__highlight-item">
+                <div class="comp-card__check-icon">
+                  <i class="pi pi-check"></i>
+                </div>
+                <span>{{ h }}</span>
+              </li>
+            </ul>
+          </div>
+
+          <button
+            (click)="openConsultation({ name: cat.name, priceCOP: cat.price })"
+            class="comp-card__cta">
+            <span>Cotizar {{ cat.name }}</span>
+            <i class="pi pi-arrow-right text-[11px]"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Trust row (Barra de garantías) -->
       <div class="pricing-trust">
         <div class="pricing-trust__item">
           <i class="pi pi-globe"></i>
@@ -86,15 +228,16 @@
         </div>
         <div class="pricing-trust__item">
           <i class="pi pi-lock"></i>
-          <span>Pagos seguros</span>
+          <span>Pagos por hitos acordados</span>
         </div>
         <div class="pricing-trust__item">
           <i class="pi pi-shield"></i>
-          <span>Garantía 30 días</span>
+          <span>Alcance claro por escrito</span>
         </div>
       </div>
     </div>
   </section>
+
 </main>
 
 <app-footer></app-footer>

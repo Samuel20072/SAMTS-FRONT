@@ -1,0 +1,263 @@
+<app-header></app-header>
+
+<main class="min-h-screen bg-[#030712] text-slate-100 pt-28 pb-20 relative overflow-hidden">
+  <!-- Ambient background glow -->
+  <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue-600/5 blur-[120px] pointer-events-none"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-indigo-600/5 blur-[100px] pointer-events-none"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    
+    <!-- Header -->
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <div class="inline-flex items-center gap-2 text-[11px] font-bold text-blue-400 tracking-widest uppercase bg-blue-500/10 border border-blue-500/20 px-3.5 py-1.5 rounded-full mb-4">
+        <i class="pi pi-envelope text-[11px]"></i>
+        <span>Canal Directo SAMTS</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold font-display text-white tracking-tight leading-tight mb-4">
+        Hablemos de tu <span class="text-blue-500">próxima solución</span>
+      </h1>
+      <p class="text-slate-400 text-base leading-relaxed">
+        Cuéntanos qué necesitas desarrollar o automatizar. Te entregaremos una propuesta con alcance claro, tiempos y presupuesto exacto.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      
+      <!-- Left Column: Contact details & Samuel AI Assistant card -->
+      <div class="lg:col-span-5 space-y-6" samtsAnimate="fade-left" animDelay="0ms">
+        
+        <!-- Quick contact cards -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-xl space-y-5">
+          <h2 class="text-lg font-bold text-white font-display mb-1">
+            Información de Contacto
+          </h2>
+          <p class="text-xs text-slate-400">
+            Estamos disponibles para atenderte por canales digitales con respuesta en menos de 24 horas hábiles.
+          </p>
+
+          <div class="space-y-4 pt-2">
+            <!-- WhatsApp -->
+            <a [href]="'https://wa.me/57' + whatsappPhone" target="_blank"
+               class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 hover:border-green-500/40 hover:bg-green-500/5 transition-all group">
+              <div class="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-400 group-hover:scale-110 transition-transform flex-shrink-0">
+                <i class="pi pi-whatsapp text-lg"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400 font-medium">WhatsApp Comercial</p>
+                <p class="text-sm font-semibold text-white group-hover:text-green-300 transition-colors">+57 {{ whatsappPhone }}</p>
+                <span class="text-[11px] text-green-400">Atención rápida en horario laboral</span>
+              </div>
+            </a>
+
+            <!-- Cobertura -->
+            <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
+              <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 flex-shrink-0">
+                <i class="pi pi-map-marker text-lg"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400 font-medium">Ubicación y Cobertura</p>
+                <p class="text-sm font-semibold text-white">Quindío, Colombia</p>
+                <span class="text-[11px] text-slate-400">Desarrollo y soporte a nivel nacional e internacional</span>
+              </div>
+            </div>
+
+            <!-- Horarios -->
+            <div class="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
+              <div class="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 flex-shrink-0">
+                <i class="pi pi-clock text-lg"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400 font-medium">Horario de Atención</p>
+                <p class="text-sm font-semibold text-white">Lunes a Viernes</p>
+                <span class="text-[11px] text-slate-400">8:00 AM - 6:00 PM (Hora de Colombia / COT)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Samuel AI Diagnostic Callout -->
+        <div class="bg-gradient-to-br from-blue-950/40 to-slate-900/90 border border-blue-500/30 rounded-2xl p-6 backdrop-blur-xl relative overflow-hidden">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-blue-400">
+              <i class="pi pi-sparkles text-sm"></i>
+            </div>
+            <h3 class="text-base font-bold text-white">¿No sabes qué necesitas?</h3>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed mb-4">
+            Usa nuestro Asesor Virtual Samuel AI. Realiza un diagnóstico inteligente en 3 minutos y te indica la solución tecnológica precisa.
+          </p>
+          <a routerLink="/" (click)="samuel.startHome()"
+             class="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl transition-all shadow-lg shadow-blue-500/20">
+            <span>Iniciar diagnóstico interactivo</span>
+            <i class="pi pi-arrow-right text-[10px]"></i>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Interactive Contact Form -->
+      <div class="lg:col-span-7">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-10 backdrop-blur-xl shadow-2xl">
+          
+          <!-- Success State -->
+          <div *ngIf="isSuccess()" class="py-10 text-center space-y-4">
+            <div class="w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-2xl flex items-center justify-center text-blue-400 mx-auto shadow-[0_0_25px_rgba(37,99,235,0.25)]">
+              <i class="pi pi-check text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold font-display text-white">
+              ¡Mensaje enviado con éxito!
+            </h3>
+            <p class="text-slate-300 text-sm max-w-md mx-auto leading-relaxed">
+              Registramos tu solicitud en nuestro sistema. Uno de nuestros arquitectos revisará tus requerimientos y te contactará a la brevedad.
+            </p>
+
+            <div class="pt-4 flex flex-col sm:flex-row gap-3 justify-center max-w-sm mx-auto">
+              <button
+                type="button"
+                (click)="openWhatsApp()"
+                class="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold py-3 px-4 rounded-xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 transition-all">
+                <i class="pi pi-whatsapp text-lg"></i>
+                <span>Chatear ahora por WhatsApp</span>
+              </button>
+              <button
+                type="button"
+                (click)="resetForm()"
+                class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-medium py-3 px-4 rounded-xl text-xs transition-colors">
+                Enviar otra consulta
+              </button>
+            </div>
+          </div>
+
+          <!-- Form State -->
+          <div *ngIf="!isSuccess()">
+            <div class="mb-6">
+              <h2 class="text-xl sm:text-2xl font-bold font-display text-white mb-1.5">
+                Envíanos tu requerimiento
+              </h2>
+              <p class="text-xs text-slate-400">
+                Los campos marcados con (*) son necesarios para responderte.
+              </p>
+            </div>
+
+            <!-- Error message -->
+            <div *ngIf="errorMessage()" class="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-start gap-2 mb-5">
+              <i class="pi pi-exclamation-triangle mt-0.5 text-red-400"></i>
+              <div class="flex-1">{{ errorMessage() }}</div>
+            </div>
+
+            <form (ngSubmit)="onSubmit()" class="space-y-4">
+              
+              <!-- Two columns: Name & Email -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-1.5">
+                  <label for="contact-name" class="text-xs font-semibold text-slate-300">Tu nombre completo *</label>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    [(ngModel)]="name"
+                    placeholder="Ej. Andrés Ramírez"
+                    class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-colors placeholder:text-slate-600"
+                    required />
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                  <label for="contact-email" class="text-xs font-semibold text-slate-300">Correo electrónico *</label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    [(ngModel)]="email"
+                    placeholder="tu@empresa.com"
+                    class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-colors placeholder:text-slate-600"
+                    required />
+                </div>
+              </div>
+
+              <!-- Two columns: WhatsApp & Empresa -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-1.5">
+                  <label for="contact-whatsapp" class="text-xs font-semibold text-slate-300">WhatsApp / Teléfono *</label>
+                  <input
+                    id="contact-whatsapp"
+                    name="whatsapp"
+                    type="tel"
+                    [(ngModel)]="whatsapp"
+                    placeholder="Ej. +57 310 123 4567"
+                    class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-colors placeholder:text-slate-600"
+                    required />
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                  <label for="contact-business" class="text-xs font-semibold text-slate-300">Empresa o marca (Opcional)</label>
+                  <input
+                    id="contact-business"
+                    name="businessName"
+                    type="text"
+                    [(ngModel)]="businessName"
+                    placeholder="Ej. Distribuciones del Café"
+                    class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-colors placeholder:text-slate-600" />
+                </div>
+              </div>
+
+              <!-- Solución de interés -->
+              <div class="flex flex-col gap-1.5">
+                <label for="contact-solution" class="text-xs font-semibold text-slate-300">¿Qué tipo de solución buscas? *</label>
+                <select
+                  id="contact-solution"
+                  name="solutionInterest"
+                  [(ngModel)]="solutionInterest"
+                  class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-colors cursor-pointer">
+                  <option *ngFor="let opt of solutionOptions" [value]="opt">{{ opt }}</option>
+                </select>
+              </div>
+
+              <!-- Detalles / Mensaje -->
+              <div class="flex flex-col gap-1.5">
+                <label for="contact-details" class="text-xs font-semibold text-slate-300">Detalles de tu proyecto o consulta (Opcional)</label>
+                <textarea
+                  id="contact-details"
+                  name="details"
+                  [(ngModel)]="details"
+                  rows="3"
+                  placeholder="Cuéntanos sobre tu negocio, qué funcionalidades requieres o cuál es tu meta..."
+                  class="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 text-slate-100 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-colors placeholder:text-slate-600 resize-none"></textarea>
+              </div>
+
+              <!-- Habeas Data -->
+              <div class="flex items-start gap-2.5 pt-1">
+                <input
+                  type="checkbox"
+                  id="contact-policy"
+                  name="acceptDataPolicy"
+                  [(ngModel)]="acceptDataPolicy"
+                  class="mt-1 rounded bg-slate-950 border-slate-800 text-blue-600 focus:ring-0 cursor-pointer" />
+                <label for="contact-policy" class="text-[11px] text-slate-400 leading-snug cursor-pointer">
+                  Autorizo el tratamiento de mis datos de contacto para la formulación de la propuesta comercial, en cumplimiento de la Ley 1581 de 2012 de Colombia.
+                </label>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="pt-2">
+                <button
+                  type="submit"
+                  [disabled]="isSubmitting() || !name || !email || !whatsapp || !acceptDataPolicy"
+                  class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99] transition-all duration-200">
+                  <i *ngIf="isSubmitting()" class="pi pi-spinner animate-spin"></i>
+                  <span>{{ isSubmitting() ? 'Enviando requerimiento...' : 'Enviar mensaje a SAMTS' }}</span>
+                  <i *ngIf="!isSubmitting()" class="pi pi-arrow-right"></i>
+                </button>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<app-footer></app-footer>

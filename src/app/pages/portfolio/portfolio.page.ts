@@ -5,11 +5,12 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ConsultationModalComponent } from '../../components/consultation-modal/consultation-modal.component';
 import { ConsultationService } from '../../services/consultation.service';
+import { AnimateOnScrollDirective } from '../../directives/animate-on-scroll.directive';
 
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent, ConsultationModalComponent],
+  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent, ConsultationModalComponent, AnimateOnScrollDirective],
   templateUrl: './portfolio.page.html',
   styles: [`
     /* ─── Page Layout ─── */
@@ -536,7 +537,14 @@ export class PortfolioPage {
       isPlaceholder: false,
       videoUrl: '/videos/luxury-store.mp4',
       siteUrl: 'https://luxury-store.co',
-      videoError: false
+      videoError: false,
+      ctaSimilar: {
+        label: 'Quiero una tienda similar',
+        solutionInterest: 'Tienda Virtual con Panel Administrativo',
+        businessType: 'E-commerce / Tienda online',
+        mainProblem: 'Vender productos por internet con gestión autónoma de inventario',
+      },
+      demoRoute: '/demos/luxury-store',
     },
     {
       title: 'Portal Gastronómico & Sistema de Reservas',
@@ -551,7 +559,14 @@ export class PortfolioPage {
       isPlaceholder: false,
       videoUrl: '/videos/santuario-circasia.mp4',
       siteUrl: 'https://santuario-circasia.com',
-      videoError: false
+      videoError: false,
+      ctaSimilar: {
+        label: 'Quiero algo así para mi negocio',
+        solutionInterest: 'Sitio Web con Menú Digital y Panel Administrativo',
+        businessType: 'Restaurante / Café / Gastronomía',
+        mainProblem: 'Mostrar menú actualizado y gestionar reservas de manera digital',
+      },
+      demoRoute: '/demos/santuario',
     },
     {
       title: 'Tu proyecto podría estar aquí.',
@@ -559,7 +574,27 @@ export class PortfolioPage {
       description: 'Trabajamos contigo para diseñar y desarrollar soluciones web a medida con paneles administrativos autogestionables, integraciones API y alto rendimiento.',
       metrics: [],
       tags: ['Angular', 'NestJS', 'SAMTS - AI'],
-      isPlaceholder: true
+      isPlaceholder: true,
+      videoUrl: undefined,
+      siteUrl: undefined,
+      videoError: false,
+      ctaSimilar: null,
+      demoRoute: null,
     }
   ];
+
+  openSimilarConsultation(project: any): void {
+    if (!project.ctaSimilar) return;
+    this.modalService.open({
+      solutionInterest: project.ctaSimilar.solutionInterest,
+      businessType: project.ctaSimilar.businessType,
+      mainProblem: project.ctaSimilar.mainProblem,
+      source: 'portfolio',
+      notes: `El cliente vio el caso de ${project.client} y desea algo similar.`,
+    });
+  }
+
+  openGeneralConsultation(): void {
+    this.modalService.open({ source: 'portfolio_cta' });
+  }
 }

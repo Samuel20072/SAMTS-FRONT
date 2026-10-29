@@ -20,6 +20,7 @@
       <button (click)="scrollToSection('services')" class="samts-nav__link">Servicios</button>
       <button (click)="navigateTo('/portfolio')" class="samts-nav__link" [class.active]="isCurrentRoute('/portfolio')">Portafolio</button>
       <button (click)="navigateTo('/pricing')" class="samts-nav__link" [class.active]="isCurrentRoute('/pricing')">Precios</button>
+      <button (click)="navigateTo('/contacto')" class="samts-nav__link" [class.active]="isCurrentRoute('/contacto')">Contacto</button>
       <button (click)="navigateTo('/guia')" class="samts-nav__link samts-nav__link--badge" [class.active]="isCurrentRoute('/guia')">
         <span>Guía</span>
         <span class="samts-nav__badge-free">GRATIS</span>
@@ -53,6 +54,7 @@
       <button (click)="scrollToSection('services'); toggleMenu()" class="samts-nav__mobile-link">Servicios</button>
       <button (click)="navigateTo('/portfolio')" class="samts-nav__mobile-link">Portafolio</button>
       <button (click)="navigateTo('/pricing')" class="samts-nav__mobile-link">Precios</button>
+      <button (click)="navigateTo('/contacto')" class="samts-nav__mobile-link">Contacto</button>
       <button (click)="navigateTo('/guia')" class="samts-nav__mobile-link" style="display: flex; align-items: center; justify-content: space-between;">
         <span>Guía Gratuita</span>
         <span class="samts-nav__badge-free">PDF GRATIS</span>

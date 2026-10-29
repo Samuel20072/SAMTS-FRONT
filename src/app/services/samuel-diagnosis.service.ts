@@ -4,7 +4,8 @@
    Uses Angular signals for reactive, zoneless updates.
    ═══════════════════════════════════════════════════════════ */
 
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { LeadMagnetApiService } from './api/lead-magnet-api.service';
 import {
   DiagnosticState,
   DiagnosticAnswers,
@@ -47,6 +48,11 @@ export class SamuelDiagnosisService {
   private _state = signal<DiagnosticState>({ ...INITIAL_STATE });
   readonly homeMode = signal<boolean>(false);
   readonly demoUnlocked = signal<boolean>(false);
+
+  /** Track whether the diagnostic lead has been saved to the backend already */
+  private _leadSaved = false;
+
+  private leadApi = inject(LeadMagnetApiService);
 
   // ─── Public readonly signals ─────────────────────────────────
   readonly state = this._state.asReadonly();
@@ -234,6 +240,44 @@ export class SamuelDiagnosisService {
       showResult: true,
       samuelAnimState: 'recommending',
     }));
+
+    // Save diagnostic lead to backend (fire-and-forget, non-blocking)
+    this._saveDiagnosticLead(answers, primary.name);
+  }
+
+  /** Saves the diagnostic result as a lead in the backend (non-blocking). */
+  private _saveDiagnosticLead(answers: DiagnosticAnswers, solutionName: string): void {
+    if (this._leadSaved) return;
+    // Only save if we have at least a contact method
+    const hasContact = !!(answers.whatsapp || answers.email || answers.contactName);
+    if (!hasContact) return;
+
+    this._leadSaved = true;
+    const sessionId = crypto.randomUUID();
+
+    const payload = {
+      name: answers.contactName || 'Usuario Samuel AI',
+      email: answers.email || '',
+      whatsapp: answers.whatsapp || '',
+      businessName: answers.businessName || undefined,
+      businessType: answers.businessType || undefined,
+      mainProblem: answers.mainProblem || undefined,
+      solutionInterest: solutionName,
+      budget: answers.budget || undefined,
+      urgency: answers.urgency || undefined,
+      diagnosticSessionId: sessionId,
+      source: 'samuel_ai',
+      campaign: 'samuel_diagnostic',
+    };
+
+    this.leadApi.createLead(payload).subscribe({
+      next: () => console.log('[Samuel] Lead guardado en backend.'),
+      error: (err) => {
+        // Non-blocking: failure doesn't affect UX
+        console.warn('[Samuel] No se pudo guardar el lead:', err?.message);
+        this._leadSaved = false; // allow retry if user submits contact form later
+      },
+    });
   }
 
   // ─── Contact capture ─────────────────────────────────────────

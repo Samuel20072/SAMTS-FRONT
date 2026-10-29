@@ -159,10 +159,10 @@ const DEFAULTS: DemoConfig = {
   boutiqueHeroImage: DEFAULT_NICHES.boutique.heroImage,
   boutiqueBannerVestidos: '/images/boutique/banner-vestidos.png',
   boutiqueBannerConjuntos: '/images/boutique/banner-conjuntos.png',
-  boutiqueBannerElegancia: '/images/boutique/banner-elegancia.png',
+  boutiqueBannerElegancia: '/images/boutique/ultimo banner.png',
 
-  boutiqueLogoTop: '/images/boutique/logo_top.png',
-  boutiqueLogoFooter: '/images/boutique/logo_footer.png',
+  boutiqueLogoTop: '/images/boutique/rosant-logo-transparent.png',
+  boutiqueLogoFooter: '/images/boutique/rosant-logo-transparent.png',
   boutiqueLogoTransparent: '/images/boutique/rosant-logo-transparent.png',
 
   boutiqueProduct1: DEFAULT_NICHES.boutique.productImages[0],
@@ -194,6 +194,15 @@ export class DemoConfigService {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
       const parsed = JSON.parse(raw);
+      if (parsed.boutiqueBannerElegancia === '/images/boutique/banner-elegancia.png') {
+        parsed.boutiqueBannerElegancia = '/images/boutique/ultimo banner.png';
+      }
+      if (parsed.boutiqueLogoTop === '/images/boutique/logo_top.png') {
+        parsed.boutiqueLogoTop = '/images/boutique/rosant-logo-transparent.png';
+      }
+      if (parsed.boutiqueLogoFooter === '/images/boutique/logo_footer.png') {
+        parsed.boutiqueLogoFooter = '/images/boutique/rosant-logo-transparent.png';
+      }
       return {
         ...DEFAULTS,
         ...parsed,

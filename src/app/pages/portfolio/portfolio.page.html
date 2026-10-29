@@ -8,7 +8,7 @@
 
   <!-- Hero Section -->
   <section class="port-hero">
-    <div class="port-container">
+    <div class="port-container" samtsAnimate animDelay="0ms">
       <span class="port-eyebrow">— PORTAFOLIO</span>
       <h1 class="port-title">
         Proyectos reales.<br class="port-br" /> Resultados medibles.
@@ -26,7 +26,9 @@
 
         <div *ngFor="let project of projects; let i = index"
              class="port-project"
-             [class.port-project--reversed]="i % 2 !== 0">
+             [class.port-project--reversed]="i % 2 !== 0"
+             [samtsAnimate]="i % 2 === 0 ? 'fade-left' : 'fade-right'"
+             animDelay="0ms">
 
           <!-- Visual: Browser Mockup -->
           <div class="port-mockup-wrap">
@@ -158,8 +160,11 @@
                   <span>Visitar sitio</span>
                   <i class="pi pi-external-link" style="font-size: 10px;"></i>
                 </a>
-                <button (click)="modalService.open()" class="port-btn port-btn--ghost">
-                  <span>{{ project.isPlaceholder ? 'Empezar mi proyecto' : 'Cotizar similar' }}</span>
+                <!-- Contextual CTA: passes project context to the consultation modal -->
+                <button
+                  (click)="project.ctaSimilar ? openSimilarConsultation(project) : openGeneralConsultation()"
+                  class="port-btn port-btn--ghost">
+                  <span>{{ project.isPlaceholder ? 'Empezar mi proyecto' : (project.ctaSimilar?.label || 'Cotizar similar') }}</span>
                   <i class="pi pi-arrow-right" style="font-size: 10px;"></i>
                 </button>
               </div>

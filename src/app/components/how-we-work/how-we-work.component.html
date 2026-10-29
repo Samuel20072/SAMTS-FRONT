@@ -1,0 +1,109 @@
+<section id="how-we-work" class="hww-section dark-section">
+  <!-- Subtle tech background lights -->
+  <div class="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-blue-600/10 blur-[140px] pointer-events-none"></div>
+  <div class="absolute bottom-0 left-1/4 w-[450px] h-[450px] rounded-full bg-indigo-600/10 blur-[130px] pointer-events-none"></div>
+
+  <div class="hww-container">
+
+    <!-- Header Centrado -->
+    <div class="hww-header" samtsAnimate animDelay="0ms">
+      <div class="hww-badge">
+        <i class="pi pi-compass text-xs"></i>
+        <span>Nuestro Proceso de Trabajo</span>
+      </div>
+      <h2 class="hww-title">
+        Cómo trabajamos <span class="hww-highlight">contigo</span>
+      </h2>
+      <p class="hww-subtitle">
+        Sin sorpresas ni términos confusos. Cada fase tiene entregables claros y sabes exactamente qué ocurre en cada momento.
+      </p>
+    </div>
+
+    <!-- Steps List Centrada y Equilibrada -->
+    <div class="hww-steps-list">
+      @for (step of steps; track step.number; let idx = $index) {
+        <div class="hww-step-item" samtsAnimate [animDelay]="(idx * 100) + 'ms'">
+          <!-- Number Badge Column -->
+          <div class="hww-step-number-col">
+            <div class="hww-number-badge">
+              {{ step.number }}
+            </div>
+          </div>
+
+          <!-- Step Card -->
+          <div class="hww-card">
+            <div class="hww-card-top">
+              <h3 class="hww-step-title">{{ step.title }}</h3>
+              <div class="hww-step-icon">
+                <i class="pi {{ step.icon }}"></i>
+              </div>
+            </div>
+
+            <p class="hww-step-desc">{{ step.description }}</p>
+
+            <!-- Client Role Pill -->
+            <div class="hww-client-box">
+              <i class="pi pi-user text-blue-400 text-xs mt-0.5 flex-shrink-0"></i>
+              <p class="hww-client-text">
+                <span class="hww-client-lead">Tu rol: </span>{{ step.clientAction }}
+              </p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Bottom CTA Banner Premium -->
+    <div class="hww-cta-banner" samtsAnimate="fade-up" animDelay="100ms">
+      <div class="hww-cta-glow"></div>
+
+      <div class="hww-cta-badge">
+        <i class="pi pi-sparkles text-xs"></i>
+        <span>Asesoría Estratégica Sin Costo</span>
+      </div>
+
+      <h3 class="hww-cta-title">
+        ¿Listo para dar el siguiente paso con SAMTS?
+      </h3>
+
+      <p class="hww-cta-desc">
+        Hablemos de tu proyecto. Evaluamos tus objetivos, definimos el alcance y te entregamos una propuesta exacta en menos de 24 horas.
+      </p>
+
+      <div class="hww-cta-actions">
+        <button
+          type="button"
+          (click)="openConsultation()"
+          class="hww-btn-primary">
+          <i class="pi pi-calendar"></i>
+          <span>Comenzar mi proyecto</span>
+          <i class="pi pi-arrow-right text-xs"></i>
+        </button>
+
+        <button
+          type="button"
+          (click)="startDiagnosis()"
+          class="hww-btn-secondary">
+          <i class="pi pi-sparkles text-blue-400"></i>
+          <span>Primero quiero orientación</span>
+        </button>
+      </div>
+
+      <div class="hww-trust-pills">
+        <div class="hww-trust-item">
+          <i class="pi pi-check-circle"></i>
+          <span>Sin compromiso comercial</span>
+        </div>
+        <div class="hww-trust-item">
+          <i class="pi pi-check-circle"></i>
+          <span>Respuesta en menos de 24h</span>
+        </div>
+        <div class="hww-trust-item">
+          <i class="pi pi-check-circle"></i>
+          <span>Presupuesto y alcance exacto</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -7,7 +7,7 @@
 
   <!-- Hero Section -->
   <section class="relative py-20 lg:py-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10 flex flex-col lg:flex-row items-center gap-16">
-    <div class="lg:w-1/2 space-y-8">
+    <div class="lg:w-1/2 space-y-8" samtsAnimate="fade-left" animDelay="0ms">
       <div class="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-xs md:text-sm font-semibold text-blue-400">
         <i class="pi pi-users text-xs"></i>
         <span class="uppercase tracking-widest">Nuestra Historia</span>
@@ -55,7 +55,10 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div *ngFor="let val of values" class="bg-slate-100 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-300 dark:border-white/10 rounded-3xl p-8 hover:-translate-y-2 transition-transform duration-300 group">
+        <div *ngFor="let val of values; let i = index"
+             class="bg-slate-100 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-300 dark:border-white/10 rounded-3xl p-8 hover:-translate-y-2 transition-transform duration-300 group"
+             samtsAnimate="fade-up"
+             [animDelay]="(i * 100) + 'ms'">
           <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 flex items-center justify-center border border-slate-200 dark:border-white/5 mb-6 group-hover:scale-110 transition-transform">
             <i class="pi text-2xl text-blue-400" [ngClass]="val.icon"></i>
           </div>

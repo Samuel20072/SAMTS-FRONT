@@ -7,6 +7,7 @@ import { SamuelDiagnosisService } from '../../services/samuel-diagnosis.service'
 import { ConsultationService } from '../../services/consultation.service';
 import { BOUTIQUE_ASSETS } from '../../data/boutique-assets.data';
 import { DemoConfigService } from '../../services/demo-config.service';
+import { AnimateOnScrollDirective } from '../../directives/animate-on-scroll.directive';
 
 export interface DemoProduct {
   id: string;
@@ -54,7 +55,7 @@ export interface BarberStaffItem {
 @Component({
   selector: 'app-business-demo-section',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, AnimateOnScrollDirective],
   templateUrl: './business-demo-section.component.html',
   styleUrls: ['./business-demo-section.component.scss'],
 })
@@ -1053,8 +1054,13 @@ export class BusinessDemoSectionComponent implements OnInit {
 
   onOrderSolution(): void {
     const msg = encodeURIComponent(this.samuel.buildWhatsAppMessage());
-    const phone = '573000000000';
+    const phone = '573148180949';
     window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+  }
+
+  openWhatsAppBooking(): void {
+    const text = encodeURIComponent('¡Hola SAMTS! 👋 Me gustaría agendar una llamada / asesoría para conocer más sobre sus servicios para mi negocio.');
+    window.open('https://wa.me/573148180949?text=' + text, '_blank');
   }
 
   openConsultation(): void {
