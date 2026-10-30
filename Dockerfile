@@ -17,6 +17,17 @@ COPY . .
 # Compilar la aplicación Angular con SSR en modo producción
 RUN npm run build
 
+# Fallar el build si los assets estáticos de public/ no llegaron al bundle.
+# Evita desplegar una imagen que sirva versiones incompletas o inexistentes.
+RUN test -d dist/samts-front/browser/images/boutique \
+ && test -f dist/samts-front/browser/images/boutique/product-8.png \
+ && test -f dist/samts-front/browser/images/boutique/ultimo-banner.png \
+ && echo "OK: assets estáticos verificados"
+# Si algún asset quedó como symlink en el bundle, el servidor podría servir un
+# archivo vacío o truncado. Falla el build en ese caso.
+RUN test -z "$(find dist/samts-front/browser -type l -print -quit)" \
+ || (echo "ERROR: hay symlinks dentro del bundle de assets" && exit 1)
+
 # ============================================================
 # Stage 2: Production (SSR con Node)
 # ============================================================

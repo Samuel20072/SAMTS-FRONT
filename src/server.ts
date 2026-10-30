@@ -40,9 +40,24 @@ const angularApp = new AngularNodeAppEngine({
  */
 app.use(
   express.static(browserDistFolder, {
-    maxAge: '1h',
     index: false,
     redirect: false,
+    etag: true,
+    lastModified: true,
+    maxAge: 0,
+    setHeaders: (res, path) => {
+      // Los bundles que genera Angular llevan hash en el nombre (main-ABCD1234.js),
+      // esos pueden cachearse de forma indefinida. El contenido copiado tal cual
+      // desde `public/` (imágenes, videos) NO lleva hash, así que debe revalidarse
+      // siempre para que un redeploy no siga sirviendo la versión antigua.
+      const hashedBundle = /-[A-Za-z0-9_-]{8,}\.(js|css|woff2?|ttf)$/.test(path);
+      res.setHeader(
+        'Cache-Control',
+        hashedBundle
+          ? 'public, max-age=31536000, immutable'
+          : 'public, max-age=0, must-revalidate',
+      );
+    },
   }),
 );
 
