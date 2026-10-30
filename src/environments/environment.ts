@@ -6,7 +6,7 @@ export const environment = {
   // cloud_name de tu cuenta. Sube las imágenes a Cloudinary conservando su
   // public_id (ej. boutique/product-8-v2.png) para que `cdnUrl()` arme la URL.
   // Si se deja vacío, la app sigue sirviendo los archivos locales de public/.
-  cloudinaryCloudName: '',
+  cloudinaryCloudName: 'drcprzcfm',
 
   // ─── Analytics & Tracking ───────────────────────────────────────────────────
   // Fill these in when you have the real IDs from each platform.

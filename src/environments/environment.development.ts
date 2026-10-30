@@ -3,7 +3,7 @@ export const environment = {
   apiUrl: 'http://localhost:3001/api',
 
   // CDN de assets estáticos (Cloudinary). Ver environment.ts.
-  cloudinaryCloudName: '',
+  cloudinaryCloudName: 'drcprzcfm',
 
   // ─── Analytics & Tracking ───────────────────────────────────────────────────
   // In development, leave empty to avoid polluting production analytics data.
