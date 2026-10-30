@@ -850,8 +850,8 @@ export class PricingPage {
   plans = [
     {
       name: 'Landing Page',
-      priceCOP: '$900.000 COP',
-      priceUSD: '$225 USD',
+      priceCOP: '$700.000 COP',
+      priceUSD: '$175 USD',
       period: 'pago único - entrega en 7 a 10 días',
       description: 'Presencia digital moderna y optimizada para captar clientes potenciales desde el primer día.',
       features: [

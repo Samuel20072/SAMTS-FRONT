@@ -5154,3 +5154,43 @@ p:not([class*="text-"]):not(.dark *) {
     transition: none !important;
   }
 }
+
+
+/* ═══════════════════════════════════════════════
+   SAMTS Scroll Animations – Extra variants & improvements
+   ═══════════════════════════════════════════════ */
+
+/* fade-down: slides in from above */
+.samts-anim.fade-down {
+  transform: translateY(-48px);
+}
+
+/* fade-scale-up: card entrance — scales up while rising */
+.samts-anim.fade-scale-up {
+  transform: scale(0.93) translateY(28px);
+}
+
+/* Override base distances for smoother feel on larger screens */
+@media (min-width: 1024px) {
+  .samts-anim.fade-up   { transform: translateY(56px); }
+  .samts-anim.fade-down { transform: translateY(-56px); }
+  .samts-anim.fade-left { transform: translateX(-56px); }
+  .samts-anim.fade-right{ transform: translateX(56px); }
+}
+
+/* ── Transición refinada para desaparecer al salir de pantalla y reaparecer ── */
+.samts-anim {
+  opacity: 0;
+  will-change: opacity, transform;
+  transition:
+    opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.samts-anim.is-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--anim-delay, 0ms),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--anim-delay, 0ms);
+}

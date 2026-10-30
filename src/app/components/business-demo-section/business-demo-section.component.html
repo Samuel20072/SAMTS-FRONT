@@ -197,7 +197,7 @@
                 </div>
                 <div class="vxt-watermark-text">{{ demoAssets().boutiqueBusinessTitle }}</div>
                 <div class="vxt-hero-overlay"></div>
-                <div class="vxt-hero-content">
+                <div class="vxt-hero-content" samtsAnimate="fade-up">
                   <h1 class="vxt-hero-title">NUEVA COLECCIÓN</h1>
                   <p class="vxt-hero-sub">{{ demoAssets().boutiqueTagline }}</p>
                   <button class="vxt-btn-primary" (click)="openWhatsAppMessagePreview()">Ver Colección</button>
@@ -206,7 +206,7 @@
 
               <!-- SECTION 1: NUEVA COLECCIÓN (WITH ARROWS & COLOR DOTS) -->
               <section class="vxt-products-section">
-                <div class="vxt-section-header">
+                <div class="vxt-section-header" samtsAnimate="fade-up">
                   <h2 class="vxt-heading">NUEVA COLECCIÓN</h2>
                   <div class="vxt-nav-arrows">
                     <button class="vxt-arrow-btn" (click)="openWhatsAppMessagePreview()"><i class="pi pi-chevron-left"></i></button>
@@ -214,8 +214,8 @@
                   </div>
                 </div>
                 <div class="vxt-products-grid">
-                  @for (product of boutiqueRow1Products(); track product.id) {
-                  <div class="vxt-product-card">
+                  @for (product of boutiqueRow1Products(); track product.id; let idx = $index) {
+                  <div class="vxt-product-card" samtsAnimate="fade-scale-up" [animDelay]="(idx * 70) + 'ms'">
                     <div class="vxt-card-image-wrap">
                       <img [src]="product.image" [alt]="product.name" />
                       <button class="vxt-add-btn" (click)="addToCart(product.id)" [title]="'Añadir ' + product.name">
@@ -245,22 +245,22 @@
               <!-- SECTION 2: 4-COLUMN VERTICAL EDITORIAL LOOKBOOK GRID -->
               <section class="vxt-lookbook-section">
                 <div class="vxt-lookbook-grid">
-                  <div class="vxt-lookbook-card" (click)="openWhatsAppMessagePreview()">
+                  <div class="vxt-lookbook-card" samtsAnimate="fade-scale-up" (click)="openWhatsAppMessagePreview()">
                     <img [src]="demoAssets().boutiqueProduct5" alt="Top Athletic" />
                     <div class="vxt-lookbook-overlay"></div>
                     <span class="vxt-lookbook-title">TOP ATHLETIC</span>
                   </div>
-                  <div class="vxt-lookbook-card" (click)="openWhatsAppMessagePreview()">
+                  <div class="vxt-lookbook-card" samtsAnimate="fade-scale-up" (click)="openWhatsAppMessagePreview()">
                     <img [src]="demoAssets().boutiqueProduct6" alt="Set Elegance" />
                     <div class="vxt-lookbook-overlay"></div>
                     <span class="vxt-lookbook-title">SET ELEGANCE</span>
                   </div>
-                  <div class="vxt-lookbook-card" (click)="openWhatsAppMessagePreview()">
+                  <div class="vxt-lookbook-card" samtsAnimate="fade-scale-up" (click)="openWhatsAppMessagePreview()">
                     <img [src]="demoAssets().boutiqueProduct7" alt="Bodysuit Fit" />
                     <div class="vxt-lookbook-overlay"></div>
                     <span class="vxt-lookbook-title">BODYSUIT FIT</span>
                   </div>
-                  <div class="vxt-lookbook-card" (click)="openWhatsAppMessagePreview()">
+                  <div class="vxt-lookbook-card" samtsAnimate="fade-scale-up" (click)="openWhatsAppMessagePreview()">
                     <img [src]="demoAssets().boutiqueProduct8" alt="Jumpsuit Pro" />
                     <div class="vxt-lookbook-overlay"></div>
                     <span class="vxt-lookbook-title">JUMPSUIT PRO</span>
@@ -270,12 +270,12 @@
 
               <!-- SECTION 3: LO QUE ESTÁ DE MODA AHORA (TRENDING NOW GRID) -->
               <section class="vxt-products-section">
-                <div class="vxt-section-header">
+                <div class="vxt-section-header" samtsAnimate="fade-up">
                   <h2 class="vxt-heading">LO QUE ESTÁ DE MODA AHORA</h2>
                 </div>
                 <div class="vxt-products-grid">
-                  @for (product of boutiqueRow2Products(); track product.id) {
-                  <div class="vxt-product-card vxt-product-card--desc">
+                  @for (product of boutiqueRow2Products(); track product.id; let idx = $index) {
+                  <div class="vxt-product-card vxt-product-card--desc" samtsAnimate="fade-scale-up" [animDelay]="(idx * 70) + 'ms'">
                     <div class="vxt-card-image-wrap">
                       <img [src]="product.image" [alt]="product.name" />
                       <button class="vxt-add-btn" (click)="addToCart(product.id)" [title]="'Añadir ' + product.name">
@@ -299,22 +299,22 @@
               <!-- SECTION 4: 2x2 FEATURE BANNERS MASONRY GRID -->
               <section class="vxt-masonry-section">
                 <div class="vxt-masonry-grid">
-                  <div class="vxt-masonry-item" (click)="openWhatsAppMessagePreview()">
+                  <div class="vxt-masonry-item" samtsAnimate="fade-scale-up" (click)="openWhatsAppMessagePreview()">
                     <img [src]="demoAssets().boutiqueBannerVestidos" alt="Tops &amp; Bras" />
                     <div class="vxt-masonry-overlay"></div>
                     <span class="vxt-masonry-tag">TOPS &amp; BRAS</span>
                   </div>
-                  <div class="vxt-masonry-item" (click)="openWhatsAppMessagePreview()">
+                  <div class="vxt-masonry-item" samtsAnimate="fade-scale-up" (click)="openWhatsAppMessagePreview()">
                     <img [src]="demoAssets().boutiqueBannerConjuntos" alt="Leggings Fit" />
                     <div class="vxt-masonry-overlay"></div>
                     <span class="vxt-masonry-tag">LEGGINGS FIT</span>
                   </div>
-                  <div class="vxt-masonry-item" (click)="openWhatsAppMessagePreview()">
+                  <div class="vxt-masonry-item" samtsAnimate="fade-scale-up" (click)="openWhatsAppMessagePreview()">
                     <img [src]="demoAssets().boutiqueBannerElegancia || '/images/boutique/ultimo banner.png'" alt="Sets Ejecutivos" />
                     <div class="vxt-masonry-overlay"></div>
                     <span class="vxt-masonry-tag">SETS EJECUTIVOS</span>
                   </div>
-                  <div class="vxt-masonry-item" (click)="openWhatsAppMessagePreview()">
+                  <div class="vxt-masonry-item" samtsAnimate="fade-scale-up" (click)="openWhatsAppMessagePreview()">
                     <img [src]="demoAssets().boutiqueHeroImage" alt="Edición Limitada" />
                     <div class="vxt-masonry-overlay"></div>
                     <span class="vxt-masonry-tag">EDICIÓN LIMITADA</span>
@@ -411,7 +411,7 @@
                   <img [src]="demoAssets().boutiqueHeroImage" alt="Nueva Colección Rosant Boutique" class="ros-hero-img" />
                 </div>
                 <div class="ros-hero-overlay"></div>
-                <div class="ros-hero-content">
+                <div class="ros-hero-content" samtsAnimate="fade-up">
                   <h1 class="ros-hero-title">NUEVA COLECCIÓN</h1>
                   <p class="ros-hero-sub">Descubre las tendencias que resaltan tu estilo esta nueva temporada.</p>
                   <button class="ros-btn-primary" (click)="openWhatsAppMessagePreview()">Comprar Ahora</button>
@@ -419,15 +419,15 @@
               </section>
 
               <!-- SECTION TITLE 1: NUEVA COLECCIÓN -->
-              <section class="ros-section-header">
+              <section class="ros-section-header" samtsAnimate="fade-up">
                 <h2 class="ros-heading">NUEVA COLECCIÓN</h2>
               </section>
 
               <!-- PRODUCT GRID ROW 1 (4 COLUMNS) -->
               <section class="ros-products-section">
                 <div class="ros-products-grid">
-                  @for (product of boutiqueRow1Products(); track product.id) {
-                  <div class="ros-product-card">
+                  @for (product of boutiqueRow1Products(); track product.id; let idx = $index) {
+                  <div class="ros-product-card" samtsAnimate="fade-scale-up" [animDelay]="(idx * 70) + 'ms'">
                     <div class="ros-card-image-wrap">
                       <img [src]="product.image" [alt]="product.name" />
                       <button class="ros-add-btn" (click)="addToCart(product.id)" [title]="'Añadir ' + product.name">
@@ -451,7 +451,7 @@
               <section class="ros-banners-section">
                 <div class="ros-banners-grid">
                   <!-- Banner 1: Vestidos -->
-                  <div class="ros-category-banner" (click)="setBoutiqueTab('vestiditos')">
+                  <div class="ros-category-banner" samtsAnimate="fade-scale-up" (click)="setBoutiqueTab('vestiditos')">
                     <img [src]="demoAssets().boutiqueBannerVestidos" alt="Vestidos" class="ros-banner-img" />
                     <div class="ros-banner-overlay"></div>
                     <div class="ros-banner-content">
@@ -460,7 +460,7 @@
                     </div>
                   </div>
                   <!-- Banner 2: Conjuntos -->
-                  <div class="ros-category-banner" (click)="setBoutiqueTab('conjuntos')">
+                  <div class="ros-category-banner" samtsAnimate="fade-scale-up" (click)="setBoutiqueTab('conjuntos')">
                     <img [src]="demoAssets().boutiqueBannerConjuntos" alt="Conjuntos" class="ros-banner-img" />
                     <div class="ros-banner-overlay"></div>
                     <div class="ros-banner-content">
@@ -472,7 +472,7 @@
               </section>
 
               <!-- CATEGORY FILTER TABS -->
-              <section class="ros-tabs-section">
+              <section class="ros-tabs-section" samtsAnimate="fade-in">
                 <div class="ros-tabs-bar">
                   <button
                     type="button"
@@ -508,8 +508,8 @@
               <!-- PRODUCT GRID ROW 2 (4 COLUMNS) -->
               <section class="ros-products-section">
                 <div class="ros-products-grid">
-                  @for (product of boutiqueRow2Products(); track product.id) {
-                  <div class="ros-product-card">
+                  @for (product of boutiqueRow2Products(); track product.id; let idx = $index) {
+                  <div class="ros-product-card" samtsAnimate="fade-scale-up" [animDelay]="(idx * 70) + 'ms'">
                     <div class="ros-card-image-wrap">
                       <img [src]="product.image" [alt]="product.name" />
                       <button class="ros-add-btn" (click)="addToCart(product.id)" [title]="'Añadir ' + product.name">
@@ -530,7 +530,7 @@
               </section>
 
               <!-- BANNER PROMO: ELEGANCIA & CHIC -->
-              <section class="ros-promo-banner">
+              <section class="ros-promo-banner" samtsAnimate="fade-scale-up">
                 <div class="ros-promo-bg">
                   <img [src]="demoAssets().boutiqueBannerElegancia || '/images/boutique/ultimo banner.png'" alt="Elegancia &amp; Chic" class="ros-promo-img" />
                 </div>
@@ -637,7 +637,7 @@
 
               <div class="nr-hero-inner">
                 <!-- Columna Izquierda: Editorial Headline & Actions -->
-                <div class="nr-hero-left">
+                <div class="nr-hero-left" samtsAnimate="fade-left">
                   <div class="nr-kicker-tag">
                     <span class="nr-kicker-star">✦</span>
                     <span>ALTA GASTRONOMÍA &amp; ARTE CULINARIO</span>
@@ -682,7 +682,7 @@
                 </div>
 
                 <!-- Columna Derecha: Steaming Hero Dish con Warm Lighting -->
-                <div class="nr-hero-right">
+                <div class="nr-hero-right" samtsAnimate="fade-right">
                   <div class="nr-hero-dish-card">
                     <div class="nr-dish-glow-halo"></div>
                     <img [src]="activeNicheConfig().heroImage" [alt]="activeNicheConfig().businessTitle" class="nr-hero-dish-img" />
@@ -698,7 +698,7 @@
 
             <!-- ── Section 2: Featured Specialty Card (Image 2 Middle) ── -->
             <section class="nr-specialty-section">
-              <div class="nr-specialty-card">
+              <div class="nr-specialty-card" samtsAnimate="fade-scale-up">
                 <div class="nr-specialty-media">
                   <img src="/images/restaurant/specialty-salmon.jpg" alt="Salmón Noruego al Fuego de Leña" class="nr-specialty-img" />
                   <span class="nr-specialty-flag">✦ Plato del Maestro Chef</span>
@@ -737,7 +737,7 @@
 
             <!-- ── Section 3: Premium Courses (Image 2 Lower-Middle) ── -->
             <section class="nr-courses-section">
-              <div class="nr-courses-header">
+              <div class="nr-courses-header" samtsAnimate="fade-up">
                 <div class="nr-header-divider">
                   <span class="nr-div-line"></span>
                   <span class="nr-div-diamond">❖</span>
@@ -751,8 +751,8 @@
               </div>
 
               <div class="nr-courses-grid">
-                @for (product of editableProducts().slice(0, 4); track product.id) {
-                <div class="nr-course-card" [class.out-of-stock]="!product.inStock">
+                @for (product of editableProducts().slice(0, 4); track product.id; let idx = $index) {
+                <div class="nr-course-card" samtsAnimate="fade-scale-up" [animDelay]="(idx * 80) + 'ms'" [class.out-of-stock]="!product.inStock">
                   <div class="nr-course-img-box">
                     <img [src]="product.image" [alt]="product.name" class="nr-course-img" />
                     <button type="button" class="nr-course-fav-btn" title="Guardar favorito">♡</button>
@@ -795,7 +795,7 @@
             </section>
 
             <!-- ── Section 4: Chef Preview (Image 2 Bottom) ── -->
-            <section class="nr-chef-preview-section">
+            <section class="nr-chef-preview-section" samtsAnimate="fade-up">
               <div class="nr-chef-preview-inner">
                 <!-- Circular Dish Izquierda -->
                 <div class="nr-chef-dish-circle nr-dish-left">
@@ -956,7 +956,7 @@
               <div class="nba-hero-overlay"></div>
               <div class="nba-hero-glow"></div>
 
-              <div class="nba-hero-content">
+              <div class="nba-hero-content" samtsAnimate="fade-up">
                 <div class="nba-kicker-tag">
                   <span class="nba-kicker-dot"></span>
                   <span>ESTILO • CONFIANZA • ACTITUD</span>
@@ -1001,7 +1001,7 @@
               <div class="nba-booking-container">
 
                 <!-- Header de Sección -->
-                <div class="nba-booking-header">
+                <div class="nba-booking-header" samtsAnimate="fade-up">
                   <div class="nba-header-left">
                     <h2 class="nba-section-title">Agenda tu cita</h2>
                     <p class="nba-section-subtitle">Selecciona tu servicio, tu barbero favorito y reserva en segundos</p>
@@ -1018,7 +1018,7 @@
                 </div>
 
                 <!-- Stepper de 4 Pasos -->
-                <div class="nba-stepper-bar">
+                <div class="nba-stepper-bar" samtsAnimate="fade-in">
                   <div class="nba-step active">
                     <span class="nba-step-number">1</span>
                     <div class="nba-step-info">
@@ -1059,7 +1059,7 @@
                 <div class="nba-wizard-grid">
 
                   <!-- ── Columna 1: Elección de Servicio ── -->
-                  <div class="nba-wizard-card">
+                  <div class="nba-wizard-card" samtsAnimate="fade-scale-up">
                     <div class="nba-card-title-row">
                       <span class="nba-card-icon">✂</span>
                       <h3 class="nba-card-title">Elige el servicio</h3>
@@ -1091,7 +1091,7 @@
                   </div>
 
                   <!-- ── Columna 2: Elección de Barbero ── -->
-                  <div class="nba-wizard-card">
+                  <div class="nba-wizard-card" samtsAnimate="fade-scale-up">
                     <div class="nba-card-title-row">
                       <span class="nba-card-icon">👤</span>
                       <h3 class="nba-card-title">Elige el barbero</h3>
@@ -1127,7 +1127,7 @@
                   </div>
 
                   <!-- ── Columna 3: Fecha y Horario ── -->
-                  <div class="nba-wizard-card">
+                  <div class="nba-wizard-card" samtsAnimate="fade-scale-up">
                     <div class="nba-card-title-row">
                       <span class="nba-card-icon">📅</span>
                       <h3 class="nba-card-title">Elige la fecha y hora</h3>
@@ -1288,7 +1288,7 @@
             </section>
 
             <!-- ── Footer Barbería Luxury ── -->
-            <footer class="nba-footer">
+            <footer class="nba-footer" samtsAnimate="fade-up">
               <div class="nba-footer-main">
                 <div class="nba-footer-col nba-col-brand">
                   <div class="nba-logo">
@@ -1388,7 +1388,7 @@
               </nav>
 
               <!-- Main Hero Rounded Card -->
-              <div class="sev-hero-card">
+              <div class="sev-hero-card" samtsAnimate="fade-up">
                 
                 <!-- Left Column: Typography & CTAs & Stats -->
                 <div class="sev-hero-left">
@@ -1456,7 +1456,7 @@
               </div>
 
               <!-- Client Logos Row -->
-              <div class="sev-brands-row">
+              <div class="sev-brands-row" samtsAnimate="fade-in">
                 <div class="sev-brand-item">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12l10 10 10-10L12 2zm0 4.5l5.5 5.5-5.5 5.5-5.5-5.5L12 6.5z"/></svg>
                   <span>Codify</span>
@@ -1489,7 +1489,7 @@
 
               <!-- Interactive Services Section -->
               <section id="sev-services-section" class="sev-services-section">
-                <div class="sev-sec-header">
+                <div class="sev-sec-header" samtsAnimate="fade-up">
                   <div class="sev-sec-tag">Servicios Exclusivos</div>
                   <h2 class="sev-sec-title">Soluciones de Diseño &amp; Estrategia</h2>
                   <p class="sev-sec-desc">
@@ -1499,7 +1499,7 @@
 
                 <div class="sev-services-grid">
                   @for (product of editableProducts(); track product.id; let idx = $index) {
-                  <div class="sev-service-card" [class.selected]="getCartQty(product.id) > 0">
+                  <div class="sev-service-card" samtsAnimate="fade-scale-up" [class.selected]="getCartQty(product.id) > 0">
                     <div class="sev-card-top">
                       <span class="sev-service-index">0{{ idx + 1 }}</span>
                       <span class="sev-service-cat">{{ product.category }}</span>
@@ -1544,7 +1544,7 @@
               </section>
 
               <!-- Sevora Footer -->
-              <footer class="sev-footer">
+              <footer class="sev-footer" samtsAnimate="fade-up">
                 <div class="sev-footer-inner">
                   <div class="sev-footer-left">
                     <div class="sev-brand">
@@ -1650,7 +1650,7 @@
             </nav>
 
             <!-- Hero Slider Banner (Dark Polygonal with 3D Speakers) -->
-            <section class="emx-hero-slider">
+            <section class="emx-hero-slider" samtsAnimate="fade-up">
               <!-- Slider Left Chevron -->
               <button type="button" class="emx-arrow-btn prev" title="Anterior">
                 <i class="pi pi-chevron-left"></i>
@@ -1701,7 +1701,7 @@
             </section>
 
             <!-- Trust Badges Bar -->
-            <div class="emx-trust-bar">
+            <div class="emx-trust-bar" samtsAnimate="fade-in">
               <div class="emx-trust-item">
                 <div class="emx-trust-icon">
                   <i class="pi pi-truck"></i>
@@ -1734,10 +1734,10 @@
             </div>
 
             <!-- Bento Promo Grid (5 cards) -->
-            <div class="emx-bento-grid">
+            <div class="emx-bento-grid" samtsAnimate="fade-up">
               
               <!-- Card 1: Tall Left (Headphones) -->
-              <div class="emx-bento-card emx-bento-tall">
+              <div class="emx-bento-card emx-bento-tall" samtsAnimate="fade-scale-up">
                 <img src="/images/tech/emetix-bento-headphones.jpg" alt="Latest Sound System" class="emx-bento-img" />
                 <div class="emx-bento-overlay">
                   <span class="emx-bento-tag">Sale Up To 30% Off</span>
@@ -1749,7 +1749,7 @@
               <!-- Column 2 (Middle) -->
               <div class="emx-bento-col-mid">
                 <!-- Card 2: Smartwatch -->
-                <div class="emx-bento-card emx-bento-mid-top">
+                <div class="emx-bento-card emx-bento-mid-top" samtsAnimate="fade-scale-up">
                   <img src="/images/tech/emetix-bento-smartwatch.jpg" alt="Smart Watch" class="emx-bento-img" />
                   <div class="emx-bento-overlay">
                     <span class="emx-bento-tag">20% Off</span>
@@ -1759,7 +1759,7 @@
                 </div>
 
                 <!-- Card 3: Smart Speaker -->
-                <div class="emx-bento-card emx-bento-mid-bot">
+                <div class="emx-bento-card emx-bento-mid-bot" samtsAnimate="fade-scale-up">
                   <img src="/images/tech/emetix-bento-speaker.jpg" alt="Smart Speaker" class="emx-bento-img" />
                   <div class="emx-bento-overlay bottom">
                     <h3 class="emx-bento-title">Smart Speaker</h3>
@@ -1770,7 +1770,7 @@
               <!-- Column 3 (Right) -->
               <div class="emx-bento-col-right">
                 <!-- Card 4: Tablet / Smart Cam -->
-                <div class="emx-bento-card emx-bento-right-top">
+                <div class="emx-bento-card emx-bento-right-top" samtsAnimate="fade-scale-up">
                   <img src="/images/tech/emetix-bento-camera.jpg" alt="Tablet Computer" class="emx-bento-img" />
                   <div class="emx-bento-overlay bottom">
                     <h3 class="emx-bento-title">Tablet Computer</h3>
@@ -1778,7 +1778,7 @@
                 </div>
 
                 <!-- Card 5: Game Controller -->
-                <div class="emx-bento-card emx-bento-right-bot">
+                <div class="emx-bento-card emx-bento-right-bot" samtsAnimate="fade-scale-up">
                   <img src="/images/tech/emetix-bento-controller.jpg" alt="Game Controller" class="emx-bento-img" />
                   <div class="emx-bento-overlay">
                     <h3 class="emx-bento-title">Game Controller</h3>
@@ -1825,7 +1825,7 @@
               <!-- 10 Products Grid -->
               <div class="emx-products-grid">
                 @for (product of filteredTechProducts(); track product.id) {
-                <div class="emx-product-card" [class.out-of-stock]="!product.inStock">
+                <div class="emx-product-card" samtsAnimate="fade-scale-up" [class.out-of-stock]="!product.inStock">
                   <!-- Product Image with Discount Badge -->
                   <div class="emx-card-img-wrap">
                     @if (product.discountPercent) {
@@ -1882,7 +1882,7 @@
             </section>
 
             <!-- Modern Emetix Footer -->
-            <footer class="emx-footer">
+            <footer class="emx-footer" samtsAnimate="fade-up">
               <div class="emx-footer-inner">
                 <div class="emx-footer-brand">
                   <div class="emx-brand">
@@ -2021,26 +2021,26 @@
                 </div>
 
                 <div class="bds-admin-stats">
-                  <div class="bds-stat-card">
+                  <div class="bds-stat-card" samtsAnimate="fade-up">
                     <span class="bds-stat-num">{{ editableProducts().length }}</span>
                     <span class="bds-stat-lbl">Productos en catálogo</span>
                   </div>
-                  <div class="bds-stat-card green">
+                  <div class="bds-stat-card green" samtsAnimate="fade-up" animDelay="60ms">
                     <span class="bds-stat-num">16</span>
                     <span class="bds-stat-lbl">Pedidos recibidos hoy</span>
                   </div>
-                  <div class="bds-stat-card blue">
+                  <div class="bds-stat-card blue" samtsAnimate="fade-up" animDelay="120ms">
                     <span class="bds-stat-num">$1,420 USD</span>
                     <span class="bds-stat-lbl">Ventas estimadas</span>
                   </div>
-                  <div class="bds-stat-card purple">
+                  <div class="bds-stat-card purple" samtsAnimate="fade-up" animDelay="180ms">
                     <span class="bds-stat-num">⚡ 100%</span>
                     <span class="bds-stat-lbl">Sincronización Web</span>
                   </div>
                 </div>
 
                 <!-- Admin Table -->
-                <div class="bds-admin-table-wrap">
+                <div class="bds-admin-table-wrap" samtsAnimate="fade-scale-up">
                   <table class="bds-admin-table">
                     <thead>
                       <tr>
@@ -2093,7 +2093,7 @@
                   </table>
                 </div>
 
-                <div class="bds-admin-banner">
+                <div class="bds-admin-banner" samtsAnimate="fade-up">
                   <i class="pi pi-sparkles"></i>
                   <p>
                     <strong>¿Por qué un Sitio Web Profesional es la mejor inversión?</strong> Te da independencia total. No pagas mensualidades por cambiar fotos o precios: lo haces tú mismo desde tu celular o computadora en cualquier momento.
@@ -2114,7 +2114,7 @@
 
                 <div class="bds-orders-grid">
                   @for (order of whatsappOrders(); track order.id) {
-                  <div class="bds-order-card">
+                  <div class="bds-order-card" samtsAnimate="fade-scale-up">
                     <div class="bds-order-header">
                       <div class="bds-order-customer">
                         <span class="bds-cust-avatar">{{ order.avatar }}</span>

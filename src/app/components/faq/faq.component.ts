@@ -281,7 +281,7 @@ export class FaqComponent {
   faqs = signal<FaqItem[]>([
     {
       question: '¿Cuánto cuesta desarrollar una página web?',
-      answer: 'Los valores varían según las funcionalidades que necesitas. Tenemos tres referencias claras: una Landing Page desde $900.000 COP (~$225 USD, entrega en 7 a 10 días), un Sitio Web Profesional con múltiples páginas y panel administrativo desde $2.500.000 COP (~$625 USD, entrega en 10 a 14 días), y Soluciones Personalizadas (e-commerce, plataformas, sistemas con IA) con cotización según los requerimientos específicos del proyecto.',
+      answer: 'Los valores varían según las funcionalidades que necesitas. Tenemos tres referencias claras: una Landing Page desde $700.000 COP (~$175 USD, entrega en 7 a 10 días), un Sitio Web Profesional con múltiples páginas y panel administrativo desde $2.500.000 COP (~$625 USD, entrega en 10 a 14 días), y Soluciones Personalizadas (e-commerce, plataformas, sistemas con IA) con cotización según los requerimientos específicos del proyecto.',
       isOpen: false,
     },
     {

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { ConsultationService } from '../../services/consultation.service';
+import { AnimateOnScrollDirective } from '../../directives/animate-on-scroll.directive';
 
 interface ServiceItem {
   title: string;
@@ -14,7 +15,7 @@ interface ServiceItem {
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [CommonModule, CardModule, ButtonModule],
+  imports: [CommonModule, CardModule, ButtonModule, AnimateOnScrollDirective],
   templateUrl: './services.component.html'
 })
 export class ServicesComponent {

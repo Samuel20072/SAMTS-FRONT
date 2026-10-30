@@ -104,7 +104,7 @@ export const QUESTION_STEPS: QuestionStep[] = [
     answerKey: 'scope',
     allowFreeText: false,
     quickReplies: [
-      { id: 'scope-1', label: '🌐 Landing Page ($900.000 COP / $225 USD)', value: 'Landing Page' },
+      { id: 'scope-1', label: '🌐 Landing Page ($700.000 COP / $175 USD)', value: 'Landing Page' },
       { id: 'scope-2', label: '💻 Sitio Web Profesional ($2.500.000 COP / $625 USD)', value: 'Sitio Web Profesional' },
       { id: 'scope-3', label: '⚙️ Soluciones Personalizadas (Desde $4.000.000 COP / $1.000 USD)', value: 'Soluciones Personalizadas' },
       { id: 'scope-4', label: '🤖 Automatizaciones e IA para tu negocio', value: 'Automatizaciones e IA' },
@@ -121,8 +121,8 @@ export const QUESTION_STEPS: QuestionStep[] = [
     answerKey: 'budget',
     allowFreeText: false,
     quickReplies: [
-      { id: 'bud-1', label: '💵 Hasta $900.000 COP ($225 USD) — Landing Page', value: 'Hasta $900.000 COP' },
-      { id: 'bud-2', label: '💵 $900.000 – $2.500.000 COP ($225 – $625 USD) — Sitio Web', value: '$900.000 – $2.500.000 COP' },
+      { id: 'bud-1', label: '💵 Hasta $700.000 COP ($175 USD) — Landing Page', value: 'Hasta $700.000 COP' },
+      { id: 'bud-2', label: '💵 $700.000 – $2.500.000 COP ($175 – $625 USD) — Sitio Web', value: '$700.000 – $2.500.000 COP' },
       { id: 'bud-3', label: '💵 Más de $2.500.000 COP ($625 USD) — Solución a medida / IA', value: 'Más de $2.500.000 COP' },
       { id: 'bud-4', label: '🤔 Aún no tengo presupuesto definido', value: 'Todavía no tengo un presupuesto definido' },
       { id: 'bud-5', label: '🔍 Busco conocer las opciones disponibles', value: 'Quiero conocer las opciones primero' },

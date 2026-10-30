@@ -3,7 +3,7 @@
   <div style="position: relative; z-index: 10; margin: 0 auto; max-width: 1200px; padding: 0 2rem;">
     
     <!-- Section Header — CENTRADO -->
-    <div style="max-width: 720px; margin: 0 auto 4rem auto; text-align: center;">
+    <div style="max-width: 720px; margin: 0 auto 4rem auto; text-align: center;" samtsAnimate="fade-up" animDelay="0ms">
 
       <!-- Badge -->
       <div style="display: inline-flex; align-items: center; gap: 8px; color: var(--color-violet); font-family: var(--font-body); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem;">
@@ -25,9 +25,11 @@
     <!-- Cards Grid — 2 columnas centradas -->
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 960px; margin: 0 auto;">
       <div 
-        *ngFor="let service of services" 
+        *ngFor="let service of services; let i = index" 
         (click)="openConsultation()"
         class="samts-service-card"
+        samtsAnimate="fade-scale-up"
+        [animDelay]="(i * 80) + 'ms'"
         style="position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 2rem; border-radius: 1.5rem; transition: all 0.3s ease; min-height: 280px; cursor: pointer;">
         
         <div>

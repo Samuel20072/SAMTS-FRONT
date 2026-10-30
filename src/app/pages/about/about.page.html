@@ -25,7 +25,7 @@
       </p>
     </div>
 
-    <div class="lg:w-1/2 relative">
+    <div class="lg:w-1/2 relative" samtsAnimate="fade-right" animDelay="150ms">
       <div class="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-blue-600 to-indigo-600 opacity-20 blur-2xl"></div>
       <div class="relative rounded-3xl border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-slate-900 overflow-hidden shadow-2xl aspect-square">
         <!-- Abstract Tech Art -->
@@ -49,7 +49,7 @@
   <!-- Values Section -->
   <section class="relative z-10 py-20 border-t border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-slate-900/20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16">
+      <div class="text-center mb-16" samtsAnimate="fade-up" animDelay="0ms">
         <h2 class="text-3xl sm:text-4xl font-display font-bold text-slate-900 dark:text-white mb-4">Nuestros Pilares</h2>
         <p class="text-slate-600 dark:text-slate-400">Lo que nos impulsa a crear experiencias únicas cada día.</p>
       </div>
@@ -57,8 +57,8 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div *ngFor="let val of values; let i = index"
              class="bg-slate-100 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-300 dark:border-white/10 rounded-3xl p-8 hover:-translate-y-2 transition-transform duration-300 group"
-             samtsAnimate="fade-up"
-             [animDelay]="(i * 100) + 'ms'">
+             samtsAnimate="fade-scale-up"
+             [animDelay]="(i * 120) + 'ms'">
           <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 flex items-center justify-center border border-slate-200 dark:border-white/5 mb-6 group-hover:scale-110 transition-transform">
             <i class="pi text-2xl text-blue-400" [ngClass]="val.icon"></i>
           </div>

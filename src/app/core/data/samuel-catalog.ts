@@ -16,9 +16,9 @@ export const SAMTS_CATALOG: SolutionPlan[] = [
       'SEO básico',
       'Hosting',
     ],
-    price: '$900.000 COP ($225 USD)',
+    price: '$700.000 COP ($175 USD)',
     priceNote: 'Pago único · Entrega en 7 a 10 días',
-    ctaPrimary: 'Quiero mi Landing Page ($900.000 COP / $225 USD)',
+    ctaPrimary: 'Quiero mi Landing Page ($700.000 COP / $175 USD)',
     ctaSecondary: 'Ver Sitio Web Profesional',
     highlight: false,
     demoType: 'landing',
@@ -108,7 +108,7 @@ interface RecommendationRule {
 function getBudgetCeiling(budget?: string): number {
   if (!budget) return Infinity;
   const b = budget.toLowerCase();
-  if (b.includes('menos de') || b.includes('900') || b.includes('225')) return 225;
+  if (b.includes('menos de') || b.includes('700') || b.includes('175')) return 225;
   if (b.includes('2.500') || b.includes('625')) return 625;
   if (b.includes('4.000') || b.includes('1.000') || b.includes('1000')) return 1000;
   if (b.includes('más de') || b.includes('mas de')) return Infinity;
@@ -125,7 +125,7 @@ function extractTokens(answers: Record<string, string | undefined>): string {
 const RULES: RecommendationRule[] = [
   {
     solutionId: 'landing',
-    priceUSD: 225,
+    priceUSD: 175,
     score: (answers) => {
       const text = extractTokens(answers);
       let s = 0;
@@ -134,7 +134,7 @@ const RULES: RecommendationRule[] = [
       if (answers.mainProblem?.includes('No tengo página web')) s += 60;
       if (answers.mainProblem?.includes('no me ayuda a vender')) s += 30;
       if (answers.businessType?.includes('servicios') || answers.businessType?.includes('empezando') || answers.businessType?.includes('Otro')) s += 40;
-      if (text.includes('landing') || text.includes('sencillo') || text.includes('225') || text.includes('900.000')) s += 25;
+      if (text.includes('landing') || text.includes('sencillo') || text.includes('175') || text.includes('700.000')) s += 25;
       return s;
     },
   },
@@ -225,7 +225,7 @@ export function buildReasoning(
     return `Para ${biz}, el Sitio Web Profesional ($2.500.000 COP / $625 USD) es ideal para posicionar tu marca con diseño personalizado, blog y formularios avanzados.`;
   }
   if (primary.id === 'landing') {
-    return `Para ${biz}, la Landing Page ($900.000 COP / $225 USD) te dará presencia digital moderna de alto impacto para captar clientes desde el primer día.`;
+    return `Para ${biz}, la Landing Page ($700.000 COP / $175 USD) te dará presencia digital moderna de alto impacto para captar clientes desde el primer día.`;
   }
   if (primary.id === 'enterprise') {
     return `Para ${biz}, las Soluciones Personalizadas (Desde $4.000.000 COP / $1.000 USD) se adaptarán exactamente a los requerimientos, plataformas y automatizaciones con IA de tu empresa.`;
