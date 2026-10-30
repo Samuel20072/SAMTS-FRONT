@@ -42,6 +42,13 @@ RUN npm ci --omit=dev && npm cache clean --force
 # Copiar el output compilado de Angular (browser + server)
 COPY --from=builder /app/dist ./dist
 
+# Verificar que los assets estáticos de public/ existen también en la imagen
+# final de ejecución, que es la que realmente sirve Express vía server.mjs.
+RUN test -d /app/dist/samts-front/browser/images/boutique \
+ && test -f /app/dist/samts-front/browser/images/boutique/product-8.png \
+ && test -f /app/dist/samts-front/server/server.mjs \
+ && echo "OK: assets y servidor SSR presentes en la imagen de producción"
+
 # Usuario no-root por seguridad
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
