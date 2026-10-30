@@ -76,7 +76,12 @@ const ASSET_PATH_RE = /^(\/(?:images|assets)\/[^?\s]+?)(?:-v\d+)?(\.[A-Za-z0-9]+
 function versionAssetPath(value: string): string {
   const canonical = LEGACY_ASSET_PATHS[value] ?? value;
   const match = ASSET_PATH_RE.exec(canonical);
-  const versioned = match ? `${match[1]}-${ASSET_VERSION}${match[2]}` : canonical;
+  if (!match) {
+    // Si no es una ruta de asset interna (ej. es un título, color o URL externa),
+    // lo devolvemos tal cual. cdnUrl se encargará de ignorarlo si no es una ruta.
+    return canonical;
+  }
+  const versioned = `${match[1]}-${ASSET_VERSION}${match[2]}`;
   return cdnUrl(versioned);
 }
 

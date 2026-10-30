@@ -20,10 +20,17 @@ function toPublicId(localPath: string): string {
  */
 export function cdnUrl(path: string | null | undefined): string {
   if (!path) return '';
-  if (/^https?:\/\//i.test(path)) return path;
+  // Si ya es una URL absoluta o un Data URL (base64), no lo tocamos.
+  if (/^(https?:\/\/|data:)/i.test(path)) return path;
 
   const cloudName = environment.cloudinaryCloudName;
   if (!cloudName) return path;
+
+  // Solo transformamos si parece una ruta de asset interna.
+  // Si es un texto plano (ej. nombre de negocio), lo devolvemos tal cual.
+  if (!path.startsWith('/') && !path.startsWith('assets/') && !path.startsWith('images/')) {
+    return path;
+  }
 
   return `https://res.cloudinary.com/${cloudName}/image/upload/${TRANSFORMS}/${toPublicId(path)}`;
 }
