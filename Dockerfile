@@ -18,11 +18,10 @@ COPY . .
 RUN npm run build
 
 # Fallar el build si los assets estáticos de public/ no llegaron al bundle.
-# Evita desplegar una imagen que sirva versiones incompletas o inexistentes.
-RUN test -d dist/samts-front/browser/images/boutique \
- && test -f dist/samts-front/browser/images/boutique/product-8.png \
- && test -f dist/samts-front/browser/images/boutique/ultimo-banner.png \
- && echo "OK: assets estáticos verificados"
+# Se cuenta en vez de fijar nombres porque los assets llevan sufijo de versión.
+RUN count=$(find dist/samts-front/browser/images/boutique -type f -name '*.png' | wc -l) \
+ && test "$count" -ge 10 \
+ && echo "OK: $count assets estáticos verificados en el bundle"
 # Si algún asset quedó como symlink en el bundle, el servidor podría servir un
 # archivo vacío o truncado. Falla el build en ese caso.
 RUN test -z "$(find dist/samts-front/browser -type l -print -quit)" \
@@ -44,10 +43,10 @@ COPY --from=builder /app/dist ./dist
 
 # Verificar que los assets estáticos de public/ existen también en la imagen
 # final de ejecución, que es la que realmente sirve Express vía server.mjs.
-RUN test -d /app/dist/samts-front/browser/images/boutique \
- && test -f /app/dist/samts-front/browser/images/boutique/product-8.png \
+RUN count=$(find /app/dist/samts-front/browser/images/boutique -type f -name '*.png' | wc -l) \
+ && test "$count" -ge 10 \
  && test -f /app/dist/samts-front/server/server.mjs \
- && echo "OK: assets y servidor SSR presentes en la imagen de producción"
+ && echo "OK: $count assets y servidor SSR presentes en la imagen de producción"
 
 # Usuario no-root por seguridad
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup

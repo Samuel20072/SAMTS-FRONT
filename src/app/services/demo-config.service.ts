@@ -52,6 +52,44 @@ export interface DemoConfig {
 
 const STORAGE_KEY = 'samts_demo_config_v6';
 
+// ── Versionado de assets estáticos ─────────────────────────────────
+// Los archivos de `public/` no llevan hash en el nombre, así que el navegador y
+// el CDN seguían sirviendo la versión antigua tras cada deploy. Para invalidar
+// esa caché el nombre del archivo lleva un sufijo de versión (-v2) que se debe
+// subir a la vez aquí y en los archivos de `public/images/`.
+const ASSET_VERSION = 'v2';
+
+/** Nombres antiguos que pueden seguir guardados en el localStorage de un usuario. */
+const LEGACY_ASSET_PATHS: Record<string, string> = {
+  '/images/boutique/banner-elegancia.png': '/images/boutique/ultimo-banner.png',
+  '/images/boutique/ultimo banner.png': '/images/boutique/ultimo-banner.png',
+  '/images/boutique/ultimo%20banner.png': '/images/boutique/ultimo-banner.png',
+  '/images/boutique/logo_top.png': '/images/boutique/rosant-logo-transparent.png',
+  '/images/boutique/logo_footer.png': '/images/boutique/rosant-logo-transparent.png',
+  '/images/boutique/rosant-logo.png': '/images/boutique/rosant-logo-transparent.png',
+};
+
+const ASSET_PATH_RE = /^(\/(?:images|assets)\/[^?\s]+?)(?:-v\d+)?(\.[A-Za-z0-9]+)$/;
+
+/** Reescribe una ruta de asset a la versión actual, limpiando versiones previas. */
+function versionAssetPath(value: string): string {
+  const canonical = LEGACY_ASSET_PATHS[value] ?? value;
+  const match = ASSET_PATH_RE.exec(canonical);
+  return match ? `${match[1]}-${ASSET_VERSION}${match[2]}` : canonical;
+}
+
+/** Aplica el versionado a todas las rutas de asset de la configuración. */
+function versionAssetPaths<T>(value: T): T {
+  if (typeof value === 'string') return versionAssetPath(value) as unknown as T;
+  if (Array.isArray(value)) return value.map((item) => versionAssetPaths(item)) as unknown as T;
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, versionAssetPaths(item)]),
+    ) as T;
+  }
+  return value;
+}
+
 const DEFAULT_NICHES: DemoConfig['niches'] = {
   boutique: {
     businessTitle: 'Rosant Boutique',
@@ -59,16 +97,16 @@ const DEFAULT_NICHES: DemoConfig['niches'] = {
     primaryColor: '#1e1b19',
     accentColor: '#c5a882',
     bgColor: '#ffffff',
-    heroImage: '/images/boutique/hero.png',
+    heroImage: '/images/boutique/hero-v2.png',
     productImages: [
-      '/images/boutique/product-1.png',
-      '/images/boutique/product-2.png',
-      '/images/boutique/product-3.png',
-      '/images/boutique/product-4.png',
-      '/images/boutique/product-5.png',
-      '/images/boutique/product-6.png',
-      '/images/boutique/product-7.png',
-      '/images/boutique/product-8.png',
+      '/images/boutique/product-1-v2.png',
+      '/images/boutique/product-2-v2.png',
+      '/images/boutique/product-3-v2.png',
+      '/images/boutique/product-4-v2.png',
+      '/images/boutique/product-5-v2.png',
+      '/images/boutique/product-6-v2.png',
+      '/images/boutique/product-7-v2.png',
+      '/images/boutique/product-8-v2.png',
     ],
   },
   restaurant: {
@@ -77,15 +115,15 @@ const DEFAULT_NICHES: DemoConfig['niches'] = {
     primaryColor: '#c99b53',
     accentColor: '#e5a852',
     bgColor: '#0a0a0c',
-    heroImage: '/images/restaurant/hero-pasta.jpg',
+    heroImage: '/images/restaurant/hero-pasta-v2.jpg',
     productImages: [
       'https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1551248429-40975aa4de74?auto=format&fit=crop&w=600&q=80',
-      '/images/restaurant/specialty-salmon.jpg',
+      '/images/restaurant/specialty-salmon-v2.jpg',
       'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80',
-      '/images/restaurant/hero-pasta.jpg',
+      '/images/restaurant/hero-pasta-v2.jpg',
       'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=600&q=80',
     ],
   },
@@ -113,12 +151,12 @@ const DEFAULT_NICHES: DemoConfig['niches'] = {
     primaryColor: '#f59e0b',
     accentColor: '#fbbf24',
     bgColor: '#111827',
-    heroImage: '/images/tech/emetix-hero.jpg',
+    heroImage: '/images/tech/emetix-hero-v2.jpg',
     productImages: [
       'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=600&q=80',
-      '/images/tech/emetix-bento-camera.jpg',
-      '/images/tech/emetix-bento-smartwatch.jpg',
-      '/images/tech/emetix-bento-headphones.jpg',
+      '/images/tech/emetix-bento-camera-v2.jpg',
+      '/images/tech/emetix-bento-smartwatch-v2.jpg',
+      '/images/tech/emetix-bento-headphones-v2.jpg',
       'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1543512214-318c7553f230?auto=format&fit=crop&w=600&q=80',
@@ -131,7 +169,7 @@ const DEFAULT_NICHES: DemoConfig['niches'] = {
     primaryColor: '#0a0a0c',
     accentColor: '#374151',
     bgColor: '#f9fafb',
-    heroImage: '/images/services/sevora-portrait.jpg',
+    heroImage: '/images/services/sevora-portrait-v2.jpg',
     productImages: [
       'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&q=80',
@@ -157,13 +195,13 @@ const DEFAULTS: DemoConfig = {
   boutiqueButtonTextColor: '#ffffff',
 
   boutiqueHeroImage: DEFAULT_NICHES.boutique.heroImage,
-  boutiqueBannerVestidos: '/images/boutique/banner-vestidos.png',
-  boutiqueBannerConjuntos: '/images/boutique/banner-conjuntos.png',
-  boutiqueBannerElegancia: '/images/boutique/ultimo-banner.png',
+  boutiqueBannerVestidos: '/images/boutique/banner-vestidos-v2.png',
+  boutiqueBannerConjuntos: '/images/boutique/banner-conjuntos-v2.png',
+  boutiqueBannerElegancia: '/images/boutique/ultimo-banner-v2.png',
 
-  boutiqueLogoTop: '/images/boutique/rosant-logo-transparent.png',
-  boutiqueLogoFooter: '/images/boutique/rosant-logo-transparent.png',
-  boutiqueLogoTransparent: '/images/boutique/rosant-logo-transparent.png',
+  boutiqueLogoTop: '/images/boutique/rosant-logo-transparent-v2.png',
+  boutiqueLogoFooter: '/images/boutique/rosant-logo-transparent-v2.png',
+  boutiqueLogoTransparent: '/images/boutique/rosant-logo-transparent-v2.png',
 
   boutiqueProduct1: DEFAULT_NICHES.boutique.productImages[0],
   boutiqueProduct2: DEFAULT_NICHES.boutique.productImages[1],
@@ -193,19 +231,9 @@ export class DemoConfigService {
       if (typeof localStorage === 'undefined') return JSON.parse(JSON.stringify(DEFAULTS));
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
-      const parsed = JSON.parse(raw);
-      if (
-        parsed.boutiqueBannerElegancia === '/images/boutique/banner-elegancia.png' ||
-        parsed.boutiqueBannerElegancia === '/images/boutique/ultimo banner.png'
-      ) {
-        parsed.boutiqueBannerElegancia = '/images/boutique/ultimo-banner.png';
-      }
-      if (parsed.boutiqueLogoTop === '/images/boutique/logo_top.png') {
-        parsed.boutiqueLogoTop = '/images/boutique/rosant-logo-transparent.png';
-      }
-      if (parsed.boutiqueLogoFooter === '/images/boutique/logo_footer.png') {
-        parsed.boutiqueLogoFooter = '/images/boutique/rosant-logo-transparent.png';
-      }
+      // Las rutas de imagen quedan guardadas en el localStorage del usuario, así que
+      // hay que reescribirlas a la versión actual de assets para no servir 404.
+      const parsed = versionAssetPaths(JSON.parse(raw));
       return {
         ...DEFAULTS,
         ...parsed,

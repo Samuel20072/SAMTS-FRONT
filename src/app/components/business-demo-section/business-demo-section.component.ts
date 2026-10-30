@@ -270,7 +270,7 @@ export class BusinessDemoSectionComponent implements OnInit {
       businessTitle: 'La Casona Gourmet',
       tagline: 'Sabores artesanales · Pide en línea y recibe en tu mesa o domicilio',
       badge: 'Menú Digital',
-      heroImage: '/images/restaurant/hero-pasta.jpg',
+      heroImage: '/images/restaurant/hero-pasta-v2.jpg',
       primaryColor: '#c99b53',
       products: [
         {
@@ -310,7 +310,7 @@ export class BusinessDemoSectionComponent implements OnInit {
           name: 'Salmón Noruego al Fuego de Leña',
           category: 'Especialidades',
           price: 34,
-          image: '/images/restaurant/specialty-salmon.jpg',
+          image: '/images/restaurant/specialty-salmon-v2.jpg',
           inStock: true,
         },
         {
@@ -326,7 +326,7 @@ export class BusinessDemoSectionComponent implements OnInit {
           name: 'Pasta Fresca al Pomodoro & Albahaca',
           category: 'Pastas',
           price: 24,
-          image: '/images/restaurant/hero-pasta.jpg',
+          image: '/images/restaurant/hero-pasta-v2.jpg',
           inStock: true,
         },
         {
@@ -422,7 +422,7 @@ export class BusinessDemoSectionComponent implements OnInit {
       businessTitle: 'Emetix Audio & Tech',
       tagline: 'Special Discount Latest Audio System & Wearables · Free Shipping',
       badge: 'Special Discount',
-      heroImage: '/images/tech/emetix-hero.jpg',
+      heroImage: '/images/tech/emetix-hero-v2.jpg',
       primaryColor: '#f59e0b',
       products: [
         {
@@ -443,7 +443,7 @@ export class BusinessDemoSectionComponent implements OnInit {
           price: 80,
           oldPrice: 95,
           rating: 5,
-          image: '/images/tech/emetix-bento-camera.jpg',
+          image: '/images/tech/emetix-bento-camera-v2.jpg',
           inStock: true,
         },
         {
@@ -453,7 +453,7 @@ export class BusinessDemoSectionComponent implements OnInit {
           price: 80,
           oldPrice: 110,
           rating: 5,
-          image: '/images/tech/emetix-bento-smartwatch.jpg',
+          image: '/images/tech/emetix-bento-smartwatch-v2.jpg',
           inStock: true,
         },
         {
@@ -463,7 +463,7 @@ export class BusinessDemoSectionComponent implements OnInit {
           price: 120,
           oldPrice: 150,
           rating: 5,
-          image: '/images/tech/emetix-bento-headphones.jpg',
+          image: '/images/tech/emetix-bento-headphones-v2.jpg',
           inStock: true,
         },
         {
@@ -524,7 +524,7 @@ export class BusinessDemoSectionComponent implements OnInit {
           price: 120,
           oldPrice: 140,
           rating: 5,
-          image: '/images/tech/emetix-bento-speaker.jpg',
+          image: '/images/tech/emetix-bento-speaker-v2.jpg',
           inStock: true,
         },
       ],
@@ -536,7 +536,7 @@ export class BusinessDemoSectionComponent implements OnInit {
       businessTitle: 'Sevora Studio',
       tagline: 'Design Better, Faster, Smarter · Refined brands, websites & interfaces',
       badge: 'Product Design & Creative Direction',
-      heroImage: '/images/services/sevora-portrait.jpg',
+      heroImage: '/images/services/sevora-portrait-v2.jpg',
       primaryColor: '#0a0a0c',
       products: [
         {
