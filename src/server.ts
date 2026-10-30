@@ -10,7 +10,18 @@ import { join } from 'node:path';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
-const angularApp = new AngularNodeAppEngine();
+
+// Confiar en los encabezados de proxy inverso (Nginx, Traefik, Cloudflare, etc.)
+app.set('trust proxy', true);
+
+const allowedHosts = process.env['ALLOWED_HOSTS']
+  ? process.env['ALLOWED_HOSTS'].split(',').map((h) => h.trim())
+  : ['samts.app', 'www.samts.app', 'localhost', '127.0.0.1'];
+
+const angularApp = new AngularNodeAppEngine({
+  trustProxyHeaders: true,
+  allowedHosts,
+});
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -29,7 +40,7 @@ const angularApp = new AngularNodeAppEngine();
  */
 app.use(
   express.static(browserDistFolder, {
-    maxAge: '1y',
+    maxAge: '1h',
     index: false,
     redirect: false,
   }),
