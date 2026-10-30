@@ -1,4 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
+import { cdnUrl } from '../core/cdn';
 
 export interface NicheConfig {
   businessTitle: string;
@@ -71,11 +72,12 @@ const LEGACY_ASSET_PATHS: Record<string, string> = {
 
 const ASSET_PATH_RE = /^(\/(?:images|assets)\/[^?\s]+?)(?:-v\d+)?(\.[A-Za-z0-9]+)$/;
 
-/** Reescribe una ruta de asset a la versión actual, limpiando versiones previas. */
+/** Reescribe una ruta de asset a la versión actual y la resuelve contra el CDN. */
 function versionAssetPath(value: string): string {
   const canonical = LEGACY_ASSET_PATHS[value] ?? value;
   const match = ASSET_PATH_RE.exec(canonical);
-  return match ? `${match[1]}-${ASSET_VERSION}${match[2]}` : canonical;
+  const versioned = match ? `${match[1]}-${ASSET_VERSION}${match[2]}` : canonical;
+  return cdnUrl(versioned);
 }
 
 /** Aplica el versionado a todas las rutas de asset de la configuración. */
@@ -181,7 +183,9 @@ const DEFAULT_NICHES: DemoConfig['niches'] = {
   },
 };
 
-const DEFAULTS: DemoConfig = {
+// Las rutas locales declaradas aquí pasan por el mismo versionado + CDN que las
+// que llegan del localStorage, para que ambos caminos devuelvan URLs equivalentes.
+const DEFAULTS: DemoConfig = versionAssetPaths<DemoConfig>({
   activeNicheId: 'boutique',
   boutiqueLayout: 'layout1',
 
@@ -213,7 +217,7 @@ const DEFAULTS: DemoConfig = {
   boutiqueProduct8: DEFAULT_NICHES.boutique.productImages[7],
 
   niches: DEFAULT_NICHES,
-};
+});
 
 @Injectable({ providedIn: 'root' })
 export class DemoConfigService {

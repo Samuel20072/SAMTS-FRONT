@@ -13,6 +13,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { LeadMagnetApiService } from '../../services/api/lead-magnet-api.service';
 import { AnalyticsService } from '../../services/analytics.service';
+import { CdnPipe } from '../../core/cdn';
 import { UtmService } from '../../services/utm.service';
 import { environment } from '../../../environments/environment';
 
@@ -21,7 +22,7 @@ type FormStep = 'landing' | 'form' | 'success';
 @Component({
   selector: 'app-lead-magnet',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, HeaderComponent, FooterComponent],
+  imports: [CommonModule, FormsModule, RouterModule, HeaderComponent, FooterComponent, CdnPipe],
   templateUrl: './lead-magnet.page.html',
   styleUrl: './lead-magnet.page.scss',
 })

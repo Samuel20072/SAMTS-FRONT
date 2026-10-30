@@ -18,6 +18,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ConsultationService } from '../../services/consultation.service';
 import { SamuelDiagnosisService } from '../../services/samuel-diagnosis.service';
 import { SamuelResultComponent } from '../samuel-result/samuel-result.component';
+import { CdnPipe } from '../../core/cdn';
 
 @Component({
   selector: 'app-hero',
@@ -29,6 +30,7 @@ import { SamuelResultComponent } from '../samuel-result/samuel-result.component'
     ButtonModule,
     DialogModule,
     SamuelResultComponent,
+    CdnPipe,
   ],
   templateUrl: './hero.component.html',
 })

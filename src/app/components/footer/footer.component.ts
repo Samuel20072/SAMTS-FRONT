@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ConsultationService } from '../../services/consultation.service';
 import { AnimateOnScrollDirective } from '../../directives/animate-on-scroll.directive';
+import { CdnPipe } from '../../core/cdn';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule, AnimateOnScrollDirective],
+  imports: [CommonModule, AnimateOnScrollDirective, CdnPipe],
   templateUrl: './footer.component.html',
   styles: [`
     :host {

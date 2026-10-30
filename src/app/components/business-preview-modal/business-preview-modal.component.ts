@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, signal, computed } from
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SolutionPlan } from '../../core/models/samuel.models';
+import { cdnUrl } from '../../core/cdn';
 
 export interface DemoProduct {
   id: string;
@@ -122,7 +123,7 @@ export class BusinessPreviewModalComponent implements OnInit {
       businessTitle: 'Rosant Boutique',
       tagline: 'Nueva colección de temporada · Envíos nacionales',
       badge: 'Nueva Colección',
-      heroImage: '/images/boutique/hero-v2.png',
+      heroImage: cdnUrl('/images/boutique/hero-v2.png'),
       primaryColor: '#2b241e',
       products: [
         {
@@ -130,7 +131,7 @@ export class BusinessPreviewModalComponent implements OnInit {
           name: 'Vestido Denim Ajustado',
           category: 'Vestiditos',
           price: 140000,
-          image: '/images/boutique/product-1-v2.png',
+          image: cdnUrl('/images/boutique/product-1-v2.png'),
           inStock: true,
           size: 'M',
           color: 'Azul Denim',
@@ -140,7 +141,7 @@ export class BusinessPreviewModalComponent implements OnInit {
           name: 'Set Top & Jean Capri',
           category: 'Conjuntos',
           price: 110000,
-          image: '/images/boutique/product-2-v2.png',
+          image: cdnUrl('/images/boutique/product-2-v2.png'),
           inStock: true,
           size: 'S',
           color: 'Celeste',
@@ -150,7 +151,7 @@ export class BusinessPreviewModalComponent implements OnInit {
           name: 'Blusa Encaje & Denim Celeste',
           category: 'Blusas',
           price: 120000,
-          image: '/images/boutique/product-3-v2.png',
+          image: cdnUrl('/images/boutique/product-3-v2.png'),
           inStock: true,
           size: 'M',
           color: 'Blanco / Celeste',
@@ -160,7 +161,7 @@ export class BusinessPreviewModalComponent implements OnInit {
           name: 'Vestido Sexy Ruffle Blanco',
           category: 'Vestiditos',
           price: 150000,
-          image: '/images/boutique/product-4-v2.png',
+          image: cdnUrl('/images/boutique/product-4-v2.png'),
           inStock: true,
           size: 'S',
           color: 'Blanco',
@@ -170,7 +171,7 @@ export class BusinessPreviewModalComponent implements OnInit {
           name: 'Top Royal Blue',
           category: 'Blusas',
           price: 130000,
-          image: '/images/boutique/product-5-v2.png',
+          image: cdnUrl('/images/boutique/product-5-v2.png'),
           inStock: true,
           size: 'M',
           color: 'Azul Real',
@@ -180,7 +181,7 @@ export class BusinessPreviewModalComponent implements OnInit {
           name: 'Vestido Negro Ceñido',
           category: 'Vestiditos',
           price: 140000,
-          image: '/images/boutique/product-6-v2.png',
+          image: cdnUrl('/images/boutique/product-6-v2.png'),
           inStock: true,
           size: 'L',
           color: 'Negro',
@@ -190,7 +191,7 @@ export class BusinessPreviewModalComponent implements OnInit {
           name: 'Vestido Fiesta Night',
           category: 'Vestiditos',
           price: 160000,
-          image: '/images/boutique/product-7-v2.png',
+          image: cdnUrl('/images/boutique/product-7-v2.png'),
           inStock: true,
           size: 'M',
           color: 'Negro',
@@ -200,7 +201,7 @@ export class BusinessPreviewModalComponent implements OnInit {
           name: 'Enterizo Glam Dark Edition',
           category: 'Conjuntos',
           price: 150000,
-          image: '/images/boutique/product-8-v2.png',
+          image: cdnUrl('/images/boutique/product-8-v2.png'),
           inStock: true,
           size: 'S',
           color: 'Negro',
@@ -302,7 +303,7 @@ export class BusinessPreviewModalComponent implements OnInit {
       businessTitle: 'Emetix Audio & Tech',
       tagline: 'Special Discount Latest Audio System & Wearables · Free Shipping',
       badge: 'Special Discount',
-      heroImage: '/images/tech/emetix-hero-v2.jpg',
+      heroImage: cdnUrl('/images/tech/emetix-hero-v2.jpg'),
       primaryColor: '#f59e0b',
       products: [
         {
@@ -318,7 +319,7 @@ export class BusinessPreviewModalComponent implements OnInit {
           name: 'Smart 360 Vision Tripod Cam',
           category: 'Cámaras',
           price: 80,
-          image: '/images/tech/emetix-bento-camera-v2.jpg',
+          image: cdnUrl('/images/tech/emetix-bento-camera-v2.jpg'),
           inStock: true,
         },
         {
@@ -326,7 +327,7 @@ export class BusinessPreviewModalComponent implements OnInit {
           name: 'Smartwatch Serie Ultra Sport',
           category: 'Wearables',
           price: 80,
-          image: '/images/tech/emetix-bento-smartwatch-v2.jpg',
+          image: cdnUrl('/images/tech/emetix-bento-smartwatch-v2.jpg'),
           inStock: true,
         },
         {
@@ -334,7 +335,7 @@ export class BusinessPreviewModalComponent implements OnInit {
           name: 'Studio Master Wireless ANC Headset',
           category: 'Audio',
           price: 120,
-          image: '/images/tech/emetix-bento-headphones-v2.jpg',
+          image: cdnUrl('/images/tech/emetix-bento-headphones-v2.jpg'),
           inStock: true,
         },
       ],
@@ -346,7 +347,7 @@ export class BusinessPreviewModalComponent implements OnInit {
       businessTitle: 'Sevora Studio',
       tagline: 'Design Better, Faster, Smarter · Refined brands, websites & interfaces',
       badge: 'Product Design & Creative Direction',
-      heroImage: '/images/services/sevora-portrait-v2.jpg',
+      heroImage: cdnUrl('/images/services/sevora-portrait-v2.jpg'),
       primaryColor: '#0a0a0c',
       products: [
         {

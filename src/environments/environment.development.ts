@@ -2,6 +2,9 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost:3001/api',
 
+  // CDN de assets estáticos (Cloudinary). Ver environment.ts.
+  cloudinaryCloudName: '',
+
   // ─── Analytics & Tracking ───────────────────────────────────────────────────
   // In development, leave empty to avoid polluting production analytics data.
   // Set these to your real IDs only in environment.ts (production).
