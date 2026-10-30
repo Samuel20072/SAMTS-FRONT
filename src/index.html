@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es" class="scroll-smooth">
+<html lang="es" class="scroll-smooth dark">
 <head>
   <meta charset="utf-8">
   <title>SAMTS | Soluciones Web & Agentes de IA para tu Negocio</title>
@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Creamos ecosistemas digitales premium potenciados por Inteligencia Artificial que evolucionan, venden y se autogestionan 24/7.">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/samts-icon-v2.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://res.cloudinary.com/drcprzcfm/image/upload/f_auto,q_auto/samts-icon-v2.png">
+  <link rel="apple-touch-icon" href="https://res.cloudinary.com/drcprzcfm/image/upload/f_auto,q_auto/samts-icon-v2.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Outfit:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
   <!-- Prevent flash of wrong theme: read localStorage before Angular loads -->
   <script>
     (function() {
-      var theme = localStorage.getItem('samts-theme');
+      var theme = localStorage.getItem('samts-theme') || 'dark';
       if (theme === 'dark') {
         document.documentElement.classList.add('dark');
       } else {
@@ -174,7 +174,7 @@
     }
   </style>
 </head>
-<body style="background-color: #DFE0DE;" class="text-slate-900 font-sans antialiased selection:bg-blue-600 selection:text-white overflow-x-hidden">
+<body style="background-color: #DFE0DE;" class="font-sans antialiased selection:bg-blue-600 selection:text-white overflow-x-hidden">
 
   <!-- ════════════════════════════════════════════
        SAMTS SPLASH SCREEN  (removed by Angular)
