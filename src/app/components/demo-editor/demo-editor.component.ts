@@ -81,12 +81,6 @@ export class DemoEditorComponent {
     const value = (event.target as HTMLInputElement).value;
     const key = this.activeEditorNiche();
     this.demoConfig.updateNiche(key, { [field]: value });
-    if (key === 'boutique') {
-      const legacy = field === 'businessTitle'
-        ? { boutiqueBusinessTitle: value }
-        : { boutiqueTagline: value };
-      this.demoConfig.update(legacy as Partial<DemoConfig>);
-    }
     this.flashSaved();
   }
 
@@ -94,15 +88,6 @@ export class DemoEditorComponent {
     const value = (event.target as HTMLInputElement).value;
     const key = this.activeEditorNiche();
     this.demoConfig.updateNiche(key, { [field]: value });
-    if (key === 'boutique') {
-      const legacyMap: Record<string, keyof DemoConfig> = {
-        primaryColor: 'boutiquePrimaryColor',
-        accentColor: 'boutiqueAccentColor',
-        bgColor: 'boutiqueBgColor',
-      };
-      const legacyKey = legacyMap[field];
-      if (legacyKey) this.demoConfig.update({ [legacyKey]: value } as Partial<DemoConfig>);
-    }
     this.flashSaved();
   }
 
@@ -111,7 +96,6 @@ export class DemoEditorComponent {
     if (!file) return;
     const key = this.activeEditorNiche();
     this.demoConfig.replaceNicheImageFromFile(key, 'heroImage', file);
-    if (key === 'boutique') this.demoConfig.replaceImageFromFile('boutiqueHeroImage', file);
     this.flashSaved();
   }
 
@@ -120,10 +104,6 @@ export class DemoEditorComponent {
     if (!file) return;
     const key = this.activeEditorNiche();
     this.demoConfig.replaceNicheImageFromFile(key, index, file);
-    if (key === 'boutique') {
-      const legacyKey = `boutiqueProduct${index + 1}` as keyof DemoConfig;
-      this.demoConfig.replaceImageFromFile(legacyKey, file);
-    }
     this.flashSaved();
   }
 

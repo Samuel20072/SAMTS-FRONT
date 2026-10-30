@@ -51,7 +51,7 @@ export interface DemoConfig {
   };
 }
 
-const STORAGE_KEY = 'samts_demo_config_v6';
+const STORAGE_KEY = 'samts_demo_config_v7';
 
 // ── Versionado de assets estáticos ─────────────────────────────────
 // Los archivos de `public/` no llevan hash en el nombre, así que el navegador y
@@ -85,22 +85,51 @@ function versionAssetPath(value: string): string {
   return cdnUrl(versioned);
 }
 
-/** Aplica el versionado a todas las rutas de asset de la configuración. */
-function versionAssetPaths<T>(value: T): T {
-  if (typeof value === 'string') return versionAssetPath(value) as unknown as T;
-  if (Array.isArray(value)) return value.map((item) => versionAssetPaths(item)) as unknown as T;
-  if (value && typeof value === 'object') {
-    return Object.fromEntries(
-      Object.entries(value).map(([key, item]) => [key, versionAssetPaths(item)]),
-    ) as T;
+/** Aplica el versionado solo a las rutas de asset conocidas de la configuración. */
+function versionAssetPaths(config: DemoConfig): DemoConfig {
+  const next = { ...config };
+
+  // 1. Transformar assets de nivel superior (legacy boutique)
+  if (next.boutiqueHeroImage) next.boutiqueHeroImage = versionAssetPath(next.boutiqueHeroImage);
+  if (next.boutiqueBannerVestidos) next.boutiqueBannerVestidos = versionAssetPath(next.boutiqueBannerVestidos);
+  if (next.boutiqueBannerConjuntos) next.boutiqueBannerConjuntos = versionAssetPath(next.boutiqueBannerConjuntos);
+  if (next.boutiqueBannerElegancia) next.boutiqueBannerElegancia = versionAssetPath(next.boutiqueBannerElegancia);
+  if (next.boutiqueLogoTop) next.boutiqueLogoTop = versionAssetPath(next.boutiqueLogoTop);
+  if (next.boutiqueLogoFooter) next.boutiqueLogoFooter = versionAssetPath(next.boutiqueLogoFooter);
+  if (next.boutiqueLogoTransparent) next.boutiqueLogoTransparent = versionAssetPath(next.boutiqueLogoTransparent);
+
+  for (let i = 1; i <= 8; i++) {
+    const key = `boutiqueProduct${i}` as keyof DemoConfig;
+    const val = next[key];
+    if (typeof val === 'string') {
+      (next as any)[key] = versionAssetPath(val);
+    }
   }
-  return value;
+
+  // 2. Transformar assets dentro de cada nicho
+  if (next.niches) {
+    const nextNiches = { ...next.niches };
+    for (const nicheId in nextNiches) {
+      const key = nicheId as keyof DemoConfig['niches'];
+      const nicheCfg = nextNiches[key];
+      if (nicheCfg) {
+        nextNiches[key] = {
+          ...nicheCfg,
+          heroImage: versionAssetPath(nicheCfg.heroImage),
+          productImages: (nicheCfg.productImages || []).map((img) => versionAssetPath(img)),
+        };
+      }
+    }
+    next.niches = nextNiches;
+  }
+
+  return next;
 }
 
 const DEFAULT_NICHES: DemoConfig['niches'] = {
   boutique: {
-    businessTitle: 'Rosant Boutique',
-    tagline: 'Nueva colección de temporada · Envíos nacionales',
+    businessTitle: 'Rosant',
+    tagline: 'Tu marca, tu estilo, tu esencia',
     primaryColor: '#1e1b19',
     accentColor: '#c5a882',
     bgColor: '#ffffff',
@@ -190,7 +219,7 @@ const DEFAULT_NICHES: DemoConfig['niches'] = {
 
 // Las rutas locales declaradas aquí pasan por el mismo versionado + CDN que las
 // que llegan del localStorage, para que ambos caminos devuelvan URLs equivalentes.
-const DEFAULTS: DemoConfig = versionAssetPaths<DemoConfig>({
+const DEFAULTS: DemoConfig = versionAssetPaths({
   activeNicheId: 'boutique',
   boutiqueLayout: 'layout1',
 
@@ -259,11 +288,13 @@ export class DemoConfigService {
   update(partial: Partial<DemoConfig>): void {
     this._config.update((c) => {
       const next = { ...c, ...partial };
+      // Sync legacy boutique fields if niches.boutique was updated
       if (partial.niches?.boutique) {
-        next.boutiqueBusinessTitle = partial.niches.boutique.businessTitle;
-        next.boutiqueTagline = partial.niches.boutique.tagline;
-        next.boutiquePrimaryColor = partial.niches.boutique.primaryColor;
-        next.boutiqueHeroImage = partial.niches.boutique.heroImage;
+        const b = partial.niches.boutique;
+        if (b.businessTitle !== undefined) next.boutiqueBusinessTitle = b.businessTitle;
+        if (b.tagline !== undefined) next.boutiqueTagline = b.tagline;
+        if (b.primaryColor !== undefined) next.boutiquePrimaryColor = b.primaryColor;
+        if (b.heroImage !== undefined) next.boutiqueHeroImage = b.heroImage;
       }
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
@@ -289,6 +320,14 @@ export class DemoConfigService {
         if (partial.primaryColor !== undefined) next.boutiquePrimaryColor = partial.primaryColor;
         if (partial.bgColor !== undefined) next.boutiqueBgColor = partial.bgColor;
         if (partial.heroImage !== undefined) next.boutiqueHeroImage = partial.heroImage;
+        if (partial.productImages !== undefined) {
+          partial.productImages.forEach((img, i) => {
+            const legacyKey = `boutiqueProduct${i + 1}` as keyof DemoConfig;
+            if (next[legacyKey] !== undefined) {
+              (next as any)[legacyKey] = img;
+            }
+          });
+        }
       }
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next));

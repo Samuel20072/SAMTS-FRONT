@@ -62,7 +62,7 @@ export class BusinessPreviewModalComponent implements OnInit {
   newProdImage = signal<string>('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80');
 
   // Settings
-  settingsBusinessName = signal<string>('Rosant Boutique');
+  settingsBusinessName = signal<string>('Rosant');
   settingsPhone = signal<string>('+57 300 123 4567');
   settingsCurrency = signal<string>('USD');
   settingsAiEnabled = signal<boolean>(true);
@@ -120,8 +120,8 @@ export class BusinessPreviewModalComponent implements OnInit {
       id: 'boutique',
       name: 'Ropa & Moda',
       icon: 'pi-tag',
-      businessTitle: 'Rosant Boutique',
-      tagline: 'Nueva colección de temporada · Envíos nacionales',
+      businessTitle: 'Rosant',
+      tagline: 'Tu marca, tu estilo, tu esencia',
       badge: 'Nueva Colección',
       heroImage: cdnUrl('/images/boutique/hero-v2.png'),
       primaryColor: '#2b241e',
