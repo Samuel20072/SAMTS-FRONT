@@ -48,6 +48,8 @@ export interface DemoConfig {
     barbershop: NicheConfig;
     products: NicheConfig;
     services: NicheConfig;
+    coaches: NicheConfig;
+    automations: NicheConfig;
   };
 }
 
@@ -214,6 +216,31 @@ const DEFAULT_NICHES: DemoConfig['niches'] = {
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80',
       'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80',
     ],
+  },
+  coaches: {
+    businessTitle: 'Pulse Coaching',
+    tagline: 'Entrena más clientes con seguimiento real · Plataforma para entrenadores y sus atletas',
+    primaryColor: '#0f1115',
+    accentColor: '#d3ff3e',
+    bgColor: '#f6f7f9',
+    heroImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1400&q=80',
+    productImages: [
+      'https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=200&q=80',
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80',
+    ],
+  },
+  automations: {
+    businessTitle: 'Flux Automation',
+    tagline: 'Conecta, dispara y automatiza · Flujos visuales que trabajan por tu negocio 24/7',
+    primaryColor: '#4f46e5',
+    accentColor: '#6366f1',
+    bgColor: '#f7f8fb',
+    heroImage: '',
+    productImages: [],
   },
 };
 

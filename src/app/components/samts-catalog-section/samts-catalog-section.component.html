@@ -1,0 +1,421 @@
+<section id="samts-catalog" class="scx-section">
+  <div class="scx-glow scx-glow--a" aria-hidden="true"></div>
+  <div class="scx-glow scx-glow--b" aria-hidden="true"></div>
+
+  <div class="scx-container">
+
+    <!-- Cabecera Editorial -->
+    <header class="scx-head">
+      <div class="flex justify-center flex-col items-center" samtsAnimate="fade-up">
+        <span class="scx-eyebrow">
+          <span class="scx-pulse" aria-hidden="true"></span>
+          LANZAMIENTO · SAMTS CATALOG
+        </span>
+        <div class="mt-4 flex items-center gap-3 px-4 py-2 bg-blue-50 border border-blue-100 rounded-full">
+          <span class="flex h-2 w-2 rounded-full bg-[#315EFB] animate-ping"></span>
+          <span class="text-xs font-bold text-[#315EFB] uppercase tracking-widest">
+            @if (campaignStats() && campaignStats()!.remaining > 0) {
+              ¡20 días gratis para los primeros 5 negocios!
+            } @else {
+              ¡Cupos de lanzamiento completados!
+            }
+          </span>
+        </div>
+      </div>
+
+      <h2 class="scx-title mt-8" samtsAnimate="fade-up" animDelay="100ms">
+        Tu negocio merece <br>
+        <span class="scx-accent">brillar en digital.</span>
+      </h2>
+
+      <p class="scx-subtitle" samtsAnimate="fade-up" animDelay="200ms">
+        Lanzamos <strong>SAMTS Catalog</strong>: la forma más profesional, rápida y económica de vender tus productos por WhatsApp. Olvida las configuraciones complejas y empieza a vender con un solo enlace.
+      </p>
+
+      @if (campaignStats()) {
+        <div class="mt-10 flex flex-col items-center" samtsAnimate="fade-up" animDelay="300ms">
+          <div class="scx-slot-bar">
+            @for (slot of [1,2,3,4,5]; track slot) {
+              <div 
+                class="scx-slot-item"
+                [class.is-active]="slot <= campaignStats()!.selected"
+              ></div>
+            }
+          </div>
+          <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+            @if (campaignStats()!.remaining > 0) {
+              Quedan {{ campaignStats()!.remaining }} de 5 cupos gratuitos
+            } @else {
+              Lista de espera activa
+            }
+          </span>
+        </div>
+      }
+    </header>
+
+    <!-- Escenario Visual -->
+    <div class="scx-stage">
+
+      <!-- Browser Mockup -->
+      <div class="scx-browser" samtsAnimate="fade-scale-up" animDelay="150ms">
+        <div class="scx-browser-bar">
+          <div class="flex gap-1.5">
+            <span class="scx-dot"></span>
+            <span class="scx-dot"></span>
+            <span class="scx-dot scx-dot--accent"></span>
+          </div>
+          <div class="scx-url">
+            <i class="pi pi-lock text-[10px]" aria-hidden="true"></i>
+            <span>tucatalogo.samts.app/aurora-store</span>
+          </div>
+          <span class="scx-sim-badge">
+            <i class="pi pi-sparkles text-[10px]" aria-hidden="true"></i>
+            SIMULACIÓN
+          </span>
+        </div>
+
+        <div class="scx-browser-body">
+          <div class="scx-store-head">
+            <div class="flex items-center gap-4">
+              <div class="scx-store-logo">A</div>
+              <div class="scx-store-meta">
+                <strong>Aurora Store</strong>
+                <span>Tienda de ejemplo · Diseño & Hogar</span>
+              </div>
+            </div>
+            <div class="scx-wa-chip">
+              <i class="pi pi-whatsapp text-lg"></i>
+              <span>Pedir por WhatsApp</span>
+            </div>
+          </div>
+
+          <div class="scx-cats">
+            @for (cat of categories; track cat) {
+              <button 
+                type="button" 
+                class="scx-cat" 
+                [class.is-active]="selectedCategory() === cat"
+                (click)="selectCategory(cat)">
+                {{ cat }}
+              </button>
+            }
+          </div>
+
+          <div class="scx-products">
+            @for (product of products; track product.name; let i = $index) {
+              <article class="scx-product">
+                <div class="scx-product-media">
+                  <img 
+                    [src]="product.image" 
+                    [alt]="product.name" 
+                    loading="lazy" 
+                    (error)="$any($event.target).src = '/images/boutique/product-' + ((i % 8) + 1) + '-v2.png'" />
+                </div>
+                <div class="scx-product-info">
+                  <span class="text-[10px] font-bold text-[#315EFB] uppercase tracking-wider">{{ product.category }}</span>
+                  <h4 class="scx-product-name">{{ product.name }}</h4>
+                  <div class="flex items-center justify-between">
+                    <span class="scx-price">{{ product.price }}</span>
+                    <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-[#315EFB]">
+                      <i class="pi pi-whatsapp text-sm"></i>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Panel Representation -->
+      <div class="scx-float-wrap scx-float-wrap--admin" samtsAnimate="fade-right" animDelay="350ms">
+        <div class="scx-admin">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-[#315EFB]">
+              <i class="pi pi-sliders-h text-sm"></i>
+            </div>
+            <span class="text-xs font-bold text-slate-900 flex-1">Panel de Control</span>
+            <div class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-4">
+            <div class="bg-slate-50 border border-slate-100 rounded-xl p-2.5">
+              <span class="text-[10px] text-slate-500 block">Productos</span>
+              <strong class="text-lg font-black text-slate-900">24</strong>
+            </div>
+            <div class="bg-slate-50 border border-slate-100 rounded-xl p-2.5">
+              <span class="text-[10px] text-slate-500 block">Visitas</span>
+              <strong class="text-lg font-black text-slate-900">1.2k</strong>
+            </div>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+            <span class="text-[11px] font-bold text-slate-600">Catálogo Online</span>
+            <div class="w-8 h-4.5 rounded-full bg-[#315EFB] relative">
+              <div class="absolute right-1 top-1 w-2.5 h-2.5 rounded-full bg-white"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Badges -->
+      <div class="scx-float-wrap scx-float-wrap--badge1" samtsAnimate="fade-in" animDelay="450ms">
+        <div class="scx-float-badge">
+          <i class="pi pi-link text-[#315EFB] mr-2"></i>
+          <span>Un solo enlace</span>
+        </div>
+      </div>
+      <div class="scx-float-wrap scx-float-wrap--badge2" samtsAnimate="fade-in" animDelay="550ms">
+        <div class="scx-float-badge">
+          <i class="pi pi-whatsapp text-emerald-500 mr-2"></i>
+          <span>Pedidos Directos</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Beneficios -->
+    <div class="scx-benefits">
+      @for (benefit of benefits; track benefit.title; let i = $index) {
+        <div class="scx-benefit" samtsAnimate="fade-up" [animDelay]="(i * 100) + 'ms'">
+          <div class="scx-benefit-icon">
+            <i class="pi {{ benefit.icon }}"></i>
+          </div>
+          <h3 class="scx-benefit-title">{{ benefit.title }}</h3>
+          <p class="scx-benefit-text">{{ benefit.text }}</p>
+        </div>
+      }
+    </div>
+
+    <!-- Box de Conversión y Selección de Negocio -->
+    <div class="scx-cta-box" samtsAnimate="fade-up">
+      <div class="scx-cta-box-glow" aria-hidden="true"></div>
+
+      <!-- Header del Box -->
+      <div class="scx-cta-box-head">
+        <span class="scx-cta-badge">
+          <i class="pi pi-sparkles"></i>
+          LANZAMIENTO EXCLUSIVO · 20 DÍAS GRATIS
+        </span>
+        <h3 class="scx-cta-title">
+          Comienza hoy a vender por WhatsApp con tu catálogo
+        </h3>
+        <p class="scx-cta-sub">
+          ¿Qué tipo de negocio quieres digitalizar? Elige tu categoría para personalizar tu experiencia <em>(opcional)</em>:
+        </p>
+      </div>
+
+      <!-- Selector de Negocio en Pills -->
+      <div class="scx-chips-wrap">
+        <div class="scx-chips" role="radiogroup" aria-label="Tipo de negocio">
+          @for (bt of businessTypes; track bt.value) {
+            <button
+              type="button"
+              class="scx-chip"
+              [class.is-selected]="selectedBusinessType() === bt.value"
+              (click)="selectBusinessType(bt.value)"
+              role="radio"
+              [attr.aria-checked]="selectedBusinessType() === bt.value">
+              @if (bt.icon) {
+                <i class="pi {{ bt.icon }} scx-chip-icon"></i>
+              }
+              <span class="scx-chip-label">{{ bt.label }}</span>
+              @if (selectedBusinessType() === bt.value) {
+                <i class="pi pi-check scx-chip-check"></i>
+              }
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Acciones de Conversión -->
+      <div class="scx-cta-actions">
+        <button
+          type="button"
+          class="scx-btn-main"
+          (click)="openRegistration()">
+          <span class="scx-btn-main-shine" aria-hidden="true"></span>
+          <span class="scx-btn-main-text">QUIERO MIS 20 DÍAS GRATIS</span>
+          <div class="scx-btn-main-arrow">
+            <i class="pi pi-arrow-right"></i>
+          </div>
+        </button>
+
+        <button
+          type="button"
+          class="scx-btn-secondary"
+          (click)="openHowItWorks()">
+          <div class="scx-play-icon">
+            <i class="pi pi-play"></i>
+          </div>
+          <span>¿Cómo funciona?</span>
+        </button>
+      </div>
+
+      <!-- Footer de Confianza y Garantías -->
+      <div class="scx-cta-footer">
+        <div class="scx-cta-guarantees">
+          <span class="scx-guarantee-item">
+            <i class="pi pi-check-circle text-emerald-500"></i>
+            Sin tarjeta de crédito
+          </span>
+          <span class="scx-guarantee-dot">•</span>
+          <span class="scx-guarantee-item">
+            <i class="pi pi-bolt text-[#315EFB]"></i>
+            Configuración en 5 min
+          </span>
+          <span class="scx-guarantee-dot">•</span>
+          <span class="scx-guarantee-item">
+            <i class="pi pi-calendar text-[#315EFB]"></i>
+            Lanzamiento: Lunes 9 de Noviembre de 2026
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MODAL DE REGISTRO CAMPAÑA -->
+<p-dialog
+  [visible]="registrationOpen()"
+  (visibleChange)="$event ? null : closeRegistration()"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [dismissableMask]="true"
+  [style]="{ width: '92%', maxWidth: '540px' }"
+  styleClass="samts-light-dialog !bg-white !rounded-[32px] overflow-hidden shadow-2xl"
+  [showHeader]="false">
+  
+  <div class="scx-modal p-8 sm:p-10">
+    <button
+      type="button"
+      class="scx-modal-close"
+      (click)="closeRegistration()"
+      aria-label="Cerrar">
+      <i class="pi pi-times"></i>
+    </button>
+
+    @if (!registrationResult()) {
+      <div class="flex">
+        <span class="scx-modal-eyebrow">
+          <i class="pi pi-bolt"></i>
+          ACCESO PRIORITARIO
+        </span>
+      </div>
+
+      <h3 class="scx-modal-title">
+        @if (campaignStats() && campaignStats()!.remaining > 0) {
+          ¡Asegura tus 20 días gratis!
+        } @else {
+          Únete a la lista de espera
+        }
+      </h3>
+      <p class="scx-modal-sub">
+        @if (campaignStats() && campaignStats()!.remaining > 0) {
+          Quedan {{ campaignStats()!.remaining }} cupos para el lanzamiento del 9 de noviembre.
+        } @else {
+          Los cupos iniciales están llenos, pero aún puedes ser parte de la lista de espera oficial.
+        }
+      </p>
+
+      <form class="flex flex-col gap-4" (ngSubmit)="onSubmitRegistration()">
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold text-slate-500 uppercase ml-1">Tu Nombre Completo *</label>
+          <input pInputText [(ngModel)]="name" name="name" placeholder="Ej. Juan Pérez" class="w-full !rounded-2xl !py-4 !px-5 !bg-slate-50 !border-slate-100 focus:!border-blue-400 transition-all" />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold text-slate-500 uppercase ml-1">Nombre de tu Negocio *</label>
+          <input pInputText [(ngModel)]="businessName" name="businessName" placeholder="Ej. Mi Tienda Online" class="w-full !rounded-2xl !py-4 !px-5 !bg-slate-50 !border-slate-100 focus:!border-blue-400 transition-all" />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold text-slate-500 uppercase ml-1">Correo Electrónico *</label>
+          <input pInputText [(ngModel)]="email" name="email" type="email" placeholder="hola@tunegocio.com" class="w-full !rounded-2xl !py-4 !px-5 !bg-slate-50 !border-slate-100 focus:!border-blue-400 transition-all" />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold text-slate-500 uppercase ml-1">WhatsApp de Contacto *</label>
+          <input pInputText [(ngModel)]="whatsapp" name="whatsapp" placeholder="Ej. 300 123 4567" class="w-full !rounded-2xl !py-4 !px-5 !bg-slate-50 !border-slate-100 focus:!border-blue-400 transition-all" />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold text-slate-500 uppercase ml-1">Tipo de Negocio</label>
+          <div class="flex flex-wrap gap-2 mt-1">
+            @for (bt of businessTypes; track bt.value) {
+              <button
+                type="button"
+                class="text-[10px] font-bold px-3 py-1.5 rounded-full border transition-all"
+                [class.bg-[#315EFB]]="selectedBusinessType() === bt.value"
+                [class.text-white]="selectedBusinessType() === bt.value"
+                [class.border-[#315EFB]]="selectedBusinessType() === bt.value"
+                [class.bg-white]="selectedBusinessType() !== bt.value"
+                [class.text-slate-500]="selectedBusinessType() !== bt.value"
+                [class.border-slate-200]="selectedBusinessType() !== bt.value"
+                (click)="selectBusinessType(bt.value)">
+                {{ bt.label }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 mt-4 mb-2">
+          <p-checkbox [(ngModel)]="acceptDataPolicy" name="acceptDataPolicy" [binary]="true"></p-checkbox>
+          <span class="text-xs text-slate-500 leading-relaxed">
+            Acepto la <a href="/privacy" target="_blank" class="text-[#315EFB] font-bold underline">política de tratamiento de datos personales</a> de SAMTS.
+          </span>
+        </div>
+
+        @if (errorMessage()) {
+          <div class="p-3 bg-red-50 text-red-600 rounded-xl text-xs font-bold flex items-center gap-2 border border-red-100">
+            <i class="pi pi-exclamation-circle"></i>
+            {{ errorMessage() }}
+          </div>
+        }
+
+        <button 
+          type="submit" 
+          [disabled]="isSubmitting()"
+          class="w-full scx-btn--primary py-5 rounded-2xl flex items-center justify-center gap-3 mt-4"
+        >
+          @if (isSubmitting()) {
+            <i class="pi pi-spin pi-spinner text-xl"></i>
+            <span>Procesando...</span>
+          } @else {
+            <span>QUIERO MIS 20 DÍAS GRATIS</span>
+            <i class="pi pi-arrow-right"></i>
+          }
+        </button>
+
+        <p class="text-[10px] text-slate-400 text-center mt-2 leading-relaxed">
+          Al registrarte, podrás participar por uno de los 5 accesos gratuitos de SAMTS Catalog. 
+          Si eres seleccionado, recibirás las instrucciones y tu código de activación por correo electrónico el lunes 9 de noviembre.
+        </p>
+      </form>
+    } @else {
+      <!-- RESULTADO EXITOSO -->
+      <div class="flex flex-col items-center text-center py-6" samtsAnimate="fade-up">
+        <div class="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500 mb-6 border-4 border-emerald-100 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+          <i class="pi pi-check-circle text-4xl"></i>
+        </div>
+
+        @if (registrationResult() === 'selected') {
+          <h3 class="scx-modal-title">¡Ya tienes un cupo reservado!</h3>
+          <p class="scx-modal-sub mb-8">
+            Estás entre los primeros 5 negocios interesados en SAMTS Catalog. 
+            El <strong>lunes 9 de noviembre</strong> recibirás en tu correo las instrucciones para activar tus 20 días gratuitos.
+          </p>
+        } @else {
+          <h3 class="scx-modal-title">¡Gracias por tu interés!</h3>
+          <p class="scx-modal-sub mb-8">
+            Los primeros 5 cupos ya fueron reservados, pero te hemos agregado a nuestra <strong>lista de espera oficial</strong>. 
+            Te contactaremos pronto cuando tengamos nuevas vacantes o promociones disponibles.
+          </p>
+        }
+
+        <button type="button" class="w-full scx-btn--primary py-4 rounded-xl" (click)="closeRegistration()">
+          Entendido, ¡gracias!
+        </button>
+      </div>
+    }
+  </div>
+</p-dialog>

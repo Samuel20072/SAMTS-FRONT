@@ -1,38 +1,44 @@
-<footer id="footer" class="samts-footer dark-section">
+<footer id="footer" class="samts-footer">
   <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
-    
+
     <!-- Top Grid -->
     <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3.5rem;" class="samts-footer-grid" samtsAnimate="fade-up" animDelay="0ms">
-      
+
       <!-- Brand Description -->
       <div style="display: flex; flex-direction: column; gap: 1.25rem; align-items: flex-start; text-align: left;">
         <span class="samts-footer-logo" (click)="scrollToSection('hero')">
           <img [src]="'/images/samts-icon-v2.png' | cdn" alt="SAMTS" class="samts-footer-logo-img">
           <span><span class="samts-footer-bracket">[</span>SAMTS<span class="samts-footer-bracket">]</span></span>
         </span>
-        <p style="font-size: 0.88rem; color: #94A3B8; line-height: 1.6; max-width: 320px; margin: 0;">
+        <p style="font-size: 0.88rem; color: #666B75; line-height: 1.6; max-width: 320px; margin: 0;">
           Soluciones de software y páginas web de alta conversión para negocios que quieren crecer de forma inteligente.
         </p>
-        
+
         <!-- Social Icons -->
         <div style="display: flex; align-items: center; gap: 0.75rem; padding-top: 0.25rem;">
-          <a 
-            href="#" 
-            class="samts-footer-social-btn"
-            aria-label="Twitter">
-            <i class="pi pi-twitter" style="font-size: 0.85rem;"></i>
-          </a>
-          <a 
-            href="#" 
+          <a
+            href="https://instagram.com/samts.app"
+            target="_blank"
+            rel="noopener"
             class="samts-footer-social-btn"
             aria-label="Instagram">
             <i class="pi pi-instagram" style="font-size: 0.85rem;"></i>
           </a>
-          <a 
-            href="#" 
+          <a
+            href="https://linkedin.com/company/samts"
+            target="_blank"
+            rel="noopener"
             class="samts-footer-social-btn"
             aria-label="LinkedIn">
             <i class="pi pi-linkedin" style="font-size: 0.85rem;"></i>
+          </a>
+          <a
+            href="https://wa.me/573148180949"
+            target="_blank"
+            rel="noopener"
+            class="samts-footer-social-btn"
+            aria-label="WhatsApp">
+            <i class="pi pi-whatsapp" style="font-size: 0.85rem; color: #25D366;"></i>
           </a>
         </div>
       </div>
@@ -42,8 +48,8 @@
         <h4 class="samts-footer-heading">Servicios</h4>
         <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
           <li *ngFor="let item of services">
-            <button 
-              (click)="scrollToSection(item.link, item.isRoute)" 
+            <button
+              (click)="scrollToSection(item.link, item.isRoute)"
               class="samts-footer-btn-link">
               {{ item.name }}
             </button>
@@ -56,8 +62,8 @@
         <h4 class="samts-footer-heading">Empresa</h4>
         <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
           <li *ngFor="let item of company">
-            <button 
-              (click)="scrollToSection(item.link, item.isRoute)" 
+            <button
+              (click)="scrollToSection(item.link, item.isRoute)"
               class="samts-footer-btn-link">
               {{ item.name }}
             </button>
@@ -70,23 +76,34 @@
         <h4 class="samts-footer-heading">Contacto & Legal</h4>
         <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem;">
           <li>
-            <button (click)="openConsultation()" class="samts-footer-btn-link text-blue-400 font-semibold" style="color: #60A5FA;">
+            <button (click)="openConsultation()" class="samts-footer-btn-link font-semibold" style="color: #315EFB;">
               Solicitar Propuesta
             </button>
           </li>
           <li>
-            <a href="https://wa.me/573148180949" target="_blank" rel="noopener" class="samts-footer-btn-link flex items-center gap-1.5" style="color: #64748B;">
+            <a href="https://wa.me/573148180949" target="_blank" rel="noopener" class="samts-footer-btn-link flex items-center gap-1.5" style="color: #9297A1;">
               <i class="pi pi-whatsapp" style="color: #25D366; font-size: 0.85rem;"></i>
               <span>+57 314 818 0949</span>
             </a>
           </li>
           <li *ngFor="let item of legal">
-            <a 
-              [href]="item.link" 
-              class="samts-footer-btn-link"
-              style="display: block;">
-              {{ item.name }}
-            </a>
+            @if (item.isRoute) {
+              <button
+                (click)="scrollToSection(item.link, true)"
+                class="samts-footer-btn-link"
+                style="display: block;">
+                {{ item.name }}
+              </button>
+            } @else {
+              <a
+                [href]="item.link"
+                [target]="item.isExternal ? '_blank' : '_self'"
+                rel="noopener"
+                class="samts-footer-btn-link"
+                style="display: block;">
+                {{ item.name }}
+              </a>
+            }
           </li>
         </ul>
       </div>
@@ -94,22 +111,22 @@
     </div>
 
     <!-- Bottom Copyright Bar -->
-    <div style="border-top: 1px solid #1E293B; padding-top: 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; font-size: 0.78rem; color: #64748B;" class="samts-footer-bottom">
+    <div style="border-top: 1px solid #E8E9ED; padding-top: 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; font-size: 0.78rem; color: #9297A1;" class="samts-footer-bottom">
       <div>
         <span>© 2026 SAMTS. Todos los derechos reservados.</span>
       </div>
-      
+
       <!-- Central Operating Systems Badge -->
-      <div style="display: inline-flex; align-items: center; gap: 6px; border-radius: 9999px; border: 1px solid rgba(16,185,129,0.25); background: rgba(16,185,129,0.08); padding: 4px 12px; font-size: 0.72rem; font-weight: 600; color: #34D399;">
-        <span style="width: 6px; height: 6px; border-radius: 50%; background-color: #10B981; display: inline-block;"></span>
+      <div style="display: inline-flex; align-items: center; gap: 6px; border-radius: 9999px; border: 1px solid rgba(49,94,251,0.18); background: #EDF2FF; padding: 4px 12px; font-size: 0.72rem; font-weight: 600; color: #315EFB;">
+        <span style="width: 6px; height: 6px; border-radius: 50%; background-color: #315EFB; display: inline-block;"></span>
         <span>Sistemas Web 100% Operativos</span>
       </div>
-      
+
       <!-- Right Badge/Country -->
       <div style="display: flex; align-items: center; gap: 6px;">
         <span>Desarrollado en</span>
-        <i class="pi pi-map-marker" style="color: #60A5FA; font-size: 0.75rem;"></i>
-        <span style="color: #94A3B8;">Colombia</span>
+        <i class="pi pi-map-marker" style="color: #315EFB; font-size: 0.75rem;"></i>
+        <span style="color: #666B75;">Colombia</span>
       </div>
     </div>
 

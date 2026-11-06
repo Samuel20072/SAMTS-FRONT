@@ -1,0 +1,405 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* ==============================
+   Sección
+   ============================== */
+.ss-section {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background: #ffffff;
+  color: var(--color-ink);
+  padding: 6rem 1.5rem 7rem;
+}
+
+.ss-glow {
+  position: absolute;
+  top: -120px;
+  right: -80px;
+  width: 520px;
+  height: 380px;
+  background: radial-gradient(ellipse, rgba(49, 94, 251, 0.10) 0%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ss-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+/* ==============================
+   Cabecera
+   ============================== */
+.ss-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.ss-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+  border: 1px solid rgba(49, 94, 251, 0.18);
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  margin-bottom: 1.25rem;
+}
+
+.ss-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 800;
+  color: var(--color-ink);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin: 0 0 1.25rem 0;
+}
+
+.ss-accent {
+  color: var(--color-accent);
+}
+
+.ss-subtitle {
+  font-size: 1.05rem;
+  color: var(--color-ink-2);
+  line-height: 1.6;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ==============================
+   Grid editorial asimétrico
+   ============================== */
+.ss-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.ss-card--feature,
+.ss-card--wide {
+  grid-column: span 2;
+}
+
+/* ==============================
+   Tarjeta
+   ============================== */
+.ss-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid var(--color-line);
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ss-card:hover {
+  border-color: rgba(49, 94, 251, 0.35);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Tarjeta destacada: contenido + mockup en dos columnas */
+.ss-card--feature {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 2rem;
+  padding: 2.25rem;
+  align-items: center;
+}
+
+.ss-card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+}
+
+.ss-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+}
+
+.ss-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--color-accent-soft);
+  border: 1px solid rgba(49, 94, 251, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.ss-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--color-accent);
+  padding: 0.3rem 0.7rem;
+  border-radius: 9999px;
+}
+
+.ss-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 750;
+  color: var(--color-ink);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.6rem 0;
+}
+
+.ss-card--feature .ss-name {
+  font-size: 1.6rem;
+}
+
+.ss-desc {
+  font-size: 0.92rem;
+  color: var(--color-ink-2);
+  line-height: 1.6;
+  margin: 0 0 1.25rem 0;
+}
+
+.ss-card--feature .ss-desc {
+  font-size: 1rem;
+  max-width: 520px;
+}
+
+/* Problema que resuelve */
+.ss-problem {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-line);
+  border-radius: 0.85rem;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.ss-problem-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.4rem;
+}
+
+.ss-problem-text {
+  font-size: 0.86rem;
+  color: var(--color-ink);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Etiquetas */
+.ss-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.ss-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-ink-2);
+  background: var(--color-gray-100);
+  border: 1px solid var(--color-line);
+  border-radius: 9999px;
+  padding: 0.32rem 0.75rem;
+  white-space: nowrap;
+}
+
+/* CTA */
+.ss-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  align-self: flex-start;
+  margin-top: auto;
+  background: var(--color-accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.85rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 22px -10px rgba(49, 94, 251, 0.55);
+}
+
+.ss-cta i {
+  font-size: 0.8rem;
+  transition: transform 0.25s ease;
+}
+
+.ss-cta:hover {
+  background: var(--color-violet-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px -10px rgba(49, 94, 251, 0.6);
+}
+
+.ss-cta:hover i {
+  transform: translateX(3px);
+}
+
+/* ==============================
+   Mini-mockup de interfaz (CSS puro)
+   ============================== */
+.ss-mockup {
+  width: 100%;
+  align-self: center;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-line);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.ss-mockup-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 0.85rem;
+  background: #ffffff;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.ss-mockup-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-gray-200);
+}
+
+.ss-mockup-dot--accent {
+  background: var(--color-accent);
+}
+
+.ss-mockup-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1rem;
+}
+
+.ss-mockup-hero {
+  height: 70px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--color-accent-soft) 0%, #ffffff 100%);
+  border: 1px solid rgba(49, 94, 251, 0.15);
+}
+
+.ss-mockup-line {
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--color-gray-200);
+}
+
+.ss-mockup-line--70 {
+  width: 70%;
+}
+
+.ss-mockup-line--45 {
+  width: 45%;
+}
+
+.ss-mockup-blocks {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.2rem;
+}
+
+.ss-mockup-block {
+  height: 40px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid var(--color-line);
+}
+
+.ss-mockup-block--accent {
+  background: var(--color-accent-soft);
+  border-color: rgba(49, 94, 251, 0.2);
+}
+
+/* ==============================
+   Responsive
+   ============================== */
+@media (max-width: 1024px) {
+  .ss-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ss-card--feature,
+  .ss-card--wide {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .ss-card--feature {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .ss-section {
+    padding: 4.5rem 1.25rem 5rem;
+  }
+  .ss-header {
+    margin-bottom: 2.75rem;
+  }
+  .ss-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .ss-card,
+  .ss-card--feature,
+  .ss-card--wide {
+    grid-column: span 1;
+  }
+  .ss-card,
+  .ss-card--feature {
+    padding: 1.5rem;
+  }
+  .ss-card--feature .ss-name {
+    font-size: 1.35rem;
+  }
+  .ss-cta {
+    width: 100%;
+  }
+}

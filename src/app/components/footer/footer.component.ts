@@ -16,10 +16,10 @@ import { CdnPipe } from '../../core/cdn';
       width: 100%;
     }
     .samts-footer {
-      background-color: #030712;
-      border-top: 1px solid #1E293B;
+      background-color: var(--color-surface);
+      border-top: 1px solid var(--color-line);
       padding: 5rem 0 2.5rem 0;
-      color: #94A3B8;
+      color: var(--color-ink-2);
       font-family: var(--font-body, sans-serif);
       position: relative;
       overflow: hidden;
@@ -28,7 +28,7 @@ import { CdnPipe } from '../../core/cdn';
       font-family: var(--font-display, monospace);
       font-size: 1.25rem;
       font-weight: 800;
-      color: #FFFFFF;
+      color: var(--color-ink);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -44,22 +44,22 @@ import { CdnPipe } from '../../core/cdn';
       height: 32px;
       border-radius: 7px;
       object-fit: contain;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 2px 10px rgba(17, 19, 24, 0.08);
     }
     .samts-footer-bracket {
-      color: #3B82F6;
+      color: var(--color-accent);
     }
     .samts-footer-heading {
       font-size: 0.75rem;
       font-weight: 750;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #FFFFFF !important;
+      color: var(--color-ink) !important;
       font-family: var(--font-display, sans-serif) !important;
       margin: 0;
     }
     .samts-footer-btn-link {
-      color: #94A3B8;
+      color: var(--color-ink-2);
       background: none;
       border: none;
       font-size: 0.88rem;
@@ -70,25 +70,25 @@ import { CdnPipe } from '../../core/cdn';
       font-family: var(--font-body, sans-serif);
     }
     .samts-footer-btn-link:hover {
-      color: #38BDF8;
+      color: var(--color-accent);
     }
     .samts-footer-social-btn {
       width: 36px;
       height: 36px;
       border-radius: 10px;
-      border: 1px solid #1E293B;
+      border: 1px solid var(--color-line);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #94A3B8;
-      background: #0B1020;
+      color: var(--color-ink-2);
+      background: var(--color-surface);
       text-decoration: none;
       transition: all 0.2s ease;
     }
     .samts-footer-social-btn:hover {
-      border-color: #3B82F6;
-      color: #38BDF8;
-      background: rgba(37, 99, 235, 0.15);
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background: var(--color-accent-soft);
       transform: translateY(-2px);
     }
   `]
@@ -114,11 +114,11 @@ export class FooterComponent {
   ];
 
   legal = [
-    { name: 'Términos', link: '#' },
-    { name: 'Privacidad', link: '#' },
-    { name: 'Cookies', link: '#' },
-    { name: 'Soporte', link: '#' },
-    { name: 'hello@samts.co', link: 'mailto:hello@samts.co' }
+    { name: 'Términos', link: '/terminos', isRoute: true },
+    { name: 'Privacidad', link: '/privacy', isRoute: true },
+    { name: 'Cookies', link: '/privacy', isRoute: true },
+    { name: 'Soporte Directo', link: 'https://wa.me/573148180949', isExternal: true },
+    { name: 'hello@samts.co', link: 'mailto:hello@samts.co', isExternal: true }
   ];
 
   currentYear = new Date().getFullYear();

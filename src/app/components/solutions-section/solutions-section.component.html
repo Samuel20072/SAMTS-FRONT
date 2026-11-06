@@ -1,0 +1,87 @@
+<section id="services" class="ss-section">
+  <div class="ss-glow" aria-hidden="true"></div>
+
+  <div class="ss-container">
+
+    <!-- Cabecera -->
+    <div class="ss-header" samtsAnimate="fade-up" animDelay="0ms">
+      <div class="ss-eyebrow">
+        <i class="pi pi-th-large text-xs"></i>
+        <span>Soluciones</span>
+      </div>
+      <h2 class="ss-title">
+        Todo lo que tu negocio necesita <span class="ss-accent">en un solo lugar.</span>
+      </h2>
+      <p class="ss-subtitle">
+        Desde la página web que te hace ver profesional hasta la IA que trabaja mientras duermes.
+      </p>
+    </div>
+
+    <!-- Composición editorial asimétrica -->
+    <div class="ss-grid">
+      @for (solution of solutions; track solution.id; let idx = $index) {
+        <article
+          class="ss-card"
+          [class.ss-card--feature]="solution.span === 'feature'"
+          [class.ss-card--wide]="solution.span === 'wide'"
+          samtsAnimate="fade-up"
+          [animDelay]="(idx * 80) + 'ms'">
+
+          <div class="ss-card-body">
+            <div class="ss-card-head">
+              <div class="ss-icon">
+                <i class="pi {{ solution.icon }}"></i>
+              </div>
+              @if (solution.badge) {
+                <span class="ss-badge">{{ solution.badge }}</span>
+              }
+            </div>
+
+            <h3 class="ss-name">{{ solution.name }}</h3>
+            <p class="ss-desc">{{ solution.description }}</p>
+
+            <div class="ss-problem">
+              <span class="ss-problem-label">
+                <i class="pi pi-exclamation-circle"></i>
+                Problema que resuelve
+              </span>
+              <p class="ss-problem-text">{{ solution.problem }}</p>
+            </div>
+
+            <div class="ss-tags">
+              @for (tag of solution.tags; track tag) {
+                <span class="ss-tag">{{ tag }}</span>
+              }
+            </div>
+
+            <button type="button" class="ss-cta" (click)="openConsultation(solution)">
+              <span>Conocer más</span>
+              <i class="pi pi-arrow-right"></i>
+            </button>
+          </div>
+
+          @if (solution.span === 'feature') {
+            <div class="ss-mockup" aria-hidden="true">
+              <div class="ss-mockup-bar">
+                <span class="ss-mockup-dot"></span>
+                <span class="ss-mockup-dot"></span>
+                <span class="ss-mockup-dot ss-mockup-dot--accent"></span>
+              </div>
+              <div class="ss-mockup-body">
+                <div class="ss-mockup-hero"></div>
+                <div class="ss-mockup-line ss-mockup-line--70"></div>
+                <div class="ss-mockup-line ss-mockup-line--45"></div>
+                <div class="ss-mockup-blocks">
+                  <div class="ss-mockup-block"></div>
+                  <div class="ss-mockup-block ss-mockup-block--accent"></div>
+                  <div class="ss-mockup-block"></div>
+                </div>
+              </div>
+            </div>
+          }
+        </article>
+      }
+    </div>
+
+  </div>
+</section>

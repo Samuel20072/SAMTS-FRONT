@@ -43,7 +43,12 @@ export type AnalyticsEvent =
   | 'whatsapp_clicked'
   | 'consultation_submitted'
   | 'faq_opened'
-  | 'how_we_work_viewed';
+  | 'how_we_work_viewed'
+  | 'campaign_view'
+  | 'campaign_form_open'
+  | 'campaign_form_submit'
+  | 'campaign_selected'
+  | 'campaign_waitlist';
 
 @Injectable({
   providedIn: 'root',

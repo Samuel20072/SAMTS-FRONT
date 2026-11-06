@@ -6,7 +6,7 @@
   [resizable]="false"
   [dismissableMask]="true"
   [style]="{ width: '92%', maxWidth: '500px' }"
-  styleClass="dark-dialog border border-slate-700/80 bg-slate-950 text-slate-100 rounded-3xl overflow-hidden shadow-2xl backdrop-blur-2xl"
+  styleClass="samts-light-dialog border border-[#E8E9ED] bg-white text-[#111318] rounded-3xl overflow-hidden shadow-2xl"
   [showHeader]="false"
   class="block">
   
@@ -14,20 +14,20 @@
     <!-- Close Button -->
     <button 
       (click)="closeModal()"
-      class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-2 rounded-xl hover:bg-slate-900/60"
+      class="absolute top-4 right-4 text-[#9297A1] hover:text-[#111318] transition-colors p-2 rounded-xl hover:bg-[#F7F8FA]"
       aria-label="Cerrar modal">
       <i class="pi pi-times text-lg"></i>
     </button>
 
     <!-- Success State -->
     <div *ngIf="isSuccess()" class="flex flex-col items-center text-center py-6 space-y-4 animate-fade-in">
-      <div class="w-16 h-16 bg-blue-500/10 border border-blue-500/30 rounded-2xl flex items-center justify-center text-blue-400 shadow-[0_0_25px_rgba(37,99,235,0.25)]">
+      <div class="w-16 h-16 bg-[#EDF2FF] border border-[#315EFB]/25 rounded-2xl flex items-center justify-center text-[#315EFB] shadow-[0_0_25px_rgba(49,94,251,0.18)]">
         <i class="pi pi-check text-3xl"></i>
       </div>
-      <h3 class="text-2xl font-bold font-display text-white">
+      <h3 class="text-2xl font-bold font-display text-[#111318]">
         ¡Solicitud Recibida con Éxito!
       </h3>
-      <p class="text-slate-300 text-sm max-w-sm leading-relaxed">
+      <p class="text-[#666B75] text-sm max-w-sm leading-relaxed">
         Guardamos tu requerimiento en nuestro sistema. Uno de nuestros arquitectos de software te contactará a la brevedad.
       </p>
 
@@ -43,7 +43,7 @@
         <button
           type="button"
           (click)="closeModal()"
-          class="w-full bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white font-medium py-2.5 rounded-xl text-xs transition-colors">
+          class="w-full bg-[#F7F8FA] hover:bg-[#EEF0F4] text-[#666B75] hover:text-[#111318] font-medium py-2.5 rounded-xl text-xs transition-colors">
           Cerrar ventana
         </button>
       </div>
@@ -52,46 +52,46 @@
     <!-- Form State -->
     <div *ngIf="!isSuccess()" class="space-y-5">
       <div class="space-y-1.5">
-        <div class="inline-flex items-center gap-1.5 text-[11px] font-bold text-blue-400 tracking-wider uppercase bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-full">
+        <div class="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#315EFB] tracking-wider uppercase bg-[#EDF2FF] border border-[#315EFB]/20 px-2.5 py-1 rounded-full">
           <i class="pi pi-sparkles text-[10px]"></i>
           <span>{{ solutionInterest || 'Propuesta Comercial SAMTS' }}</span>
         </div>
-        <h3 class="text-2xl font-bold font-display text-white">
+        <h3 class="text-2xl font-bold font-display text-[#111318]">
           Solicitar propuesta sin costo
         </h3>
-        <p class="text-xs text-slate-400">
+        <p class="text-xs text-[#666B75]">
           Déjanos los datos de tu empresa y te entregaremos una propuesta con alcance, plazo y valor exacto.
         </p>
       </div>
 
       <!-- Error alert -->
-      <div *ngIf="errorMessage()" class="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-start gap-2">
-        <i class="pi pi-exclamation-triangle mt-0.5 text-red-400"></i>
+      <div *ngIf="errorMessage()" class="p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-xs flex items-start gap-2">
+        <i class="pi pi-exclamation-triangle mt-0.5 text-red-500"></i>
         <div class="flex-1">{{ errorMessage() }}</div>
       </div>
 
       <form (submit)="onSubmit()" class="space-y-3.5">
         <!-- Nombre -->
         <div class="flex flex-col gap-1">
-          <label for="modal-name" class="text-xs font-semibold text-slate-300">Tu nombre *</label>
+          <label for="modal-name" class="text-xs font-semibold text-[#111318]">Tu nombre *</label>
           <div class="relative">
-            <i class="pi pi-user absolute left-3 top-3 text-slate-500 text-sm"></i>
+            <i class="pi pi-user absolute left-3 top-3 text-[#9297A1] text-sm"></i>
             <input 
               pInputText 
               id="modal-name" 
               name="name"
               [(ngModel)]="name" 
               placeholder="Ej. Carlos Mendoza" 
-              class="w-full pl-9 py-2.5 bg-slate-900 border border-slate-800 text-slate-100 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-all placeholder:text-slate-600"
+              class="w-full pl-9 py-2.5 bg-white border border-[#E8E9ED] text-[#111318] rounded-xl text-sm focus:outline-none focus:border-[#315EFB] transition-all placeholder:text-[#9297A1]"
               required />
           </div>
         </div>
 
         <!-- WhatsApp -->
         <div class="flex flex-col gap-1">
-          <label for="modal-whatsapp" class="text-xs font-semibold text-slate-300">WhatsApp / Teléfono *</label>
+          <label for="modal-whatsapp" class="text-xs font-semibold text-[#111318]">WhatsApp / Teléfono *</label>
           <div class="relative">
-            <i class="pi pi-whatsapp absolute left-3 top-3 text-slate-500 text-sm"></i>
+            <i class="pi pi-whatsapp absolute left-3 top-3 text-[#9297A1] text-sm"></i>
             <input 
               pInputText 
               id="modal-whatsapp" 
@@ -99,16 +99,16 @@
               type="tel"
               [(ngModel)]="whatsapp" 
               placeholder="Ej. +57 300 123 4567" 
-              class="w-full pl-9 py-2.5 bg-slate-900 border border-slate-800 text-slate-100 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-all placeholder:text-slate-600"
+              class="w-full pl-9 py-2.5 bg-white border border-[#E8E9ED] text-[#111318] rounded-xl text-sm focus:outline-none focus:border-[#315EFB] transition-all placeholder:text-[#9297A1]"
               required />
           </div>
         </div>
 
         <!-- Correo -->
         <div class="flex flex-col gap-1">
-          <label for="modal-email" class="text-xs font-semibold text-slate-300">Correo corporativo / personal *</label>
+          <label for="modal-email" class="text-xs font-semibold text-[#111318]">Correo corporativo / personal *</label>
           <div class="relative">
-            <i class="pi pi-envelope absolute left-3 top-3 text-slate-500 text-sm"></i>
+            <i class="pi pi-envelope absolute left-3 top-3 text-[#9297A1] text-sm"></i>
             <input 
               pInputText 
               id="modal-email" 
@@ -116,29 +116,29 @@
               type="email"
               [(ngModel)]="email" 
               placeholder="contacto@tuempresa.com" 
-              class="w-full pl-9 py-2.5 bg-slate-900 border border-slate-800 text-slate-100 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-all placeholder:text-slate-600"
+              class="w-full pl-9 py-2.5 bg-white border border-[#E8E9ED] text-[#111318] rounded-xl text-sm focus:outline-none focus:border-[#315EFB] transition-all placeholder:text-[#9297A1]"
               required />
           </div>
         </div>
 
         <!-- Nombre del negocio (Opcional) -->
         <div class="flex flex-col gap-1">
-          <label for="modal-business" class="text-xs font-semibold text-slate-300">Nombre de tu empresa o marca (Opcional)</label>
+          <label for="modal-business" class="text-xs font-semibold text-[#111318]">Nombre de tu empresa o marca (Opcional)</label>
           <div class="relative">
-            <i class="pi pi-building absolute left-3 top-3 text-slate-500 text-sm"></i>
+            <i class="pi pi-building absolute left-3 top-3 text-[#9297A1] text-sm"></i>
             <input 
               pInputText 
               id="modal-business" 
               name="businessName"
               [(ngModel)]="businessName" 
               placeholder="Ej. Modas & Estilo SAS" 
-              class="w-full pl-9 py-2.5 bg-slate-900 border border-slate-800 text-slate-100 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-all placeholder:text-slate-600" />
+              class="w-full pl-9 py-2.5 bg-white border border-[#E8E9ED] text-[#111318] rounded-xl text-sm focus:outline-none focus:border-[#315EFB] transition-all placeholder:text-[#9297A1]" />
           </div>
         </div>
 
         <!-- Detalles del proyecto -->
         <div class="flex flex-col gap-1">
-          <label for="modal-details" class="text-xs font-semibold text-slate-300">Resumen de lo que necesitas (Opcional)</label>
+          <label for="modal-details" class="text-xs font-semibold text-[#111318]">Resumen de lo que necesitas (Opcional)</label>
           <textarea 
             pTextarea 
             id="modal-details" 
@@ -146,7 +146,7 @@
             [(ngModel)]="details" 
             placeholder="¿Qué funcionalidad, diseño o integración buscas?" 
             rows="2" 
-            class="w-full p-2.5 bg-slate-900 border border-slate-800 text-slate-100 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition-all placeholder:text-slate-600 resize-none"></textarea>
+            class="w-full p-2.5 bg-white border border-[#E8E9ED] text-[#111318] rounded-xl text-sm focus:outline-none focus:border-[#315EFB] transition-all placeholder:text-[#9297A1] resize-none"></textarea>
         </div>
 
         <!-- Tratamiento de datos (Habeas Data) -->
@@ -156,8 +156,8 @@
             id="modal-terms"
             name="acceptDataPolicy"
             [(ngModel)]="acceptDataPolicy"
-            class="mt-1 rounded bg-slate-900 border-slate-800 text-blue-600 focus:ring-0 cursor-pointer" />
-          <label for="modal-terms" class="text-[11px] text-slate-400 leading-snug cursor-pointer">
+            class="mt-1 rounded bg-white border-[#E8E9ED] text-[#315EFB] focus:ring-0 cursor-pointer" />
+          <label for="modal-terms" class="text-[11px] text-[#666B75] leading-snug cursor-pointer">
             Autorizo a SAMTS el tratamiento de mis datos de contacto para la formulación de la propuesta comercial, según la Ley 1581 de 2012.
           </label>
         </div>
@@ -167,7 +167,7 @@
           <button 
             type="submit" 
             [disabled]="isSubmitting() || !name || !email || !whatsapp || !acceptDataPolicy"
-            class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99] transition-all duration-200">
+            class="w-full bg-[#315EFB] hover:bg-[#2148d6] text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#315EFB]/25 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99] transition-all duration-200">
             <i *ngIf="isSubmitting()" class="pi pi-spinner animate-spin"></i>
             <span>{{ isSubmitting() ? 'Enviando requerimiento...' : 'Enviar requerimiento a SAMTS' }}</span>
             <i *ngIf="!isSubmitting()" class="pi pi-arrow-right"></i>
@@ -176,8 +176,8 @@
       </form>
 
       <!-- Footer Info -->
-      <div class="text-center text-[11px] text-slate-500 flex items-center justify-center gap-1.5">
-        <i class="pi pi-shield text-[10px] text-blue-400"></i>
+      <div class="text-center text-[11px] text-[#9297A1] flex items-center justify-center gap-1.5">
+        <i class="pi pi-shield text-[10px] text-[#315EFB]"></i>
         <span>Respuesta en menos de 24 horas hábiles · Sin compromiso comercial</span>
       </div>
     </div>

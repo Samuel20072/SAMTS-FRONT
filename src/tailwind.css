@@ -3,20 +3,32 @@
 @import "primeicons/primeicons.css";
 
 @theme {
-  --font-sans: "Inter", sans-serif;
-  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* Violet palette */
-  --color-violet-50:  #f0edfe;
-  --color-violet-100: #ddd7fc;
-  --color-violet-200: #bbb0f9;
-  --color-violet-300: #9989f6;
-  --color-violet-400: #7762f3;
-  --color-violet-500: #4F35F3;
-  --color-violet-600: #3B25D4;
-  --color-violet-700: #2c1cac;
-  --color-violet-800: #1e1383;
-  --color-violet-900: #110a5b;
+  /* ─── SAMTS White Experience — superficies ─── */
+  --color-surface: #FFFFFF;
+  --color-surface-2: #F7F8FA;
+  --color-line: #E8E9ED;
+
+  /* ─── Tipografía ─── */
+  --color-ink: #111318;
+  --color-ink-2: #666B75;
+  --color-ink-3: #9297A1;
+
+  /* ─── Acento (azul eléctrico) ─── */
+  --color-accent: #315EFB;
+  --color-accent-soft: #EDF2FF;
+
+  /* ─── Escala de acento reutilizada en la escala "violet" usada por componentes ─── */
+  --color-violet-50:  #EDF2FF;
+  --color-violet-100: #DCE5FF;
+  --color-violet-200: #BCCEFF;
+  --color-violet-300: #93AEFF;
+  --color-violet-400: #6488FE;
+  --color-violet-500: #315EFB;
+  --color-violet-600: #2148D6;
+  --color-violet-700: #1A38AB;
+  --color-violet-800: #162E85;
+  --color-violet-900: #12235E;
 }
-
-@custom-variant dark (&:where(.dark, .dark *));

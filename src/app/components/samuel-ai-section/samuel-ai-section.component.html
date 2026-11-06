@@ -1,0 +1,92 @@
+<!-- ══════════════════════════════════════════════════════════════
+     Samuel AI — Sección de presentación
+     Única aparición de Samuel como "composición de personaje" (avatar CSS/SVG).
+     ══════════════════════════════════════════════════════════════ -->
+<section id="samuel-ai" class="sai-section" aria-labelledby="sai-title">
+
+  <!-- Fondo: glows azules muy suaves -->
+  <div class="sai-bg" aria-hidden="true">
+    <span class="sai-bg__glow sai-bg__glow--a"></span>
+    <span class="sai-bg__glow sai-bg__glow--b"></span>
+  </div>
+
+  <div class="sai-container">
+
+    <!-- ─── LADO IZQUIERDO — Texto ─────────────────────────────── -->
+    <div class="sai-copy">
+      <span class="sai-badge" samtsAnimate="fade-up" animDelay="0ms">
+        <i class="pi pi-sparkles"></i>
+        Samuel AI
+      </span>
+
+      <h2 id="sai-title" class="sai-title" samtsAnimate="fade-up" animDelay="80ms">
+        Una nueva forma de encontrar la
+        <span class="sai-title__accent">solución que tu negocio necesita.</span>
+      </h2>
+
+      <p class="sai-desc" samtsAnimate="fade-up" animDelay="160ms">
+        Samuel es el asistente de SAMTS que analiza el estado actual de tu negocio,
+        identifica tus necesidades y te recomienda la solución digital que mejor encaja contigo.
+      </p>
+
+      <ul class="sai-benefits" samtsAnimate="fade-up" animDelay="240ms">
+        @for (benefit of benefits; track benefit) {
+          <li class="sai-benefit">
+            <span class="sai-check"><i class="pi pi-check"></i></span>
+            <span>{{ benefit }}</span>
+          </li>
+        }
+      </ul>
+
+      <div class="sai-actions" samtsAnimate="fade-up" animDelay="320ms">
+        <button type="button" class="sai-btn" (click)="startDiagnosis()">
+          <i class="pi pi-sparkles"></i>
+          Iniciar diagnóstico
+        </button>
+      </div>
+    </div>
+
+    <!-- ─── LADO DERECHO — Composición de Samuel (avatar CSS/SVG) ─ -->
+    <div class="sai-visual" samtsAnimate="fade-scale" animDelay="200ms">
+      <div class="sai-scene" aria-hidden="true">
+
+        <!-- Ondas / aros concéntricos -->
+        <span class="sai-ring sai-ring--static"></span>
+        <span class="sai-ring sai-ring--pulse"></span>
+        <span class="sai-ring sai-ring--pulse2"></span>
+
+        <!-- Líneas punteadas orbitales -->
+        <svg class="sai-orbit-svg" viewBox="0 0 400 400" fill="none">
+          <circle cx="200" cy="200" r="150" class="sai-orbit-line"></circle>
+          <circle cx="200" cy="200" r="112" class="sai-orbit-line sai-orbit-line--inner"></circle>
+        </svg>
+
+        <!-- Puntos orbitando -->
+        <div class="sai-orbit sai-orbit--1"><span class="sai-node"></span></div>
+        <div class="sai-orbit sai-orbit--2"><span class="sai-node"></span></div>
+
+        <!-- Partículas flotantes de IA -->
+        <span class="sai-spark sai-spark--1"></span>
+        <span class="sai-spark sai-spark--2"></span>
+        <span class="sai-spark sai-spark--3"></span>
+
+        <!-- Halo / glow azul -->
+        <span class="sai-glow"></span>
+
+        <!-- Núcleo: avatar de Samuel -->
+        <div class="sai-orb">
+          <span class="sai-orb__shine"></span>
+          <i class="pi pi-sparkles sai-orb__icon"></i>
+        </div>
+
+        <!-- Badge de estado -->
+        <span class="sai-status">
+          <span class="sai-status__dot"></span>
+          Online
+        </span>
+
+      </div>
+    </div>
+
+  </div>
+</section>

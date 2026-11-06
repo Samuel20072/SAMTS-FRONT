@@ -32,11 +32,13 @@ export class DemoEditorComponent {
   });
 
   readonly nicheMetas: NicheMeta[] = [
-    { id: 'boutique', label: 'Ropa & Moda', icon: 'pi-tag' },
+    { id: 'boutique', label: 'Tienda (Ropa)', icon: 'pi-shopping-bag' },
     { id: 'restaurant', label: 'Restaurante', icon: 'pi-apple' },
     { id: 'barbershop', label: 'Barbería', icon: 'pi-star' },
     { id: 'products', label: 'Tienda Tech', icon: 'pi-box' },
     { id: 'services', label: 'Servicios', icon: 'pi-briefcase' },
+    { id: 'coaches', label: 'Entrenadores', icon: 'pi-heart' },
+    { id: 'automations', label: 'Automatizaciones', icon: 'pi-bolt' },
   ];
 
   /** Active niche being edited — synced with demo section active niche */

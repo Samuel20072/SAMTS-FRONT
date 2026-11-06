@@ -23,8 +23,8 @@ interface WorkStep {
       width: 100%;
     }
     .hww-section {
-      background-color: #070B18;
-      color: #F8FAFC;
+      background-color: var(--color-surface-2);
+      color: var(--color-ink);
       position: relative;
       overflow: hidden;
       padding: 6rem 1.5rem 7rem;
@@ -49,31 +49,29 @@ interface WorkStep {
       font-weight: 700;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: #60A5FA;
-      background: rgba(37, 99, 235, 0.12);
-      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: var(--color-accent);
+      background: var(--color-accent-soft);
+      border: 1px solid rgba(49, 94, 251, 0.18);
       padding: 0.4rem 1rem;
       border-radius: 9999px;
       margin-bottom: 1.25rem;
     }
     .hww-title {
-      font-family: var(--font-display, 'Outfit', sans-serif) !important;
+      font-family: var(--font-display) !important;
       font-size: clamp(2.2rem, 4.5vw, 3.5rem);
       font-weight: 800 !important;
-      color: #FFFFFF !important;
+      color: var(--color-ink) !important;
       line-height: 1.15;
       letter-spacing: -0.025em;
       margin-bottom: 1.25rem;
       text-align: center;
     }
     .hww-highlight {
-      background: linear-gradient(135deg, #60A5FA 0%, #38BDF8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--color-accent);
     }
     .hww-subtitle {
       font-size: 1.05rem;
-      color: #94A3B8 !important;
+      color: var(--color-ink-2) !important;
       max-width: 620px;
       margin: 0 auto;
       line-height: 1.6;
@@ -108,33 +106,31 @@ interface WorkStep {
       width: 48px;
       height: 48px;
       border-radius: 14px;
-      background: rgba(37, 99, 235, 0.15);
-      border: 1px solid rgba(59, 130, 246, 0.35);
-      color: #60A5FA;
-      font-family: var(--font-display, monospace);
+      background: #ffffff;
+      border: 1px solid var(--color-line);
+      color: var(--color-accent);
+      font-family: var(--font-display);
       font-weight: 800;
       font-size: 1.1rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
+      box-shadow: var(--shadow-sm);
     }
     .hww-card {
       flex: 1;
       width: 100%;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(51, 65, 85, 0.7);
+      background: #ffffff;
+      border: 1px solid var(--color-line);
       border-radius: 1.25rem;
       padding: 1.75rem 2rem;
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-sm);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .hww-card:hover {
-      border-color: rgba(96, 165, 250, 0.5);
-      background: rgba(15, 23, 42, 0.95);
-      transform: translateY(-2px);
-      box-shadow: 0 15px 35px -10px rgba(37, 99, 235, 0.2);
+      border-color: rgba(49, 94, 251, 0.35);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
     }
     .hww-card-top {
       display: flex;
@@ -145,69 +141,71 @@ interface WorkStep {
     .hww-step-title {
       font-size: 1.25rem;
       font-weight: 750 !important;
-      color: #FFFFFF !important;
+      color: var(--color-ink) !important;
       margin: 0;
-      font-family: var(--font-display, 'Outfit', sans-serif) !important;
+      font-family: var(--font-display) !important;
     }
     .hww-step-icon {
       width: 32px;
       height: 32px;
       border-radius: 8px;
-      background: #1E293B;
-      border: 1px solid #334155;
+      background: var(--color-accent-soft);
+      border: 1px solid rgba(49, 94, 251, 0.16);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #94A3B8;
+      color: var(--color-accent);
       font-size: 0.85rem;
     }
     .hww-step-desc {
       font-size: 0.92rem;
-      color: #CBD5E1 !important;
+      color: var(--color-ink-2) !important;
       line-height: 1.6;
       margin: 0.5rem 0 1rem 0;
     }
     .hww-client-box {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(59, 130, 246, 0.2);
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-line);
       border-radius: 0.85rem;
       padding: 0.75rem 1rem;
       display: flex;
       align-items: flex-start;
       gap: 0.65rem;
     }
+    .hww-client-box i {
+      color: var(--color-accent);
+    }
     .hww-client-text {
       font-size: 0.82rem;
-      color: #E2E8F0 !important;
+      color: var(--color-ink) !important;
       line-height: 1.5;
       margin: 0;
     }
     .hww-client-lead {
-      color: #93C5FD;
+      color: var(--color-accent);
       font-weight: 700;
     }
     .hww-cta-banner {
       margin-top: 5rem;
       position: relative;
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 58, 138, 0.25) 50%, rgba(15, 23, 42, 0.98) 100%);
-      border: 1px solid rgba(59, 130, 246, 0.35);
+      background: #ffffff;
+      border: 1px solid var(--color-line);
       border-radius: 2rem;
       padding: 3.5rem 2rem;
       text-align: center;
       overflow: hidden;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 40px rgba(37, 99, 235, 0.15);
-      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-md);
     }
     .hww-cta-glow {
       position: absolute;
-      top: -50px;
+      top: -60px;
       left: 50%;
       transform: translateX(-50%);
       width: 450px;
       height: 220px;
-      background: radial-gradient(ellipse, rgba(59, 130, 246, 0.35) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(49, 94, 251, 0.12) 0%, transparent 70%);
       pointer-events: none;
-      filter: blur(45px);
+      filter: blur(50px);
     }
     .hww-cta-badge {
       display: inline-flex;
@@ -217,9 +215,9 @@ interface WorkStep {
       font-weight: 750;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #60A5FA;
-      background: rgba(37, 99, 235, 0.18);
-      border: 1px solid rgba(96, 165, 250, 0.35);
+      color: var(--color-accent);
+      background: var(--color-accent-soft);
+      border: 1px solid rgba(49, 94, 251, 0.18);
       padding: 0.45rem 1.15rem;
       border-radius: 9999px;
       margin-bottom: 1.5rem;
@@ -227,10 +225,10 @@ interface WorkStep {
       z-index: 2;
     }
     .hww-cta-title {
-      font-family: var(--font-display, 'Outfit', sans-serif) !important;
+      font-family: var(--font-display) !important;
       font-size: clamp(2rem, 3.8vw, 2.75rem);
       font-weight: 800 !important;
-      color: #FFFFFF !important;
+      color: var(--color-ink) !important;
       line-height: 1.2;
       letter-spacing: -0.02em;
       margin: 0 auto 1rem auto;
@@ -240,7 +238,7 @@ interface WorkStep {
     }
     .hww-cta-desc {
       font-size: 1.05rem;
-      color: #CBD5E1 !important;
+      color: var(--color-ink-2) !important;
       max-width: 540px;
       margin: 0 auto 2.25rem auto;
       line-height: 1.6;
@@ -263,21 +261,22 @@ interface WorkStep {
       justify-content: center;
       gap: 0.75rem;
       padding: 1.05rem 2.2rem;
-      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
-      color: #FFFFFF;
-      font-weight: 750;
+      background: var(--color-accent);
+      color: #ffffff;
+      font-weight: 700;
       font-size: 0.98rem;
       border-radius: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      border: 1px solid var(--color-accent);
+      box-shadow: 0 10px 25px -8px rgba(49, 94, 251, 0.55);
       cursor: pointer;
       transition: all 0.25s ease;
       text-decoration: none;
     }
     .hww-btn-primary:hover {
-      background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+      background: var(--color-violet-dark);
+      border-color: var(--color-violet-dark);
       transform: translateY(-2px);
-      box-shadow: 0 15px 30px -5px rgba(37, 99, 235, 0.65);
+      box-shadow: 0 15px 30px -8px rgba(49, 94, 251, 0.6);
     }
     .hww-btn-secondary {
       display: inline-flex;
@@ -285,21 +284,24 @@ interface WorkStep {
       justify-content: center;
       gap: 0.75rem;
       padding: 1.05rem 2rem;
-      background: rgba(15, 23, 42, 0.85);
-      color: #F8FAFC;
+      background: #ffffff;
+      color: var(--color-ink);
       font-weight: 650;
       font-size: 0.95rem;
       border-radius: 1rem;
-      border: 1px solid rgba(71, 85, 105, 0.7);
+      border: 1px solid var(--color-line);
       cursor: pointer;
       transition: all 0.25s ease;
-      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow-sm);
+    }
+    .hww-btn-secondary i {
+      color: var(--color-accent);
     }
     .hww-btn-secondary:hover {
-      background: rgba(30, 41, 59, 0.95);
-      border-color: #60A5FA;
-      color: #FFFFFF;
+      background: var(--color-surface-2);
+      border-color: #d5d7dd;
       transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
     .hww-trust-pills {
       display: flex;
@@ -308,7 +310,7 @@ interface WorkStep {
       align-items: center;
       gap: 1.5rem;
       padding-top: 1.75rem;
-      border-top: 1px solid rgba(51, 65, 85, 0.4);
+      border-top: 1px solid var(--color-line);
       position: relative;
       z-index: 2;
     }
@@ -317,14 +319,15 @@ interface WorkStep {
       align-items: center;
       gap: 0.45rem;
       font-size: 0.82rem;
-      color: #94A3B8;
+      color: var(--color-ink-2);
       font-weight: 550;
     }
     .hww-trust-item i {
       color: #10B981;
       font-size: 0.75rem;
     }
-  `]
+  
+`]
 })
 export class HowWeWorkComponent {
   consultation = inject(ConsultationService);

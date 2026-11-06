@@ -1,0 +1,99 @@
+<section id="precios" class="pricing-section">
+  <div class="pricing-container">
+
+    <!-- Header Centrado -->
+    <div class="pricing-header" samtsAnimate animDelay="0ms">
+      <div class="pricing-eyebrow">
+        <i class="pi pi-tag text-xs"></i>
+        <span>Precios</span>
+      </div>
+      <h2 class="pricing-title">
+        Planes diseñados <span class="pricing-highlight">para cada etapa.</span>
+      </h2>
+      <p class="pricing-subtitle">
+        Entregables definidos, diseño profesional a medida y código de alto rendimiento sin costos ocultos.
+      </p>
+    </div>
+
+    <!-- Grid de Planes -->
+    <div class="pricing-grid">
+      @for (plan of plans; track plan.name; let idx = $index) {
+        <article
+          class="plan-card"
+          [class.plan-card--featured]="plan.highlight"
+          samtsAnimate="fade-up"
+          [animDelay]="(idx * 120) + 'ms'">
+
+          @if (plan.highlight) {
+            <span class="plan-badge">MÁS POPULAR</span>
+          }
+
+          <div class="plan-body">
+            <h3 class="plan-name">{{ plan.name }}</h3>
+            <p class="plan-desc">{{ plan.description }}</p>
+
+            <!-- Precio -->
+            <div class="plan-price-wrap">
+              <span class="plan-since">Desde</span>
+              <span class="plan-price">{{ plan.priceCOP }}</span>
+              <span class="plan-usd">{{ plan.priceUSD }}</span>
+              <span class="plan-period">{{ plan.period }}</span>
+            </div>
+
+            <div class="plan-divider"></div>
+
+            <!-- Características incluidas -->
+            <ul class="plan-features">
+              @for (feature of plan.features; track feature) {
+                <li class="plan-feature">
+                  <span class="plan-check"><i class="pi pi-check"></i></span>
+                  <span class="plan-feature-text">{{ feature }}</span>
+                </li>
+              }
+            </ul>
+
+            <!-- No incluidos -->
+            <div class="plan-not-included">
+              <span class="plan-not-included-title">No incluye por defecto:</span>
+              <ul class="plan-not-included-list">
+                @for (item of plan.notIncluded; track item) {
+                  <li class="plan-not-included-item">
+                    <i class="pi pi-minus"></i>
+                    <span>{{ item }}</span>
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <button
+            type="button"
+            class="plan-cta"
+            [class.plan-cta--featured]="plan.highlight"
+            (click)="selectPlan(plan)">
+            <span>Comenzar proyecto</span>
+            <i class="pi pi-arrow-right text-xs"></i>
+          </button>
+        </article>
+      }
+    </div>
+
+    <!-- Fila de confianza -->
+    <div class="pricing-trust" samtsAnimate="fade-up" animDelay="200ms">
+      <div class="pricing-trust-item">
+        <i class="pi pi-globe"></i>
+        <span>Precios en COP y USD</span>
+      </div>
+      <div class="pricing-trust-item">
+        <i class="pi pi-lock"></i>
+        <span>Pagos por hitos acordados</span>
+      </div>
+      <div class="pricing-trust-item">
+        <i class="pi pi-shield"></i>
+        <span>Alcance claro por escrito</span>
+      </div>
+    </div>
+
+  </div>
+</section>

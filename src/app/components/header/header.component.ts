@@ -4,7 +4,6 @@ import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { ConsultationService } from '../../services/consultation.service';
-import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +13,6 @@ import { ThemeService } from '../../services/theme.service';
 })
 export class HeaderComponent implements OnInit {
   modalService = inject(ConsultationService);
-  themeService = inject(ThemeService);
   router = inject(Router);
   private elRef = inject(ElementRef);
   isMenuOpen = signal(false);
@@ -23,27 +21,9 @@ export class HeaderComponent implements OnInit {
   isHoveredTop = signal(false);
   currentUrl = signal(this.router.url);
 
-  // Dark header on dark-themed pages
-  isHomePage = computed(() => {
-    const url = this.currentUrl();
-    return (
-      url === '/' ||
-      url === '' ||
-      url.startsWith('/#') ||
-      url.startsWith('/?') ||
-      url.startsWith('/pricing') ||
-      url.startsWith('/contacto') ||
-      url.startsWith('/contact')
-    );
-  });
-
-  isHeaderLight = computed(() => !this.isHomePage());
-
   isHeaderHidden = computed(() => {
     return this.isDemoActive() && !this.isHoveredTop() && !this.isMenuOpen();
   });
-
-  isDark = this.themeService.isDark;
 
   constructor() {
     this.router.events.pipe(
@@ -112,10 +92,6 @@ export class HeaderComponent implements OnInit {
     // and demo section bottom is still visible in viewport (rect.bottom >= 120)
     const isActive = rect.top <= 80 && rect.bottom >= 120;
     this.isDemoActive.set(isActive);
-  }
-
-  toggleDarkMode() {
-    this.themeService.toggleDarkMode();
   }
 
   toggleMenu() {

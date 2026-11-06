@@ -46,6 +46,20 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'privacy',
+    loadComponent: () => import('./pages/privacy/privacy.page').then(m => m.PrivacyPage)
+  },
+  {
+    path: 'privacidad',
+    redirectTo: 'privacy',
+    pathMatch: 'full'
+  },
+  {
+    path: 'terminos',
+    redirectTo: 'privacy',
+    pathMatch: 'full'
+  },
+  {
     path: 'login',
     loadComponent: () => import('./pages/auth/login.page').then(m => m.LoginPage)
   },

@@ -11,7 +11,19 @@ export type LeadStatus =
   | 'NEGOTIATION'
   | 'WON'
   | 'LOST'
-  | 'FOLLOW_UP';
+  | 'FOLLOW_UP'
+  | 'SELECTED'
+  | 'WAITLIST'
+  | 'ACTIVATED';
+
+export interface CampaignStats {
+  campaign: string;
+  total: number;
+  selected: number;
+  remaining: number;
+  waitlist: number;
+  maxSlots: number;
+}
 
 export interface CreateLeadPayload {
   name: string;
@@ -79,10 +91,21 @@ export interface UpdateLeadStatusPayload {
 export class LeadMagnetApiService {
   private http = inject(HttpClient);
   private baseUrl = `${environment.apiUrl}/lead-magnet/leads`;
+  private campaignUrl = `${environment.apiUrl}/lead-magnet/campaign`;
 
   /** Submit lead from lead magnet, consultation modal, or diagnosis */
   createLead(payload: CreateLeadPayload): Observable<LeadResponse> {
     return this.http.post<LeadResponse>(this.baseUrl, payload);
+  }
+
+  /** Register for a specific campaign (with slot control) */
+  registerCampaign(payload: CreateLeadPayload): Observable<LeadResponse> {
+    return this.http.post<LeadResponse>(`${this.campaignUrl}/register`, payload);
+  }
+
+  /** Get campaign stats (slots, total, etc) */
+  getCampaignStats(campaign: string): Observable<CampaignStats> {
+    return this.http.get<CampaignStats>(`${this.campaignUrl}/${campaign}/stats`);
   }
 
   /** Admin: Get all leads for CRM */

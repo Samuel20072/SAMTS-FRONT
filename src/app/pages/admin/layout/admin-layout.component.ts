@@ -2,7 +2,6 @@ import { Component, signal, ViewChild, ElementRef, AfterViewChecked, inject, OnI
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ThemeService } from '../../../services/theme.service';
 import { AiSettingsService } from '../../../services/api/ai-settings.service';
 import { PromotionsService } from '../../../services/api/promotions.service';
 import { BlogPostsService } from '../../../services/api/blog-posts.service';
@@ -24,13 +23,11 @@ interface ChatMessage {
 export class AdminLayoutComponent implements OnInit, AfterViewChecked {
   @ViewChild('copilotScroll') private copilotScrollContainer!: ElementRef;
 
-  themeService = inject(ThemeService);
   aiSettingsService = inject(AiSettingsService);
   promotionsService = inject(PromotionsService);
   blogPostsService = inject(BlogPostsService);
   aiGenerationService = inject(AiGenerationService);
 
-  isDark = this.themeService.isDark;
   sidebarOpen = signal(true);
   copilotOpen = signal(false);
   isCopilotTyping = signal(false);
@@ -64,10 +61,6 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
   
   toggleSidebar() {
     this.sidebarOpen.set(!this.sidebarOpen());
-  }
-
-  toggleDarkMode() {
-    this.themeService.toggleDarkMode();
   }
 
   toggleCopilot() {
