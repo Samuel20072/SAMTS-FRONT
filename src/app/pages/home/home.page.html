@@ -1,16 +1,22 @@
 <app-header></app-header>
-<main class="samuel-home-root" [class.scroll-locked]="!samuel.demoUnlocked()">
+<main class="samts-home-root">
   <app-hero></app-hero>
 
-  @if (samuel.demoUnlocked()) {
-    <app-business-demo-section
-      [plan]="samuel.recommendation()?.primary || null"
-      [initialBusinessType]="samuel.answers().businessType || ''">
-    </app-business-demo-section>
-    <app-how-we-work></app-how-we-work>
-    <app-faq></app-faq>
-    <app-footer></app-footer>
-    <app-demo-editor></app-demo-editor>
-  }
+  <app-solutions-section></app-solutions-section>
+  <app-projects-section></app-projects-section>
+  <app-samts-catalog-section></app-samts-catalog-section>
+
+  <app-business-demo-section
+    [plan]="samuel.recommendation()?.primary || null"
+    [initialBusinessType]="samuel.answers().businessType || ''">
+  </app-business-demo-section>
+
+  <app-how-we-work></app-how-we-work>
+  <app-pricing-section></app-pricing-section>
+  <app-samuel-ai-section></app-samuel-ai-section>
+  <app-faq></app-faq>
+  <app-final-cta></app-final-cta>
 </main>
+<app-footer></app-footer>
+<app-demo-editor></app-demo-editor>
 <app-consultation-modal></app-consultation-modal>

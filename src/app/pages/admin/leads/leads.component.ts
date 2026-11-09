@@ -6,6 +6,7 @@ import {
   LeadResponse,
   LeadStatus,
   UpdateLeadStatusPayload,
+  CampaignStats,
 } from '../../../services/api/lead-magnet-api.service';
 
 interface StatusConfig {
@@ -22,6 +23,9 @@ const STATUS_LABELS: Record<LeadStatus, StatusConfig> = {
   WON:           { label: 'Ganado',         classes: 'bg-green-500/10 text-green-400 border-green-500/20' },
   LOST:          { label: 'Perdido',        classes: 'bg-red-500/10 text-red-400 border-red-500/20' },
   FOLLOW_UP:     { label: 'Seguimiento',    classes: 'bg-slate-500/10 text-slate-400 border-slate-500/20' },
+  SELECTED:      { label: 'Seleccionado',   classes: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
+  WAITLIST:      { label: 'Lista Espera',   classes: 'bg-amber-500/10 text-amber-400 border-amber-500/20' },
+  ACTIVATED:     { label: 'Activado',       classes: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' },
 };
 
 const ALL_STATUSES = Object.keys(STATUS_LABELS) as LeadStatus[];
@@ -41,6 +45,12 @@ const ALL_STATUSES = Object.keys(STATUS_LABELS) as LeadStatus[];
         </div>
         <div class="flex items-center gap-2">
           <button
+            (click)="exportToCsv()"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 text-sm font-bold transition-colors shadow-lg shadow-indigo-500/20">
+            <i class="pi pi-download"></i>
+            Exportar CSV
+          </button>
+          <button
             (click)="loadLeads()"
             class="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm transition-colors">
             <i class="pi pi-refresh" [class.animate-spin]="isLoading()"></i>
@@ -50,18 +60,54 @@ const ALL_STATUSES = Object.keys(STATUS_LABELS) as LeadStatus[];
         </div>
       </div>
 
+      <!-- Campaign Summary (Launch Campaign) -->
+      <div *ngIf="catalogStats()" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-white/5 rounded-2xl p-4">
+          <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Registros Catalog</span>
+          <strong class="text-2xl font-display font-black text-slate-900 dark:text-white">{{ catalogStats()?.total }}</strong>
+        </div>
+        <div class="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-white/5 rounded-2xl p-4">
+          <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Cupos Seleccionados</span>
+          <strong class="text-2xl font-display font-black text-emerald-500">{{ catalogStats()?.selected }} / 5</strong>
+        </div>
+        <div class="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-white/5 rounded-2xl p-4">
+          <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">En Lista de Espera</span>
+          <strong class="text-2xl font-display font-black text-amber-500">{{ catalogStats()?.waitlist }}</strong>
+        </div>
+        <div class="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-white/5 rounded-2xl p-4">
+          <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Restantes</span>
+          <strong class="text-2xl font-display font-black text-indigo-500">{{ catalogStats()?.remaining }}</strong>
+        </div>
+      </div>
+
       <!-- Filters -->
-      <div class="flex flex-wrap gap-2 mb-6">
-        <button
-          *ngFor="let s of ['ALL', ...allStatuses]"
-          (click)="setFilter(s)"
-          class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all"
-          [class]="filterStatus() === s
-            ? 'bg-blue-600 text-white border-blue-600'
-            : 'bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-blue-500/50'">
-          {{ s === 'ALL' ? 'Todos' : statusLabel(s) }}
-          <span *ngIf="s !== 'ALL'" class="ml-1 opacity-60">({{ countByStatus(s) }})</span>
-        </button>
+      <div class="flex flex-wrap items-center gap-4 mb-6">
+        <div class="flex flex-wrap gap-2">
+          <button
+            *ngFor="let s of ['ALL', ...allStatuses]"
+            (click)="setFilter(s)"
+            class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all"
+            [class]="filterStatus() === s
+              ? 'bg-blue-600 text-white border-blue-600'
+              : 'bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-blue-500/50'">
+            {{ s === 'ALL' ? 'Todos' : statusLabel(s) }}
+            <span *ngIf="s !== 'ALL'" class="ml-1 opacity-60">({{ countByStatus(s) }})</span>
+          </button>
+        </div>
+        
+        <div class="h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2 hidden sm:block"></div>
+        
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-slate-400 uppercase">Campaña:</span>
+          <select 
+            [(ngModel)]="filterCampaign" 
+            class="text-xs font-bold bg-slate-100 dark:bg-slate-800 border-none rounded-lg px-2 py-1.5 focus:ring-0">
+            <option value="ALL">Todas las fuentes</option>
+            <option value="lanzamiento_20_dias">Lanzamiento Catalog</option>
+            <option value="samuel_diagnostic">Samuel AI</option>
+            <option value="consultation_modal">Consultas Directas</option>
+          </select>
+        </div>
       </div>
 
       <!-- Search -->
@@ -273,19 +319,31 @@ export class LeadsComponent implements OnInit {
   isLoading = signal(true);
   error = signal<string | null>(null);
   filterStatus = signal<string>('ALL');
+  filterCampaign = 'ALL';
   searchQuery = '';
   expandedId = signal<string | null>(null);
   deleteTarget = signal<LeadResponse | null>(null);
   editNotes: Record<string, string> = {};
+  catalogStats = signal<CampaignStats | null>(null);
 
   readonly allStatuses = ALL_STATUSES;
 
   readonly filteredLeads = computed(() => {
     let list = this.leads();
+    
+    // Status Filter
     const filter = this.filterStatus();
     if (filter !== 'ALL') {
       list = list.filter((l) => l.status === filter);
     }
+    
+    // Campaign Filter
+    const camp = this.filterCampaign;
+    if (camp !== 'ALL') {
+      list = list.filter((l) => l.campaign === camp);
+    }
+
+    // Search Query
     const q = this.searchQuery.trim().toLowerCase();
     if (q) {
       list = list.filter(
@@ -304,6 +362,7 @@ export class LeadsComponent implements OnInit {
 
   ngOnInit() {
     this.loadLeads();
+    this.loadCampaignStats();
   }
 
   loadLeads(): void {
@@ -326,6 +385,53 @@ export class LeadsComponent implements OnInit {
         this.isLoading.set(false);
       },
     });
+  }
+
+  loadCampaignStats(): void {
+    this.leadApi.getCampaignStats('lanzamiento_20_dias').subscribe({
+      next: (stats) => this.catalogStats.set(stats),
+      error: (err) => console.error('Error loading campaign stats', err)
+    });
+  }
+
+  exportToCsv(): void {
+    const data = this.filteredLeads();
+    if (data.length === 0) return;
+
+    const headers = [
+      'ID', 'Nombre', 'Email', 'WhatsApp', 'Negocio', 'Tipo', 'Solución', 
+      'Campaña', 'Estado', 'Fuente', 'Fecha Registro', 'Notas'
+    ];
+
+    const rows = data.map(l => [
+      l.id,
+      `"${l.name}"`,
+      l.email,
+      l.whatsapp || '',
+      `"${l.businessName || ''}"`,
+      l.businessType,
+      `"${l.solutionInterest || ''}"`,
+      l.campaign,
+      l.status,
+      l.source || '',
+      new Date(l.createdAt).toLocaleString(),
+      `"${(l.notes || '').replace(/"/g, '""')}"`
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(r => r.join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `leads_samts_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   setFilter(status: string): void {

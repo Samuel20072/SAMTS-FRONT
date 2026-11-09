@@ -2,22 +2,6 @@ import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../environments/environment';
 
-/**
- * SAMTS Centralized Analytics Layer
- * ─────────────────────────────────
- * Single point of truth for all tracking events.
- * Supports: Google Analytics 4, Meta Pixel, Google Ads.
- *
- * HOW TO USE:
- *   inject(AnalyticsService).track('event_name', { key: 'value' });
- *
- * HOW TO CONFIGURE:
- *   Fill in the IDs in src/environments/environment.ts:
- *   - gaId          → Google Analytics 4 Measurement ID (G-XXXXXXXXXX)
- *   - metaPixelId   → Meta Pixel ID (123456789012345)
- *   - googleAdsId   → Google Ads ID (AW-XXXXXXXXX)
- */
-
 declare global {
   interface Window {
     gtag?: (...args: any[]) => void;
@@ -28,7 +12,7 @@ declare global {
   }
 }
 
-/** All event names used in SAMTS lead magnet funnel */
+/** All event names used in SAMTS funnels and components */
 export type AnalyticsEvent =
   | 'page_view'
   | 'lead_magnet_view'
@@ -43,7 +27,12 @@ export type AnalyticsEvent =
   | 'whatsapp_clicked'
   | 'consultation_submitted'
   | 'faq_opened'
-  | 'how_we_work_viewed';
+  | 'how_we_work_viewed'
+  | 'campaign_view'
+  | 'campaign_form_open'
+  | 'campaign_form_submit'
+  | 'campaign_selected'
+  | 'campaign_waitlist';
 
 @Injectable({
   providedIn: 'root',
@@ -54,12 +43,90 @@ export class AnalyticsService {
   private readonly metaPixelId = environment.metaPixelId;
   private readonly googleAdsId = environment.googleAdsId;
 
+  private readonly consentStorageKey = 'samts_cookie_consent';
+
   /** Set of events already fired this session — prevents duplicates */
   private readonly firedEvents = new Set<string>();
 
-  /** Initialize scripts. Call this once from AppComponent or App. */
+  /** Returns whether current execution environment is browser */
+  get isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
+
+  /** Returns whether GA4 is initialized */
+  get isGAInitialized(): boolean {
+    if (!this.isBrowser) return false;
+    return typeof window !== 'undefined' && !!window._gaInitialized;
+  }
+
+  /**
+   * Has the user responded to the consent dialog (either granted or denied)?
+   */
+  get hasAnsweredConsent(): boolean {
+    return this.getStoredConsent() !== null;
+  }
+
+  /**
+   * Returns current active consent (true if explicitly granted, false if denied or pending).
+   */
+  get hasConsent(): boolean {
+    return this.getStoredConsent() === true;
+  }
+
+  /**
+   * Sets user consent in compliance with Google Consent Mode v2 and Meta Pixel.
+   */
+  setConsent(granted: boolean): void {
+    if (!this.isBrowser || typeof window === 'undefined') return;
+
+    try {
+      localStorage.setItem(this.consentStorageKey, granted ? 'granted' : 'denied');
+    } catch {
+      // Fallback if localStorage is restricted
+    }
+
+    // Update Google Consent Mode v2
+    if (window.gtag) {
+      window.gtag('consent', 'update', {
+        analytics_storage: granted ? 'granted' : 'denied',
+        ad_storage: granted ? 'granted' : 'denied',
+        ad_user_data: granted ? 'granted' : 'denied',
+        ad_personalization: granted ? 'granted' : 'denied',
+      });
+    }
+
+    // Update Meta Pixel consent
+    if (window.fbq) {
+      window.fbq('consent', granted ? 'grant' : 'revoke');
+    }
+  }
+
+  /**
+   * Clear consent decision (used to let users re-evaluate choices from privacy page)
+   */
+  resetConsentPrompt(): void {
+    if (!this.isBrowser || typeof window === 'undefined') return;
+    try {
+      localStorage.removeItem(this.consentStorageKey);
+    } catch {}
+
+    if (window.gtag) {
+      window.gtag('consent', 'update', {
+        analytics_storage: 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+      });
+    }
+
+    if (window.fbq) {
+      window.fbq('consent', 'revoke');
+    }
+  }
+
+  /** Initialize scripts. Called once upon Angular application bootstrap. */
   init(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
+    if (!this.isBrowser) return;
     this.initGA();
     this.initMetaPixel();
   }
@@ -69,7 +136,7 @@ export class AnalyticsService {
    * unless `{ deduplicate: false }` is passed.
    */
   track(event: AnalyticsEvent, params: Record<string, any> = {}, opts: { deduplicate?: boolean } = {}): void {
-    if (!isPlatformBrowser(this.platformId)) return;
+    if (!this.isBrowser) return;
 
     const key = `${event}:${JSON.stringify(params)}`;
     if (opts.deduplicate !== false && this.firedEvents.has(key)) return;
@@ -82,35 +149,62 @@ export class AnalyticsService {
     this.metaEvent(event, params);
   }
 
-  /** Track a page view (call on route change) */
+  /** Track a page view on route change */
   pageView(url: string, title: string): void {
-    if (!isPlatformBrowser(this.platformId)) return;
+    if (!this.isBrowser) return;
+
+    if (!window._gaInitialized && this.gaId) {
+      this.initGA();
+    }
 
     if (window.gtag && this.gaId) {
       window.gtag('config', this.gaId, { page_path: url, page_title: title });
     }
 
-    if (window.fbq) {
+    if (window.fbq && this.hasConsent) {
       window.fbq('track', 'PageView');
     }
   }
 
   // ── Private helpers ─────────────────────────────────────────────────────────
 
+  private getStoredConsent(): boolean | null {
+    if (!this.isBrowser || typeof window === 'undefined') return null;
+    try {
+      const val = localStorage.getItem(this.consentStorageKey);
+      if (val === 'granted') return true;
+      if (val === 'denied') return false;
+      return null;
+    } catch {
+      return null;
+    }
+  }
+
   private gaEvent(event: string, params: Record<string, any>): void {
-    if (!window.gtag || !this.gaId) return;
-    window.gtag('event', event, params);
+    if (!this.gaId) return;
+
+    if (!window._gaInitialized) {
+      this.initGA();
+    }
+
+    if (window.gtag) {
+      window.gtag('event', event, params);
+    }
   }
 
   private metaEvent(event: string, params: Record<string, any>): void {
-    if (!window.fbq) return;
+    // Strictly respect consent: never track on Meta if consent is denied
+    if (!window.fbq || !this.hasConsent) return;
 
-    // Map SAMTS events → Meta standard events where applicable
     const metaEventMap: Record<string, string> = {
       lead_magnet_form_submit: 'Lead',
+      campaign_form_submit: 'Lead',
+      lead_created: 'Lead',
       pdf_download: 'CompleteRegistration',
       diagnostic_started: 'InitiateCheckout',
       whatsapp_click: 'Contact',
+      whatsapp_clicked: 'Contact',
+      consultation_submitted: 'Contact',
       lead_converted: 'Purchase',
     };
 
@@ -123,27 +217,44 @@ export class AnalyticsService {
   }
 
   private initGA(): void {
-    if (!this.gaId || window._gaInitialized) return;
+    if (!this.gaId || typeof window === 'undefined' || window._gaInitialized) return;
     window._gaInitialized = true;
 
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${this.gaId}`;
-    document.head.appendChild(script);
+    // Attach script
+    if (typeof document !== 'undefined') {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${this.gaId}`;
+      document.head.appendChild(script);
+    }
 
     window.dataLayer = window.dataLayer || [];
     window.gtag = function (...args: any[]) {
       window.dataLayer!.push(args);
     };
+
+    // Google Consent Mode v2:
+    // If user has not explicitly accepted yet, all categories default to 'denied'
+    const isGranted = this.getStoredConsent() === true;
+    window.gtag('consent', 'default', {
+      analytics_storage: isGranted ? 'granted' : 'denied',
+      ad_storage: isGranted ? 'granted' : 'denied',
+      ad_user_data: isGranted ? 'granted' : 'denied',
+      ad_personalization: isGranted ? 'granted' : 'denied',
+      wait_for_update: 500,
+    });
+
     window.gtag('js', new Date());
+    // send_page_view: false ensures no duplicate automatic pageview;
+    // handled explicitly on Angular NavigationEnd
     window.gtag('config', this.gaId, { send_page_view: false });
   }
 
   private initMetaPixel(): void {
-    if (!this.metaPixelId || window._metaPixelInitialized) return;
+    if (!this.metaPixelId || typeof window === 'undefined' || window._metaPixelInitialized) return;
     window._metaPixelInitialized = true;
 
-    /* Meta Pixel base code — injected programmatically */
+    /* Meta Pixel base code */
     const f = window as any;
     const n: any = (f.fbq = function (...args: any[]) {
       n.callMethod ? n.callMethod.apply(n, args) : n.queue.push(args);
@@ -154,12 +265,16 @@ export class AnalyticsService {
     n.version = '2.0';
     n.queue = [];
 
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = 'https://connect.facebook.net/en_US/fbevents.js';
-    document.head.appendChild(script);
+    if (typeof document !== 'undefined') {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+      document.head.appendChild(script);
+    }
 
     window.fbq?.('init', this.metaPixelId);
-    window.fbq?.('track', 'PageView');
+    if (this.hasConsent) {
+      window.fbq?.('track', 'PageView');
+    }
   }
 }

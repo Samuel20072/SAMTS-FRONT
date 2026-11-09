@@ -35,6 +35,10 @@ export interface DemoNiche {
   badge: string;
   heroImage: string;
   primaryColor: string;
+  /** Categoría comercial mostrada en el selector de soluciones de la sección */
+  category?: string;
+  /** Descripción corta de la solución para el selector */
+  description?: string;
   products: DemoProduct[];
 }
 
@@ -52,6 +56,70 @@ export interface BarberStaffItem {
   rating: number;
   avatar: string;
   specialty: string;
+}
+
+/** ── Demo: Plataforma de entrenadores ── */
+export interface CoachClient {
+  id: string;
+  name: string;
+  goal: string;
+  avatar: string;
+  adherence: number;
+  progress: number;
+  nextSession: string;
+}
+
+export interface CoachExercise {
+  name: string;
+  sets: string;
+  reps: string;
+}
+
+export interface CoachRoutine {
+  id: string;
+  name: string;
+  image: string;
+  focus: string;
+  weeks: string;
+  progress: number;
+  exercises: CoachExercise[];
+}
+
+export interface CoachWeekDay {
+  label: string;
+  date: number;
+  sessions: number;
+  today?: boolean;
+}
+
+/** ── Demo: Automatizaciones inteligentes ── */
+export interface AutomationNode {
+  id: string;
+  type: 'trigger' | 'condition' | 'action';
+  title: string;
+  subtitle: string;
+  icon: string;
+  meta?: string;
+}
+
+export interface AutomationRun {
+  id: string;
+  time: string;
+  status: 'success' | 'error' | 'warning';
+  duration: string;
+  detail: string;
+}
+
+export interface AutomationFlow {
+  id: string;
+  name: string;
+  category: string;
+  active: boolean;
+  runs: number;
+  lastRun: string;
+  successRate: number;
+  nodes: AutomationNode[];
+  history: AutomationRun[];
 }
 
 @Component({
@@ -174,8 +242,10 @@ export class BusinessDemoSectionComponent implements OnInit {
   readonly niches: DemoNiche[] = [
     {
       id: 'boutique',
-      name: 'Ropa & Moda',
-      icon: 'pi-tag',
+      name: 'Tienda virtual',
+      icon: 'pi-shopping-bag',
+      category: 'E-commerce',
+      description: 'Tienda online premium con catálogo editorial, filtros, carrito y pedido por WhatsApp.',
       // These are static defaults; template reads reactive demoAssets() for boutique
       businessTitle: 'Rosant',
       tagline: 'Tu marca, tu estilo, tu esencia',
@@ -267,8 +337,10 @@ export class BusinessDemoSectionComponent implements OnInit {
     },
     {
       id: 'restaurant',
-      name: 'Restaurante & Comida',
+      name: 'Restaurante',
       icon: 'pi-apple',
+      category: 'Gastronomía',
+      description: 'Web gastronómica editorial con menú visual, categorías de platos y reservas en línea.',
       businessTitle: 'La Casona Gourmet',
       tagline: 'Sabores artesanales · Pide en línea y recibe en tu mesa o domicilio',
       badge: 'Menú Digital',
@@ -343,8 +415,10 @@ export class BusinessDemoSectionComponent implements OnInit {
     },
     {
       id: 'barbershop',
-      name: 'Barbería & Spa',
+      name: 'Barbería',
       icon: 'pi-star',
+      category: 'Servicios con cita',
+      description: 'Reserva de citas con selección de servicio, especialista, fecha y horario en vivo.',
       businessTitle: 'Barbería Exclusiva',
       tagline: 'Cortes de autor, rituales de toalla caliente y perfilado al detalle. Reserva tu turno en segundos.',
       badge: 'Citas & Servicios',
@@ -419,8 +493,10 @@ export class BusinessDemoSectionComponent implements OnInit {
     },
     {
       id: 'products',
-      name: 'Tienda de Productos & Tech',
+      name: 'Tienda tech',
       icon: 'pi-box',
+      category: 'E-commerce',
+      description: 'Catálogo de productos con ofertas, variantes, disponibilidad y compra inmediata.',
       businessTitle: 'Emetix Audio & Tech',
       tagline: 'Special Discount Latest Audio System & Wearables · Free Shipping',
       badge: 'Special Discount',
@@ -533,8 +609,10 @@ export class BusinessDemoSectionComponent implements OnInit {
     },
     {
       id: 'services',
-      name: 'Servicios Personales & Diseño',
+      name: 'Estudio de diseño',
       icon: 'pi-user',
+      category: 'Servicios creativos',
+      description: 'Portafolio de servicios profesionales con paquetes, precios y contacto directo.',
       businessTitle: 'Sevora Studio',
       tagline: 'Design Better, Faster, Smarter · Refined brands, websites & interfaces',
       badge: 'Product Design & Creative Direction',
@@ -593,6 +671,70 @@ export class BusinessDemoSectionComponent implements OnInit {
           subtitle: 'Auditoría express de UX, benchmarking y roadmap de optimización de conversión.',
           price: 1200,
           image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+      ],
+    },
+    {
+      id: 'coaches',
+      name: 'Plataforma de entrenadores',
+      icon: 'pi-heart',
+      category: 'Software a medida',
+      description: 'Plataforma para entrenadores: rutinas, seguimiento, progreso y calendario de clientes.',
+      businessTitle: 'Pulse Coaching',
+      tagline: 'Entrena más clientes con seguimiento real · Plataforma para entrenadores y sus atletas',
+      badge: 'Coach Platform',
+      heroImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1400&q=80',
+      primaryColor: '#0f1115',
+      products: [
+        {
+          id: 'c1',
+          name: 'Plan Fuerza & Hipertrofia',
+          category: 'Programas',
+          subtitle: '12 semanas · 4 sesiones por semana',
+          price: 89,
+          image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+        {
+          id: 'c2',
+          name: 'Plan Movilidad & Core',
+          category: 'Programas',
+          subtitle: '8 semanas · 3 sesiones por semana',
+          price: 69,
+          image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80',
+          inStock: true,
+        },
+      ],
+    },
+    {
+      id: 'automations',
+      name: 'Automatizaciones',
+      icon: 'pi-bolt',
+      category: 'Software a medida',
+      description: 'Constructor visual de flujos: disparadores, acciones, estado y historial de ejecuciones.',
+      businessTitle: 'Flux Automation',
+      tagline: 'Conecta, dispara y automatiza · Flujos visuales que trabajan por tu negocio 24/7',
+      badge: 'Workflow Builder',
+      heroImage: '',
+      primaryColor: '#4f46e5',
+      products: [
+        {
+          id: 'a1',
+          name: 'Pedido entrante → CRM',
+          category: 'Ventas',
+          subtitle: 'Crea el registro y confirma por mensaje',
+          price: 0,
+          image: '',
+          inStock: true,
+        },
+        {
+          id: 'a2',
+          name: 'Recordatorio de cita',
+          category: 'Operación',
+          subtitle: 'Avisa 24 h antes al cliente',
+          price: 0,
+          image: '',
           inStock: true,
         },
       ],
@@ -771,6 +913,372 @@ export class BusinessDemoSectionComponent implements OnInit {
     }
   }
 
+  // ════════════════════════════════════════════════════════════════
+  // PRESENTACIÓN DE LA SECCIÓN — selector visual de soluciones
+  // ════════════════════════════════════════════════════════════════
+
+  /** Solución activa con todos sus metadatos de presentación. */
+  readonly activeSolution = computed<DemoNiche>(() => {
+    return this.niches.find((n) => n.id === this.activeNicheId()) || this.niches[0];
+  });
+
+  /** Categorías únicas de las soluciones, para el selector visual. */
+  readonly solutionCategories = computed<string[]>(() => {
+    const cats: string[] = [];
+    for (const n of this.niches) {
+      if (n.category && !cats.includes(n.category)) cats.push(n.category);
+    }
+    return cats;
+  });
+
+  scrollToSimulator(): void {
+    const el = document.getElementById('demo-simulator');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  /** CTA comercial: abre el modal de consultoría con el contexto de la demo. */
+  requestSimilarSolution(): void {
+    const s = this.activeSolution();
+    this.modalService.open({
+      solutionInterest: s.name,
+      mainProblem: s.description || s.tagline,
+      source: 'home_demo_section',
+    });
+  }
+
+  // ════════════════════════════════════════════════════════════════
+  // DEMO: PLATAFORMA DE ENTRENADORES (Pulse Coaching)
+  // Datos demostrativos — no representan información real de clientes.
+  // ════════════════════════════════════════════════════════════════
+
+  readonly coachNav = [
+    { id: 'panel', label: 'Panel', icon: 'pi-th-large', badge: '' },
+    { id: 'rutinas', label: 'Rutinas', icon: 'pi-list', badge: '2' },
+    { id: 'clientes', label: 'Clientes', icon: 'pi-users', badge: '24' },
+    { id: 'calendario', label: 'Calendario', icon: 'pi-calendar', badge: '' },
+    { id: 'progreso', label: 'Progreso', icon: 'pi-chart-line', badge: '' },
+    { id: 'mensajes', label: 'Mensajes', icon: 'pi-comments', badge: '3' },
+  ];
+
+  readonly coachKpis = [
+    { id: 'k1', label: 'Clientes activos', value: '24', delta: '+3 este mes', icon: 'pi-users', ring: 62 },
+    { id: 'k2', label: 'Sesiones esta semana', value: '68', delta: '+12%', icon: 'pi-calendar-plus', ring: 48 },
+    { id: 'k3', label: 'Adherencia promedio', value: '87%', delta: '+4 pts', icon: 'pi-chart-line', ring: 87 },
+    { id: 'k4', label: 'Ingresos del mes', value: '$4.280', delta: 'demo', icon: 'pi-wallet', ring: 71 },
+  ];
+
+  readonly coachClients: CoachClient[] = [
+    {
+      id: 'cl1',
+      name: 'Camila Torres',
+      goal: 'Pérdida de grasa',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
+      adherence: 92,
+      progress: 74,
+      nextSession: 'Hoy · 18:00',
+    },
+    {
+      id: 'cl2',
+      name: 'Daniel Ríos',
+      goal: 'Hipertrofia',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+      adherence: 81,
+      progress: 58,
+      nextSession: 'Mañana · 07:00',
+    },
+    {
+      id: 'cl3',
+      name: 'Laura Méndez',
+      goal: 'Fuerza y movilidad',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      adherence: 88,
+      progress: 66,
+      nextSession: 'Jue · 09:30',
+    },
+    {
+      id: 'cl4',
+      name: 'Andrés Peña',
+      goal: 'Rendimiento deportivo',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+      adherence: 76,
+      progress: 49,
+      nextSession: 'Vie · 19:00',
+    },
+  ];
+
+  selectedCoachClient = signal<CoachClient>(this.coachClients[0]);
+
+  /** Sección activa del panel de la demo de entrenadores. */
+  coachActiveTab = signal<string>('panel');
+
+  readonly coachRoutines: CoachRoutine[] = [
+    {
+      id: 'r1',
+      name: 'Fuerza — Tren inferior',
+      image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=900&q=80',
+      focus: 'Potencia y estabilidad',
+      weeks: 'Semana 5 de 12',
+      progress: 42,
+      exercises: [
+        { name: 'Sentadilla con barra', sets: '4', reps: '8' },
+        { name: 'Peso muerto rumano', sets: '3', reps: '10' },
+        { name: 'Zancadas búlgaras', sets: '3', reps: '12' },
+      ],
+    },
+    {
+      id: 'r2',
+      name: 'Movilidad & Core',
+      image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=900&q=80',
+      focus: 'Control y rango',
+      weeks: 'Semana 3 de 8',
+      progress: 68,
+      exercises: [
+        { name: 'Plancha con peso', sets: '4', reps: '40s' },
+        { name: 'Pallof press', sets: '3', reps: '12' },
+        { name: 'Dead bug', sets: '3', reps: '15' },
+      ],
+    },
+  ];
+
+  readonly coachWeekDays: CoachWeekDay[] = [
+    { label: 'Lun', date: 3, sessions: 4 },
+    { label: 'Mar', date: 4, sessions: 2 },
+    { label: 'Mié', date: 5, sessions: 3, today: true },
+    { label: 'Jue', date: 6, sessions: 5 },
+    { label: 'Vie', date: 7, sessions: 2 },
+    { label: 'Sáb', date: 8, sessions: 1 },
+    { label: 'Dom', date: 9, sessions: 0 },
+  ];
+
+  readonly coachActivity = [
+    { id: 'a1', text: 'Camila completó «Fuerza — Tren inferior»', time: 'Hace 12 min', icon: 'pi-check-circle', tone: 'ok' },
+    { id: 'a2', text: 'Daniel actualizó su peso corporal (-0.8 kg)', time: 'Hace 1 h', icon: 'pi-chart-line', tone: 'info' },
+    { id: 'a3', text: 'Laura agendó sesión para el jueves', time: 'Hace 3 h', icon: 'pi-calendar', tone: 'info' },
+    { id: 'a4', text: 'Andrés no registró la rutina de ayer', time: 'Ayer', icon: 'pi-exclamation-circle', tone: 'warn' },
+  ];
+
+  /** Serie de progreso demostrativa (semana a semana). */
+  readonly coachTrend = [
+    { label: 'S1', value: 42 },
+    { label: 'S2', value: 48 },
+    { label: 'S3', value: 55 },
+    { label: 'S4', value: 61 },
+    { label: 'S5', value: 58 },
+    { label: 'S6', value: 67 },
+    { label: 'S7', value: 74 },
+    { label: 'S8', value: 81 },
+  ];
+
+  /** Geometría SVG del gráfico de tendencia (viewBox 0 0 320 120). */
+  readonly coachTrendChart = computed(() => {
+    const w = 320;
+    const h = 120;
+    const pad = 10;
+    const values = this.coachTrend.map((d) => d.value);
+    const max = Math.max(...values);
+    const min = Math.min(...values);
+    const span = max - min || 1;
+    const step = (w - pad * 2) / (this.coachTrend.length - 1);
+    const pts = this.coachTrend.map((d, i) => {
+      const x = pad + i * step;
+      const y = h - pad - ((d.value - min) / span) * (h - pad * 2);
+      return { x, y };
+    });
+    const line = pts.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+    const area = `${pad},${h - pad} ${line} ${(w - pad).toFixed(1)},${h - pad}`;
+    const last = pts[pts.length - 1];
+    return { line, area, lastX: last.x.toFixed(1), lastY: last.y.toFixed(1) };
+  });
+
+  /** Tono semántico derivado de la adherencia del cliente (demo). */
+  coachClientTone(client: CoachClient): string {
+    if (client.adherence >= 85) return 'ok';
+    if (client.adherence >= 70) return 'warn';
+    return 'risk';
+  }
+
+  /** Etiqueta de estado derivada de la adherencia del cliente (demo). */
+  coachClientStatus(client: CoachClient): string {
+    if (client.adherence >= 85) return 'Al día';
+    if (client.adherence >= 70) return 'Atención';
+    return 'En riesgo';
+  }
+
+  selectCoachClient(client: CoachClient): void {
+    this.selectedCoachClient.set(client);
+  }
+
+  // ════════════════════════════════════════════════════════════════
+  // DEMO: AUTOMATIZACIONES INTELIGENTES (Flux Automation)
+  // Flujos demostrativos — no representan integraciones externas reales.
+  // ════════════════════════════════════════════════════════════════
+
+  readonly automationFlows = signal<AutomationFlow[]>([
+    {
+      id: 'flow-1',
+      name: 'Pedido entrante → CRM',
+      category: 'Ventas',
+      active: true,
+      runs: 1284,
+      lastRun: 'Hace 2 min',
+      successRate: 98,
+      nodes: [
+        { id: 'n1', type: 'trigger', title: 'Nuevo pedido', subtitle: 'Se recibe un pedido nuevo', icon: 'pi-shopping-cart', meta: 'Disparador' },
+        { id: 'n2', type: 'condition', title: '¿Pago confirmado?', subtitle: 'Verifica el estado del pago', icon: 'pi-verified', meta: 'Condición' },
+        { id: 'n3', type: 'action', title: 'Crear registro en CRM', subtitle: 'Alta del cliente y del pedido', icon: 'pi-database', meta: 'Acción' },
+        { id: 'n4', type: 'action', title: 'Enviar confirmación', subtitle: 'Mensaje al cliente', icon: 'pi-send', meta: 'Acción' },
+      ],
+      history: [
+        { id: 'h1', time: 'Hoy · 09:42', status: 'success', duration: '1.2 s', detail: 'Pedido #1042 procesado' },
+        { id: 'h2', time: 'Hoy · 09:18', status: 'success', duration: '0.9 s', detail: 'Pedido #1041 procesado' },
+        { id: 'h3', time: 'Hoy · 08:55', status: 'warning', duration: '2.4 s', detail: 'Reintento por latencia interna' },
+      ],
+    },
+    {
+      id: 'flow-2',
+      name: 'Recordatorio de cita',
+      category: 'Operación',
+      active: true,
+      runs: 642,
+      lastRun: 'Hace 26 min',
+      successRate: 100,
+      nodes: [
+        { id: 'n1', type: 'trigger', title: '24 h antes de la cita', subtitle: 'Se dispara por fecha', icon: 'pi-clock', meta: 'Disparador' },
+        { id: 'n2', type: 'action', title: 'Enviar recordatorio', subtitle: 'Mensaje con fecha y hora', icon: 'pi-bell', meta: 'Acción' },
+        { id: 'n3', type: 'action', title: 'Marcar como notificada', subtitle: 'Actualiza el estado', icon: 'pi-check', meta: 'Acción' },
+      ],
+      history: [
+        { id: 'h1', time: 'Hoy · 08:30', status: 'success', duration: '0.6 s', detail: '12 recordatorios enviados' },
+        { id: 'h2', time: 'Ayer · 20:00', status: 'success', duration: '0.7 s', detail: '8 recordatorios enviados' },
+      ],
+    },
+    {
+      id: 'flow-3',
+      name: 'Reposición de inventario',
+      category: 'Inventario',
+      active: false,
+      runs: 219,
+      lastRun: 'Hace 3 días',
+      successRate: 91,
+      nodes: [
+        { id: 'n1', type: 'trigger', title: 'Stock bajo mínimo', subtitle: 'Se detecta stock crítico', icon: 'pi-box', meta: 'Disparador' },
+        { id: 'n2', type: 'condition', title: '¿Supera el umbral?', subtitle: 'Valida la cantidad mínima', icon: 'pi-sliders-h', meta: 'Condición' },
+        { id: 'n3', type: 'action', title: 'Crear alerta interna', subtitle: 'Notifica al equipo', icon: 'pi-bell', meta: 'Acción' },
+      ],
+      history: [
+        { id: 'h1', time: 'Hace 3 días', status: 'success', duration: '1.0 s', detail: '3 productos marcados para reposición' },
+        { id: 'h2', time: 'Hace 6 días', status: 'error', duration: '—', detail: 'Regla pausada por el usuario' },
+      ],
+    },
+  ]);
+
+  selectedAutomationId = signal<string>('flow-1');
+  /** Estado de carga mientras se "ejecuta" un flujo (solo demostración visual). */
+  readonly automationRunning = signal(false);
+  /** Búsqueda por nombre/categoría en la lista de flujos (UI del constructor). */
+  readonly automationSearch = signal('');
+  /** Filtro de estado de la lista de flujos (UI del constructor). */
+  readonly automationFilter = signal<'all' | 'active' | 'paused'>('all');
+  /** Nodo inspeccionado en el lienzo (null = se muestra el resumen del flujo). */
+  readonly selectedAutomationNodeId = signal<string | null>(null);
+
+  readonly activeAutomation = computed<AutomationFlow>(() => {
+    const flows = this.automationFlows();
+    return flows.find((f) => f.id === this.selectedAutomationId()) || flows[0];
+  });
+
+  /** Nodo seleccionado dentro del lienzo (o null si no hay inspección activa). */
+  readonly selectedAutomationNode = computed<AutomationNode | null>(() => {
+    const id = this.selectedAutomationNodeId();
+    if (!id) return null;
+    return this.activeAutomation().nodes.find((n) => n.id === id) || null;
+  });
+
+  /** Contexto del nodo inspeccionado: posición y conexiones dentro del flujo. */
+  readonly selectedAutomationNodeContext = computed<{
+    node: AutomationNode;
+    position: number;
+    total: number;
+    prev: AutomationNode | null;
+    next: AutomationNode | null;
+  } | null>(() => {
+    const node = this.selectedAutomationNode();
+    if (!node) return null;
+    const nodes = this.activeAutomation().nodes;
+    const index = nodes.findIndex((n) => n.id === node.id);
+    return {
+      node,
+      position: index + 1,
+      total: nodes.length,
+      prev: index > 0 ? nodes[index - 1] : null,
+      next: index < nodes.length - 1 ? nodes[index + 1] : null,
+    };
+  });
+
+  /** Totales del panel de automatizaciones (datos demostrativos). */
+  readonly automationTotals = computed(() => {
+    const flows = this.automationFlows();
+    return {
+      count: flows.length,
+      active: flows.filter((f) => f.active).length,
+      runs: flows.reduce((sum, f) => sum + f.runs, 0),
+    };
+  });
+
+  selectAutomation(id: string): void {
+    this.selectedAutomationId.set(id);
+    this.selectedAutomationNodeId.set(null);
+  }
+
+  /** ¿El flujo coincide con el filtro de estado y la búsqueda actuales? */
+  automationMatchesSearch(flow: AutomationFlow): boolean {
+    const filter = this.automationFilter();
+    if (filter === 'active' && !flow.active) return false;
+    if (filter === 'paused' && flow.active) return false;
+    const query = this.automationSearch().trim().toLowerCase();
+    if (!query) return true;
+    return `${flow.name} ${flow.category}`.toLowerCase().includes(query);
+  }
+
+  /** Selecciona o des-selecciona un nodo del lienzo para inspeccionarlo. */
+  selectAutomationNode(id: string): void {
+    this.selectedAutomationNodeId.update((current) => (current === id ? null : id));
+  }
+
+  toggleAutomation(id: string, event?: Event): void {
+    event?.stopPropagation();
+    this.automationFlows.update((flows) =>
+      flows.map((f) => (f.id === id ? { ...f, active: !f.active } : f))
+    );
+  }
+
+  runAutomationNow(): void {
+    if (this.automationRunning()) return;
+    this.automationRunning.set(true);
+
+    const flow = this.activeAutomation();
+    const stamp = new Date().toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+    const run: AutomationRun = {
+      id: 'run-' + Date.now(),
+      time: `Hoy · ${stamp}`,
+      status: 'success',
+      duration: '0.8 s',
+      detail: 'Ejecución manual completada',
+    };
+    this.automationFlows.update((flows) =>
+      flows.map((f) =>
+        f.id === flow.id
+          ? { ...f, runs: f.runs + 1, lastRun: 'Hace unos segundos', history: [run, ...f.history] }
+          : f
+      )
+    );
+    this.triggerAdminToast(`⚡ Flujo «${flow.name}» ejecutado (demostración)`);
+
+    setTimeout(() => this.automationRunning.set(false), 900);
+  }
+
   readonly currentNiche = computed(() => {
     return this.niches.find((n) => n.id === this.activeNicheId()) || this.niches[0];
   });
@@ -903,6 +1411,10 @@ export class BusinessDemoSectionComponent implements OnInit {
       nicheId = 'services';
     } else if (bType.includes('producto') || bType.includes('tienda')) {
       nicheId = 'products';
+    } else if (bType.includes('entrenad') || bType.includes('coach') || bType.includes('fitness') || bType.includes('gimnasio') || bType.includes('gym')) {
+      nicheId = 'coaches';
+    } else if (bType.includes('automatiz') || bType.includes('flujo') || bType.includes('workflow')) {
+      nicheId = 'automations';
     }
 
     this.activeNicheId.set(nicheId);
@@ -910,12 +1422,31 @@ export class BusinessDemoSectionComponent implements OnInit {
     this.loadNicheProducts(nicheId);
   }
 
+  /** Selecciona el primer nicho de una categoría dada. */
+  setCategory(cat: string): void {
+    const firstNiche = this.niches.find(n => n.category === cat);
+    if (firstNiche) {
+      this.setNiche(firstNiche.id);
+    }
+  }
+
   setNiche(nicheId: string): void {
     this.activeNicheId.set(nicheId);
     this.demoConfig.setActiveNicheId(nicheId);
     this.cart.set({});
+    // Los rubros que no son de comercio no tienen panel administrativo de catálogo:
+    // forzamos la vista cliente para no mostrar una pantalla sin sentido.
+    if (nicheId === 'coaches' || nicheId === 'automations') {
+      this.viewMode.set('client');
+    }
     this.loadNicheProducts(nicheId);
   }
+
+  /** Rubros que sí cuentan con panel administrativo de catálogo/pedidos. */
+  readonly isCommerceNiche = computed(() => {
+    const id = this.activeNicheId();
+    return id !== 'coaches' && id !== 'automations';
+  });
 
   private loadNicheProducts(nicheId: string): void {
     const niche = this.niches.find((n) => n.id === nicheId) || this.niches[0];

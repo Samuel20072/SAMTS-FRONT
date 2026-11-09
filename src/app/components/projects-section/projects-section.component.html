@@ -1,0 +1,102 @@
+<section
+  id="proyectos"
+  class="proj-section"
+  [class.is-pinned]="isPinned()"
+  aria-labelledby="proj-heading">
+
+  <div class="proj-pin" #pin>
+
+    <!-- ─── Encabezado (antes del recorrido) ─── -->
+    <div class="proj-head">
+      <div class="proj-head-text">
+        <span class="proj-eyebrow">
+          <i class="pi pi-briefcase" aria-hidden="true"></i>
+          <span>Proyectos</span>
+        </span>
+        <h2 class="proj-title" id="proj-heading">
+          Productos digitales que construimos <span class="proj-hl">de verdad.</span>
+        </h2>
+        <p class="proj-subtitle">
+          Distintos tipos de negocio, un mismo estándar de calidad: software pensado para operar y crecer.
+        </p>
+      </div>
+
+      <!-- ─── Indicadores de recorrido ─── -->
+      <div class="proj-meter">
+        <span class="proj-counter">
+          <b>{{ pad(activeIndex() + 1) }}</b><span class="proj-counter-sep">/</span>{{ pad(total) }}
+        </span>
+        <span
+          class="proj-bar"
+          role="progressbar"
+          aria-label="Progreso del recorrido de proyectos"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          [attr.aria-valuenow]="progressPct()">
+          <span class="proj-bar-fill" [style.width.%]="progressPct()"></span>
+        </span>
+        <span class="proj-hint">
+          <i class="pi pi-arrow-right-arrow-left" aria-hidden="true"></i>
+          Desliza para explorar
+        </span>
+      </div>
+    </div>
+
+    <!-- ─── Carrusel horizontal ─── -->
+    <div
+      class="proj-viewport"
+      #viewport
+      role="region"
+      aria-label="Galería de proyectos"
+      tabindex="0">
+
+      <div class="proj-track" #track>
+        @for (project of projects; track project.name; let i = $index) {
+          <article class="proj-card" [class.is-concept]="project.conceptual">
+
+            <!-- Media: ventana de navegador o concepto -->
+            <div class="proj-media">
+              @if (project.conceptual) {
+                <div class="proj-concept">
+                  <span class="proj-concept-badge">{{ project.badge }}</span>
+                  <p class="proj-concept-note">
+                    Proyecto conceptual: aún no entregado a un cliente.
+                  </p>
+                </div>
+              } @else {
+                <div class="proj-frame">
+                  <div class="proj-frame-bar" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="proj-frame-body">
+                    <video
+                      muted
+                      loop
+                      playsinline
+                      autoplay
+                      preload="metadata"
+                      [attr.data-pi]="i"
+                      [src]="project.video">
+                    </video>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!-- Botón "Ver proyecto" (solo si hay link) -->
+            @if (project.link) {
+              <div class="proj-link-bar">
+                <a class="proj-btn-ghost" [href]="project.link" target="_blank" rel="noopener">
+                  <span>Ver proyecto</span>
+                  <i class="pi pi-external-link" aria-hidden="true"></i>
+                </a>
+              </div>
+            }
+
+          </article>
+        }
+      </div>
+    </div>
+
+  </div>
+</section>

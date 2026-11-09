@@ -13,7 +13,7 @@ export const environment = {
   // Leave empty strings for platforms not yet configured.
 
   // Google Analytics 4
-  gaId: '', // e.g. 'G-XXXXXXXXXX'
+  gaId: 'G-1X6X4SCFH7',
 
   // Meta Pixel (Facebook / Instagram Ads)
   metaPixelId: '', // e.g. '123456789012345'

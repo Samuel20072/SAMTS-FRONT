@@ -1,7 +1,5 @@
 <div class="samts-nav-trigger" (mouseenter)="isHoveredTop.set(true)"></div>
 <nav class="samts-nav"
-     [class.samts-nav--dark]="isHomePage()"
-     [class.samts-nav--light]="!isHomePage()"
      [class.scrolled]="isScrolled()"
      [class.hidden-demo]="isHeaderHidden()"
      (mouseenter)="isHoveredTop.set(true)">
@@ -17,10 +15,14 @@
     <!-- Desktop Nav Links -->
     <div class="samts-nav__links">
       <button (click)="scrollToSection('hero')" class="samts-nav__link" [class.active]="isCurrentRoute('/')">Inicio</button>
-      <button (click)="scrollToSection('services')" class="samts-nav__link">Servicios</button>
-      <button (click)="navigateTo('/portfolio')" class="samts-nav__link" [class.active]="isCurrentRoute('/portfolio')">Portafolio</button>
-      <button (click)="navigateTo('/pricing')" class="samts-nav__link" [class.active]="isCurrentRoute('/pricing')">Precios</button>
-      <button (click)="navigateTo('/contacto')" class="samts-nav__link" [class.active]="isCurrentRoute('/contacto')">Contacto</button>
+      <button (click)="scrollToSection('services')" class="samts-nav__link">Soluciones</button>
+      <button (click)="scrollToSection('proyectos')" class="samts-nav__link">Proyectos</button>
+      <button (click)="scrollToSection('precios')" class="samts-nav__link">Precios</button>
+      <button (click)="scrollToSection('samts-catalog')" class="samts-nav__link samts-nav__link--badge-campaign">
+        <span>Catálogo</span>
+        <span class="samts-nav__badge-campaign">20 DÍAS GRATIS</span>
+      </button>
+      <button (click)="navigateTo('/about')" class="samts-nav__link" [class.active]="isCurrentRoute('/about')">Nosotros</button>
       <button (click)="navigateTo('/guia')" class="samts-nav__link samts-nav__link--badge" [class.active]="isCurrentRoute('/guia')">
         <span>Guía</span>
         <span class="samts-nav__badge-free">GRATIS</span>
@@ -31,7 +33,7 @@
     <div class="samts-nav__actions">
       <!-- CTA Button — visible on desktop (≥768px) -->
       <button (click)="openConsultation()" class="samts-nav__cta samts-nav__cta--desktop">
-        <span>Empezar</span>
+        <span>Empezar proyecto</span>
         <i class="pi pi-arrow-right" style="font-size: 11px;"></i>
       </button>
 
@@ -51,16 +53,20 @@
   @if (isMenuOpen()) {
     <div class="samts-nav__mobile-menu animate-fade-in">
       <button (click)="scrollToSection('hero'); toggleMenu()" class="samts-nav__mobile-link">Inicio</button>
-      <button (click)="scrollToSection('services'); toggleMenu()" class="samts-nav__mobile-link">Servicios</button>
-      <button (click)="navigateTo('/portfolio')" class="samts-nav__mobile-link">Portafolio</button>
-      <button (click)="navigateTo('/pricing')" class="samts-nav__mobile-link">Precios</button>
-      <button (click)="navigateTo('/contacto')" class="samts-nav__mobile-link">Contacto</button>
+      <button (click)="scrollToSection('services'); toggleMenu()" class="samts-nav__mobile-link">Soluciones</button>
+      <button (click)="scrollToSection('proyectos'); toggleMenu()" class="samts-nav__mobile-link">Proyectos</button>
+      <button (click)="scrollToSection('precios'); toggleMenu()" class="samts-nav__mobile-link">Precios</button>
+      <button (click)="scrollToSection('samts-catalog'); toggleMenu()" class="samts-nav__mobile-link" style="display: flex; align-items: center; justify-content: space-between;">
+        <span>Catálogo</span>
+        <span class="samts-nav__badge-campaign">20 DÍAS GRATIS</span>
+      </button>
+      <button (click)="navigateTo('/about'); toggleMenu()" class="samts-nav__mobile-link">Nosotros</button>
       <button (click)="navigateTo('/guia')" class="samts-nav__mobile-link" style="display: flex; align-items: center; justify-content: space-between;">
         <span>Guía Gratuita</span>
         <span class="samts-nav__badge-free">PDF GRATIS</span>
       </button>
       <button (click)="openConsultation(); toggleMenu()" class="samts-nav__cta samts-nav__cta--mobile-full">
-        <span>Empezar</span>
+        <span>Empezar proyecto</span>
         <i class="pi pi-arrow-right" style="font-size: 11px;"></i>
       </button>
     </div>

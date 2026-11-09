@@ -1,7 +1,11 @@
-import { Component, OnInit, PLATFORM_ID, inject, signal } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, inject, DestroyRef } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
-import { WelcomeIntroComponent } from './components/welcome-intro/welcome-intro.component';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { StickyCampaignCtaComponent } from './components/sticky-campaign-cta/sticky-campaign-cta.component';
+import { CookieBannerComponent } from './components/cookie-banner/cookie-banner.component';
+import { AnalyticsService } from './services/analytics.service';
 
 declare global {
   interface Window { __samtsHideSplash?: () => void; }
@@ -10,39 +14,41 @@ declare global {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, WelcomeIntroComponent],
+  imports: [RouterOutlet, StickyCampaignCtaComponent, CookieBannerComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
 export class App implements OnInit {
   private platformId = inject(PLATFORM_ID);
+  private analytics = inject(AnalyticsService);
+  private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
-  /** True while the welcome intro should be visible */
-  showIntro = signal(false);
+  private lastTrackedUrl = '';
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      // 1. Centralized tracking initialization (strictly browser-only)
+      this.analytics.init();
+
+      // 2. Automated page_view tracking on distinct route transitions
+      this.router.events.pipe(
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe((event: NavigationEnd) => {
+        if (event.urlAfterRedirects !== this.lastTrackedUrl) {
+          this.lastTrackedUrl = event.urlAfterRedirects;
+          const title = typeof document !== 'undefined' ? document.title : 'SAMTS';
+          this.analytics.pageView(event.urlAfterRedirects, title);
+        }
+      });
+
+      // 3. Hydration splash cleanup
       requestAnimationFrame(() => {
-        // Remove the HTML splash first, then decide whether to show the intro
         setTimeout(() => {
           window.__samtsHideSplash?.();
-
-          // Show intro only once per browser session and only on home page
-          const seen = sessionStorage.getItem('samts-intro-seen');
-          const isHome = window.location.pathname === '/' || window.location.pathname === '';
-          if (!seen && isHome) {
-            this.showIntro.set(true);
-          }
         }, 400);
       });
-    }
-  }
-
-  /** Called when the user clicks "Skip" or the 15 s timer runs out */
-  onIntroFinished(): void {
-    this.showIntro.set(false);
-    if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.setItem('samts-intro-seen', '1');
     }
   }
 }

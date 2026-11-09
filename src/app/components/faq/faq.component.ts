@@ -2,6 +2,7 @@ import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SamuelDiagnosisService } from '../../services/samuel-diagnosis.service';
 import { ConsultationService } from '../../services/consultation.service';
+import { AnalyticsService } from '../../services/analytics.service';
 import { environment } from '../../../environments/environment';
 import { AnimateOnScrollDirective } from '../../directives/animate-on-scroll.directive';
 
@@ -22,8 +23,8 @@ interface FaqItem {
       width: 100%;
     }
     .faq-section {
-      background-color: #050814;
-      color: #F8FAFC;
+      background-color: #ffffff;
+      color: var(--color-ink);
       position: relative;
       overflow: hidden;
       padding: 6rem 1.5rem 7rem;
@@ -48,31 +49,29 @@ interface FaqItem {
       font-weight: 700;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: #60A5FA;
-      background: rgba(37, 99, 235, 0.12);
-      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: var(--color-accent);
+      background: var(--color-accent-soft);
+      border: 1px solid rgba(49, 94, 251, 0.18);
       padding: 0.4rem 1rem;
       border-radius: 9999px;
       margin-bottom: 1.25rem;
     }
     .faq-title {
-      font-family: var(--font-display, 'Outfit', sans-serif) !important;
+      font-family: var(--font-display) !important;
       font-size: clamp(2.2rem, 4.5vw, 3.5rem);
       font-weight: 800 !important;
-      color: #FFFFFF !important;
+      color: var(--color-ink) !important;
       line-height: 1.15;
       letter-spacing: -0.025em;
       margin-bottom: 1.25rem;
       text-align: center;
     }
     .faq-highlight {
-      background: linear-gradient(135deg, #60A5FA 0%, #38BDF8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--color-accent);
     }
     .faq-subtitle {
       font-size: 1.05rem;
-      color: #94A3B8 !important;
+      color: var(--color-ink-2) !important;
       max-width: 620px;
       margin: 0 auto;
       line-height: 1.6;
@@ -87,17 +86,16 @@ interface FaqItem {
     }
     .faq-card {
       width: 100%;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(51, 65, 85, 0.7);
+      background: #ffffff;
+      border: 1px solid var(--color-line);
       border-radius: 1.25rem;
       overflow: hidden;
       transition: all 0.25s ease;
-      box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.4);
+      box-shadow: var(--shadow-sm);
     }
     .faq-card.is-open {
-      border-color: rgba(96, 165, 250, 0.6);
-      background: rgba(15, 23, 42, 0.95);
-      box-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.25);
+      border-color: rgba(49, 94, 251, 0.4);
+      box-shadow: var(--shadow-md);
     }
     .faq-question-btn {
       width: 100%;
@@ -110,74 +108,73 @@ interface FaqItem {
       background: transparent;
       border: none;
       cursor: pointer;
-      color: #F8FAFC;
+      color: var(--color-ink);
       transition: color 0.2s ease;
     }
     .faq-question-btn:hover .faq-q-text {
-      color: #60A5FA;
+      color: var(--color-accent);
     }
     .faq-q-text {
       font-size: 1.05rem;
       font-weight: 650;
-      color: #FFFFFF;
+      color: var(--color-ink);
       line-height: 1.4;
       transition: color 0.2s ease;
-      font-family: var(--font-display, 'Outfit', sans-serif);
+      font-family: var(--font-display);
       margin: 0;
     }
     .faq-icon-circle {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: #1E293B;
-      border: 1px solid #334155;
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-line);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      color: #94A3B8;
+      color: var(--color-ink-3);
       transition: all 0.25s ease;
     }
     .is-open .faq-icon-circle {
-      background: #2563EB;
-      border-color: #60A5FA;
-      color: #FFFFFF;
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: #ffffff;
       transform: rotate(180deg);
     }
     .faq-answer-panel {
       padding: 0 1.75rem 1.6rem 1.75rem;
-      border-top: 1px solid rgba(51, 65, 85, 0.4);
+      border-top: 1px solid var(--color-line);
       margin-top: 0.25rem;
       padding-top: 1.25rem;
     }
     .faq-answer-text {
       font-size: 0.95rem;
-      color: #CBD5E1 !important;
+      color: var(--color-ink-2) !important;
       line-height: 1.7;
       margin: 0;
     }
     .faq-cta-banner {
       margin-top: 5rem;
       position: relative;
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 58, 138, 0.22) 50%, rgba(15, 23, 42, 0.98) 100%);
-      border: 1px solid rgba(59, 130, 246, 0.3);
+      background: #ffffff;
+      border: 1px solid var(--color-line);
       border-radius: 2rem;
       padding: 3.5rem 2rem;
       text-align: center;
       overflow: hidden;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 35px rgba(37, 99, 235, 0.12);
-      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-md);
     }
     .faq-cta-glow {
       position: absolute;
-      top: -50px;
+      top: -60px;
       left: 50%;
       transform: translateX(-50%);
       width: 420px;
       height: 200px;
-      background: radial-gradient(ellipse, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(49, 94, 251, 0.12) 0%, transparent 70%);
       pointer-events: none;
-      filter: blur(45px);
+      filter: blur(50px);
     }
     .faq-cta-badge {
       display: inline-flex;
@@ -187,9 +184,9 @@ interface FaqItem {
       font-weight: 750;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #60A5FA;
-      background: rgba(37, 99, 235, 0.18);
-      border: 1px solid rgba(96, 165, 250, 0.35);
+      color: var(--color-accent);
+      background: var(--color-accent-soft);
+      border: 1px solid rgba(49, 94, 251, 0.18);
       padding: 0.45rem 1.15rem;
       border-radius: 9999px;
       margin-bottom: 1.5rem;
@@ -197,10 +194,10 @@ interface FaqItem {
       z-index: 2;
     }
     .faq-cta-title {
-      font-family: var(--font-display, 'Outfit', sans-serif) !important;
+      font-family: var(--font-display) !important;
       font-size: clamp(2rem, 3.8vw, 2.75rem);
       font-weight: 800 !important;
-      color: #FFFFFF !important;
+      color: var(--color-ink) !important;
       line-height: 1.2;
       letter-spacing: -0.02em;
       margin: 0 auto 1rem auto;
@@ -210,7 +207,7 @@ interface FaqItem {
     }
     .faq-cta-desc {
       font-size: 1.05rem;
-      color: #CBD5E1 !important;
+      color: var(--color-ink-2) !important;
       max-width: 540px;
       margin: 0 auto 2.25rem auto;
       line-height: 1.6;
@@ -232,21 +229,22 @@ interface FaqItem {
       justify-content: center;
       gap: 0.75rem;
       padding: 1.05rem 2.2rem;
-      background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
-      color: #FFFFFF;
-      font-weight: 750;
+      background: var(--color-accent);
+      color: #ffffff;
+      font-weight: 700;
       font-size: 0.98rem;
       border-radius: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      border: 1px solid var(--color-accent);
+      box-shadow: 0 10px 25px -8px rgba(49, 94, 251, 0.55);
       cursor: pointer;
       transition: all 0.25s ease;
       text-decoration: none;
     }
     .faq-btn-primary:hover {
-      background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+      background: var(--color-violet-dark);
+      border-color: var(--color-violet-dark);
       transform: translateY(-2px);
-      box-shadow: 0 15px 30px -5px rgba(37, 99, 235, 0.65);
+      box-shadow: 0 15px 30px -8px rgba(49, 94, 251, 0.6);
     }
     .faq-btn-secondary {
       display: inline-flex;
@@ -254,27 +252,32 @@ interface FaqItem {
       justify-content: center;
       gap: 0.75rem;
       padding: 1.05rem 2rem;
-      background: rgba(15, 23, 42, 0.85);
-      color: #F8FAFC;
+      background: #ffffff;
+      color: var(--color-ink);
       font-weight: 650;
       font-size: 0.95rem;
       border-radius: 1rem;
-      border: 1px solid rgba(71, 85, 105, 0.7);
+      border: 1px solid var(--color-line);
       cursor: pointer;
       transition: all 0.25s ease;
-      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow-sm);
+    }
+    .faq-btn-secondary i {
+      color: var(--color-accent);
     }
     .faq-btn-secondary:hover {
-      background: rgba(30, 41, 59, 0.95);
-      border-color: #60A5FA;
-      color: #FFFFFF;
+      background: var(--color-surface-2);
+      border-color: #d5d7dd;
       transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
-  `]
+  
+`]
 })
 export class FaqComponent {
   samuel = inject(SamuelDiagnosisService);
   consultation = inject(ConsultationService);
+  private analytics = inject(AnalyticsService);
 
   readonly whatsappPhone = environment.whatsappNumber || '3148180949';
 
@@ -352,6 +355,13 @@ export class FaqComponent {
   ]);
 
   toggle(index: number): void {
+    const targetItem = this.faqs()[index];
+    const willOpen = targetItem ? !targetItem.isOpen : false;
+
+    if (willOpen && targetItem) {
+      this.analytics.track('faq_opened', { question: targetItem.question });
+    }
+
     this.faqs.update(items =>
       items.map((item, i) => ({
         ...item,
@@ -365,6 +375,7 @@ export class FaqComponent {
   }
 
   openWhatsApp(): void {
+    this.analytics.track('whatsapp_clicked', { source: 'faq' });
     const text = encodeURIComponent('¡Hola SAMTS! Tengo una duda sobre sus servicios y me gustaría obtener más información.');
     window.open(`https://wa.me/57${this.whatsappPhone}?text=${text}`, '_blank');
   }

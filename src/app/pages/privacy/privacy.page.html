@@ -1,0 +1,109 @@
+<app-header></app-header>
+
+<main class="min-h-screen bg-white text-[#111318] pt-28 pb-20">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-12 border-b border-[#E8E9ED] pb-8" samtsAnimate="fade-up" animDelay="0ms">
+      <div class="inline-flex items-center gap-2 rounded-full border border-[#315EFB]/20 bg-[#315EFB]/5 px-3 py-1 text-xs font-semibold text-[#315EFB] mb-4">
+        <i class="pi pi-shield text-xs"></i>
+        <span>POLÍTICA DE PRIVACIDAD & TRATAMIENTO DE DATOS</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#111318] mb-3">
+        Política de Privacidad y Términos de Uso
+      </h1>
+      <p class="text-sm text-[#666B75]">
+        Última actualización: {{ lastUpdated }} | Responsable: SAMTS Software & IA
+      </p>
+    </div>
+
+    <!-- Content Sections -->
+    <div class="space-y-10 text-[#444955] text-sm sm:text-base leading-relaxed" samtsAnimate="fade-up" animDelay="100ms">
+      
+      <!-- 1. Responsable -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-bold text-[#111318]">1. Responsable del Tratamiento</h2>
+        <p>
+          SAMTS (en adelante, "SAMTS", "nosotros" o "la plataforma"), con domicilio de operación en Colombia y canal de atención directa a través de <a href="mailto:hello@samts.co" class="text-[#315EFB] underline font-medium">hello@samts.co</a> y WhatsApp oficial (+57 314 818 0949), es el responsable del tratamiento de los datos personales suministrados por los usuarios en <strong class="text-[#111318]">samts.app</strong>.
+        </p>
+      </section>
+
+      <!-- 2. Información que recolectamos -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-bold text-[#111318]">2. Información que Recolectamos</h2>
+        <p>Recopilamos únicamente los datos necesarios para brindar propuestas comerciales, diagnósticos de software y acceso a programas beta:</p>
+        <ul class="list-disc pl-6 space-y-1 text-[#444955]">
+          <li><strong>Datos de contacto:</strong> Nombre completo, correo electrónico y número de WhatsApp o teléfono.</li>
+          <li><strong>Datos del negocio:</strong> Nombre comercial, sector o nicho de mercado, tipo de solución requerida (página web, ecommerce, CRM, automatización).</li>
+          <li><strong>Diagnóstico con Samuel AI:</strong> Respuestas suministradas voluntariamente para estimar presupuestos y tiempos de entrega.</li>
+          <li><strong>Campaña SAMTS Catalog:</strong> Registro de postulación para el acceso anticipado y los 20 días de prueba gratuita.</li>
+        </ul>
+      </section>
+
+      <!-- 3. Finalidad del tratamiento -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-bold text-[#111318]">3. Finalidad del Tratamiento de Datos</h2>
+        <p>Los datos suministrados se utilizarán estrictamente para:</p>
+        <ol class="list-decimal pl-6 space-y-1 text-[#444955]">
+          <li>Contactar al interesado con una propuesta personalizada de software o presupuesto.</li>
+          <li>Coordinar reuniones de diagnóstico y demostraciones técnicas.</li>
+          <li>Asignar los cupos verificados de la campaña SAMTS Catalog y remitir el enlace de acceso o código de canje.</li>
+          <li>Enviar la guía gratuita solicitada en formato PDF y material educativo de alto valor sobre tecnología y ventas.</li>
+        </ol>
+        <p class="text-xs bg-[#F5F6F8] p-3 rounded-lg border border-[#E8E9ED] text-[#666B75]">
+          <strong>Garantía de no cesión:</strong> SAMTS nunca vende, arrienda, comercializa ni transfiere tus datos personales a terceros con fines publicitarios.
+        </p>
+      </section>
+
+      <!-- 4. Derechos del Titular (Habeas Data) -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-bold text-[#111318]">4. Derechos del Titular (Habeas Data)</h2>
+        <p>
+          En concordancia con la normativa aplicable (Ley 1581 de 2012 de Colombia y estándares internacionales de privacidad), todo usuario tiene derecho a:
+        </p>
+        <ul class="list-disc pl-6 space-y-1 text-[#444955]">
+          <li>Conocer, actualizar y rectificar sus datos personales.</li>
+          <li>Solicitar prueba de la autorización otorgada.</li>
+          <li>Revocar la autorización o solicitar la supresión de sus datos en cualquier momento escribiendo a <a href="mailto:hello@samts.co" class="text-[#315EFB] underline font-medium">hello@samts.co</a> o notificándolo por WhatsApp.</li>
+        </ul>
+      </section>
+
+      <!-- 5. Seguridad de la Información -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-bold text-[#111318]">5. Seguridad de la Información</h2>
+        <p>
+          Implementamos protocolos de cifrado SSL/TLS en tránsito, control de acceso restrictivo mediante tokens JWT en nuestro backend y almacenamiento seguro en bases de datos con integridad referencial.
+        </p>
+      </section>
+
+      <!-- 6. Cookies y Navegación -->
+      <section class="space-y-3">
+        <h2 class="text-lg sm:text-xl font-bold text-[#111318]">6. Cookies y Tecnologías Similares</h2>
+        <p>
+          Utilizamos cookies esenciales para el funcionamiento técnico de la sesión y analítica interna anonimizada con el fin de optimizar los tiempos de carga y la experiencia de usuario. Puedes deshabilitar las cookies desde la configuración de tu navegador sin que ello impida navegar por el sitio web.
+        </p>
+        <div class="pt-2">
+          <button
+            type="button"
+            (click)="resetCookieConsent()"
+            class="inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg border border-[#315EFB] text-[#315EFB] hover:bg-[#315EFB]/10 transition-colors"
+          >
+            <i class="pi pi-sliders-h"></i>
+            <span>Configurar preferencias de cookies</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 7. Contacto Directo -->
+      <section class="border-t border-[#E8E9ED] pt-6 space-y-2">
+        <h2 class="text-lg font-bold text-[#111318]">¿Tienes dudas sobre el uso de tus datos?</h2>
+        <p>
+          Escríbenos directamente a <a href="mailto:hello@samts.co" class="text-[#315EFB] font-semibold underline">hello@samts.co</a> o comunícate vía WhatsApp al <a href="https://wa.me/573148180949" class="text-[#315EFB] font-semibold underline">+57 314 818 0949</a>. Te responderemos en un plazo máximo de 24 horas hábiles.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<app-footer></app-footer>
+<app-consultation-modal></app-consultation-modal>
