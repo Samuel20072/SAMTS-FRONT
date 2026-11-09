@@ -81,6 +81,16 @@
         <p>
           Utilizamos cookies esenciales para el funcionamiento técnico de la sesión y analítica interna anonimizada con el fin de optimizar los tiempos de carga y la experiencia de usuario. Puedes deshabilitar las cookies desde la configuración de tu navegador sin que ello impida navegar por el sitio web.
         </p>
+        <div class="pt-2">
+          <button
+            type="button"
+            (click)="resetCookieConsent()"
+            class="inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg border border-[#315EFB] text-[#315EFB] hover:bg-[#315EFB]/10 transition-colors"
+          >
+            <i class="pi pi-sliders-h"></i>
+            <span>Configurar preferencias de cookies</span>
+          </button>
+        </div>
       </section>
 
       <!-- 7. Contacto Directo -->

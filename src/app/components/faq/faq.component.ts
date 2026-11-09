@@ -2,6 +2,7 @@ import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SamuelDiagnosisService } from '../../services/samuel-diagnosis.service';
 import { ConsultationService } from '../../services/consultation.service';
+import { AnalyticsService } from '../../services/analytics.service';
 import { environment } from '../../../environments/environment';
 import { AnimateOnScrollDirective } from '../../directives/animate-on-scroll.directive';
 
@@ -276,6 +277,7 @@ interface FaqItem {
 export class FaqComponent {
   samuel = inject(SamuelDiagnosisService);
   consultation = inject(ConsultationService);
+  private analytics = inject(AnalyticsService);
 
   readonly whatsappPhone = environment.whatsappNumber || '3148180949';
 
@@ -353,6 +355,13 @@ export class FaqComponent {
   ]);
 
   toggle(index: number): void {
+    const targetItem = this.faqs()[index];
+    const willOpen = targetItem ? !targetItem.isOpen : false;
+
+    if (willOpen && targetItem) {
+      this.analytics.track('faq_opened', { question: targetItem.question });
+    }
+
     this.faqs.update(items =>
       items.map((item, i) => ({
         ...item,
@@ -366,6 +375,7 @@ export class FaqComponent {
   }
 
   openWhatsApp(): void {
+    this.analytics.track('whatsapp_clicked', { source: 'faq' });
     const text = encodeURIComponent('¡Hola SAMTS! Tengo una duda sobre sus servicios y me gustaría obtener más información.');
     window.open(`https://wa.me/57${this.whatsappPhone}?text=${text}`, '_blank');
   }

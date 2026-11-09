@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConsultationService } from '../../services/consultation.service';
 import { SamuelDiagnosisService } from '../../services/samuel-diagnosis.service';
+import { AnalyticsService } from '../../services/analytics.service';
 import { AnimateOnScrollDirective } from '../../directives/animate-on-scroll.directive';
 
 interface WorkStep {
@@ -329,9 +330,14 @@ interface WorkStep {
   
 `]
 })
-export class HowWeWorkComponent {
+export class HowWeWorkComponent implements OnInit {
   consultation = inject(ConsultationService);
   samuel = inject(SamuelDiagnosisService);
+  private analytics = inject(AnalyticsService);
+
+  ngOnInit(): void {
+    this.analytics.track('how_we_work_viewed', {}, { deduplicate: true });
+  }
 
   steps: WorkStep[] = [
     {
