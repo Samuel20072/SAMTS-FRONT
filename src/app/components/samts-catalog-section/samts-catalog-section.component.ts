@@ -153,7 +153,7 @@ export class SamtsCatalogSectionComponent implements OnInit {
     {
       n: '02',
       title: 'Recibe tu acceso',
-      text: 'Si eres seleccionado, el lunes 9 de noviembre recibirás tu código por correo.',
+      text: 'Si eres seleccionado, el miércoles 11 de noviembre recibirás tu código por correo.',
     },
     {
       n: '03',

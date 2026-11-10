@@ -51,12 +51,12 @@ import { AnalyticsService } from '../../services/analytics.service';
       right: 1.25rem;
       max-width: 720px;
       margin: 0 auto;
-      background: #111318;
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #ffffff;
+      color: #111318;
+      border: 1px solid #E8E9ED;
       border-radius: 1rem;
       padding: 1.25rem 1.5rem;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
       z-index: 9998;
       animation: bannerSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -78,7 +78,7 @@ import { AnalyticsService } from '../../services/analytics.service';
     }
     .cookie-text {
       font-size: 0.88rem;
-      color: #E8E9ED;
+      color: #444955;
       line-height: 1.5;
     }
     .cookie-badge {
@@ -90,7 +90,7 @@ import { AnalyticsService } from '../../services/analytics.service';
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: #315EFB;
-      background: rgba(49, 94, 251, 0.15);
+      background: rgba(49, 94, 251, 0.1);
       padding: 0.2rem 0.55rem;
       border-radius: 9999px;
       margin-bottom: 0.4rem;
@@ -116,18 +116,18 @@ import { AnalyticsService } from '../../services/analytics.service';
       border: none;
     }
     .cookie-btn-decline {
-      background: rgba(255, 255, 255, 0.08);
-      color: #E8E9ED;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: #F5F6FA;
+      color: #444955;
+      border: 1px solid #E8E9ED;
     }
     .cookie-btn-decline:hover {
-      background: rgba(255, 255, 255, 0.14);
-      color: #ffffff;
+      background: #EBEDF5;
+      color: #111318;
     }
     .cookie-btn-accept {
       background: #315EFB;
       color: #ffffff;
-      box-shadow: 0 4px 14px rgba(49, 94, 251, 0.35);
+      box-shadow: 0 4px 14px rgba(49, 94, 251, 0.3);
     }
     .cookie-btn-accept:hover {
       background: #2148D6;
