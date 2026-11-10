@@ -29,18 +29,6 @@
 
       <!-- Selector visual de soluciones -->
       <div class="bds-selector-wrap">
-        <div class="bds-selector-nav">
-          @for (cat of solutionCategories(); track cat) {
-            <button 
-              type="button" 
-              class="bds-nav-pill"
-              [class.active]="activeSolution().category === cat"
-              (click)="setCategory(cat)">
-              {{ cat }}
-            </button>
-          }
-        </div>
-
         <div class="bds-selector-grid" role="tablist" aria-label="Selector de soluciones">
           @for (niche of niches; track niche.id) {
             <button
