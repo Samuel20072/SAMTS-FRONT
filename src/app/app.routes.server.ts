@@ -6,6 +6,11 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client
   },
   {
+    // Blog dinámico: no prerender (contenido viene del backend)
+    path: 'blog',
+    renderMode: RenderMode.Client
+  },
+  {
     path: 'blog/:slug',
     renderMode: RenderMode.Server
   },

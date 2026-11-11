@@ -5,93 +5,104 @@
   [draggable]="false"
   [resizable]="false"
   [dismissableMask]="true"
-  [style]="{ width: '92%', maxWidth: '500px' }"
-  styleClass="samts-light-dialog border border-[#E8E9ED] bg-white text-[#111318] rounded-3xl overflow-hidden shadow-2xl"
+  [style]="{ width: '92%', maxWidth: '520px' }"
+  styleClass="samts-consultation-dialog"
   [showHeader]="false"
   class="block">
   
-  <div class="p-6 sm:p-8 relative">
+  <div class="cm-container">
     <!-- Close Button -->
     <button 
+      type="button"
       (click)="closeModal()"
-      class="absolute top-4 right-4 text-[#9297A1] hover:text-[#111318] transition-colors p-2 rounded-xl hover:bg-[#F7F8FA]"
+      class="cm-close-btn"
       aria-label="Cerrar modal">
-      <i class="pi pi-times text-lg"></i>
+      <i class="pi pi-times"></i>
     </button>
 
     <!-- Success State -->
-    <div *ngIf="isSuccess()" class="flex flex-col items-center text-center py-6 space-y-4 animate-fade-in">
-      <div class="w-16 h-16 bg-[#EDF2FF] border border-[#315EFB]/25 rounded-2xl flex items-center justify-center text-[#315EFB] shadow-[0_0_25px_rgba(49,94,251,0.18)]">
-        <i class="pi pi-check text-3xl"></i>
-      </div>
-      <h3 class="text-2xl font-bold font-display text-[#111318]">
-        ¡Solicitud Recibida con Éxito!
-      </h3>
-      <p class="text-[#666B75] text-sm max-w-sm leading-relaxed">
-        Guardamos tu requerimiento en nuestro sistema. Uno de nuestros arquitectos de software te contactará a la brevedad.
-      </p>
+    @if (isSuccess()) {
+      <div class="cm-success">
+        <div class="cm-success-icon">
+          <i class="pi pi-check"></i>
+        </div>
+        <h3 class="cm-success-title">
+          ¡Solicitud Recibida con Éxito!
+        </h3>
+        <p class="cm-success-text">
+          Guardamos tu requerimiento en nuestro sistema. Uno de nuestros arquitectos de software te contactará a la brevedad.
+        </p>
 
-      <div class="pt-2 w-full space-y-2">
-        <button
-          type="button"
-          (click)="openDirectWhatsApp()"
-          class="w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold py-3.5 px-4 rounded-xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-green-500/20 transition-all duration-200">
-          <i class="pi pi-whatsapp text-lg"></i>
-          <span>Continuar directo a WhatsApp</span>
-        </button>
+        <div class="cm-success-actions">
+          <button
+            type="button"
+            (click)="openDirectWhatsApp()"
+            class="cm-whatsapp-btn">
+            <i class="pi pi-whatsapp"></i>
+            <span>Continuar directo a WhatsApp</span>
+          </button>
 
-        <button
-          type="button"
-          (click)="closeModal()"
-          class="w-full bg-[#F7F8FA] hover:bg-[#EEF0F4] text-[#666B75] hover:text-[#111318] font-medium py-2.5 rounded-xl text-xs transition-colors">
-          Cerrar ventana
-        </button>
+          <button
+            type="button"
+            (click)="closeModal()"
+            class="cm-secondary-btn">
+            Cerrar ventana
+          </button>
+        </div>
       </div>
-    </div>
+    }
 
     <!-- Form State -->
-    <div *ngIf="!isSuccess()" class="space-y-5">
-      <div class="space-y-1.5">
-        <div class="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#315EFB] tracking-wider uppercase bg-[#EDF2FF] border border-[#315EFB]/20 px-2.5 py-1 rounded-full">
-          <i class="pi pi-sparkles text-[10px]"></i>
+    @if (!isSuccess()) {
+      <!-- Header -->
+      <header class="cm-header">
+        <div class="cm-badge">
+          <i class="pi pi-sparkles"></i>
           <span>{{ solutionInterest || 'Propuesta Comercial SAMTS' }}</span>
         </div>
-        <h3 class="text-2xl font-bold font-display text-[#111318]">
+        <h3 class="cm-title">
           Solicitar propuesta sin costo
         </h3>
-        <p class="text-xs text-[#666B75]">
+        <p class="cm-subtitle">
           Déjanos los datos de tu empresa y te entregaremos una propuesta con alcance, plazo y valor exacto.
         </p>
-      </div>
+      </header>
 
       <!-- Error alert -->
-      <div *ngIf="errorMessage()" class="p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-xs flex items-start gap-2">
-        <i class="pi pi-exclamation-triangle mt-0.5 text-red-500"></i>
-        <div class="flex-1">{{ errorMessage() }}</div>
-      </div>
+      @if (errorMessage()) {
+        <div class="cm-alert-error" role="alert">
+          <i class="pi pi-exclamation-circle"></i>
+          <div>{{ errorMessage() }}</div>
+        </div>
+      }
 
-      <form (submit)="onSubmit()" class="space-y-3.5">
-        <!-- Nombre -->
-        <div class="flex flex-col gap-1">
-          <label for="modal-name" class="text-xs font-semibold text-[#111318]">Tu nombre *</label>
-          <div class="relative">
-            <i class="pi pi-user absolute left-3 top-3 text-[#9297A1] text-sm"></i>
+      <form (ngSubmit)="onSubmit()" class="cm-form">
+        <!-- Tu Nombre -->
+        <div class="cm-field">
+          <label for="modal-name" class="cm-label">
+            <span>Tu nombre <span class="cm-required">*</span></span>
+          </label>
+          <div class="cm-input-wrap">
+            <i class="pi pi-user cm-input-icon"></i>
             <input 
               pInputText 
               id="modal-name" 
               name="name"
               [(ngModel)]="name" 
               placeholder="Ej. Carlos Mendoza" 
-              class="w-full pl-9 py-2.5 bg-white border border-[#E8E9ED] text-[#111318] rounded-xl text-sm focus:outline-none focus:border-[#315EFB] transition-all placeholder:text-[#9297A1]"
+              class="cm-input"
+              autocomplete="name"
               required />
           </div>
         </div>
 
-        <!-- WhatsApp -->
-        <div class="flex flex-col gap-1">
-          <label for="modal-whatsapp" class="text-xs font-semibold text-[#111318]">WhatsApp / Teléfono *</label>
-          <div class="relative">
-            <i class="pi pi-whatsapp absolute left-3 top-3 text-[#9297A1] text-sm"></i>
+        <!-- WhatsApp / Teléfono -->
+        <div class="cm-field">
+          <label for="modal-whatsapp" class="cm-label">
+            <span>WhatsApp / Teléfono <span class="cm-required">*</span></span>
+          </label>
+          <div class="cm-input-wrap">
+            <i class="pi pi-whatsapp cm-input-icon"></i>
             <input 
               pInputText 
               id="modal-whatsapp" 
@@ -99,16 +110,19 @@
               type="tel"
               [(ngModel)]="whatsapp" 
               placeholder="Ej. +57 300 123 4567" 
-              class="w-full pl-9 py-2.5 bg-white border border-[#E8E9ED] text-[#111318] rounded-xl text-sm focus:outline-none focus:border-[#315EFB] transition-all placeholder:text-[#9297A1]"
+              class="cm-input"
+              autocomplete="tel"
               required />
           </div>
         </div>
 
-        <!-- Correo -->
-        <div class="flex flex-col gap-1">
-          <label for="modal-email" class="text-xs font-semibold text-[#111318]">Correo corporativo / personal *</label>
-          <div class="relative">
-            <i class="pi pi-envelope absolute left-3 top-3 text-[#9297A1] text-sm"></i>
+        <!-- Correo Corporativo / Personal -->
+        <div class="cm-field">
+          <label for="modal-email" class="cm-label">
+            <span>Correo corporativo / personal <span class="cm-required">*</span></span>
+          </label>
+          <div class="cm-input-wrap">
+            <i class="pi pi-envelope cm-input-icon"></i>
             <input 
               pInputText 
               id="modal-email" 
@@ -116,70 +130,79 @@
               type="email"
               [(ngModel)]="email" 
               placeholder="contacto@tuempresa.com" 
-              class="w-full pl-9 py-2.5 bg-white border border-[#E8E9ED] text-[#111318] rounded-xl text-sm focus:outline-none focus:border-[#315EFB] transition-all placeholder:text-[#9297A1]"
+              class="cm-input"
+              autocomplete="email"
               required />
           </div>
         </div>
 
-        <!-- Nombre del negocio (Opcional) -->
-        <div class="flex flex-col gap-1">
-          <label for="modal-business" class="text-xs font-semibold text-[#111318]">Nombre de tu empresa o marca (Opcional)</label>
-          <div class="relative">
-            <i class="pi pi-building absolute left-3 top-3 text-[#9297A1] text-sm"></i>
+        <!-- Nombre de la Empresa o Marca (Opcional) -->
+        <div class="cm-field">
+          <label for="modal-business" class="cm-label">
+            <span>Nombre de tu empresa o marca</span>
+            <span class="cm-optional">(Opcional)</span>
+          </label>
+          <div class="cm-input-wrap">
+            <i class="pi pi-building cm-input-icon"></i>
             <input 
               pInputText 
               id="modal-business" 
               name="businessName"
               [(ngModel)]="businessName" 
               placeholder="Ej. Modas & Estilo SAS" 
-              class="w-full pl-9 py-2.5 bg-white border border-[#E8E9ED] text-[#111318] rounded-xl text-sm focus:outline-none focus:border-[#315EFB] transition-all placeholder:text-[#9297A1]" />
+              class="cm-input"
+              autocomplete="organization" />
           </div>
         </div>
 
-        <!-- Detalles del proyecto -->
-        <div class="flex flex-col gap-1">
-          <label for="modal-details" class="text-xs font-semibold text-[#111318]">Resumen de lo que necesitas (Opcional)</label>
+        <!-- Resumen de lo que necesitas (Opcional) -->
+        <div class="cm-field">
+          <label for="modal-details" class="cm-label">
+            <span>Resumen de lo que necesitas</span>
+            <span class="cm-optional">(Opcional)</span>
+          </label>
           <textarea 
             pTextarea 
             id="modal-details" 
             name="details"
             [(ngModel)]="details" 
             placeholder="¿Qué funcionalidad, diseño o integración buscas?" 
-            rows="2" 
-            class="w-full p-2.5 bg-white border border-[#E8E9ED] text-[#111318] rounded-xl text-sm focus:outline-none focus:border-[#315EFB] transition-all placeholder:text-[#9297A1] resize-none"></textarea>
+            rows="3" 
+            class="cm-textarea"></textarea>
         </div>
 
-        <!-- Tratamiento de datos (Habeas Data) -->
-        <div class="flex items-start gap-2 pt-1">
+        <!-- Tratamiento de Datos (Habeas Data) -->
+        <div class="cm-terms">
           <input
             type="checkbox"
             id="modal-terms"
             name="acceptDataPolicy"
-            [(ngModel)]="acceptDataPolicy"
-            class="mt-1 rounded bg-white border-[#E8E9ED] text-[#315EFB] focus:ring-0 cursor-pointer" />
-          <label for="modal-terms" class="text-[11px] text-[#666B75] leading-snug cursor-pointer">
-            Autorizo a SAMTS el tratamiento de mis datos de contacto para la formulación de la propuesta comercial, según la Ley 1581 de 2012.
+            [(ngModel)]="acceptDataPolicy" />
+          <label for="modal-terms">
+            Autorizo a <strong>SAMTS</strong> el tratamiento de mis datos de contacto para la formulación de la propuesta comercial, según la Ley 1581 de 2012.
           </label>
         </div>
 
         <!-- Submit Button -->
-        <div class="pt-2">
-          <button 
-            type="submit" 
-            [disabled]="isSubmitting() || !name || !email || !whatsapp || !acceptDataPolicy"
-            class="w-full bg-[#315EFB] hover:bg-[#2148d6] text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#315EFB]/25 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99] transition-all duration-200">
-            <i *ngIf="isSubmitting()" class="pi pi-spinner animate-spin"></i>
-            <span>{{ isSubmitting() ? 'Enviando requerimiento...' : 'Enviar requerimiento a SAMTS' }}</span>
-            <i *ngIf="!isSubmitting()" class="pi pi-arrow-right"></i>
-          </button>
+        <button 
+          type="submit" 
+          [disabled]="isSubmitting() || !name || !email || !whatsapp || !acceptDataPolicy"
+          class="cm-submit-btn">
+          @if (isSubmitting()) {
+            <i class="pi pi-spinner animate-spin"></i>
+            <span>Enviando requerimiento...</span>
+          } @else {
+            <span>Enviar requerimiento a SAMTS</span>
+            <i class="pi pi-arrow-right cm-btn-arrow"></i>
+          }
+        </button>
+
+        <!-- Trust Footer -->
+        <div class="cm-footer-trust">
+          <i class="pi pi-shield"></i>
+          <span>Respuesta en menos de 24 horas hábiles · Sin compromiso comercial</span>
         </div>
       </form>
-
-      <!-- Footer Info -->
-      <div class="text-center text-[11px] text-[#9297A1] flex items-center justify-center gap-1.5">
-        <i class="pi pi-shield text-[10px] text-[#315EFB]"></i>
-        <span>Respuesta en menos de 24 horas hábiles · Sin compromiso comercial</span>
-      </div>
-    </div>
+    }
   </div>
 </p-dialog>

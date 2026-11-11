@@ -1,77 +1,292 @@
-<div class="p-8">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <div *ngFor="let stat of stats" class="bg-slate-100 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200 dark:border-white/5 rounded-2xl p-6">
-      <div class="flex items-center justify-between mb-4">
-        <div class="w-12 h-12 rounded-xl flex items-center justify-center" [ngClass]="stat.bg">
-          <i class="text-xl" [ngClass]="[stat.icon, stat.color]"></i>
-        </div>
-        <span class="text-xs font-semibold text-green-400 bg-green-400/10 px-2 py-1 rounded-full">+4.5%</span>
-      </div>
-      <p class="text-slate-600 dark:text-slate-400 text-sm font-medium mb-1">{{ stat.title }}</p>
-      <h3 class="text-3xl font-display font-bold text-slate-900 dark:text-white">{{ stat.value }}</h3>
+<div class="p-6 max-w-7xl mx-auto space-y-6">
+  
+  <!-- Header / Greeting -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 tracking-tight">{{ greeting }}, Admin</h1>
+      <p class="text-xs text-slate-500 capitalize mt-0.5">{{ today }} • Resumen de Operaciones Comerciales</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button (click)="loadDashboard()" 
+              class="inline-flex items-center gap-2 px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
+        <i class="pi pi-refresh text-xs text-slate-500"></i>
+        <span>Actualizar datos</span>
+      </button>
+      <a routerLink="/admin/leads"
+         class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 rounded-lg text-xs font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm">
+        <i class="pi pi-users text-xs"></i>
+        <span>Ir al CRM</span>
+      </a>
     </div>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <div class="lg:col-span-2 bg-slate-100 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200 dark:border-white/5 rounded-2xl p-6 flex flex-col">
-      <div class="flex justify-between items-center mb-6">
-        <h3 class="font-semibold text-lg text-slate-900 dark:text-white">Rendimiento de Agentes IA</h3>
-        <button class="text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white"><i class="pi pi-ellipsis-h"></i></button>
-      </div>
-      <div class="flex-1 flex items-center justify-center bg-slate-50 dark:bg-slate-950/50 rounded-xl border border-slate-200 dark:border-white/5 min-h-[300px] relative overflow-hidden">
-        <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none">
-          <path d="M0,200 C100,150 200,250 300,100 C400,0 500,150 600,50 L600,300 L0,300 Z" fill="url(#grad1)" opacity="0.2"></path>
-          <path d="M0,200 C100,150 200,250 300,100 C400,0 500,150 600,50" fill="none" stroke="#3b82f6" stroke-width="3"></path>
-          <defs>
-            <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
-              <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0" />
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="relative z-10 flex flex-col items-center gap-2">
-           <span class="text-slate-500 dark:text-slate-500 dark:text-slate-500 dark:text-slate-500 text-sm">Visualización de datos en tiempo real</span>
-        </div>
-      </div>
+  <!-- Loading State -->
+  <div *ngIf="isLoading()" class="animate-pulse space-y-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div *ngFor="let i of [1,2,3,4,5,6,7,8]" class="h-28 bg-white border border-slate-200 rounded-xl p-5"></div>
     </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="h-80 bg-white border border-slate-200 rounded-xl"></div>
+      <div class="lg:col-span-2 h-80 bg-white border border-slate-200 rounded-xl"></div>
+    </div>
+  </div>
 
-    <div class="bg-slate-100 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200 dark:border-white/5 rounded-2xl p-6">
-      <div class="flex justify-between items-center mb-6">
-        <h3 class="font-semibold text-lg text-slate-900 dark:text-white">Últimas Ventas</h3>
-        <a href="#" class="text-sm text-blue-400 hover:text-blue-300">Ver todos</a>
-      </div>
+  <!-- Error State -->
+  <div *ngIf="!isLoading() && hasError()" class="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+    <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-3">
+      <i class="pi pi-exclamation-circle text-xl"></i>
+    </div>
+    <h3 class="text-sm font-bold text-red-900">Error al sincronizar métricas</h3>
+    <p class="text-xs text-red-700 mt-1">No se pudo cargar la información operativa del servidor.</p>
+    <button (click)="loadDashboard()" class="mt-4 px-4 py-1.5 bg-red-600 text-white rounded-lg text-xs font-medium hover:bg-red-700">
+      Reintentar conexión
+    </button>
+  </div>
+
+  <!-- Main Content When Loaded -->
+  <div *ngIf="!isLoading() && !hasError() && stats() as s" class="space-y-6">
+    
+    <!-- KPI Row: 8 Commercial Metrics -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       
-      <div class="space-y-4">
-        <!-- Skeleton Loading -->
-        <div *ngIf="isLoading()" class="animate-pulse space-y-4">
-          <div *ngFor="let i of [1,2,3]" class="h-16 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+      <!-- Total Leads -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:border-slate-300 transition-colors">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Total Leads</span>
+          <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-600">
+            <i class="pi pi-users text-xs"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-bold text-slate-900">{{ s.totalLeads }}</div>
+        <p class="text-[11px] text-slate-400 mt-1">Prospectos en base de datos</p>
+      </div>
+
+      <!-- Nuevos Leads -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:border-blue-200 transition-colors">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-blue-600">Nuevos Leads</span>
+          <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+            <i class="pi pi-user-plus text-xs"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-bold text-slate-900">{{ s.newLeads }}</div>
+        <p class="text-[11px] text-slate-400 mt-1">Sin contactar aún</p>
+      </div>
+
+      <!-- Oportunidades Abiertas -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:border-amber-200 transition-colors">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-amber-700">Oportunidades</span>
+          <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+            <i class="pi pi-briefcase text-xs"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-bold text-slate-900">{{ s.openOpportunities }}</div>
+        <p class="text-[11px] text-slate-400 mt-1">En negociación / propuesta</p>
+      </div>
+
+      <!-- Seguimientos Pendientes -->
+      <div class="bg-white border rounded-xl p-4 shadow-sm transition-colors"
+           [ngClass]="s.pendingFollowUps > 0 ? 'border-orange-300 bg-orange-50/40' : 'border-slate-200'">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-semibold uppercase tracking-wider"
+                [ngClass]="s.pendingFollowUps > 0 ? 'text-orange-700' : 'text-slate-500'">
+            Seguimientos
+          </span>
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center"
+               [ngClass]="s.pendingFollowUps > 0 ? 'bg-orange-100 text-orange-600' : 'bg-slate-100 text-slate-500'">
+            <i class="pi pi-clock text-xs"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-bold" [ngClass]="s.pendingFollowUps > 0 ? 'text-orange-800' : 'text-slate-900'">
+          {{ s.pendingFollowUps }}
+        </div>
+        <p class="text-[11px] text-slate-400 mt-1">Con fecha de seguimiento vencida</p>
+      </div>
+
+      <!-- Pipeline Estimado -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:border-slate-300 transition-colors">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Pipeline Valor</span>
+          <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+            <i class="pi pi-chart-line text-xs"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-bold text-slate-900">${{ s.estimatedPipelineValue | number:'1.0-0' }}</div>
+        <p class="text-[11px] text-slate-400 mt-1">En oportunidades abiertas</p>
+      </div>
+
+      <!-- Tasa de Conversión -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:border-emerald-200 transition-colors">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-emerald-700">Conversión</span>
+          <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+            <i class="pi pi-percentage text-xs"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-bold text-slate-900">{{ s.conversionRate | number:'1.1-1' }}%</div>
+        <p class="text-[11px] text-slate-400 mt-1">Leads cerrados ganados</p>
+      </div>
+
+      <!-- Clientes Ganados -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:border-emerald-200 transition-colors">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-emerald-700">Ganados</span>
+          <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+            <i class="pi pi-check-circle text-xs"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-bold text-slate-900">{{ s.wonLeads }}</div>
+        <p class="text-[11px] text-slate-400 mt-1">Cierres comerciales exitosos</p>
+      </div>
+
+      <!-- Ingresos Ganados -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:border-emerald-200 transition-colors">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-emerald-700">Ingresos Ganados</span>
+          <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+            <i class="pi pi-wallet text-xs"></i>
+          </div>
+        </div>
+        <div class="text-2xl font-bold text-emerald-700">${{ s.wonRevenue | number:'1.0-0' }}</div>
+        <p class="text-[11px] text-slate-400 mt-1">Monto de ventas cerradas</p>
+      </div>
+
+    </div>
+
+    <!-- Middle Row: Sales Funnel + Recent Leads -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Embudo de Ventas -->
+      <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-sm font-bold text-slate-900">Embudo Comercial</h2>
+          <span class="text-xs text-slate-400 font-mono">{{ s.totalLeads }} total</span>
         </div>
 
-        <div *ngIf="!isLoading() && recentSales.length === 0" class="text-center py-6">
-          <p class="text-sm text-slate-500 dark:text-slate-500 dark:text-slate-500 dark:text-slate-400">No hay ventas recientes.</p>
+        <div *ngIf="s.totalLeads === 0" class="py-12 text-center">
+          <i class="pi pi-filter text-slate-300 text-2xl mb-2"></i>
+          <p class="text-xs text-slate-500">No hay prospectos en el embudo</p>
         </div>
 
-        <div *ngFor="let sale of recentSales" class="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-100 dark:bg-slate-900/5 dark:bg-white/5 transition-colors cursor-pointer">
-          <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 border border-slate-300 dark:border-white/10 font-medium">
-            {{ sale.customerName?.charAt(0) || 'C' }}
+        <div *ngIf="s.totalLeads > 0" class="space-y-3">
+          <div *ngFor="let stage of funnelStages" class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span class="font-medium text-slate-700">{{ stage.label }}</span>
+              <span class="text-slate-400 font-mono">{{ stage.count }} ({{ stage.pct }}%)</span>
+            </div>
+            <div class="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
+              <div class="h-full rounded-full transition-all duration-500"
+                   [class]="stage.color"
+                   [style.width.%]="stage.pct > 0 ? stage.pct : 2"></div>
+            </div>
           </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-sm font-medium text-slate-900 dark:text-white truncate">{{ sale.customerName }}</p>
-            <p class="text-xs text-slate-600 dark:text-slate-400 truncate font-mono">${{ sale.total | number:'1.2-2' }}</p>
-          </div>
-          <div class="text-right">
-            <span class="inline-block px-2 py-1 rounded text-[10px] font-semibold"
-                  [ngClass]="{
-                    'bg-green-500/10 text-green-400 border border-green-500/20': sale.status === 'COMPLETED',
-                    'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20': sale.status === 'PENDING',
-                    'bg-red-500/10 text-red-400 border border-red-500/20': sale.status === 'CANCELLED'
-                  }">
-              {{ sale.status }}
-            </span>
-            <p class="text-[10px] text-slate-500 dark:text-slate-500 dark:text-slate-500 dark:text-slate-500 mt-1">{{ sale.createdAt | date:'short' }}</p>
+        </div>
+
+        <!-- Recursos de SAMTS -->
+        <div class="mt-6 pt-5 border-t border-slate-100 space-y-2">
+          <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Recursos en Catálogo</h3>
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="block text-lg font-bold text-slate-900">{{ s.totalProducts }}</span>
+              <span class="block text-[10px] text-slate-400">Servicios</span>
+            </div>
+            <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="block text-lg font-bold text-slate-900">{{ s.totalPromotions }}</span>
+              <span class="block text-[10px] text-slate-400">Promos ({{ s.activePromotions }} act.)</span>
+            </div>
+            <div class="p-2 bg-slate-50 rounded-lg border border-slate-100">
+              <span class="block text-lg font-bold text-slate-900">{{ s.totalBlogPosts }}</span>
+              <span class="block text-[10px] text-slate-400">Artículos</span>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- Recent Leads Table -->
+      <div class="lg:col-span-2 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
+        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-white">
+          <div>
+            <h2 class="text-sm font-bold text-slate-900">Leads Recientes</h2>
+            <p class="text-[11px] text-slate-400">Últimos contactos registrados en las campañas y diagnóstico</p>
+          </div>
+          <a routerLink="/admin/leads" class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1">
+            <span>Ver todos los leads</span>
+            <i class="pi pi-arrow-right text-[10px]"></i>
+          </a>
+        </div>
+
+        <div *ngIf="!s.recentLeads || s.recentLeads.length === 0" class="flex-1 p-12 text-center flex flex-col items-center justify-center">
+          <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+            <i class="pi pi-inbox text-xl"></i>
+          </div>
+          <p class="text-xs text-slate-600 font-medium">Aún no hay leads registrados</p>
+          <p class="text-[11px] text-slate-400 mt-0.5">Los prospectos que soliciten cotización o diagnóstico aparecerán aquí.</p>
+        </div>
+
+        <div *ngIf="s.recentLeads && s.recentLeads.length > 0" class="divide-y divide-slate-100 overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-100">
+              <tr>
+                <th class="px-4 py-3">Prospecto</th>
+                <th class="px-4 py-3">Interés / Negocio</th>
+                <th class="px-4 py-3">Estado</th>
+                <th class="px-4 py-3 text-right">Valor Estimado</th>
+                <th class="px-4 py-3 text-right">Fecha</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr *ngFor="let lead of s.recentLeads" class="hover:bg-slate-50/80 transition-colors">
+                <td class="px-4 py-3">
+                  <div class="font-medium text-slate-900">{{ lead.name }}</div>
+                  <div class="text-[11px] text-slate-400 truncate max-w-[180px]">{{ lead.email }}</div>
+                </td>
+                <td class="px-4 py-3">
+                  <div class="text-slate-700 truncate max-w-[200px]">{{ lead.solutionInterest || 'Consulta general' }}</div>
+                  <div *ngIf="lead.businessName" class="text-[10px] text-slate-400 truncate">{{ lead.businessName }}</div>
+                </td>
+                <td class="px-4 py-3">
+                  <span class="inline-block px-2 py-0.5 rounded text-[10px] font-medium" [ngClass]="statusClass(lead.status)">
+                    {{ statusLabel(lead.status) }}
+                  </span>
+                </td>
+                <td class="px-4 py-3 text-right font-mono font-medium text-slate-800">
+                  <span *ngIf="lead.estimatedValue">${{ lead.estimatedValue | number:'1.0-0' }}</span>
+                  <span *ngIf="!lead.estimatedValue" class="text-slate-300">-</span>
+                </td>
+                <td class="px-4 py-3 text-right text-slate-400 text-[11px] whitespace-nowrap">
+                  {{ lead.createdAt | date:'shortDate' }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
+
+    <!-- Quick Actions Card -->
+    <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+      <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-3">Accesos Directos Operativos</h3>
+      <div class="flex flex-wrap gap-2.5">
+        <a routerLink="/admin/leads" class="inline-flex items-center gap-2 px-3.5 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 transition-colors shadow-sm">
+          <i class="pi pi-users text-xs"></i>
+          <span>Gestionar CRM & Leads</span>
+        </a>
+        <a routerLink="/admin/products" class="inline-flex items-center gap-2 px-3.5 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg text-xs font-medium hover:bg-slate-50 transition-colors shadow-sm">
+          <i class="pi pi-plus text-xs text-blue-600"></i>
+          <span>Nuevo Servicio SAMTS</span>
+        </a>
+        <a routerLink="/admin/promotions" class="inline-flex items-center gap-2 px-3.5 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg text-xs font-medium hover:bg-slate-50 transition-colors shadow-sm">
+          <i class="pi pi-tag text-xs text-blue-600"></i>
+          <span>Crear Promoción</span>
+        </a>
+        <a routerLink="/admin/pages" class="inline-flex items-center gap-2 px-3.5 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg text-xs font-medium hover:bg-slate-50 transition-colors shadow-sm">
+          <i class="pi pi-file-edit text-xs text-blue-600"></i>
+          <span>Generar Artículo con IA</span>
+        </a>
+      </div>
+    </div>
+
   </div>
 </div>

@@ -23,172 +23,164 @@ interface BlogPost {
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="p-8">
+    <div class="p-6 max-w-7xl mx-auto space-y-6">
+      
       <!-- Header -->
-      <div class="flex justify-between items-center mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 class="text-2xl font-display font-bold text-slate-900 dark:text-white mb-1">Artículos y Páginas Activas</h2>
-          <p class="text-sm text-slate-600 dark:text-slate-400">Gestiona y monitoriza el contenido de tus webs.</p>
+          <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Contenido & Blog Corporativo</h1>
+          <p class="text-xs text-slate-500 mt-0.5">Gestión de artículos y páginas para posicionamiento SEO y conversión comercial de SAMTS.</p>
         </div>
         <button
           (click)="openCreate()"
-          class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 flex items-center gap-2 shadow-lg shadow-blue-500/20 active:scale-95">
-          <i class="pi pi-plus text-sm"></i>
-          Nueva Página
+          class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-xs font-semibold transition-colors shadow-sm">
+          <i class="pi pi-plus text-xs"></i>
+          Nuevo Artículo
         </button>
       </div>
 
       <!-- Loading -->
-      <div *ngIf="isLoading()" class="flex justify-center py-16">
-        <div class="flex flex-col items-center gap-3">
-          <i class="pi pi-spin pi-spinner text-4xl text-blue-500"></i>
-          <p class="text-sm text-slate-500 dark:text-slate-400">Cargando páginas...</p>
-        </div>
+      <div *ngIf="isLoading()" class="py-20 text-center">
+        <i class="pi pi-spinner animate-spin text-3xl text-blue-600"></i>
+        <p class="text-xs text-slate-400 mt-2">Cargando publicaciones...</p>
       </div>
 
       <!-- Empty State -->
-      <div *ngIf="!isLoading() && pages().length === 0" class="text-center py-16">
-        <div class="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto mb-4">
-          <i class="pi pi-file-edit text-2xl text-blue-400"></i>
+      <div *ngIf="!isLoading() && pages().length === 0" class="text-center py-16 bg-white border border-slate-200 rounded-xl shadow-sm">
+        <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-3">
+          <i class="pi pi-file-edit text-xl"></i>
         </div>
-        <p class="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-2">Sin páginas ni artículos</p>
-        <p class="text-sm text-slate-500 dark:text-slate-500 mb-6">Crea tu primer artículo o página web.</p>
-        <button (click)="openCreate()" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl font-semibold transition-colors">
-          <i class="pi pi-plus mr-2"></i>Crear Página
+        <h3 class="text-sm font-bold text-slate-800">No hay publicaciones registradas</h3>
+        <p class="text-xs text-slate-400 mt-1 mb-4">Crea tu primer artículo o genera uno optimizado con IA para impulsar el blog.</p>
+        <button (click)="openCreate()" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 transition-colors shadow-sm">
+          <i class="pi pi-plus text-xs mr-1"></i>Crear Publicación
         </button>
       </div>
 
-      <!-- Grid -->
-      <div *ngIf="!isLoading() && pages().length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Grid of Posts -->
+      <div *ngIf="!isLoading() && pages().length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div
           *ngFor="let page of pages()"
-          class="bg-slate-100 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200 dark:border-white/5 rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/5 group cursor-pointer">
-          <div class="p-6">
-            <div class="flex justify-between items-start mb-4">
-              <div class="w-12 h-12 rounded-xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-white/5">
-                <i class="pi pi-file-edit text-xl text-blue-400"></i>
-              </div>
-              <div class="flex items-center gap-2">
-                <span
-                  class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border"
-                  [ngClass]="page.status === 'PUBLISHED'
-                    ? 'bg-green-500/10 text-green-400 border-green-500/20'
-                    : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'">
-                  <span *ngIf="page.status === 'PUBLISHED'" class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-                  {{ page.status === 'PUBLISHED' ? 'Online' : 'Borrador' }}
-                </span>
-              </div>
+          class="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:border-slate-300 transition-colors flex flex-col justify-between group">
+          
+          <div class="p-5">
+            <div class="flex justify-between items-start mb-3">
+              <span
+                class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-semibold border"
+                [ngClass]="page.status === 'PUBLISHED'
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                  : 'bg-amber-50 text-amber-700 border-amber-200'">
+                <span *ngIf="page.status === 'PUBLISHED'" class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                {{ page.status === 'PUBLISHED' ? 'Publicado' : 'Borrador' }}
+              </span>
+              <span class="text-[10px] text-slate-400">
+                {{ page.updatedAt | date:'shortDate' }}
+              </span>
             </div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1 truncate">{{ page.title }}</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-500 mb-2 font-mono">/{{ page.slug }}</p>
-            <p *ngIf="page.excerpt" class="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-4">{{ page.excerpt }}</p>
+
+            <h3 class="text-sm font-bold text-slate-900 mb-1 line-clamp-2">{{ page.title }}</h3>
+            <p class="text-[11px] text-blue-600 font-mono mb-2 truncate">/blog/{{ page.slug }}</p>
+            <p class="text-xs text-slate-500 line-clamp-3 mb-2">{{ page.excerpt || 'Sin extracto especificado.' }}</p>
           </div>
 
-          <div class="px-6 py-3 border-t border-slate-200 dark:border-white/5 flex items-center justify-between bg-slate-200/50 dark:bg-white/[0.02]">
-            <div class="flex flex-col">
-              <span class="text-xs text-slate-500 dark:text-slate-500">Actualizado</span>
-              <span class="font-semibold text-sm text-slate-700 dark:text-slate-300">{{ page.updatedAt | date:'dd/MM/yy' }}</span>
-            </div>
-            <div class="flex items-center gap-2">
+          <!-- Card Footer -->
+          <div class="px-5 py-2.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-[11px] text-slate-400 truncate max-w-[140px]">{{ page.author || 'Equipo SAMTS' }}</span>
+            <div class="flex items-center gap-1.5">
               <button
-                (click)="openEdit(page); $event.stopPropagation()"
-                class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 flex items-center justify-center transition-colors"
+                (click)="openEdit(page)"
+                class="w-7 h-7 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-200 flex items-center justify-center transition-colors text-xs"
                 title="Editar">
-                <i class="pi pi-pencil text-xs"></i>
+                <i class="pi pi-pencil"></i>
               </button>
               <button
-                (click)="confirmDelete(page); $event.stopPropagation()"
-                class="w-8 h-8 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 flex items-center justify-center transition-colors"
+                (click)="confirmDelete(page)"
+                class="w-7 h-7 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-rose-600 hover:border-rose-200 flex items-center justify-center transition-colors text-xs"
                 title="Eliminar">
-                <i class="pi pi-trash text-xs"></i>
+                <i class="pi pi-trash"></i>
               </button>
             </div>
           </div>
+
         </div>
       </div>
     </div>
 
-    <!-- ===== CREATE / EDIT MODAL ===== -->
+    <!-- Create / Edit Modal -->
     <div
       *ngIf="showModal()"
-      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
       (click)="closeModal()">
-      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
       <div
-        class="relative bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+        class="bg-white border border-slate-200 rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
         (click)="$event.stopPropagation()">
-
+        
         <!-- Modal Header -->
-        <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-white/5">
+        <div class="flex items-center justify-between p-5 border-b border-slate-200 bg-slate-50">
           <div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white">{{ editingPost ? 'Editar Artículo' : 'Nueva Página / Artículo' }}</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{{ editingPost ? 'Modifica el contenido.' : 'Completa la información del nuevo artículo.' }}</p>
+            <h3 class="text-base font-bold text-slate-900">{{ editingPost ? 'Editar Artículo' : 'Nuevo Artículo Corporativo' }}</h3>
+            <p class="text-xs text-slate-500 mt-0.5">{{ editingPost ? 'Modifica el contenido y estado de publicación.' : 'Escribe o genera con IA un artículo para el blog.' }}</p>
           </div>
-          <button (click)="closeModal()" class="w-8 h-8 rounded-lg hover:bg-slate-200 dark:hover:bg-white/5 flex items-center justify-center text-slate-500 transition-colors">
+          <button (click)="closeModal()" class="w-8 h-8 rounded-lg hover:bg-slate-200 flex items-center justify-center text-slate-500 transition-colors">
             <i class="pi pi-times text-sm"></i>
           </button>
         </div>
 
         <!-- Modal Body -->
-        <div class="p-6 space-y-4">
-          <!-- AI Generation Section (only on create) -->
-          <div *ngIf="!editingPost" class="bg-blue-500/5 border border-blue-500/10 rounded-2xl p-4 mb-4">
+        <div class="p-6 space-y-4 text-xs">
+          
+          <!-- AI Assistant Banner (only on new) -->
+          <div *ngIf="!editingPost" class="bg-blue-50/60 border border-blue-200 rounded-xl p-4">
             <div class="flex justify-between items-center cursor-pointer" (click)="toggleAiSection()">
-              <div class="flex items-center gap-2">
-                <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400">
-                  <i class="pi pi-sparkles"></i>
-                </span>
+              <div class="flex items-center gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center">
+                  <i class="pi pi-sparkles text-xs"></i>
+                </div>
                 <div>
-                  <h4 class="text-sm font-bold text-slate-900 dark:text-white">Autogenerar con IA</h4>
-                  <p class="text-xs text-slate-500 dark:text-slate-400">Genera el título y contenido del blog usando el asistente IA.</p>
+                  <h4 class="text-xs font-bold text-slate-900">Generador de Contenido con IA</h4>
+                  <p class="text-[11px] text-slate-500">Genera estructura, títulos y redacción SEO automáticamente.</p>
                 </div>
               </div>
-              <button class="text-blue-500 hover:text-blue-400 text-xs font-semibold flex items-center gap-1">
+              <button class="text-blue-700 text-xs font-semibold flex items-center gap-1">
                 {{ showAiForm() ? 'Ocultar' : 'Configurar' }}
                 <i class="pi" [ngClass]="showAiForm() ? 'pi-chevron-up' : 'pi-chevron-down'"></i>
               </button>
             </div>
 
-            <div *ngIf="showAiForm()" class="mt-4 pt-4 border-t border-blue-500/10 space-y-4">
-              <div class="grid grid-cols-2 gap-4">
+            <div *ngIf="showAiForm()" class="mt-4 pt-3 border-t border-blue-100 space-y-3">
+              <div class="grid grid-cols-2 gap-3">
                 <div>
-                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Tipo de Negocio</label>
-                  <input type="text" [(ngModel)]="aiForm.businessType" placeholder="Ej: Restaurante, Tienda" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500/50">
+                  <label class="block font-semibold text-slate-700 mb-1">Sector / Especialidad</label>
+                  <input type="text" [(ngModel)]="aiForm.businessType" placeholder="Ej: Soluciones tecnológicas, B2B" class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
                 </div>
                 <div>
-                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Nombre del Negocio</label>
-                  <input type="text" [(ngModel)]="aiForm.businessName" placeholder="Ej: Mi Negocio" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500/50">
+                  <label class="block font-semibold text-slate-700 mb-1">Nombre Comercial</label>
+                  <input type="text" [(ngModel)]="aiForm.businessName" placeholder="SAMTS Soluciones" class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
                 </div>
               </div>
-              <div class="grid grid-cols-2 gap-4">
+              <div class="grid grid-cols-2 gap-3">
                 <div>
-                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Ciudad</label>
-                  <input type="text" [(ngModel)]="aiForm.city" placeholder="Ej: Ciudad" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500/50">
-                </div>
-                <div>
-                  <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Tono de Voz</label>
-                  <select [(ngModel)]="aiForm.tone" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500/50">
-                    <option value="Profesional">Profesional</option>
-                    <option value="Casual">Casual</option>
-                    <option value="Divertido">Divertido</option>
-                    <option value="Informativo">Informativo</option>
-                    <option value="Persuasivo">Persuasivo</option>
+                  <label class="block font-semibold text-slate-700 mb-1">Tono de Redacción</label>
+                  <select [(ngModel)]="aiForm.tone" class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                    <option value="Profesional">Profesional y Consultivo</option>
+                    <option value="Informativo">Informativo y Pedagógico</option>
+                    <option value="Persuasivo">Persuasivo Comercial</option>
                   </select>
                 </div>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5">Objetivo de Marketing</label>
-                <input type="text" [(ngModel)]="aiForm.marketingGoal" placeholder="Ej: Atraer clientes con una oferta especial" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500/50">
+                <div>
+                  <label class="block font-semibold text-slate-700 mb-1">Objetivo de Conversión</label>
+                  <input type="text" [(ngModel)]="aiForm.marketingGoal" placeholder="Ej: Demostrar ventajas de catálogos digitales" class="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                </div>
               </div>
 
-              <div class="flex justify-end pt-2">
+              <div class="flex justify-end pt-1">
                 <button
                   (click)="generateWithAi()"
                   [disabled]="isGeneratingAi()"
-                  class="bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-all duration-200 flex items-center gap-1.5 shadow-md shadow-blue-500/10 active:scale-95">
-                  <i *ngIf="isGeneratingAi()" class="pi pi-spin pi-spinner"></i>
-                  <i *ngIf="!isGeneratingAi()" class="pi pi-sparkles"></i>
-                  {{ isGeneratingAi() ? 'Generando...' : 'Generar Artículo con IA' }}
+                  class="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-xs font-semibold px-3.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 shadow-sm">
+                  <i *ngIf="isGeneratingAi()" class="pi pi-spinner animate-spin text-xs"></i>
+                  <i *ngIf="!isGeneratingAi()" class="pi pi-sparkles text-xs"></i>
+                  <span>{{ isGeneratingAi() ? 'Redactando con IA...' : 'Generar Borrador' }}</span>
                 </button>
               </div>
             </div>
@@ -196,129 +188,128 @@ interface BlogPost {
 
           <!-- Title -->
           <div>
-            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Título *</label>
+            <label class="block font-semibold text-slate-700 mb-1">Título del Artículo *</label>
             <input
               type="text"
               [(ngModel)]="form.title"
               (ngModelChange)="onTitleChange()"
-              placeholder="Ej: Cómo impulsar tus ventas con IA"
-              class="w-full bg-white dark:bg-slate-800 border rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none transition-all"
-              [ngClass]="formErrors.title ? 'border-red-500' : 'border-slate-200 dark:border-white/10 focus:border-blue-500/50'">
-            <p *ngIf="formErrors.title" class="text-red-400 text-xs mt-1">{{ formErrors.title }}</p>
+              placeholder="Ej: 5 Ventajas de un Catálogo Digital con Cotizador Automático"
+              class="w-full px-3 py-2 border rounded-lg text-xs text-slate-900 focus:outline-none focus:border-blue-500"
+              [ngClass]="formErrors.title ? 'border-red-500' : 'border-slate-200'">
+            <p *ngIf="formErrors.title" class="text-rose-600 text-[11px] mt-1">{{ formErrors.title }}</p>
           </div>
 
           <!-- Slug -->
           <div>
-            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Slug (URL)</label>
-            <div class="flex items-center gap-2">
-              <span class="text-sm text-slate-500 dark:text-slate-500 flex-shrink-0">/</span>
+            <label class="block font-semibold text-slate-700 mb-1">Ruta Web (Slug)</label>
+            <div class="flex items-center gap-1.5">
+              <span class="text-slate-400 font-mono text-xs">/blog/</span>
               <input
                 type="text"
                 [(ngModel)]="form.slug"
-                placeholder="como-impulsar-ventas-con-ia"
-                class="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500/50 transition-all font-mono">
+                placeholder="5-ventajas-catalogo-digital"
+                class="flex-1 px-3 py-1.5 border border-slate-200 rounded-lg text-xs text-slate-900 font-mono focus:outline-none focus:border-blue-500">
             </div>
           </div>
 
           <!-- Excerpt -->
           <div>
-            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Extracto / Resumen</label>
+            <label class="block font-semibold text-slate-700 mb-1">Resumen Breve (Extracto)</label>
             <textarea
               [(ngModel)]="form.excerpt"
               rows="2"
-              placeholder="Breve descripción para SEO y vistas previas..."
-              class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500/50 transition-all resize-none"></textarea>
+              placeholder="Descripción breve para la vista previa y motores de búsqueda..."
+              class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-blue-500 resize-none"></textarea>
           </div>
 
           <!-- Content -->
           <div>
-            <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Contenido *</label>
+            <label class="block font-semibold text-slate-700 mb-1">Cuerpo del Artículo *</label>
             <textarea
               [(ngModel)]="form.content"
-              rows="10"
-              placeholder="Escribe el contenido completo del artículo aquí..."
-              class="w-full bg-white dark:bg-slate-800 border rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none transition-all resize-y font-mono leading-relaxed"
-              [ngClass]="formErrors.content ? 'border-red-500' : 'border-slate-200 dark:border-white/10 focus:border-blue-500/50'"></textarea>
-            <p *ngIf="formErrors.content" class="text-red-400 text-xs mt-1">{{ formErrors.content }}</p>
+              rows="9"
+              placeholder="Escribe el contenido en formato Markdown o texto enriquecido..."
+              class="w-full px-3 py-2 border rounded-lg text-xs font-mono text-slate-900 focus:outline-none focus:border-blue-500 leading-relaxed"
+              [ngClass]="formErrors.content ? 'border-red-500' : 'border-slate-200'"></textarea>
+            <p *ngIf="formErrors.content" class="text-rose-600 text-[11px] mt-1">{{ formErrors.content }}</p>
           </div>
 
           <!-- Author & Status -->
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Autor</label>
+              <label class="block font-semibold text-slate-700 mb-1">Autor</label>
               <input
                 type="text"
                 [(ngModel)]="form.author"
-                placeholder="Nombre del autor"
-                class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500/50 transition-all">
+                placeholder="Equipo SAMTS"
+                class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-blue-500">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1.5 uppercase tracking-wider">Estado</label>
+              <label class="block font-semibold text-slate-700 mb-1">Estado de Publicación</label>
               <select
                 [(ngModel)]="form.status"
-                class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500/50 transition-all">
-                <option value="DRAFT">Borrador</option>
-                <option value="PUBLISHED">Publicado</option>
+                class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                <option value="DRAFT">Borrador (Oculto)</option>
+                <option value="PUBLISHED">Publicado (Visible en blog)</option>
               </select>
             </div>
           </div>
 
           <!-- Error Banner -->
-          <div *ngIf="saveError()" class="flex items-center gap-2 p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
-            <i class="pi pi-exclamation-circle"></i>
+          <div *ngIf="saveError()" class="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs flex items-center gap-2">
+            <i class="pi pi-exclamation-circle text-rose-500"></i>
             <span>{{ saveError() }}</span>
           </div>
+
         </div>
 
-        <!-- Modal Footer -->
-        <div class="flex gap-3 p-6 border-t border-slate-200 dark:border-white/5">
+        <!-- Footer -->
+        <div class="flex justify-end gap-2 p-4 border-t border-slate-200 bg-slate-50">
           <button
             (click)="closeModal()"
-            class="flex-1 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 font-semibold transition-colors text-sm">
+            class="px-4 py-2 border border-slate-200 text-slate-600 hover:bg-white rounded-lg text-xs font-semibold transition-colors">
             Cancelar
           </button>
           <button
             (click)="savePost()"
             [disabled]="isSaving()"
-            class="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-all duration-200 disabled:opacity-60 text-sm flex items-center justify-center gap-2">
-            <i *ngIf="isSaving()" class="pi pi-spin pi-spinner text-sm"></i>
-            <i *ngIf="!isSaving()" class="pi pi-check text-sm"></i>
-            {{ isSaving() ? 'Guardando...' : (editingPost ? 'Actualizar' : 'Publicar') }}
+            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors flex items-center gap-1.5 disabled:opacity-50">
+            <i *ngIf="isSaving()" class="pi pi-spinner animate-spin text-xs"></i>
+            <i *ngIf="!isSaving()" class="pi pi-check text-xs"></i>
+            <span>{{ isSaving() ? 'Guardando...' : (editingPost ? 'Guardar Cambios' : 'Publicar Artículo') }}</span>
           </button>
         </div>
+
       </div>
     </div>
 
-    <!-- ===== DELETE CONFIRMATION MODAL ===== -->
+    <!-- Delete Confirmation Modal -->
     <div
       *ngIf="showDeleteModal()"
-      class="fixed inset-0 z-50 flex items-center justify-center p-4"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
       (click)="showDeleteModal.set(false)">
-      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-      <div
-        class="relative bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl w-full max-w-sm p-6"
-        (click)="$event.stopPropagation()">
-        <div class="text-center mb-6">
-          <div class="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-4">
-            <i class="pi pi-trash text-2xl text-red-400"></i>
+      <div class="bg-white border border-slate-200 rounded-2xl shadow-xl w-full max-w-sm p-5" (click)="$event.stopPropagation()">
+        <div class="text-center mb-4">
+          <div class="w-12 h-12 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-3">
+            <i class="pi pi-trash text-xl"></i>
           </div>
-          <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Eliminar Artículo</h3>
-          <p class="text-sm text-slate-500 dark:text-slate-400">
-            ¿Eliminar <span class="font-semibold text-slate-700 dark:text-slate-300">{{ postToDelete?.title }}</span>? Esta acción no se puede deshacer.
+          <h3 class="text-sm font-bold text-slate-900 mb-1">¿Eliminar artículo?</h3>
+          <p class="text-xs text-slate-500">
+            Se eliminará <strong class="text-slate-800">{{ postToDelete?.title }}</strong> de forma permanente.
           </p>
         </div>
-        <div class="flex gap-3">
+        <div class="flex gap-2">
           <button
             (click)="showDeleteModal.set(false)"
-            class="flex-1 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 font-semibold transition-colors text-sm">
+            class="flex-1 py-2 border border-slate-200 text-slate-600 rounded-lg text-xs font-semibold hover:bg-slate-50 transition-colors">
             Cancelar
           </button>
           <button
             (click)="deletePost()"
             [disabled]="isDeleting()"
-            class="flex-1 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold transition-colors text-sm flex items-center justify-center gap-2">
-            <i *ngIf="isDeleting()" class="pi pi-spin pi-spinner text-sm"></i>
-            {{ isDeleting() ? 'Eliminando...' : 'Sí, Eliminar' }}
+            class="flex-1 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50">
+            <i *ngIf="isDeleting()" class="pi pi-spinner animate-spin text-xs"></i>
+            <span>Eliminar</span>
           </button>
         </div>
       </div>
@@ -339,7 +330,6 @@ export class WebPagesComponent implements OnInit {
   isDeleting = signal(false);
   saveError = signal('');
 
-  // AI Signals
   showAiForm = signal(false);
   isGeneratingAi = signal(false);
 
@@ -351,16 +341,16 @@ export class WebPagesComponent implements OnInit {
     slug: '',
     excerpt: '',
     content: '',
-    author: '',
+    author: 'Equipo SAMTS',
     status: 'DRAFT' as 'DRAFT' | 'PUBLISHED'
   };
 
   aiForm = {
-    businessType: '',
-    businessName: '',
-    city: '',
+    businessType: 'Soluciones Tecnológicas',
+    businessName: 'SAMTS',
+    city: 'México',
     tone: 'Profesional',
-    marketingGoal: '',
+    marketingGoal: 'Impulsar el crecimiento comercial con catálogos digitales y tiendas',
   };
 
   formErrors: { title?: string; content?: string } = {};
@@ -373,18 +363,19 @@ export class WebPagesComponent implements OnInit {
   loadClientContext() {
     this.clientService.getMe().subscribe({
       next: (client: any) => {
-        this.aiForm.businessName = client.businessName || '';
-        this.aiForm.businessType = client.businessType || '';
-        this.aiForm.city = 'Tu Ciudad';
-      }
+        if (client?.businessName) this.aiForm.businessName = client.businessName;
+        if (client?.businessType) this.aiForm.businessType = client.businessType;
+      },
+      error: () => {}
     });
     this.aiSettingsService.get().subscribe({
       next: (settings: any) => {
         if (settings) {
           this.aiForm.tone = settings.businessTone || 'Profesional';
-          this.aiForm.marketingGoal = settings.businessObjective || '';
+          this.aiForm.marketingGoal = settings.businessObjective || 'Captación de clientes B2B';
         }
-      }
+      },
+      error: () => {}
     });
   }
 
@@ -400,6 +391,7 @@ export class WebPagesComponent implements OnInit {
         this.isGeneratingAi.set(false);
         this.form.title = res.title;
         this.form.content = res.content;
+        this.form.excerpt = res.excerpt || 'Artículo especializado publicado por el equipo de SAMTS.';
         this.onTitleChange();
         this.showAiForm.set(false);
       },
@@ -414,10 +406,12 @@ export class WebPagesComponent implements OnInit {
     this.isLoading.set(true);
     this.blogPostsService.getAll().subscribe({
       next: (res: any) => {
-        this.pages.set(res.data || res || []);
+        const list = Array.isArray(res) ? res : (res?.data || []);
+        this.pages.set(list);
         this.isLoading.set(false);
       },
-      error: () => {
+      error: (err) => {
+        console.error('Error loading blog posts', err);
         this.isLoading.set(false);
       }
     });
@@ -425,12 +419,19 @@ export class WebPagesComponent implements OnInit {
 
   openCreate() {
     this.editingPost = null;
-    this.form = { title: '', slug: '', excerpt: '', content: '', author: '', status: 'DRAFT' };
+    this.form = {
+      title: '',
+      slug: '',
+      excerpt: '',
+      content: '',
+      author: 'Equipo SAMTS',
+      status: 'DRAFT'
+    };
     this.formErrors = {};
     this.saveError.set('');
     this.showModal.set(true);
     this.showAiForm.set(false);
-    this.loadClientContext(); // Refresh context
+    this.loadClientContext();
   }
 
   openEdit(post: BlogPost) {
@@ -440,7 +441,7 @@ export class WebPagesComponent implements OnInit {
       slug: post.slug || '',
       excerpt: post.excerpt || '',
       content: post.content || '',
-      author: post.author || '',
+      author: post.author || 'Equipo SAMTS',
       status: post.status || 'DRAFT'
     };
     this.formErrors = {};
@@ -479,7 +480,9 @@ export class WebPagesComponent implements OnInit {
     this.saveError.set('');
 
     const payload = {
-      title: this.form.title,
+      title: this.form.title.trim(),
+      slug: this.form.slug?.trim() || undefined,
+      excerpt: this.form.excerpt?.trim() || undefined,
       content: this.form.content,
       status: this.form.status
     };
@@ -496,7 +499,7 @@ export class WebPagesComponent implements OnInit {
       },
       error: (err: any) => {
         this.isSaving.set(false);
-        this.saveError.set(err?.error?.message || 'Error al guardar el artículo.');
+        this.saveError.set(err?.error?.message || 'Error al guardar el artículo en la base de datos.');
       }
     });
   }
@@ -516,7 +519,9 @@ export class WebPagesComponent implements OnInit {
         this.postToDelete = null;
         this.loadPages();
       },
-      error: () => { this.isDeleting.set(false); }
+      error: () => {
+        this.isDeleting.set(false);
+      }
     });
   }
 }

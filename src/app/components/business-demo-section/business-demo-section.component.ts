@@ -1391,7 +1391,7 @@ export class BusinessDemoSectionComponent implements OnInit {
         this.activeNicheId.set(cfg.activeNicheId);
       }
       this.loadNicheProducts(this.activeNicheId());
-    }, { allowSignalWrites: true });
+    });
   }
 
   ngOnInit(): void {

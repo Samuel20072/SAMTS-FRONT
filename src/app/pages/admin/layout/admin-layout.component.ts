@@ -1,11 +1,12 @@
 import { Component, signal, ViewChild, ElementRef, AfterViewChecked, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AiSettingsService } from '../../../services/api/ai-settings.service';
 import { PromotionsService } from '../../../services/api/promotions.service';
 import { BlogPostsService } from '../../../services/api/blog-posts.service';
 import { AiGenerationService } from '../../../services/api/ai-generation.service';
+import { AuthService } from '../../../services/api/auth.service';
 
 interface ChatMessage {
   text: string;
@@ -27,6 +28,8 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
   promotionsService = inject(PromotionsService);
   blogPostsService = inject(BlogPostsService);
   aiGenerationService = inject(AiGenerationService);
+  authService = inject(AuthService);
+  router = inject(Router);
 
   sidebarOpen = signal(true);
   copilotOpen = signal(false);
@@ -38,11 +41,15 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
 
   copilotMessages = signal<ChatMessage[]>([
     {
-      text: '¡Hola Admin! Soy tu Copiloto Neural. ¿Qué cambios quieres hacer hoy en la plataforma o sobre qué necesitas ideas?',
+      text: '¡Hola! Soy tu Asistente SAMTS. Puedo asistirte en la creación de promociones, generación de artículos de blog optimizados y redacción de mensajes comerciales para WhatsApp. ¿En qué te ayudo hoy?',
       sender: 'ai',
       time: this.getCurrentTime()
     }
   ]);
+
+  get today(): string {
+    return new Date().toLocaleDateString('es-MX', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  }
 
   ngOnInit() {
     this.loadAiSettings();
@@ -54,7 +61,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
         this.aiSettings.set(res);
       },
       error: (err) => {
-        console.error('Error fetching settings for copilot', err);
+        console.error('Error fetching settings for assistant', err);
       }
     });
   }
@@ -65,6 +72,11 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
 
   toggleCopilot() {
     this.copilotOpen.set(!this.copilotOpen());
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 
   sendCopilotMessage() {
@@ -100,7 +112,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
       } else {
         this.pendingAction.set(null);
       }
-    }, 1500);
+    }, 1200);
   }
 
   private getResponseForInput(input: string): { text: string; type?: 'text' | 'action'; actionType?: string; actionPayload?: any } {
@@ -110,57 +122,57 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
 
     if (query.includes('promocion') || query.includes('promoción') || query.includes('descuento') || query.includes('promo')) {
       return {
-        text: `¡Por supuesto! Analizando las tendencias para tu sector. He diseñado esta oferta especial optimizada para tu público objetivo:
+        text: `He preparado una propuesta de promoción comercial para SAMTS:
 
-📢 **Campaña: Descuento Relámpago**
+📢 **Campaña: Transformación Digital 2026**
 🏷️ **Descuento:** 20%
-🔑 **Código:** PROMO20
-📝 **Descripción:** Disfruta de un 20% de descuento especial en todos nuestros productos. Válido por tiempo limitado.
+🔑 **Código:** SAMTS20
+📝 **Descripción:** 20% de descuento en desarrollo de páginas web, tiendas y catálogos digitales durante este mes.
 
-¿Deseas activar y guardar esta promoción en tu base de datos ahora mismo?`,
+¿Deseas registrar y activar esta promoción en la base de datos ahora?`,
         type: 'action',
         actionType: 'create-promo',
         actionPayload: {
-          title: 'Descuento Relámpago',
-          description: 'Disfruta de un 20% de descuento especial en todos nuestros productos. Válido por tiempo limitado.',
+          title: 'Transformación Digital 2026',
+          description: '20% de descuento en desarrollo web, tiendas y catálogos digitales.',
           discountPercent: 20,
-          code: 'PROMO20',
+          code: 'SAMTS20',
           isActive: true,
           startDate: new Date().toISOString().substring(0, 10),
-          endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().substring(0, 10)
+          endDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().substring(0, 10)
         }
       };
     }
     
     if (query.includes('blog') || query.includes('articulo') || query.includes('artículo') || query.includes('idea')) {
       return {
-        text: `¡Hola! Aquí tienes 3 ideas de artículos de blog optimizados para SEO enfocados en tu público objetivo:
+        text: `Aquí tienes 3 ideas de artículos orientados a conversión B2B para SAMTS:
 
-1. 📝 **"Cómo optimizar tu tiempo libre usando automatización"** (Tono: ${tone})
-2. 📝 **"5 secretos para mejorar tu eficiencia diaria con IA"**
-3. 📝 **"Guía definitiva para automatizar procesos en tu empresa"**
+1. 📝 **"Por qué un catálogo digital multiplica las ventas de distribuidores y mayoristas"** (Tono: ${tone})
+2. 📝 **"Cómo automatizar la atención a prospectos con agentes IA sin perder el toque humano"**
+3. 📝 **"Guía de migración: de ventas por WhatsApp manual a un centro de pedidos digital"**
 
-¿Quieres que redacte y cree un borrador del primer artículo con IA ahora mismo?`,
+¿Quieres que genere el borrador completo del primer artículo ahora mismo?`,
         type: 'action',
         actionType: 'create-blog',
         actionPayload: {
-          title: 'Cómo optimizar tu tiempo libre usando automatización',
-          businessType: 'Servicios',
-          businessName: settings?.businessName || 'Mi Negocio',
-          city: 'Tu Ciudad',
+          title: 'Por qué un catálogo digital multiplica las ventas de distribuidores',
+          businessType: 'Tecnología y Software',
+          businessName: settings?.businessName || 'SAMTS Soluciones',
+          city: 'México',
           tone: tone,
-          marketingGoal: settings?.businessObjective || 'Fidelizar clientes'
+          marketingGoal: settings?.businessObjective || 'Generar clientes potenciales'
         }
       };
     }
     
     if (query.includes('whatsapp') || query.includes('closer') || query.includes('mensaje')) {
       return {
-        text: `He preparado una plantilla de mensaje persuasivo para tus ventas por WhatsApp (para Closer-Bot):
+        text: `Plantilla comercial recomendada para seguimiento por WhatsApp:
 
-💬 *"¡Hola! Gracias por comunicarte con nosotros. Actualmente tenemos una promoción del 20% con el código PROMO20. ¿Te gustaría agendar una llamada demostrativa de 15 minutos?"*
+💬 *"Hola [Nombre], te escribe el equipo de SAMTS. Vimos tu interés en modernizar tu sistema comercial. ¿Te parece si agendamos una videollamada demostrativa de 15 minutos esta semana para revisar tu caso?"*
 
-¿Deseas guardar este mensaje y activar Closer-Bot con esta plantilla?`,
+¿Deseas activar el envío automático de mensajes para prospectos calificados?`,
         type: 'action',
         actionType: 'update-whatsapp',
         actionPayload: {
@@ -170,26 +182,12 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
       };
     }
 
-    if (query.includes('color') || query.includes('diseño') || query.includes('estilo') || query.includes('botón') || query.includes('boton')) {
-      return {
-        text: `He analizado el diseño. Podemos aplicar un estilo Glassmorphism moderno en tus botones principales.
-
-🎨 **Modificación:** Fondo translúcido con borde sutil, efecto desenfoque y hover con gradiente.
-
-¿Deseas aplicar estos estilos en la página actual ahora?`,
-        type: 'action',
-        actionType: 'apply-design',
-        actionPayload: {}
-      };
-    }
-
     return {
-      text: `Como tu Copiloto Neural, puedo asistirte en las siguientes tareas:
-- 📢 **Crear Promociones:** Escribe *"créame una promoción"*
+      text: `Como tu Asistente de Operaciones SAMTS, puedo ayudarte con:
+- 📢 **Crear Promociones:** Escribe *"crea una promoción"*
 - 📝 **Ideas de Blog:** Escribe *"dame ideas de blog"*
-- 💬 **Mensajes de WhatsApp:** Escribe *"redacta un mensaje de ventas"*
-- 🎨 **Ajustes de Diseño:** Escribe *"cambia los colores de los botones"*
-¿Qué te gustaría hacer hoy?`
+- 💬 **Mensajes Comerciales:** Escribe *"redacta un mensaje de ventas"*
+¿En qué te gustaría trabajar?`
     };
   }
 
@@ -205,7 +203,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
         next: () => {
           this.isCopilotTyping.set(false);
           this.copilotMessages.update(msgs => [...msgs, {
-            text: `¡Listo! He creado la promoción **${action.payload.title}** con el código **${action.payload.code}**. Ya puedes verla y gestionarla en la sección de **Promociones** del panel.`,
+            text: `¡Listo! He registrado la promoción **${action.payload.title}** con el código **${action.payload.code}**. Ya está disponible en la sección de Promociones.`,
             sender: 'ai',
             time: this.getCurrentTime()
           }]);
@@ -214,7 +212,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
           this.isCopilotTyping.set(false);
           console.error(err);
           this.copilotMessages.update(msgs => [...msgs, {
-            text: `Lo siento, ocurrió un error al intentar crear la promoción en la base de datos.`,
+            text: `Ocurrió un error al registrar la promoción en la base de datos. Revisa la consola o intenta directamente desde el módulo de Promociones.`,
             sender: 'ai',
             time: this.getCurrentTime()
           }]);
@@ -235,7 +233,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
             next: () => {
               this.isCopilotTyping.set(false);
               this.copilotMessages.update(msgs => [...msgs, {
-                text: `¡Éxito! He generado el artículo completo sobre **"${generated.title}"** y he creado un borrador en tu gestor de contenido. Ya puedes revisarlo en la pestaña de **Páginas Web**.`,
+                text: `¡Éxito! Se generó el artículo completo sobre **"${generated.title}"** y se guardó en borrador. Puedes revisarlo y publicarlo desde la sección de Contenido.`,
                 sender: 'ai',
                 time: this.getCurrentTime()
               }]);
@@ -244,7 +242,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
               this.isCopilotTyping.set(false);
               console.error(err);
               this.copilotMessages.update(msgs => [...msgs, {
-                text: `Generé el artículo pero no pude guardarlo como borrador en la base de datos.`,
+                text: `El contenido fue generado pero no se pudo guardar en borrador.`,
                 sender: 'ai',
                 time: this.getCurrentTime()
               }]);
@@ -255,7 +253,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
           this.isCopilotTyping.set(false);
           console.error(err);
           this.copilotMessages.update(msgs => [...msgs, {
-            text: `Lo siento, no pude generar el artículo con el motor de IA en este momento.`,
+            text: `No se pudo conectar con el servicio de generación de contenido en este momento.`,
             sender: 'ai',
             time: this.getCurrentTime()
           }]);
@@ -269,7 +267,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
           this.isCopilotTyping.set(false);
           this.aiSettings.set(updated);
           this.copilotMessages.update(msgs => [...msgs, {
-            text: `¡Listo! He configurado y guardado la plantilla, y activé el **Closer-Bot** para atender a tus clientes por WhatsApp.`,
+            text: `¡Configuración actualizada! Se activó la automatización de mensajes comerciales.`,
             sender: 'ai',
             time: this.getCurrentTime()
           }]);
@@ -278,21 +276,12 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
           this.isCopilotTyping.set(false);
           console.error(err);
           this.copilotMessages.update(msgs => [...msgs, {
-            text: `Ocurrió un error al actualizar la configuración del agente Closer-Bot.`,
+            text: `Ocurrió un error al actualizar la configuración de agentes.`,
             sender: 'ai',
             time: this.getCurrentTime()
           }]);
         }
       });
-    } else if (action.type === 'apply-design') {
-      setTimeout(() => {
-        this.isCopilotTyping.set(false);
-        this.copilotMessages.update(msgs => [...msgs, {
-          text: `¡Listo! He aplicado los estilos Glassmorphism y sombras suaves a los botones de la interfaz actual en tiempo real.`,
-          sender: 'ai',
-          time: this.getCurrentTime()
-        }]);
-      }, 1000);
     }
   }
 
@@ -309,4 +298,3 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
     } catch(err) { }
   }
 }
-

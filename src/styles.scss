@@ -1972,6 +1972,29 @@ p:not([class*="text-"]) {
   color: var(--color-black) !important;
 }
 
+/* ══════════════════════════════════════════════════════════════
+   SAMTS Consultation Modal — White Experience & Editorial Design
+   ══════════════════════════════════════════════════════════════ */
+.samts-consultation-dialog.p-dialog,
+.samts-light-dialog.p-dialog {
+  border: 1px solid rgba(232, 233, 237, 0.9) !important;
+  background: #ffffff !important;
+  border-radius: 28px !important;
+  overflow: hidden !important;
+  box-shadow:
+    0 32px 80px -20px rgba(17, 19, 24, 0.22),
+    0 10px 30px -10px rgba(17, 19, 24, 0.08),
+    0 0 0 1px rgba(17, 19, 24, 0.04) !important;
+}
+
+.samts-consultation-dialog .p-dialog-content,
+.samts-light-dialog .p-dialog-content {
+  background: #ffffff !important;
+  color: var(--color-ink) !important;
+  padding: 0 !important;
+  border-radius: 28px !important;
+}
+
 .p-dialog-mask {
   backdrop-filter: blur(6px) !important;
   background: rgba(0, 0, 0, 0.45) !important;

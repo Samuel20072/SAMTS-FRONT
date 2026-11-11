@@ -1,97 +1,121 @@
-<div class="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center relative overflow-hidden">
+<div class="login-page">
   
-  <!-- Animated Background Orbs -->
-  <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-    <div class="absolute top-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-blue-600/20 blur-[150px] animate-pulse mix-blend-screen"></div>
-    <div class="absolute bottom-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-indigo-500/20 blur-[150px] animate-pulse mix-blend-screen" style="animation-delay: 2s;"></div>
-  </div>
+  <!-- Top Navigation Bar -->
+  <header class="login-topbar">
+    <a routerLink="/" class="login-back-btn" aria-label="Volver al inicio">
+      <div class="back-icon">
+        <i class="pi pi-arrow-left"></i>
+      </div>
+      <span>Volver al inicio</span>
+    </a>
 
-  <!-- Back to Home -->
-  <a routerLink="/" class="absolute top-6 left-6 md:top-8 md:left-8 z-20 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors group">
-    <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-900/5 dark:bg-white/5 border border-slate-300 dark:border-white/10 flex items-center justify-center group-hover:bg-slate-100 dark:bg-slate-900/10 dark:bg-white/10 transition-colors">
-      <i class="pi pi-arrow-left text-xs group-hover:-translate-x-0.5 transition-transform"></i>
-    </div>
-    <span>Volver al inicio</span>
-  </a>
+    <a routerLink="/" class="login-top-logo" aria-label="SAMTS Inicio">
+      <span class="brand-text">
+        <span class="brand-bracket">[</span>SAMTS<span class="brand-bracket">]</span> Control
+      </span>
+    </a>
+  </header>
 
-  <!-- Login Card -->
-  <div class="relative z-10 w-full max-w-md px-4">
-    <div class="relative bg-slate-100 dark:bg-slate-900/50 backdrop-blur-2xl border border-slate-300 dark:border-white/10 rounded-3xl p-8 md:p-10 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
-      
-      <!-- Top highlight -->
-      <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+  <!-- Login Card Container -->
+  <main class="login-card-wrapper">
+    <div class="login-card">
+      <div class="login-card-accent"></div>
 
       <!-- Header -->
-      <div class="text-center mb-10">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-slate-300 dark:border-white/10 mb-6 shadow-lg shadow-blue-500/10">
-          <i class="pi pi-shield text-2xl text-blue-400"></i>
+      <div class="login-header">
+        <div class="login-badge">
+          <i class="pi pi-shield"></i>
+          <span>Acceso Restringido</span>
         </div>
-        <h1 class="font-display text-3xl font-bold text-slate-900 dark:text-white mb-2">Neural Admin</h1>
-        <p class="text-slate-600 dark:text-slate-400 text-sm">Ingresa a tu panel de control y gestión de IA</p>
+        <h1 class="login-title">Iniciar Sesión</h1>
+        <p class="login-subtitle">
+          Ingresa tus credenciales para acceder al panel de administración y control comercial.
+        </p>
+      </div>
+
+      <!-- Error Alert -->
+      <div *ngIf="errorMessage" class="login-alert-error" role="alert">
+        <i class="pi pi-exclamation-circle"></i>
+        <span>{{ errorMessage }}</span>
       </div>
 
       <!-- Form -->
-      <form (ngSubmit)="login()" class="space-y-6">
+      <form (ngSubmit)="login()" class="login-form">
         
-        <div *ngIf="errorMessage" class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 flex items-center gap-3 text-red-600 dark:text-red-400 animate-fadein">
-          <i class="pi pi-exclamation-circle text-lg shrink-0"></i>
-          <p class="text-sm font-medium">{{ errorMessage }}</p>
-        </div>
-
-        <div class="space-y-2">
-          <label class="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider ml-1">Correo Electrónico</label>
-          <div class="relative">
-            <i class="pi pi-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-500 dark:text-slate-500 dark:text-slate-500 z-10"></i>
+        <!-- Email Field -->
+        <div class="login-field">
+          <label for="admin-email" class="login-label">
+            <span>Correo Corporativo</span>
+          </label>
+          <div class="login-input-wrap">
+            <i class="pi pi-envelope input-icon-left"></i>
             <input 
+              id="admin-email"
               type="email" 
               pInputText 
               [(ngModel)]="email" 
               name="email"
-              class="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-300 dark:border-white/10 rounded-xl py-3.5 pl-11 pr-4 text-slate-900 dark:text-white placeholder:text-slate-600 focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all outline-none shadow-inner"
-              placeholder="admin@samts.com"
+              class="login-input"
+              placeholder="admin@samts.app"
+              autocomplete="email"
               required>
           </div>
         </div>
 
-        <div class="space-y-2">
-          <div class="flex items-center justify-between ml-1">
-            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Contraseña</label>
-            <a href="#" class="text-xs text-blue-400 hover:text-blue-300 transition-colors">¿Olvidaste tu contraseña?</a>
+        <!-- Password Field -->
+        <div class="login-field">
+          <div class="login-label">
+            <label for="admin-password">Contraseña</label>
+            <a href="mailto:soporte@samts.app?subject=Recuperaci%C3%B3n%20de%20Contrase%C3%B1a%20SAMTS%20Admin" class="forgot-link">
+              ¿Olvidaste tu contraseña?
+            </a>
           </div>
-          <div class="relative">
-            <i class="pi pi-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-500 dark:text-slate-500 dark:text-slate-500 z-10"></i>
+          <div class="login-input-wrap">
+            <i class="pi pi-lock input-icon-left"></i>
             <input 
+              id="admin-password"
               [type]="showPassword ? 'text' : 'password'" 
               pInputText 
               [(ngModel)]="password" 
               name="password"
-              class="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-300 dark:border-white/10 rounded-xl py-3.5 pl-11 pr-12 text-slate-900 dark:text-white placeholder:text-slate-600 focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all outline-none shadow-inner"
-              placeholder="••••••••"
+              class="login-input has-toggle"
+              placeholder="••••••••••••"
+              autocomplete="current-password"
               required>
             <button 
               type="button" 
               (click)="togglePasswordVisibility()" 
-              class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-500 dark:text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-800 dark:text-slate-200 focus:outline-none z-10 transition-colors">
+              class="password-toggle-btn"
+              [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Ver contraseña'">
               <i class="pi" [ngClass]="showPassword ? 'pi-eye-slash' : 'pi-eye'"></i>
             </button>
           </div>
         </div>
 
+        <!-- Submit Button -->
         <button 
           type="submit"
-          [disabled]="isLoading"
-          class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-slate-900 dark:text-white font-semibold py-4 rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-all duration-300 flex items-center justify-center gap-2 mt-2 disabled:opacity-70 disabled:cursor-not-allowed">
+          [disabled]="isLoading || !email || !password"
+          class="login-submit-btn">
           <i *ngIf="isLoading" class="pi pi-spin pi-spinner"></i>
-          <span>{{ isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}</span>
-          <i *ngIf="!isLoading" class="pi pi-sign-in"></i>
+          <span>{{ isLoading ? 'Verificando credenciales...' : 'Entrar al Panel' }}</span>
+          <i *ngIf="!isLoading" class="pi pi-arrow-right btn-icon"></i>
         </button>
+
+        <!-- Trust and Security info -->
+        <div class="login-card-footer">
+          <i class="pi pi-verified"></i>
+          <span>Sesión protegida por cifrado JWT y SSL</span>
+        </div>
 
       </form>
     </div>
-    
-    <!-- Footer text -->
-    <p class="text-center text-xs text-slate-500 dark:text-slate-500 dark:text-slate-500 dark:text-slate-500 mt-8">
-      Panel de control exclusivo. Acceso no autorizado prohibido.
-    </p>
-  </div>
+
+    <!-- Outer Footer -->
+    <footer class="login-outer-footer">
+      <p>
+        SAMTS Ecosystem Platform &copy; 2026. Todos los derechos reservados.
+      </p>
+    </footer>
+  </main>
 </div>

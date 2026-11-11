@@ -168,14 +168,28 @@ export class SamtsCatalogSectionComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.refreshStats();
-    this.analytics.track('campaign_view', { campaign: this.campaignId });
+    // Solo ejecutar en el browser: en SSR las peticiones HTTP cuelgan la app
+    if (isPlatformBrowser(this.platformId)) {
+      this.refreshStats();
+      this.analytics.track('campaign_view', { campaign: this.campaignId });
+    }
   }
 
   refreshStats() {
+    if (!isPlatformBrowser(this.platformId)) return;
     this.leadApi.getCampaignStats(this.campaignId).subscribe({
       next: (stats) => this.campaignStats.set(stats),
-      error: (err) => console.error('Error fetching campaign stats:', err)
+      error: () => {
+        // Fallback por defecto si el servidor aún está iniciando
+        this.campaignStats.set({
+          campaign: this.campaignId,
+          total: 0,
+          selected: 0,
+          remaining: 5,
+          waitlist: 0,
+          maxSlots: 5
+        });
+      }
     });
   }
 

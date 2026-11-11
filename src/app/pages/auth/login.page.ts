@@ -10,7 +10,8 @@ import { AuthService } from '../../services/api/auth.service';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, RouterModule, ButtonModule, InputTextModule, FormsModule],
-  templateUrl: './login.page.html'
+  templateUrl: './login.page.html',
+  styleUrl: './login.page.scss'
 })
 export class LoginPage {
   email = '';

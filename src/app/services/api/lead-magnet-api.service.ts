@@ -49,6 +49,13 @@ export interface CreateLeadPayload {
   referrer?: string;
 }
 
+export interface LeadActivity {
+  date: string;
+  type: string;
+  description: string;
+  author?: string;
+}
+
 export interface LeadResponse {
   id: string;
   name: string;
@@ -73,6 +80,10 @@ export interface LeadResponse {
   visitedDiagnostic: boolean;
   clickedWhatsapp: boolean;
   convertedToClient: boolean;
+  estimatedValue?: number;
+  assignedTo?: string;
+  dealStage?: string;
+  activityHistory?: LeadActivity[];
   createdAt: string;
   updatedAt: string;
 }
@@ -83,6 +94,14 @@ export interface UpdateLeadStatusPayload {
   nextAction?: string;
   followUpDate?: string;
   convertedToClient?: boolean;
+  estimatedValue?: number;
+  assignedTo?: string;
+  dealStage?: string;
+  activityEntry?: {
+    type: string;
+    description: string;
+    author?: string;
+  };
 }
 
 @Injectable({

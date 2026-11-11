@@ -1,5 +1,5 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject, signal, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { BlogPostsService } from '../../services/api/blog-posts.service';
@@ -33,6 +33,7 @@ interface BlogPost {
 export class BlogPage implements OnInit {
   private blogPostsService = inject(BlogPostsService);
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
 
   posts = signal<BlogPost[]>([]);
   filteredPosts = signal<BlogPost[]>([]);
@@ -40,7 +41,11 @@ export class BlogPage implements OnInit {
   isLoading = signal(true);
 
   ngOnInit() {
-    this.loadPosts();
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadPosts();
+    } else {
+      this.isLoading.set(false);
+    }
   }
 
   loadPosts() {

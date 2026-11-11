@@ -15,7 +15,8 @@ import { environment } from '../../../environments/environment';
   selector: 'app-consultation-modal',
   standalone: true,
   imports: [CommonModule, FormsModule, Dialog, InputText, Textarea],
-  templateUrl: './consultation-modal.component.html'
+  templateUrl: './consultation-modal.component.html',
+  styleUrl: './consultation-modal.component.scss'
 })
 export class ConsultationModalComponent {
   private platformId = inject(PLATFORM_ID);
@@ -107,6 +108,8 @@ export class ConsultationModalComponent {
           this.errorMessage.set(serverMsg.join(', '));
         } else if (typeof serverMsg === 'string') {
           this.errorMessage.set(serverMsg);
+        } else if (err?.status === 0) {
+          this.errorMessage.set('No se pudo establecer conexión con el servidor. Verifica que el backend esté en ejecución o escríbenos a WhatsApp.');
         } else {
           this.errorMessage.set('Hubo un problema al enviar tu solicitud. Puedes reintentar o escribirnos directamente a WhatsApp.');
         }
