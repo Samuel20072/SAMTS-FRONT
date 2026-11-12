@@ -49,11 +49,11 @@ import { DashboardService, DashboardStats } from '../../../services/api/dashboar
             <p class="text-[11px] text-slate-400 mt-1">{{ stats.openOpportunities }} acuerdos activos</p>
           </div>
 
-          <!-- Won Revenue -->
+          <!-- Won Revenue (valor estimado, no dinero cobrado) -->
           <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 block mb-1">Ventas Ganadas</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 block mb-1">Valor Ganado (Estimado)</span>
             <div class="text-2xl font-bold text-emerald-700">\${{ stats.wonRevenue | number:'1.0-0' }}</div>
-            <p class="text-[11px] text-slate-400 mt-1">Cierres comerciales confirmados</p>
+            <p class="text-[11px] text-slate-400 mt-1">Valor estimado de cierres ganados (no facturado)</p>
           </div>
 
           <!-- Pending Follow-ups -->

@@ -91,7 +91,7 @@ const ALL_STATUSES: LeadStatus[] = [
           <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 block mb-1">Clientes Ganados</span>
           <div class="flex items-baseline justify-between">
             <span class="text-2xl font-bold text-emerald-700">{{ countByStatus('WON') }}</span>
-            <span class="text-xs text-emerald-600 font-mono">\${{ wonRevenue() | number:'1.0-0' }}</span>
+            <span class="text-xs text-emerald-600 font-mono" title="Valor estimado de oportunidades ganadas (no facturado)">Val. est. \${{ wonRevenue() | number:'1.0-0' }}</span>
           </div>
         </div>
 
