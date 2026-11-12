@@ -1,10 +1,15 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      // The App shell renders components that use routerLink (e.g. the cookie
+      // banner). Providing a minimal router keeps the host component test
+      // deterministic instead of depending on async banner-render timing.
+      providers: [provideRouter([])],
     }).compileComponents();
   });
 
