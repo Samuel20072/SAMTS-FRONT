@@ -10,6 +10,7 @@ interface BlogPost {
   id: string;
   title: string;
   slug: string;
+  excerpt?: string | null;
   content: string;
   createdAt: string;
   updatedAt: string;
@@ -82,7 +83,9 @@ export class BlogPage implements OnInit {
     return `https://picsum.photos/seed/${seed}/800/450`;
   }
 
-  getExcerpt(content: string): string {
+  getExcerpt(post: BlogPost): string {
+    if (post.excerpt && post.excerpt.trim()) return post.excerpt.trim();
+    const content = post.content;
     if (!content) return '';
     return content
       .replace(/[#*`_~>\-]/g, '')
