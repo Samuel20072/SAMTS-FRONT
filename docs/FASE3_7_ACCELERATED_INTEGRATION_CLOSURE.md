@@ -103,7 +103,10 @@ esquema real (`information_schema`) antes de aplicar migraciones (ver
 | Repo | `main` antes | `main` después | `feat` | Método |
 |---|---|---|---|---|
 | BACKEND | `9f6587d` | **`ee9591d`** | `ee9591d` | `merge --ff-only` |
-| FRONTEND | `44ec555` | **`<HEAD tras commit docs 3.7>`** | igual | `merge --ff-only` |
+| FRONTEND | `44ec555` | **`b03dc49`** (commit de docs 3.6/3.7) | igual | `merge --ff-only` |
+
+> Tras el FF se registró este mismo informe como último ajuste; `main` y
+> `feat/admin-operations-hub` quedan apuntando al **mismo commit final** en ambos repos.
 
 - Tras la integración, `main` **contiene todo el trabajo** de las Fases 2, 3 y 3.1–3.7.
 - **No se ejecutó push**: `origin/main` permanece en `9f6587d` (BE) / `44ec555` (FR).
