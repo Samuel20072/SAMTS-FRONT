@@ -22,7 +22,7 @@ Resultados clave:
 | QA visual / responsive del admin | ✅ **Ejecutado de verdad** (Chrome headless vía CDP): 44 capturas, 0 desbordamientos a nivel documento |
 | Warning SCSS (§5) | ⚠️ Investigado y **conservado** con justificación (no es el bundle inicial) |
 | Validación integral FE↔BE (§6) | ✅ Backend 64/64, Frontend 13/13, builds OK, **E2E de contratos 30/30 PASS** |
-| Commits locales (§7) | ✅ 6 en backend + 6 en frontend, árboles limpios, **sin push/merge** |
+| Commits locales (§7) | ✅ 6 en backend + 7 en frontend, árboles limpios, **sin push/merge** |
 | Bloqueantes abiertos | **Ninguno** |
 
 **Estado global:** Release Candidate cerrado. Quedan dos observaciones **no bloqueantes**
@@ -63,10 +63,10 @@ Antes de tocar ningún archivo se inspeccionó el estado real de ambos repos:
 Ambos repositorios quedan **en la rama `feat/admin-operations-hub`, con árbol de trabajo
 limpio** y los cambios de la fase consolidados en commits locales.
 
-| Repo | Rama | HEAD final | Árbol | Commits de la fase |
-|---|---|---|---|---|
-| SAMTS-BACKEND | `feat/admin-operations-hub` | `ee9591d6939b8113bd71389575fd0822ed338e95` | limpio | 6 |
-| SAMTS-FRONT | `feat/admin-operations-hub` | `4adf844171f3aa197c5a495d3198c9f68f23dfcb` | limpio | 6 |
+| Repo | Rama | Último commit de código | Commit de documentación 3.5 | Árbol | Commits de la fase |
+|---|---|---|---|---|---|
+| SAMTS-BACKEND | `feat/admin-operations-hub` | `ee9591d` (HEAD) | n/a | limpio | 6 |
+| SAMTS-FRONT | `feat/admin-operations-hub` | `4adf844` | `709a4b9` (HEAD) | limpio | 7 |
 
 - `git status --short` → **vacío** en ambos repos (sin archivos sin seguimiento; `dist/` está
   en `.gitignore`).
@@ -79,7 +79,8 @@ limpio** y los cambios de la fase consolidados en commits locales.
 
 ```
 SAMTS-BACKEND  branch: feat/admin-operations-hub  HEAD: ee9591d  (feat(blog): persist blog excerpt...)
-SAMTS-FRONT    branch: feat/admin-operations-hub  HEAD: 4adf844  (docs: add Phase 3.2-3.4 ... reports)
+SAMTS-FRONT    branch: feat/admin-operations-hub  HEAD: 709a4b9  (docs: add Phase 3.5 release candidate closure report)
+                                                       código: 4adf844  (docs: add Phase 3.2-3.4 ... reports)
 ```
 
 ---
@@ -107,6 +108,12 @@ SAMTS-FRONT    branch: feat/admin-operations-hub  HEAD: 4adf844  (docs: add Phas
 | `ea29e9e` | `feat(blog): render persisted excerpt with content fallback` | `pages/blog/blog.page.ts`, `blog.page.html` |
 | `44cd102` | `test(app): make shell spec deterministic with a minimal router` | `app.spec.ts` |
 | `4adf844` | `docs: add Phase 3.2-3.4 audit, hardening and release candidate reports` | 20 archivos en `docs/` |
+| `709a4b9` | `docs: add Phase 3.5 release candidate closure report` | `docs/FASE3_5_CIERRE_RELEASE_CANDIDATE.md` |
+
+### 5.3 Documentación generada en esta fase
+
+- `SAMTS-FRONT/docs/FASE3_5_CIERRE_RELEASE_CANDIDATE.md` (este informe, commit `709a4b9`).
+- No se sobrescribió ningún informe previo de las Fases 3.2–3.4.
 
 ---
 
@@ -369,7 +376,8 @@ artefactos de compilación (`dist/` ignorado). Migraciones y documentación qued
 donde correspondía.
 
 - **Backend:** 6 commits (`7c4e58a`, `5ad8869`, `315482f`, `b71f1e1`, `7dba137`, `ee9591d`).
-- **Frontend:** 6 commits (`124afc8`, `ff7ee6f`, `db460ac`, `ea29e9e`, `44cd102`, `4adf844`).
+- **Frontend:** 7 commits (`124afc8`, `ff7ee6f`, `db460ac`, `ea29e9e`, `44cd102`, `4adf844`,
+  `709a4b9`).
 
 **No se hizo `push` ni integración de ramas.** Los commits son estrictamente locales.
 
