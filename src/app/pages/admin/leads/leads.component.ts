@@ -82,7 +82,7 @@ const ALL_STATUSES: LeadStatus[] = [
         <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
           <span class="text-[10px] font-bold uppercase tracking-wider text-blue-600 block mb-1">Pipeline Estimado</span>
           <div class="flex items-baseline justify-between">
-            <span class="text-2xl font-bold text-slate-900">${{ totalPipelineValue() | number:'1.0-0' }}</span>
+            <span class="text-2xl font-bold text-slate-900">\${{ totalPipelineValue() | number:'1.0-0' }}</span>
             <span class="text-xs text-blue-600 font-mono">{{ openDealsCount() }} abiertas</span>
           </div>
         </div>
@@ -91,7 +91,7 @@ const ALL_STATUSES: LeadStatus[] = [
           <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 block mb-1">Clientes Ganados</span>
           <div class="flex items-baseline justify-between">
             <span class="text-2xl font-bold text-emerald-700">{{ countByStatus('WON') }}</span>
-            <span class="text-xs text-emerald-600 font-mono">${{ wonRevenue() | number:'1.0-0' }}</span>
+            <span class="text-xs text-emerald-600 font-mono">\${{ wonRevenue() | number:'1.0-0' }}</span>
           </div>
         </div>
 
@@ -242,7 +242,7 @@ const ALL_STATUSES: LeadStatus[] = [
 
                   <!-- Estimated Value -->
                   <td class="px-4 py-3 text-right font-mono font-medium text-slate-800">
-                    <span *ngIf="lead.estimatedValue">${{ lead.estimatedValue | number:'1.0-0' }}</span>
+                    <span *ngIf="lead.estimatedValue">\${{ lead.estimatedValue | number:'1.0-0' }}</span>
                     <span *ngIf="!lead.estimatedValue" class="text-slate-300">-</span>
                   </td>
 
