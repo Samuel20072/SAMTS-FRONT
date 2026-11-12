@@ -774,6 +774,180 @@
   position: relative;
 }
 
+.scx-registration-modal {
+  box-sizing: border-box;
+  max-height: min(88vh, 860px);
+  overflow-y: auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.scx-registration-modal .scx-modal-close {
+  top: 1.25rem;
+  right: 1.25rem;
+}
+
+.scx-modal-eyebrow-wrap {
+  margin: 0 3.25rem 1.5rem 0;
+}
+
+.scx-registration-modal .scx-modal-eyebrow {
+  margin: 0;
+}
+
+.scx-registration-modal .scx-modal-title {
+  max-width: 440px;
+  font-size: clamp(1.7rem, 5vw, 2.1rem);
+  line-height: 1.16;
+  margin: 0 2.5rem 0.75rem 0;
+}
+
+.scx-registration-modal .scx-modal-sub {
+  max-width: 480px;
+  margin: 0 0 1.75rem;
+}
+
+.scx-registration-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.scx-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+
+  > label {
+    color: #475569;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    padding-left: 0.15rem;
+  }
+
+  > label span {
+    color: #94a3b8;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  > input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 52px;
+    padding: 0.85rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #f8fafc;
+    color: #111827;
+    font: inherit;
+    font-size: 0.95rem;
+    transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+
+    &::placeholder {
+      color: #94a3b8;
+    }
+
+    &:hover {
+      border-color: #cbd5e1;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #6500ff;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(101, 0, 255, 0.1);
+    }
+  }
+}
+
+.scx-registration-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.scx-registration-option {
+  min-height: 38px;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+
+  &:hover {
+    border-color: #a78bfa;
+    color: #5b21b6;
+    transform: translateY(-1px);
+  }
+
+  &.is-selected {
+    border-color: #6500ff;
+    background: #f3edff;
+    color: #5b21b6;
+    box-shadow: inset 0 0 0 1px rgba(101, 0, 255, 0.12);
+  }
+}
+
+.scx-data-policy {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid #e9e5f2;
+  border-radius: 14px;
+  background: #faf9ff;
+  color: #64748b;
+  font-size: 0.78rem;
+  line-height: 1.55;
+
+  p-checkbox {
+    flex: 0 0 auto;
+    margin-top: 0.05rem;
+  }
+
+  a {
+    color: #5b21b6;
+    font-weight: 750;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+.scx-registration-submit {
+  display: flex;
+  width: 100%;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.15rem;
+  padding: 0.9rem 1.25rem;
+  border-radius: 16px;
+}
+
+.scx-registration-note {
+  margin: 0.15rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid #eef0f5;
+  color: #7b8495;
+  font-size: 0.7rem;
+  line-height: 1.55;
+  text-align: center;
+}
+
 .scx-modal-eyebrow {
   background: var(--color-accent-soft);
   color: var(--color-accent);
@@ -992,5 +1166,57 @@
   .scx-cta-guarantees {
     flex-direction: column;
     gap: 0.5rem;
+  }
+
+  .scx-registration-modal {
+    max-height: 86dvh;
+    padding: 1.35rem 1.1rem 1.25rem;
+  }
+
+  .scx-registration-modal .scx-modal-close {
+    top: 0.9rem;
+    right: 0.9rem;
+    width: 36px;
+    height: 36px;
+  }
+
+  .scx-modal-eyebrow-wrap {
+    margin-right: 2.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .scx-registration-modal .scx-modal-title {
+    margin-right: 0;
+    font-size: 1.65rem;
+  }
+
+  .scx-registration-modal .scx-modal-sub {
+    margin-bottom: 1.35rem;
+    font-size: 0.92rem;
+  }
+
+  .scx-registration-form {
+    gap: 1rem;
+  }
+
+  .scx-form-field > input {
+    min-height: 50px;
+  }
+
+  .scx-registration-options {
+    gap: 0.45rem;
+  }
+
+  .scx-registration-option {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.74rem;
+  }
+
+  .scx-data-policy {
+    padding: 0.85rem;
+  }
+
+  .scx-registration-note {
+    font-size: 0.68rem;
   }
 }

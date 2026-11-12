@@ -264,7 +264,7 @@
           <span class="scx-guarantee-dot">•</span>
           <span class="scx-guarantee-item">
             <i class="pi pi-calendar text-[#315EFB]"></i>
-            Lanzamiento: Miércoles 11 de Noviembre de 2026
+            Lanzamiento: {{ launchDate }}
           </span>
         </div>
       </div>
@@ -281,11 +281,11 @@
   [draggable]="false"
   [resizable]="false"
   [dismissableMask]="true"
-  [style]="{ width: '92%', maxWidth: '540px' }"
+  [style]="{ width: '92%', maxWidth: '600px' }"
   styleClass="samts-light-dialog !bg-white !rounded-[32px] overflow-hidden shadow-2xl"
   [showHeader]="false">
   
-  <div class="scx-modal p-8 sm:p-10">
+  <div class="scx-modal scx-registration-modal">
     <button
       type="button"
       class="scx-modal-close"
@@ -295,7 +295,7 @@
     </button>
 
     @if (!registrationResult()) {
-      <div class="flex">
+      <div class="scx-modal-eyebrow-wrap">
         <span class="scx-modal-eyebrow">
           <i class="pi pi-bolt"></i>
           ACCESO PRIORITARIO
@@ -311,46 +311,42 @@
       </h3>
       <p class="scx-modal-sub">
         @if (campaignStats() && campaignStats()!.remaining > 0) {
-          Quedan {{ campaignStats()!.remaining }} cupos para el lanzamiento del 11 de noviembre.
+          Quedan {{ campaignStats()!.remaining }} cupos para el lanzamiento del {{ launchDate }}.
         } @else {
           Los cupos iniciales están llenos, pero aún puedes ser parte de la lista de espera oficial.
         }
       </p>
 
-      <form class="flex flex-col gap-4" (ngSubmit)="onSubmitRegistration()">
-        <div class="flex flex-col gap-1.5">
-          <label class="text-xs font-bold text-slate-500 uppercase ml-1">Tu Nombre Completo *</label>
-          <input pInputText [(ngModel)]="name" name="name" placeholder="Ej. Juan Pérez" class="w-full !rounded-2xl !py-4 !px-5 !bg-slate-50 !border-slate-100 focus:!border-blue-400 transition-all" />
+      <form class="scx-registration-form" (ngSubmit)="onSubmitRegistration()">
+        <div class="scx-form-field">
+          <label for="catalog-name">Tu nombre completo *</label>
+          <input id="catalog-name" pInputText [(ngModel)]="name" name="name" autocomplete="name" placeholder="Ej. Juan Pérez" />
         </div>
 
-        <div class="flex flex-col gap-1.5">
-          <label class="text-xs font-bold text-slate-500 uppercase ml-1">Nombre de tu Negocio *</label>
-          <input pInputText [(ngModel)]="businessName" name="businessName" placeholder="Ej. Mi Tienda Online" class="w-full !rounded-2xl !py-4 !px-5 !bg-slate-50 !border-slate-100 focus:!border-blue-400 transition-all" />
+        <div class="scx-form-field">
+          <label for="catalog-business">Nombre de tu negocio *</label>
+          <input id="catalog-business" pInputText [(ngModel)]="businessName" name="businessName" autocomplete="organization" placeholder="Ej. Mi Tienda Online" />
         </div>
 
-        <div class="flex flex-col gap-1.5">
-          <label class="text-xs font-bold text-slate-500 uppercase ml-1">Correo Electrónico *</label>
-          <input pInputText [(ngModel)]="email" name="email" type="email" placeholder="hola@tunegocio.com" class="w-full !rounded-2xl !py-4 !px-5 !bg-slate-50 !border-slate-100 focus:!border-blue-400 transition-all" />
+        <div class="scx-form-field">
+          <label for="catalog-email">Correo electrónico *</label>
+          <input id="catalog-email" pInputText [(ngModel)]="email" name="email" type="email" autocomplete="email" placeholder="hola@tunegocio.com" />
         </div>
 
-        <div class="flex flex-col gap-1.5">
-          <label class="text-xs font-bold text-slate-500 uppercase ml-1">WhatsApp de Contacto *</label>
-          <input pInputText [(ngModel)]="whatsapp" name="whatsapp" placeholder="Ej. 300 123 4567" class="w-full !rounded-2xl !py-4 !px-5 !bg-slate-50 !border-slate-100 focus:!border-blue-400 transition-all" />
+        <div class="scx-form-field">
+          <label for="catalog-whatsapp">WhatsApp de contacto *</label>
+          <input id="catalog-whatsapp" pInputText [(ngModel)]="whatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="Ej. 300 123 4567" />
         </div>
 
-        <div class="flex flex-col gap-1.5">
-          <label class="text-xs font-bold text-slate-500 uppercase ml-1">Tipo de Negocio</label>
-          <div class="flex flex-wrap gap-2 mt-1">
+        <div class="scx-form-field">
+          <label>Tipo de negocio <span>(opcional)</span></label>
+          <div class="scx-registration-options">
             @for (bt of businessTypes; track bt.value) {
               <button
                 type="button"
-                class="text-[10px] font-bold px-3 py-1.5 rounded-full border transition-all"
-                [class.bg-[#315EFB]]="selectedBusinessType() === bt.value"
-                [class.text-white]="selectedBusinessType() === bt.value"
-                [class.border-[#315EFB]]="selectedBusinessType() === bt.value"
-                [class.bg-white]="selectedBusinessType() !== bt.value"
-                [class.text-slate-500]="selectedBusinessType() !== bt.value"
-                [class.border-slate-200]="selectedBusinessType() !== bt.value"
+                class="scx-registration-option"
+                [class.is-selected]="selectedBusinessType() === bt.value"
+                [attr.aria-pressed]="selectedBusinessType() === bt.value"
                 (click)="selectBusinessType(bt.value)">
                 {{ bt.label }}
               </button>
@@ -358,10 +354,10 @@
           </div>
         </div>
 
-        <div class="flex items-start gap-3 mt-4 mb-2">
+        <div class="scx-data-policy">
           <p-checkbox [(ngModel)]="acceptDataPolicy" name="acceptDataPolicy" [binary]="true"></p-checkbox>
-          <span class="text-xs text-slate-500 leading-relaxed">
-            Acepto la <a href="/privacy" target="_blank" class="text-[#315EFB] font-bold underline">política de tratamiento de datos personales</a> de SAMTS.
+          <span>
+            Acepto la <a href="/privacy" target="_blank">política de tratamiento de datos personales</a> de SAMTS.
           </span>
         </div>
 
@@ -375,7 +371,7 @@
         <button 
           type="submit" 
           [disabled]="isSubmitting()"
-          class="w-full scx-btn--primary py-5 rounded-2xl flex items-center justify-center gap-3 mt-4"
+          class="scx-registration-submit scx-btn--primary"
         >
           @if (isSubmitting()) {
             <i class="pi pi-spin pi-spinner text-xl"></i>
@@ -386,9 +382,9 @@
           }
         </button>
 
-        <p class="text-[10px] text-slate-400 text-center mt-2 leading-relaxed">
+        <p class="scx-registration-note">
           Al registrarte, podrás participar por uno de los 5 accesos gratuitos de SAMTS Catalog. 
-          Si eres seleccionado, recibirás las instrucciones y tu código de activación por correo electrónico el miércoles 11 de noviembre.
+          Si eres seleccionado, recibirás las instrucciones y tu código de activación por correo electrónico el {{ launchDate }}.
         </p>
       </form>
     } @else {
@@ -402,7 +398,7 @@
           <h3 class="scx-modal-title">¡Ya tienes un cupo reservado!</h3>
           <p class="scx-modal-sub mb-8">
             Estás entre los primeros 5 negocios interesados en SAMTS Catalog. 
-            El <strong>miércoles 11 de noviembre</strong> recibirás en tu correo las instrucciones para activar tus 20 días gratuitos.
+            El <strong>{{ launchDate }}</strong> recibirás en tu correo las instrucciones para activar tus 20 días gratuitos.
           </p>
         } @else {
           <h3 class="scx-modal-title">¡Gracias por tu interés!</h3>

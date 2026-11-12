@@ -51,6 +51,7 @@ export class SamtsCatalogSectionComponent implements OnInit {
   private utmService = inject(UtmService);
 
   readonly campaignId = 'lanzamiento_20_dias';
+  readonly launchDate = 'viernes 13 de noviembre de 2026';
 
   /** Modal informativo "¿Cómo funciona?" */
   readonly howItWorksOpen = signal(false);
@@ -153,7 +154,7 @@ export class SamtsCatalogSectionComponent implements OnInit {
     {
       n: '02',
       title: 'Recibe tu acceso',
-      text: 'Si eres seleccionado, el miércoles 11 de noviembre recibirás tu código por correo.',
+      text: `Si eres seleccionado, el ${this.launchDate} recibirás tu código por correo.`,
     },
     {
       n: '03',
