@@ -218,7 +218,19 @@ export class SettingsComponent implements OnInit {
   saveSettings() {
     this.isSaving.set(true);
     this.savedMessage.set('');
-    this.aiSettingsService.update(this.aiSettings).subscribe({
+    const payload = {
+      businessTone: this.aiSettings.businessTone,
+      targetAudience: this.aiSettings.targetAudience,
+      businessObjective: this.aiSettings.businessObjective,
+      keywords: this.aiSettings.keywords,
+      postingFrequency: this.aiSettings.postingFrequency,
+      autoGenerateBlogs: this.aiSettings.autoGenerateBlogs,
+      autoGeneratePromotions: this.aiSettings.autoGeneratePromotions,
+      autoGenerateSeo: this.aiSettings.autoGenerateSeo,
+      autoGenerateWhatsappMessages: this.aiSettings.autoGenerateWhatsappMessages,
+      isActive: this.aiSettings.isActive,
+    };
+    this.aiSettingsService.update(payload).subscribe({
       next: (res: any) => {
         this.isSaving.set(false);
         this.savedMessage.set('Configuración guardada exitosamente en la base de datos.');

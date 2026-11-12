@@ -156,7 +156,6 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
         type: 'action',
         actionType: 'create-blog',
         actionPayload: {
-          title: 'Por qué un catálogo digital multiplica las ventas de distribuidores',
           businessType: 'Tecnología y Software',
           businessName: settings?.businessName || 'SAMTS Soluciones',
           city: 'México',
@@ -225,9 +224,9 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
             title: generated.title,
             content: generated.content,
             slug: generated.slug,
-            excerpt: generated.excerpt || 'Generado por IA',
+            excerpt: generated.excerpt || undefined,
             status: 'DRAFT',
-            imageUrl: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&q=80'
+            featuredImage: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=800&q=80'
           };
           this.blogPostsService.create(blogPostPayload).subscribe({
             next: () => {
@@ -260,9 +259,21 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
         }
       });
     } else if (action.type === 'update-whatsapp') {
-      const currentSettings = this.aiSettings();
+      const currentSettings = this.aiSettings() || {};
       const updated = { ...currentSettings, ...action.payload };
-      this.aiSettingsService.update(updated).subscribe({
+      const payload = {
+        businessTone: updated.businessTone,
+        targetAudience: updated.targetAudience,
+        businessObjective: updated.businessObjective,
+        keywords: updated.keywords,
+        postingFrequency: updated.postingFrequency,
+        autoGenerateBlogs: updated.autoGenerateBlogs,
+        autoGeneratePromotions: updated.autoGeneratePromotions,
+        autoGenerateSeo: updated.autoGenerateSeo,
+        autoGenerateWhatsappMessages: updated.autoGenerateWhatsappMessages,
+        isActive: updated.isActive,
+      };
+      this.aiSettingsService.update(payload).subscribe({
         next: () => {
           this.isCopilotTyping.set(false);
           this.aiSettings.set(updated);
