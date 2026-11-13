@@ -51,7 +51,7 @@ export class SamtsCatalogSectionComponent implements OnInit {
   private utmService = inject(UtmService);
 
   readonly campaignId = 'lanzamiento_20_dias';
-  readonly launchDate = 'viernes 13 de noviembre de 2026';
+  readonly launchDate = 'lunes 16 de noviembre de 2026';
 
   /** Modal informativo "¿Cómo funciona?" */
   readonly howItWorksOpen = signal(false);
