@@ -1,9 +1,17 @@
-<div class="min-h-screen bg-slate-50 flex text-slate-800 font-sans overflow-hidden">
+<div class="admin-shell min-h-screen bg-slate-50 flex text-slate-800 font-sans overflow-hidden">
+
+  <button
+    type="button"
+    class="admin-sidebar-backdrop"
+    [class.is-visible]="sidebarOpen()"
+    (click)="closeSidebar()"
+    aria-label="Cerrar menú de navegación">
+  </button>
   
   <!-- Sidebar -->
   <aside 
-    class="bg-white border-r border-slate-200 w-64 flex-shrink-0 flex flex-col transition-all duration-300 z-40"
-    [class.-ml-64]="!sidebarOpen()">
+    class="admin-sidebar bg-white border-r border-slate-200 w-64 flex-shrink-0 flex flex-col transition-all duration-300 z-40"
+    [class.is-collapsed]="!sidebarOpen()">
     
     <!-- Logo area -->
     <div class="h-16 flex items-center px-6 border-b border-slate-200">
@@ -17,50 +25,58 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
+    <nav class="admin-nav flex-1 py-4 px-3 space-y-1 overflow-y-auto">
       <a routerLink="/admin/dashboard" routerLinkActive="bg-blue-50 text-blue-600 font-semibold" [routerLinkActiveOptions]="{exact: true}"
+         (click)="closeSidebarOnMobile()"
          class="flex items-center px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm group">
         <i class="pi pi-home text-base w-5 text-slate-400 group-hover:text-blue-600"></i>
         <span class="ml-3">Inicio</span>
       </a>
       
       <a routerLink="/admin/leads" routerLinkActive="bg-blue-50 text-blue-600 font-semibold"
+         (click)="closeSidebarOnMobile()"
          class="flex items-center px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm group">
         <i class="pi pi-users text-base w-5 text-slate-400 group-hover:text-blue-600"></i>
         <span class="ml-3">CRM & Leads</span>
       </a>
 
       <a routerLink="/admin/products" routerLinkActive="bg-blue-50 text-blue-600 font-semibold"
+         (click)="closeSidebarOnMobile()"
          class="flex items-center px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm group">
         <i class="pi pi-box text-base w-5 text-slate-400 group-hover:text-blue-600"></i>
         <span class="ml-3">Servicios</span>
       </a>
 
       <a routerLink="/admin/promotions" routerLinkActive="bg-blue-50 text-blue-600 font-semibold"
+         (click)="closeSidebarOnMobile()"
          class="flex items-center px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm group">
         <i class="pi pi-tag text-base w-5 text-slate-400 group-hover:text-blue-600"></i>
         <span class="ml-3">Promociones</span>
       </a>
 
       <a routerLink="/admin/pages" routerLinkActive="bg-blue-50 text-blue-600 font-semibold"
+         (click)="closeSidebarOnMobile()"
          class="flex items-center px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm group">
         <i class="pi pi-desktop text-base w-5 text-slate-400 group-hover:text-blue-600"></i>
         <span class="ml-3">Contenido & Blog</span>
       </a>
 
       <a routerLink="/admin/analytics" routerLinkActive="bg-blue-50 text-blue-600 font-semibold"
+         (click)="closeSidebarOnMobile()"
          class="flex items-center px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm group">
         <i class="pi pi-chart-bar text-base w-5 text-slate-400 group-hover:text-blue-600"></i>
         <span class="ml-3">Analíticas</span>
       </a>
 
       <a routerLink="/admin/agents" routerLinkActive="bg-blue-50 text-blue-600 font-semibold"
+         (click)="closeSidebarOnMobile()"
          class="flex items-center px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm group">
         <i class="pi pi-microchip text-base w-5 text-slate-400 group-hover:text-blue-600"></i>
         <span class="ml-3">Agentes IA</span>
       </a>
 
       <a routerLink="/admin/settings" routerLinkActive="bg-blue-50 text-blue-600 font-semibold"
+         (click)="closeSidebarOnMobile()"
          class="flex items-center px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors text-sm group">
         <i class="pi pi-cog text-base w-5 text-slate-400 group-hover:text-blue-600"></i>
         <span class="ml-3">Configuración</span>
@@ -86,10 +102,10 @@
   </aside>
 
   <!-- Main Content Area -->
-  <main class="flex-1 flex flex-col min-w-0 relative bg-slate-50">
+  <main class="admin-main flex-1 flex flex-col min-w-0 relative bg-slate-50">
     
     <!-- Header -->
-    <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-30">
+    <header class="admin-topbar h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 z-30">
       <div class="flex items-center gap-3">
         <button (click)="toggleSidebar()" class="w-9 h-9 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-600 transition-colors" title="Alternar menú">
           <i class="pi pi-bars text-sm"></i>
@@ -113,13 +129,13 @@
     </header>
 
     <!-- Router Outlet Viewport -->
-    <div class="flex-1 overflow-y-auto relative">
+    <div class="admin-viewport flex-1 overflow-y-auto relative">
       <router-outlet></router-outlet>
     </div>
 
     <!-- AI Copilot Sidebar Slide-over -->
     <div 
-      class="absolute top-0 right-0 h-full w-80 lg:w-96 bg-white border-l border-slate-200 z-40 flex flex-col shadow-2xl transition-transform duration-300"
+      class="admin-copilot absolute top-0 right-0 h-full w-80 lg:w-96 bg-white border-l border-slate-200 z-40 flex flex-col shadow-2xl transition-transform duration-300"
       [class.translate-x-full]="!copilotOpen()">
       
       <!-- Copilot Header -->

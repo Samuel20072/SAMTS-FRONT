@@ -1,3 +1,5 @@
+@use './app/pages/admin/admin-design';
+
 /* ==============================
    SAMTS — White Experience · Global Design System
    Blanco luminoso, minimalista y editorial.
@@ -59,8 +61,6 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {

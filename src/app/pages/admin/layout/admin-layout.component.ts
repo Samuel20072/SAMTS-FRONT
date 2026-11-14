@@ -1,4 +1,4 @@
-import { Component, signal, ViewChild, ElementRef, AfterViewChecked, inject, OnInit } from '@angular/core';
+import { Component, signal, ViewChild, ElementRef, AfterViewChecked, HostListener, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -31,7 +31,8 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
   authService = inject(AuthService);
   router = inject(Router);
 
-  sidebarOpen = signal(true);
+  private isDesktop = typeof window === 'undefined' || window.innerWidth >= 768;
+  sidebarOpen = signal(this.isDesktop);
   copilotOpen = signal(false);
   isCopilotTyping = signal(false);
   copilotInput = '';
@@ -68,6 +69,26 @@ export class AdminLayoutComponent implements OnInit, AfterViewChecked {
   
   toggleSidebar() {
     this.sidebarOpen.set(!this.sidebarOpen());
+  }
+
+  closeSidebar() {
+    this.sidebarOpen.set(false);
+  }
+
+  closeSidebarOnMobile() {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      this.sidebarOpen.set(false);
+    }
+  }
+
+  @HostListener('window:resize')
+  onWindowResize() {
+    if (typeof window === 'undefined') return;
+    const isDesktop = window.innerWidth >= 768;
+    if (isDesktop !== this.isDesktop) {
+      this.isDesktop = isDesktop;
+      this.sidebarOpen.set(isDesktop);
+    }
   }
 
   toggleCopilot() {

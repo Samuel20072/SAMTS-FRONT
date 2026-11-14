@@ -45,7 +45,7 @@ const ALL_STATUSES: LeadStatus[] = [
   standalone: true,
   imports: [CommonModule, FormsModule, DatePipe],
   template: `
-    <div class="p-6 max-w-7xl mx-auto space-y-6">
+    <div class="admin-page">
 
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -188,7 +188,7 @@ const ALL_STATUSES: LeadStatus[] = [
       <div *ngIf="!isLoading() && filteredLeads().length > 0"
            class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse text-xs">
+          <table class="admin-leads-table w-full text-left border-collapse text-xs">
             <thead>
               <tr class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
                 <th class="px-4 py-3">Prospecto / Empresa</th>

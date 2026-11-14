@@ -1,4 +1,4 @@
-<div class="p-6 max-w-7xl mx-auto space-y-6">
+<div class="admin-page">
   
   <!-- Header / Greeting -->
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -44,7 +44,7 @@
   </div>
 
   <!-- Main Content When Loaded -->
-  <div *ngIf="!isLoading() && !hasError() && stats() as s" class="space-y-6">
+  <div *ngIf="!isLoading() && !hasError() && stats() as s" class="admin-dashboard-content">
     
     <!-- KPI Row: 8 Commercial Metrics -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -204,7 +204,7 @@
       </div>
 
       <!-- Recent Leads Table -->
-      <div class="lg:col-span-2 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
+      <div class="admin-dashboard-panel lg:col-span-2 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
         <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-white">
           <div>
             <h2 class="text-sm font-bold text-slate-900">Leads Recientes</h2>
@@ -224,8 +224,8 @@
           <p class="text-[11px] text-slate-400 mt-0.5">Los prospectos que soliciten cotización o diagnóstico aparecerán aquí.</p>
         </div>
 
-        <div *ngIf="s.recentLeads && s.recentLeads.length > 0" class="divide-y divide-slate-100 overflow-x-auto">
-          <table class="w-full text-left text-xs">
+        <div *ngIf="s.recentLeads && s.recentLeads.length > 0" class="admin-dashboard-table-wrap divide-y divide-slate-100 overflow-x-auto">
+          <table class="admin-dashboard-table w-full text-left text-xs">
             <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-100">
               <tr>
                 <th class="px-4 py-3">Prospecto</th>
