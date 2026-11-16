@@ -88,6 +88,43 @@ export interface LeadResponse {
   updatedAt: string;
 }
 
+export type LeadInvitationStatus = 'PENDING' | 'SENT' | 'USED' | 'EXPIRED' | 'REVOKED';
+
+/** Instantanea remota del estado de la invitacion en SAMTS Catalog. */
+export interface CatalogInvitationSnapshot {
+  exists: boolean;
+  status?: string | null;
+  emailMasked?: string | null;
+  issuedAt?: string | null;
+  sentAt?: string | null;
+  usedAt?: string | null;
+  expiresAt?: string | null;
+  revokedAt?: string | null;
+  lastError?: string | null;
+  trialDays?: number | null;
+}
+
+/**
+ * Resultado de emision/reenvio/estado de la invitacion de un lead.
+ * Refleja 1:1 el LeadInvitationResponseDto de SAMTS-BACKEND
+ * (respuesta plana, sin envoltorio { data }).
+ */
+export interface LeadInvitationResponse {
+  leadId: string;
+  email: string;
+  campaign: string;
+  status: LeadStatus;
+  invitationId?: string | null;
+  invitationStatus?: string | null;
+  invitationIssuedAt?: string | null;
+  invitationSentAt?: string | null;
+  invitationActivatedAt?: string | null;
+  invitationExpiresAt?: string | null;
+  invitationLastError?: string | null;
+  catalog?: CatalogInvitationSnapshot;
+  syncError?: boolean;
+}
+
 export interface UpdateLeadStatusPayload {
   status?: LeadStatus;
   notes?: string;
@@ -160,5 +197,23 @@ export class LeadMagnetApiService {
   /** Notify backend that lead clicked WhatsApp */
   markWhatsappClicked(id: string): Observable<void> {
     return this.http.patch<void>(`${this.baseUrl}/${id}/whatsapp-clicked`, {});
+  }
+
+  /** Admin: Issue a launch invitation for a SELECTED lead */
+  issueInvitation(leadId: string): Observable<LeadInvitationResponse> {
+    return this.http.post<LeadInvitationResponse>(`${this.baseUrl}/${leadId}/invitation`, {});
+  }
+
+  /** Admin: Resend the existing launch invitation (never creates a new one) */
+  resendInvitation(leadId: string): Observable<LeadInvitationResponse> {
+    return this.http.post<LeadInvitationResponse>(
+      `${this.baseUrl}/${leadId}/invitation/resend`,
+      {},
+    );
+  }
+
+  /** Admin: Get the current launch invitation state for a lead */
+  getInvitation(leadId: string): Observable<LeadInvitationResponse> {
+    return this.http.get<LeadInvitationResponse>(`${this.baseUrl}/${leadId}/invitation`);
   }
 }

@@ -5,6 +5,7 @@ import {
   LeadMagnetApiService,
   LeadResponse,
   LeadStatus,
+  LeadInvitationResponse,
   UpdateLeadStatusPayload,
   CampaignStats,
   LeadActivity,
@@ -67,6 +68,24 @@ const ALL_STATUSES: LeadStatus[] = [
             Actualizar
           </button>
         </div>
+      </div>
+
+      <!-- Invitation Action Notice -->
+      <div *ngIf="invitationNotice()"
+           class="p-3 rounded-xl text-xs flex items-center justify-between border"
+           [ngClass]="invitationNotice()!.type === 'success'
+             ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+             : 'bg-red-50 border-red-200 text-red-700'">
+        <div class="flex items-center gap-2 min-w-0">
+          <i class="pi text-base"
+             [ngClass]="invitationNotice()!.type === 'success' ? 'pi-check-circle text-emerald-500' : 'pi-exclamation-triangle text-red-500'"></i>
+          <span class="truncate">{{ invitationNotice()!.text }}</span>
+        </div>
+        <button (click)="invitationNotice.set(null)"
+                class="w-6 h-6 rounded-lg flex items-center justify-center hover:bg-black/5 transition-colors flex-shrink-0"
+                title="Cerrar">
+          <i class="pi pi-times text-[11px]"></i>
+        </button>
       </div>
 
       <!-- Quick KPI Stats Cards -->
@@ -194,6 +213,7 @@ const ALL_STATUSES: LeadStatus[] = [
                 <th class="px-4 py-3">Prospecto / Empresa</th>
                 <th class="px-4 py-3">Interés / Solución</th>
                 <th class="px-4 py-3">Estado</th>
+                <th class="px-4 py-3">Invitación</th>
                 <th class="px-4 py-3 text-right">Valor Est.</th>
                 <th class="px-4 py-3">Responsable</th>
                 <th class="px-4 py-3">Próx. Seguimiento</th>
@@ -238,6 +258,52 @@ const ALL_STATUSES: LeadStatus[] = [
                       [ngClass]="getStatusClasses(lead.status)">
                       <option *ngFor="let s of allStatuses" [value]="s">{{ statusLabel(s) }}</option>
                     </select>
+                  </td>
+
+                  <!-- Invitation -->
+                  <td class="px-4 py-3" (click)="$event.stopPropagation()">
+                    <div class="flex flex-col gap-1.5 min-w-[150px]">
+                      <div class="flex items-center gap-1.5">
+                        <span *ngIf="isInvitationLoaded(lead.id); else invitationNotLoaded"
+                              class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border"
+                              [ngClass]="getInvitationClasses(lead.id)">
+                          {{ getInvitationLabel(lead.id) }}
+                        </span>
+                        <ng-template #invitationNotLoaded>
+                          <button (click)="loadInvitation(lead.id)"
+                                  class="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 hover:text-[#6500FF] transition-colors"
+                                  title="Cargar estado de la invitación">
+                            <i class="pi text-[10px]"
+                               [ngClass]="invitationLoading()[lead.id] ? 'pi-spinner animate-spin' : 'pi-eye'"></i>
+                            Ver estado
+                          </button>
+                        </ng-template>
+                        <button *ngIf="isInvitationLoaded(lead.id)"
+                                (click)="loadInvitation(lead.id)"
+                                class="w-5 h-5 rounded flex items-center justify-center text-slate-400 hover:bg-slate-100 transition-colors"
+                                title="Actualizar estado">
+                          <i class="pi pi-refresh text-[10px]" [class.animate-spin]="invitationLoading()[lead.id]"></i>
+                        </button>
+                      </div>
+
+                      <div class="flex flex-wrap items-center gap-1">
+                        <button *ngIf="lead.status === 'SELECTED'"
+                                (click)="issueInvitation(lead)"
+                                [disabled]="invitationActionLoading()[lead.id]"
+                                class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-[#6500FF] text-white text-[10px] font-semibold hover:bg-[#5200d6] disabled:opacity-50 transition-colors">
+                          <i class="pi text-[10px]"
+                             [ngClass]="invitationActionLoading()[lead.id] ? 'pi-spinner animate-spin' : 'pi-send'"></i>
+                          Emitir invitación
+                        </button>
+                        <button *ngIf="canResend(lead.id)"
+                                (click)="resendInvitation(lead)"
+                                [disabled]="invitationActionLoading()[lead.id]"
+                                class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-white border border-[#6500FF] text-[#6500FF] text-[10px] font-semibold hover:bg-violet-50 disabled:opacity-50 transition-colors">
+                          <i class="pi pi-replay text-[10px]"></i>
+                          Reenviar
+                        </button>
+                      </div>
+                    </div>
                   </td>
 
                   <!-- Estimated Value -->
@@ -296,7 +362,70 @@ const ALL_STATUSES: LeadStatus[] = [
 
                 <!-- Expanded Full CRM Ficha & Activity Row -->
                 <tr *ngIf="expandedId() === lead.id" class="bg-slate-50/70 border-b border-slate-200">
-                  <td colspan="7" class="p-6">
+                  <td colspan="8" class="p-6">
+
+                    <!-- Invitation Detail -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm mb-6">
+                      <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-100 pb-2 mb-3">
+                        <i class="pi pi-send text-[#6500FF]"></i>
+                        Invitación de Lanzamiento
+                      </h3>
+
+                      <ng-container *ngIf="isInvitationLoaded(lead.id); else invitationDetailNotLoaded">
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                          <div>
+                            <span class="text-[10px] text-slate-400 block">Estado</span>
+                            <span class="inline-flex items-center mt-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold border"
+                                  [ngClass]="getInvitationClasses(lead.id)">
+                              {{ getInvitationLabel(lead.id) }}
+                            </span>
+                          </div>
+                          <div>
+                            <span class="text-[10px] text-slate-400 block">Emitida</span>
+                            <span class="font-medium text-slate-800">{{ formatInvitationDate(invitations()[lead.id]?.invitationIssuedAt) }}</span>
+                          </div>
+                          <div>
+                            <span class="text-[10px] text-slate-400 block">Enviada</span>
+                            <span class="font-medium text-slate-800">{{ formatInvitationDate(invitations()[lead.id]?.invitationSentAt) }}</span>
+                          </div>
+                          <div>
+                            <span class="text-[10px] text-slate-400 block">Expira</span>
+                            <span class="font-medium text-slate-800">{{ formatInvitationDate(invitations()[lead.id]?.invitationExpiresAt) }}</span>
+                          </div>
+                          <div>
+                            <span class="text-[10px] text-slate-400 block">Activada</span>
+                            <span class="font-medium text-slate-800">{{ formatInvitationDate(invitations()[lead.id]?.invitationActivatedAt) }}</span>
+                          </div>
+                          <div>
+                            <span class="text-[10px] text-slate-400 block">Email enviado</span>
+                            <span class="font-medium" [ngClass]="!!invitations()[lead.id]?.invitationSentAt ? 'text-emerald-700' : 'text-slate-500'">
+                              {{ !!invitations()[lead.id]?.invitationSentAt ? 'Sí' : 'No' }}
+                            </span>
+                          </div>
+                          <div>
+                            <span class="text-[10px] text-slate-400 block">ID Invitación</span>
+                            <span class="font-mono text-[10px] text-slate-600">{{ invitations()[lead.id]?.invitationId || '—' }}</span>
+                          </div>
+                        </div>
+
+                        <div *ngIf="invitations()[lead.id]?.invitationLastError" class="mt-3 pt-3 border-t border-slate-100">
+                          <span class="text-[10px] text-rose-500 font-semibold block">Último error de envío</span>
+                          <p class="text-xs text-rose-700 mt-0.5"
+                             [title]="invitations()[lead.id]?.invitationLastError || ''">
+                            {{ truncate(invitations()[lead.id]?.invitationLastError, 160) }}
+                          </p>
+                        </div>
+                      </ng-container>
+
+                      <ng-template #invitationDetailNotLoaded>
+                        <button (click)="loadInvitation(lead.id)"
+                                class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#6500FF] hover:underline">
+                          <i class="pi pi-refresh text-[10px]" [class.animate-spin]="invitationLoading()[lead.id]"></i>
+                          Cargar estado de la invitación
+                        </button>
+                      </ng-template>
+                    </div>
+
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                       
                       <!-- Col 1: Lead Information -->
@@ -508,6 +637,11 @@ export class LeadsComponent implements OnInit {
   expandedId = signal<string | null>(null);
   deleteTarget = signal<LeadResponse | null>(null);
 
+  invitations = signal<Record<string, LeadInvitationResponse>>({});
+  invitationLoading = signal<Record<string, boolean>>({});
+  invitationActionLoading = signal<Record<string, boolean>>({});
+  invitationNotice = signal<{ type: 'success' | 'error'; text: string } | null>(null);
+
   editForm: Record<string, {
     estimatedValue?: number;
     assignedTo?: string;
@@ -642,7 +776,159 @@ export class LeadsComponent implements OnInit {
   }
 
   toggleExpand(id: string): void {
-    this.expandedId.set(this.expandedId() === id ? null : id);
+    const next = this.expandedId() === id ? null : id;
+    this.expandedId.set(next);
+    // Load invitation state on demand (avoids flooding the list with requests)
+    if (next && this.invitations()[id] === undefined) {
+      this.loadInvitation(id);
+    }
+  }
+
+  // ─── Launch Invitation (CRM) ───────────────────────────────────────────────
+
+  isInvitationLoaded(leadId: string): boolean {
+    return this.invitations()[leadId] !== undefined;
+  }
+
+  getInvitationLabel(leadId: string): string {
+    const inv = this.invitations()[leadId];
+    if (!inv) return 'No emitida';
+    if (inv.invitationLastError) return 'Error';
+    switch (inv.invitationStatus) {
+      case 'USED': return 'Activada';
+      case 'EXPIRED': return 'Expirada';
+      case 'REVOKED': return 'Revocada';
+      case 'PENDING':
+      case 'SENT': return 'Enviada';
+      default: return inv.invitationId ? 'Enviada' : 'No emitida';
+    }
+  }
+
+  getInvitationClasses(leadId: string): string {
+    switch (this.getInvitationLabel(leadId)) {
+      case 'Activada': return 'bg-teal-50 text-teal-700 border-teal-200';
+      case 'Enviada': return 'bg-violet-50 text-violet-700 border-violet-200';
+      case 'Expirada': return 'bg-amber-50 text-amber-700 border-amber-200';
+      case 'Revocada': return 'bg-rose-50 text-rose-700 border-rose-200';
+      case 'Error': return 'bg-red-50 text-red-700 border-red-200';
+      default: return 'bg-slate-100 text-slate-700 border-slate-200';
+    }
+  }
+
+  canResend(leadId: string): boolean {
+    const inv = this.invitations()[leadId];
+    return !!inv && !!inv.invitationId && inv.invitationStatus !== 'USED';
+  }
+
+  formatInvitationDate(iso?: string | null): string {
+    if (!iso) return '—';
+    const date = new Date(iso);
+    if (isNaN(date.getTime())) return '—';
+    return new Intl.DateTimeFormat('es-CO', {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date);
+  }
+
+  truncate(value?: string | null, max = 80): string {
+    if (!value) return '';
+    return value.length > max ? `${value.slice(0, max).trimEnd()}…` : value;
+  }
+
+  loadInvitation(leadId: string): void {
+    if (this.invitationLoading()[leadId]) return;
+    this.setInvitationLoading(leadId, true);
+    this.leadApi.getInvitation(leadId).subscribe({
+      next: (inv) => {
+        this.setInvitation(leadId, inv);
+        this.setInvitationLoading(leadId, false);
+      },
+      error: (err) => {
+        this.setInvitationLoading(leadId, false);
+        console.error('Error loading invitation', err);
+        this.invitationNotice.set({
+          type: 'error',
+          text: 'No se pudo obtener el estado de la invitación.',
+        });
+      },
+    });
+  }
+
+  issueInvitation(lead: LeadResponse): void {
+    if (lead.status !== 'SELECTED' || this.invitationActionLoading()[lead.id]) return;
+    this.setInvitationActionLoading(lead.id, true);
+    this.invitationNotice.set(null);
+    this.leadApi.issueInvitation(lead.id).subscribe({
+      next: (inv) => {
+        this.setInvitation(lead.id, inv);
+        this.setInvitationActionLoading(lead.id, false);
+        if (inv.invitationLastError || inv.syncError) {
+          this.invitationNotice.set({
+            type: 'error',
+            text: `No se pudo emitir la invitación de ${lead.name}: ${inv.invitationLastError || 'el envío remoto falló.'}`,
+          });
+        } else {
+          this.invitationNotice.set({
+            type: 'success',
+            text: `Invitación emitida para ${lead.name}.`,
+          });
+        }
+      },
+      error: (err) => {
+        this.setInvitationActionLoading(lead.id, false);
+        console.error('Error issuing invitation', err);
+        this.invitationNotice.set({
+          type: 'error',
+          text: `No se pudo emitir la invitación de ${lead.name}.`,
+        });
+      },
+    });
+  }
+
+  resendInvitation(lead: LeadResponse): void {
+    if (!this.canResend(lead.id) || this.invitationActionLoading()[lead.id]) return;
+    this.setInvitationActionLoading(lead.id, true);
+    this.invitationNotice.set(null);
+    this.leadApi.resendInvitation(lead.id).subscribe({
+      next: (inv) => {
+        this.setInvitation(lead.id, inv);
+        this.setInvitationActionLoading(lead.id, false);
+        if (inv.invitationLastError || inv.syncError) {
+          this.invitationNotice.set({
+            type: 'error',
+            text: `No se pudo reenviar la invitación de ${lead.name}: ${inv.invitationLastError || 'el envío remoto falló.'}`,
+          });
+        } else {
+          this.invitationNotice.set({
+            type: 'success',
+            text: `Invitación reenviada a ${lead.name}.`,
+          });
+        }
+      },
+      error: (err) => {
+        this.setInvitationActionLoading(lead.id, false);
+        console.error('Error resending invitation', err);
+        this.invitationNotice.set({
+          type: 'error',
+          text: `No se pudo reenviar la invitación de ${lead.name}.`,
+        });
+      },
+    });
+  }
+
+  private setInvitation(leadId: string, inv: LeadInvitationResponse): void {
+    this.invitations.update((map) => ({ ...map, [leadId]: inv }));
+  }
+
+  private setInvitationLoading(leadId: string, value: boolean): void {
+    this.invitationLoading.update((map) => ({ ...map, [leadId]: value }));
+  }
+
+  private setInvitationActionLoading(leadId: string, value: boolean): void {
+    this.invitationActionLoading.update((map) => ({ ...map, [leadId]: value }));
   }
 
   updateStatus(lead: LeadResponse, newStatus: LeadStatus): void {
